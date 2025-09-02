@@ -67,14 +67,24 @@ class MainViewModel: ObservableObject {
 		gameState.enemyCurrentHP = gameState.enemyMaxHP
 	}
 	
+	// MARK: - Utility
+	
 	func winLoseCondition() {
 		
 		if gameState.heroCurrentHP <= 0 {
 			fatalError("The End")
 		} else if gameState.enemyCurrentHP <= 0 {
+			getRewardAfterFight()
 			gameState.didEncounterEnemy = false
 			goToDungeon()
 		}
+	}
+	
+	func getRewardAfterFight() {
+		
+		gameState.battlesWon += 1
+		gameState.heroCurrentXP += gameState.xpPerEnemy
+		gameState.heroGold += gameState.goldPerEnemy
 	}
 	
 	// MARK: - Dungeon Generation/Movement

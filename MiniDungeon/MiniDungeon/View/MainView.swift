@@ -148,6 +148,19 @@ extension MainView {
 		
 		Spacer()
 		
+		HStack {
+			
+			Spacer()
+			Text("Battles won - \(viewModel.gameState.battlesWon)")
+			Spacer()
+			Text("XP - \(viewModel.gameState.heroCurrentXP) / \(viewModel.gameState.heroMaxXP)")
+			Spacer()
+			Text("Gold - \(viewModel.gameState.heroGold)")
+			Spacer()
+		}
+		
+		Spacer()
+		
 		getDungeonMap()
 		
 		Spacer()
@@ -229,23 +242,6 @@ extension MainView {
 			.font(.title2)
 			.foregroundColor(tileColor)
 			.opacity(opacityRatio)
-	}
-}
-
-struct TileView: View {
-
-	let row: Int
-	let column: Int
-	let isExplored: Bool
-	let heroPosition: Bool
-
-	var body: some View {
-
-		Button("Tile") { print("Tile pressed") }
-			.buttonStyle(.bordered)
-			.font(.title2)
-			.foregroundColor(.white)
-		
 	}
 }
 

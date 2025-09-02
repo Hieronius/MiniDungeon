@@ -19,6 +19,7 @@
 		DD915D092E672FB400EDCC91 /* Tile.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD915D082E672FB400EDCC91 /* Tile.swift */; };
 		DD915D0B2E672FE000EDCC91 /* TileType.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD915D0A2E672FE000EDCC91 /* TileType.swift */; };
 		DD915D0D2E672FF900EDCC91 /* EventType.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD915D0C2E672FF900EDCC91 /* EventType.swift */; };
+		DD915D112E673F0D00EDCC91 /* TileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD915D102E673F0D00EDCC91 /* TileView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -35,6 +36,7 @@
 		DD915D082E672FB400EDCC91 /* Tile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tile.swift; sourceTree = "<group>"; };
 		DD915D0A2E672FE000EDCC91 /* TileType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TileType.swift; sourceTree = "<group>"; };
 		DD915D0C2E672FF900EDCC91 /* EventType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventType.swift; sourceTree = "<group>"; };
+		DD915D102E673F0D00EDCC91 /* TileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TileView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -103,6 +105,7 @@
 			isa = PBXGroup;
 			children = (
 				DD915CEC2E66CD8900EDCC91 /* MainView.swift */,
+				DD915D102E673F0D00EDCC91 /* TileView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -193,6 +196,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DD915D112E673F0D00EDCC91 /* TileView.swift in Sources */,
 				DD915CED2E66CD8900EDCC91 /* MainView.swift in Sources */,
 				DD915CFF2E66D65600EDCC91 /* GameState.swift in Sources */,
 				DD915D0B2E672FE000EDCC91 /* TileType.swift in Sources */,

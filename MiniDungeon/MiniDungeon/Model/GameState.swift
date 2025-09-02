@@ -22,6 +22,17 @@ struct GameState {
 	var dungeonMap: [[Tile]] = []
 	var heroPosition = (row: 0, col: 0)
 	
+	// MARK: - Stats
+	
+	var heroCurrentXP = 0
+	var heroMaxXP = 100
+	var heroGold = 0
+	
+	var xpPerEnemy = 10
+	var goldPerEnemy = 10
+	
+	var battlesWon = 0
+	
 	init() {
 		
 	}
