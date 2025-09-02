@@ -6,13 +6,9 @@ struct GameState {
 	
 	var isHeroTurn = true
 	
-	var heroCurrentHP = 100
-	var heroMaxHP = 100
-	var heroDamage = 10
+	var hero = Hero()
 	
-	var enemyCurrentHP = 100
-	var enemyMaxHP = 100
-	var enemyDamage = 5
+	var enemy = Enemy()
 	
 	// MARK: - Dungeon
 	
@@ -28,8 +24,8 @@ struct GameState {
 	var heroMaxXP = 100
 	var heroGold = 0
 	
-	var xpPerEnemy = 10
-	var goldPerEnemy = 10
+	var xpPerEnemy = 50
+	var goldPerEnemy = 50
 	
 	var battlesWon = 0
 	

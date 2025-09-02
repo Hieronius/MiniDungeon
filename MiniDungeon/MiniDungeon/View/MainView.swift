@@ -83,7 +83,7 @@ extension MainView {
 			
 			VStack {
 				
-				Text("\(viewModel.gameState.heroCurrentHP) / \(viewModel.gameState.heroMaxHP)")
+				Text("\(viewModel.gameState.hero.heroCurrentHP) / \(viewModel.gameState.hero.heroMaxHP)")
 				Rectangle()
 					.frame(width: 80, height: 80)
 			}
@@ -92,7 +92,7 @@ extension MainView {
 			
 			VStack {
 				
-				Text("\(viewModel.gameState.enemyCurrentHP) / \(viewModel.gameState.enemyMaxHP)")
+				Text("\(viewModel.gameState.enemy.enemyCurrentHP) / \(viewModel.gameState.enemy.enemyMaxHP)")
 				Rectangle()
 					.frame(width: 80, height: 80)
 			}
@@ -148,15 +148,25 @@ extension MainView {
 		
 		Spacer()
 		
-		HStack {
+		VStack {
 			
-			Spacer()
-			Text("Battles won - \(viewModel.gameState.battlesWon)")
-			Spacer()
-			Text("XP - \(viewModel.gameState.heroCurrentXP) / \(viewModel.gameState.heroMaxXP)")
-			Spacer()
-			Text("Gold - \(viewModel.gameState.heroGold)")
-			Spacer()
+			HStack {
+				
+				Spacer()
+				Text("Battles won - \(viewModel.gameState.battlesWon)")
+				Spacer()
+				Text("Gold - \(viewModel.gameState.heroGold)")
+				Spacer()
+			}
+			
+			HStack {
+				
+				Spacer()
+				Text("Hero's lvl - \(viewModel.gameState.hero.heroLevel)")
+				Spacer()
+				Text("XP - \(viewModel.gameState.heroCurrentXP) / \(viewModel.gameState.heroMaxXP)")
+				Spacer()
+			}
 		}
 		
 		Spacer()

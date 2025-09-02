@@ -49,10 +49,10 @@ class MainViewModel: ObservableObject {
 	func attack() {
 		
 		gameState.isHeroTurn ?
-		(gameState.enemyCurrentHP -= gameState.heroDamage) :
-		(gameState.heroCurrentHP -= gameState.enemyDamage)
+		(gameState.enemy.enemyCurrentHP -= gameState.hero.heroDamage) :
+		(gameState.hero.heroCurrentHP -= gameState.enemy.enemyDamage)
 		winLoseCondition()
-		print(!gameState.isHeroTurn ? "\(gameState.heroCurrentHP)" : "\(gameState.enemyCurrentHP)")
+		print(!gameState.isHeroTurn ? "\(gameState.hero.heroCurrentHP)" : "\(gameState.enemy.enemyCurrentHP)")
 		
 	}
 	
@@ -63,17 +63,17 @@ class MainViewModel: ObservableObject {
 	
 	func restoreStats() {
 		
-		gameState.heroCurrentHP = gameState.heroMaxHP
-		gameState.enemyCurrentHP = gameState.enemyMaxHP
+		gameState.hero.heroCurrentHP = gameState.hero.heroMaxHP
+		gameState.enemy.enemyCurrentHP = gameState.enemy.enemyMaxHP
 	}
 	
 	// MARK: - Utility
 	
 	func winLoseCondition() {
 		
-		if gameState.heroCurrentHP <= 0 {
+		if gameState.hero.heroCurrentHP <= 0 {
 			fatalError("The End")
-		} else if gameState.enemyCurrentHP <= 0 {
+		} else if gameState.enemy.enemyCurrentHP <= 0 {
 			getRewardAfterFight()
 			gameState.didEncounterEnemy = false
 			goToDungeon()
@@ -85,6 +85,16 @@ class MainViewModel: ObservableObject {
 		gameState.battlesWon += 1
 		gameState.heroCurrentXP += gameState.xpPerEnemy
 		gameState.heroGold += gameState.goldPerEnemy
+		
+		checkForLevelUP()
+	}
+	
+	func checkForLevelUP() {
+		if gameState.heroCurrentXP >= gameState.heroMaxXP {
+			gameState.hero.levelUP()
+			gameState.heroCurrentXP = 0
+			gameState.heroMaxXP += 20
+		}
 	}
 	
 	// MARK: - Dungeon Generation/Movement

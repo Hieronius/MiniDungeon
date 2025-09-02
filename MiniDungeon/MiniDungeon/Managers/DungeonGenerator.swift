@@ -5,14 +5,6 @@ import Foundation
 /// An entity to parse an existing dungeon level scheme or generate a unique set of tiles for each dungeon level
 struct DungeonGenerator {
 	
-	// MARK: - Methods
-	
-	
-	
-	// MARK: - Parsing of DungeonScheme
-	
-	
-	
 	// MARK: ParseDungeonLevel
 	
 	/// Method to get a predefined level scheme and convert into real dungeon level
