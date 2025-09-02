@@ -127,4 +127,31 @@ struct DungeonScheme {
 		["E", "E", "R", "E", "E", "E"]
 
 	]
+	
+	/// 11 level - 7 x 7 = 49 tiles
+	let dungeonLevel11: [[String]] = [
+	
+		["E", "R", "R", "C", "E", "R", "C"],
+		["R", "C", "E", "C", "C", "R", "C"],
+		["E", "E", "E", "E", "E", "C", "R"],
+		["C", "R", "C", "C", "E", "C", "C"],
+		["C", "E", "E", "C", "C", "R", "E"],
+		["R", "C", "C", "E", "E", "E", "R"],
+		["E", "E", "R", "E", "E", "E", "E"]
+	]
+	
+	// MARK: IPHONE 15 PRO CAN'T STORE 64 TILES
+	/// 12 level - 8 x 8 = 64 tiles
+	let dungeonLevel12: [[String]] = [
+	
+		["E", "R", "R", "C", "E", "R", "C", "E"],
+		["R", "C", "E", "C", "C", "R", "C", "R"],
+		["E", "E", "E", "E", "E", "C", "R", "E"],
+		["C", "R", "C", "C", "E", "C", "C", "C"],
+		["C", "E", "E", "C", "C", "R", "E", "E"],
+		["R", "C", "C", "E", "E", "E", "R", "R"],
+		["E", "E", "R", "E", "E", "E", "E", "E"],
+		["E", "R", "R", "C", "E", "R", "C", "R"],
+	
+	]
 }
