@@ -13,10 +13,14 @@ struct MiniDungeonApp: App {
 	
 	func buildMainView() -> MainView {
 		
+		let dungeonGenerator = DungeonGenerator()
+		let dungeonScheme = DungeonScheme()
 		let gameState = GameState()
 		let gameScreen = GameScreen.menu
 		
 		let viewModel = MainViewModel(
+			dungeonGenerator: dungeonGenerator,
+			dungeonScheme: dungeonScheme,
 			gameState: gameState,
 			gameScreen: gameScreen
 		)

@@ -146,9 +146,15 @@ extension MainView {
 	@ViewBuilder
 	func buildDungeon() -> some View {
 		
+		Spacer()
+		
+		getDungeonMap()
+		
+		Spacer()
+		
 		List {
 			
-			Section(header: Text("It's a Dungeon")) {
+			Section(header: Text("Navigation")) {
 				
 				Button("Go To Battle") {
 					viewModel.goToBattle()
@@ -161,6 +167,85 @@ extension MainView {
 				}
 			}
 		}
+	}
+	
+	// MARK: Get Dungeon Map
+
+	@ViewBuilder
+	func getDungeonMap() -> some View {
+
+		VStack {
+
+			ForEach(viewModel.gameState.dungeonMap.indices, id: \.self) { row in
+
+				HStack {
+
+					ForEach(viewModel.gameState.dungeonMap[row].indices, id: \.self) { col in
+
+						let tile = viewModel.gameState.dungeonMap[row][col]
+
+						getTileButton(tile: tile) {
+
+							viewModel.handleTappedDirection(row, col)
+
+							print("taped the tile")
+
+						}
+					}
+				}
+			}
+		}
+	}
+
+	// TODO: Transform to struct TileView
+	// MARK: Tile Button View
+
+	func getTileButton(tile: Tile, action: @escaping () -> Void) -> some View {
+
+		// If starting point is empty it should not be the starting point
+
+		let originalBackgroundColor: Color = tile.isExplored ? .gray : .white
+		let isHeroPosition = tile.isHeroPosition(viewModel.gameState.heroPosition)
+		let tileColor: Color = isHeroPosition ? .orange : originalBackgroundColor
+		var title: String
+		var opacityRatio: CGFloat = 1.0
+
+		// Just turn this property to 0 for complete hidden state of the button
+
+		if tile.type == .empty { opacityRatio = 0.1 }
+
+		switch tile.type {
+		case .room:
+			title = "R"
+		case .corridor:
+			title = "C"
+		case .empty:
+			title = "E"
+		}
+
+		return Button(title, action: action)
+			.frame(width: 50, height: 50)
+			.buttonStyle(.bordered)
+			.font(.title2)
+			.foregroundColor(tileColor)
+			.opacity(opacityRatio)
+	}
+}
+
+struct TileView: View {
+
+	let row: Int
+	let column: Int
+	let isExplored: Bool
+	let heroPosition: Bool
+
+	var body: some View {
+
+		Button("Tile") { print("Tile pressed") }
+			.buttonStyle(.bordered)
+			.font(.title2)
+			.foregroundColor(.white)
+		
 	}
 }
 

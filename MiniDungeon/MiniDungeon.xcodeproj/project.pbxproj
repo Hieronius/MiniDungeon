@@ -14,6 +14,11 @@
 		DD915CFD2E66D61D00EDCC91 /* MainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD915CFC2E66D61D00EDCC91 /* MainViewModel.swift */; };
 		DD915CFF2E66D65600EDCC91 /* GameState.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD915CFE2E66D65600EDCC91 /* GameState.swift */; };
 		DD915D012E66D6BC00EDCC91 /* GameScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD915D002E66D6BC00EDCC91 /* GameScreen.swift */; };
+		DD915D052E672F2C00EDCC91 /* DungeonGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD915D042E672F2C00EDCC91 /* DungeonGenerator.swift */; };
+		DD915D072E672F5500EDCC91 /* DungeonScheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD915D062E672F5500EDCC91 /* DungeonScheme.swift */; };
+		DD915D092E672FB400EDCC91 /* Tile.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD915D082E672FB400EDCC91 /* Tile.swift */; };
+		DD915D0B2E672FE000EDCC91 /* TileType.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD915D0A2E672FE000EDCC91 /* TileType.swift */; };
+		DD915D0D2E672FF900EDCC91 /* EventType.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD915D0C2E672FF900EDCC91 /* EventType.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -25,6 +30,11 @@
 		DD915CFC2E66D61D00EDCC91 /* MainViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewModel.swift; sourceTree = "<group>"; };
 		DD915CFE2E66D65600EDCC91 /* GameState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameState.swift; sourceTree = "<group>"; };
 		DD915D002E66D6BC00EDCC91 /* GameScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScreen.swift; sourceTree = "<group>"; };
+		DD915D042E672F2C00EDCC91 /* DungeonGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DungeonGenerator.swift; sourceTree = "<group>"; };
+		DD915D062E672F5500EDCC91 /* DungeonScheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DungeonScheme.swift; sourceTree = "<group>"; };
+		DD915D082E672FB400EDCC91 /* Tile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tile.swift; sourceTree = "<group>"; };
+		DD915D0A2E672FE000EDCC91 /* TileType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TileType.swift; sourceTree = "<group>"; };
+		DD915D0C2E672FF900EDCC91 /* EventType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventType.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,6 +91,10 @@
 			children = (
 				DD915D002E66D6BC00EDCC91 /* GameScreen.swift */,
 				DD915CFE2E66D65600EDCC91 /* GameState.swift */,
+				DD915D062E672F5500EDCC91 /* DungeonScheme.swift */,
+				DD915D082E672FB400EDCC91 /* Tile.swift */,
+				DD915D0A2E672FE000EDCC91 /* TileType.swift */,
+				DD915D0C2E672FF900EDCC91 /* EventType.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -104,6 +118,7 @@
 		DD915CFB2E66D60B00EDCC91 /* Managers */ = {
 			isa = PBXGroup;
 			children = (
+				DD915D042E672F2C00EDCC91 /* DungeonGenerator.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -180,7 +195,12 @@
 			files = (
 				DD915CED2E66CD8900EDCC91 /* MainView.swift in Sources */,
 				DD915CFF2E66D65600EDCC91 /* GameState.swift in Sources */,
+				DD915D0B2E672FE000EDCC91 /* TileType.swift in Sources */,
 				DD915CEB2E66CD8900EDCC91 /* MiniDungeonApp.swift in Sources */,
+				DD915D092E672FB400EDCC91 /* Tile.swift in Sources */,
+				DD915D072E672F5500EDCC91 /* DungeonScheme.swift in Sources */,
+				DD915D0D2E672FF900EDCC91 /* EventType.swift in Sources */,
+				DD915D052E672F2C00EDCC91 /* DungeonGenerator.swift in Sources */,
 				DD915CFD2E66D61D00EDCC91 /* MainViewModel.swift in Sources */,
 				DD915D012E66D6BC00EDCC91 /* GameScreen.swift in Sources */,
 			);
