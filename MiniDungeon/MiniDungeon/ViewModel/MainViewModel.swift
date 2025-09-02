@@ -34,5 +34,27 @@ class MainViewModel: ObservableObject {
 		gameScreen = .town
 	}
 	
+	// MARK: - Combat
+	
+	func attack() {
+		
+		gameState.isHeroTurn ?
+		(gameState.enemyCurrentHP -= gameState.heroDamage) :
+		(gameState.heroCurrentHP -= gameState.enemyDamage)
+		print(!gameState.isHeroTurn ? "\(gameState.heroCurrentHP)" : "\(gameState.enemyCurrentHP)")
+		
+	}
+	
+	func endTurn() {
+		gameState.isHeroTurn.toggle()
+		print(gameState.isHeroTurn ? "Now is Hero Turn" : "Now is Enemy Turn")
+	}
+	
+	func restoreStats() {
+		
+		gameState.heroCurrentHP = gameState.heroMaxHP
+		gameState.enemyCurrentHP = gameState.enemyMaxHP
+	}
+	
 	
 }

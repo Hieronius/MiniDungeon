@@ -69,9 +69,61 @@ extension MainView {
 	@ViewBuilder
 	func buildBattle() -> some View {
 		
+		// MARK: UI
+		
+		Spacer()
+		
+		Text(viewModel.gameState.isHeroTurn ? "Hero Turn" : "Enemy Turn")
+		
+		Spacer()
+		
+		HStack {
+			
+			Spacer()
+			
+			VStack {
+				
+				Text("\(viewModel.gameState.heroCurrentHP) / \(viewModel.gameState.heroMaxHP)")
+				Rectangle()
+					.frame(width: 80, height: 80)
+			}
+			
+			Spacer()
+			
+			VStack {
+				
+				Text("\(viewModel.gameState.enemyCurrentHP) / \(viewModel.gameState.enemyMaxHP)")
+				Rectangle()
+					.frame(width: 80, height: 80)
+			}
+			
+			Spacer()
+		}
+		
+		Spacer()
+		
+		// MARK: Actions
+		
 		List {
 			
-			Section(header: Text("It's a Battle")) {
+			Section(header: Text("Actions")) {
+				
+				Button("Attack") {
+					viewModel.attack()
+				}
+				
+				Button("End Turn") {
+					viewModel.endTurn()
+				}
+				
+				Button("Restore Stats") {
+					viewModel.restoreStats()
+				}
+			}
+			
+			// MARK: Navigation
+			
+			Section(header: Text("Navigation")) {
 				
 				Button("Go To Dungeon") {
 					viewModel.goToDungeon()
