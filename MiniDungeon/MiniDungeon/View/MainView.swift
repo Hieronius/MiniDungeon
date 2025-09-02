@@ -83,7 +83,9 @@ extension MainView {
 			
 			VStack {
 				
-				Text("\(viewModel.gameState.hero.heroCurrentHP) / \(viewModel.gameState.hero.heroMaxHP)")
+				Text("HP - \(viewModel.gameState.hero.heroCurrentHP) / \(viewModel.gameState.hero.heroMaxHP)")
+				Text("MP - \(viewModel.gameState.hero.currentMana) / \(viewModel.gameState.hero.maxMana)")
+				Text("EP - \(viewModel.gameState.hero.currentEnergy) / \(viewModel.gameState.hero.maxEnergy)")
 				Rectangle()
 					.frame(width: 80, height: 80)
 			}
@@ -92,7 +94,9 @@ extension MainView {
 			
 			VStack {
 				
-				Text("\(viewModel.gameState.enemy.enemyCurrentHP) / \(viewModel.gameState.enemy.enemyMaxHP)")
+				Text("HP - \(viewModel.gameState.enemy.enemyCurrentHP) / \(viewModel.gameState.enemy.enemyMaxHP)")
+				Text("MP - \(viewModel.gameState.enemy.currentMana) / \(viewModel.gameState.enemy.maxMana)")
+				Text("EP - \(viewModel.gameState.enemy.currentEnergy) / \(viewModel.gameState.enemy.maxEnergy)")
 				Rectangle()
 					.frame(width: 80, height: 80)
 			}
@@ -111,6 +115,18 @@ extension MainView {
 				Button("Attack") {
 					viewModel.attack()
 				}
+				
+				Button("Block") {
+					
+				}
+				
+				Button("Heal") {
+					
+				}
+				
+			}
+			
+			Section(header: Text("Utility")) {
 				
 				Button("End Turn") {
 					viewModel.endTurn()

@@ -14,7 +14,7 @@ class MainViewModel: ObservableObject {
 	
 	init(dungeonGenerator: DungeonGenerator,
 		 dungeonScheme: DungeonScheme,
-		gameState: GameState,
+		 gameState: GameState,
 		 gameScreen: GameScreen) {
 		
 		self.dungeonGenerator = dungeonGenerator
@@ -34,6 +34,7 @@ class MainViewModel: ObservableObject {
 	
 	func goToBattle() {
 		gameScreen = .battle
+		restoreStats()
 	}
 	
 	func goToDungeon() {

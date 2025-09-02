@@ -3,8 +3,16 @@ import Foundation
 struct Hero {
 	
 	var heroLevel = 1
+	
 	var heroCurrentHP = 100
 	var heroMaxHP = 100
+	
+	var currentMana = 100
+	var maxMana = 100
+	
+	var currentEnergy = 5
+	var maxEnergy = 5
+	
 	var heroDamage = 10
 	var skillPoints = 1
 	
