@@ -264,7 +264,34 @@ extension MainView {
 		
 		List {
 			
-			Section(header: Text("It's a Town")) {
+			Section(header: Text("Town")) {
+				Text("Available Skill Points - \(viewModel.gameState.hero.skillPoints)")
+				Text("Hero's Gold - \(viewModel.gameState.heroGold)")
+			}
+			
+			Section(header: Text("Training Center")) {
+				
+				Button("Upgrade Damage - 10G") {
+					viewModel.gameState.hero.upgradeDamage()
+					viewModel.gameState.heroGold -= 10
+				}
+				Button("Upgrade Health - 10G") {
+					viewModel.gameState.hero.upgradeHP()
+					viewModel.gameState.heroGold -= 10
+				}
+			}
+			
+			Section(header: Text("Market")) {
+				
+				Button("Buy Health Potion") {
+					//
+				}
+				Button("Buy Steal Sword") {
+					//
+				}
+			}
+			
+			Section(header: Text("Navigation")) {
 				
 				Button("Go To Battle") {
 					viewModel.goToBattle()

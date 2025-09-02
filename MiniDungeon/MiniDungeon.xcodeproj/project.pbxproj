@@ -41,6 +41,7 @@
 		DD915D102E673F0D00EDCC91 /* TileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TileView.swift; sourceTree = "<group>"; };
 		DD915D122E6741F700EDCC91 /* Hero.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Hero.swift; sourceTree = "<group>"; };
 		DD915D142E67436600EDCC91 /* Enemy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enemy.swift; sourceTree = "<group>"; };
+		DD915D162E674DFB00EDCC91 /* Plan */ = {isa = PBXFileReference; lastKnownFileType = text; path = Plan; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -73,6 +74,7 @@
 		DD915CE92E66CD8900EDCC91 /* MiniDungeon */ = {
 			isa = PBXGroup;
 			children = (
+				DD915D162E674DFB00EDCC91 /* Plan */,
 				DD915CEA2E66CD8900EDCC91 /* MiniDungeonApp.swift */,
 				DD915CFB2E66D60B00EDCC91 /* Managers */,
 				DD915CF82E66D5E400EDCC91 /* Model */,

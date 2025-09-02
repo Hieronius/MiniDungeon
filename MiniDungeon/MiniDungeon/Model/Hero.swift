@@ -15,4 +15,15 @@ struct Hero {
 		self.skillPoints += 2
 		self.heroLevel += 1
 	}
+	
+	mutating func upgradeDamage() {
+		self.skillPoints -= 1
+		self.heroDamage += 5
+	}
+	
+	mutating func upgradeHP() {
+		self.skillPoints -= 1
+		self.heroMaxHP += 5
+		self.heroCurrentHP = self.heroMaxHP
+	}
 }
