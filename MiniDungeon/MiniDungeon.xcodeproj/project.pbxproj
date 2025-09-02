@@ -11,6 +11,9 @@
 		DD915CED2E66CD8900EDCC91 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD915CEC2E66CD8900EDCC91 /* MainView.swift */; };
 		DD915CEF2E66CD9000EDCC91 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DD915CEE2E66CD9000EDCC91 /* Assets.xcassets */; };
 		DD915CF22E66CD9000EDCC91 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DD915CF12E66CD9000EDCC91 /* Preview Assets.xcassets */; };
+		DD915CFD2E66D61D00EDCC91 /* MainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD915CFC2E66D61D00EDCC91 /* MainViewModel.swift */; };
+		DD915CFF2E66D65600EDCC91 /* GameState.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD915CFE2E66D65600EDCC91 /* GameState.swift */; };
+		DD915D012E66D6BC00EDCC91 /* GameScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD915D002E66D6BC00EDCC91 /* GameScreen.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -19,6 +22,9 @@
 		DD915CEC2E66CD8900EDCC91 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		DD915CEE2E66CD9000EDCC91 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DD915CF12E66CD9000EDCC91 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		DD915CFC2E66D61D00EDCC91 /* MainViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewModel.swift; sourceTree = "<group>"; };
+		DD915CFE2E66D65600EDCC91 /* GameState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameState.swift; sourceTree = "<group>"; };
+		DD915D002E66D6BC00EDCC91 /* GameScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScreen.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -52,7 +58,10 @@
 			isa = PBXGroup;
 			children = (
 				DD915CEA2E66CD8900EDCC91 /* MiniDungeonApp.swift */,
-				DD915CEC2E66CD8900EDCC91 /* MainView.swift */,
+				DD915CFB2E66D60B00EDCC91 /* Managers */,
+				DD915CF82E66D5E400EDCC91 /* Model */,
+				DD915CFA2E66D5FD00EDCC91 /* ViewModel */,
+				DD915CF92E66D5F100EDCC91 /* View */,
 				DD915CEE2E66CD9000EDCC91 /* Assets.xcassets */,
 				DD915CF02E66CD9000EDCC91 /* Preview Content */,
 			);
@@ -65,6 +74,38 @@
 				DD915CF12E66CD9000EDCC91 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		DD915CF82E66D5E400EDCC91 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				DD915D002E66D6BC00EDCC91 /* GameScreen.swift */,
+				DD915CFE2E66D65600EDCC91 /* GameState.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		DD915CF92E66D5F100EDCC91 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				DD915CEC2E66CD8900EDCC91 /* MainView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		DD915CFA2E66D5FD00EDCC91 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				DD915CFC2E66D61D00EDCC91 /* MainViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		DD915CFB2E66D60B00EDCC91 /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Managers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -138,7 +179,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				DD915CED2E66CD8900EDCC91 /* MainView.swift in Sources */,
+				DD915CFF2E66D65600EDCC91 /* GameState.swift in Sources */,
 				DD915CEB2E66CD8900EDCC91 /* MiniDungeonApp.swift in Sources */,
+				DD915CFD2E66D61D00EDCC91 /* MainViewModel.swift in Sources */,
+				DD915D012E66D6BC00EDCC91 /* GameScreen.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
