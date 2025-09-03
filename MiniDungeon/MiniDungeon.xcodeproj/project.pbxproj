@@ -22,6 +22,7 @@
 		DD915D112E673F0D00EDCC91 /* TileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD915D102E673F0D00EDCC91 /* TileView.swift */; };
 		DD915D132E6741F700EDCC91 /* Hero.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD915D122E6741F700EDCC91 /* Hero.swift */; };
 		DD915D152E67436600EDCC91 /* Enemy.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD915D142E67436600EDCC91 /* Enemy.swift */; };
+		DDB869C62E68B1040042CF9F /* Notes in Resources */ = {isa = PBXBuildFile; fileRef = DDB869C52E68B1040042CF9F /* Notes */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,6 +43,7 @@
 		DD915D122E6741F700EDCC91 /* Hero.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Hero.swift; sourceTree = "<group>"; };
 		DD915D142E67436600EDCC91 /* Enemy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enemy.swift; sourceTree = "<group>"; };
 		DD915D162E674DFB00EDCC91 /* Plan */ = {isa = PBXFileReference; lastKnownFileType = text; path = Plan; sourceTree = "<group>"; };
+		DDB869C52E68B1040042CF9F /* Notes */ = {isa = PBXFileReference; lastKnownFileType = text; path = Notes; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -75,6 +77,7 @@
 			isa = PBXGroup;
 			children = (
 				DD915D162E674DFB00EDCC91 /* Plan */,
+				DDB869C52E68B1040042CF9F /* Notes */,
 				DD915CEA2E66CD8900EDCC91 /* MiniDungeonApp.swift */,
 				DD915CFB2E66D60B00EDCC91 /* Managers */,
 				DD915CF82E66D5E400EDCC91 /* Model */,
@@ -97,14 +100,10 @@
 		DD915CF82E66D5E400EDCC91 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				DD915D002E66D6BC00EDCC91 /* GameScreen.swift */,
-				DD915CFE2E66D65600EDCC91 /* GameState.swift */,
-				DD915D062E672F5500EDCC91 /* DungeonScheme.swift */,
-				DD915D082E672FB400EDCC91 /* Tile.swift */,
-				DD915D0A2E672FE000EDCC91 /* TileType.swift */,
-				DD915D0C2E672FF900EDCC91 /* EventType.swift */,
-				DD915D122E6741F700EDCC91 /* Hero.swift */,
-				DD915D142E67436600EDCC91 /* Enemy.swift */,
+				DDB869C72E68B1F90042CF9F /* Navigation */,
+				DDB869CA2E68B2220042CF9F /* Character */,
+				DDB869C92E68B20D0042CF9F /* Map */,
+				DDB869C82E68B2010042CF9F /* GameState */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -132,6 +131,42 @@
 				DD915D042E672F2C00EDCC91 /* DungeonGenerator.swift */,
 			);
 			path = Managers;
+			sourceTree = "<group>";
+		};
+		DDB869C72E68B1F90042CF9F /* Navigation */ = {
+			isa = PBXGroup;
+			children = (
+				DD915D002E66D6BC00EDCC91 /* GameScreen.swift */,
+			);
+			path = Navigation;
+			sourceTree = "<group>";
+		};
+		DDB869C82E68B2010042CF9F /* GameState */ = {
+			isa = PBXGroup;
+			children = (
+				DD915CFE2E66D65600EDCC91 /* GameState.swift */,
+			);
+			path = GameState;
+			sourceTree = "<group>";
+		};
+		DDB869C92E68B20D0042CF9F /* Map */ = {
+			isa = PBXGroup;
+			children = (
+				DD915D062E672F5500EDCC91 /* DungeonScheme.swift */,
+				DD915D082E672FB400EDCC91 /* Tile.swift */,
+				DD915D0A2E672FE000EDCC91 /* TileType.swift */,
+				DD915D0C2E672FF900EDCC91 /* EventType.swift */,
+			);
+			path = Map;
+			sourceTree = "<group>";
+		};
+		DDB869CA2E68B2220042CF9F /* Character */ = {
+			isa = PBXGroup;
+			children = (
+				DD915D122E6741F700EDCC91 /* Hero.swift */,
+				DD915D142E67436600EDCC91 /* Enemy.swift */,
+			);
+			path = Character;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -192,6 +227,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DDB869C62E68B1040042CF9F /* Notes in Resources */,
 				DD915CF22E66CD9000EDCC91 /* Preview Assets.xcassets in Resources */,
 				DD915CEF2E66CD9000EDCC91 /* Assets.xcassets in Resources */,
 			);

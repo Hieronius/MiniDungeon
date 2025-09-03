@@ -33,6 +33,14 @@ struct MainView: View {
 		case .town:
 			
 			buildTown()
+			
+		case .heroStats:
+			
+			buildHeroStats()
+			
+		case .options:
+			
+			buildOptions()
 		}
     }
 }
@@ -56,6 +64,12 @@ extension MainView {
 				}
 				Button("Go To Town") {
 					viewModel.goToTown()
+				}
+				Button("Go To Hero Stats") {
+					viewModel.goToHeroStats()
+				}
+				Button("Go To Options") {
+					viewModel.goToOptions()
 				}
 			}
 		}
@@ -329,4 +343,43 @@ extension MainView {
 		}
 	}
 }
+
+extension MainView {
+	
+	@ViewBuilder
+	func buildHeroStats() -> some View {
+		
+		List {
+			
+			Section(header: Text("Hero Stats")) {
+				
+				Text("Current HP - \(viewModel.gameState.hero.heroCurrentHP)")
+				Text("Max HP - \(viewModel.gameState.hero.heroMaxHP)")
+				Text("Current MP - \(viewModel.gameState.hero.currentMana)")
+				Text("Max MP - \(viewModel.gameState.hero.maxMana)")
+				Button("Go To Menu") {
+					viewModel.goToMenu()
+				}
+			}
+		}
+	}
+}
+
+extension MainView {
+	
+	@ViewBuilder
+	func buildOptions() -> some View {
+		
+		List {
+			
+			Section(header: Text("Game Options")) {
+				
+				// Difficulty
+				// Speed
+				// Other Twicks
+			}
+		}
+	}
+}
+
 

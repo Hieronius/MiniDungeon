@@ -1,0 +1,5 @@
+Project should be rogue like to avoid complexity in development
+
+Each run should start from scratch and each run should add some points for the hero or environment which will affect all other runs.
+
+Such as minor flat improvements of starting gold, sword, armor, health, mana or stats

@@ -34,7 +34,6 @@ class MainViewModel: ObservableObject {
 	
 	func goToBattle() {
 		gameScreen = .battle
-		restoreStats()
 	}
 	
 	func goToDungeon() {
@@ -43,6 +42,14 @@ class MainViewModel: ObservableObject {
 	
 	func goToTown() {
 		gameScreen = .town
+	}
+	
+	func goToHeroStats() {
+		gameScreen = .heroStats
+	}
+	
+	func goToOptions() {
+		gameScreen = .options
 	}
 	
 	// MARK: - Combat
@@ -143,6 +150,14 @@ class MainViewModel: ObservableObject {
 		gameState.isHeroTurn ?
 		(gameState.hero.currentEnergy = gameState.hero.maxEnergy) :
 		(gameState.enemy.currentEnergy = gameState.enemy.maxEnergy)
+	}
+	
+	func restoreEnemyEnergy() {
+		gameState.enemy.currentEnergy = gameState.enemy.maxEnergy
+	}
+	
+	func restoreEnemyHP() {
+		gameState.enemy.enemyCurrentHP = gameState.enemy.enemyMaxHP
 	}
 	
 	func restoreHP() {
@@ -255,7 +270,9 @@ class MainViewModel: ObservableObject {
 				print(heroPosition)
 
 				goToBattle()
-				restoreStats()
+				restoreEnergy()
+				restoreEnemyEnergy()
+				restoreEnemyHP()
 
 			}
 			gameState.dungeonMap[gameState.heroPosition.row][gameState.heroPosition.col].isExplored = true
