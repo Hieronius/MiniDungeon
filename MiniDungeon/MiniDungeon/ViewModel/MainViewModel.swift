@@ -104,11 +104,38 @@ class MainViewModel: ObservableObject {
 	
 	// MARK: - Utility
 	
-	func endTurn() {
+	func endHeroTurn() {
 		
-		gameState.isHeroTurn.toggle()
-		print(gameState.isHeroTurn ? "Now is Hero Turn" : "Now is Enemy Turn")
-		restoreEnergy()
+		if gameState.isHeroTurn {
+			gameState.isHeroTurn = false
+			restoreEnergy()
+			print("Now is Enemy Turn")
+		}
+		
+		enemyTurn()
+	}
+	
+	func enemyTurn() {
+		
+		if !gameState.isHeroTurn {
+			
+			guard gameState.enemy.currentEnergy > 0 else {
+				gameState.isHeroTurn = true
+				restoreEnergy()
+				print("Now is Hero Turn")
+				return
+			}
+			
+			let extraActionDelay = 0.5 + Double(gameState.enemy.currentEnergy) / 5.0
+			
+			DispatchQueue.main.asyncAfter(deadline: .now() + extraActionDelay) {
+				print("Enemy Attack!")
+				self.attack()
+				self.enemyTurn()
+			}
+			
+		}
+		
 	}
 	
 	func restoreEnergy() {
@@ -118,10 +145,23 @@ class MainViewModel: ObservableObject {
 		(gameState.enemy.currentEnergy = gameState.enemy.maxEnergy)
 	}
 	
-	func restoreStats() {
+	func restoreHP() {
 		
 		gameState.hero.heroCurrentHP = gameState.hero.heroMaxHP
 		gameState.enemy.enemyCurrentHP = gameState.enemy.enemyMaxHP
+	}
+	
+	func restoreMana() {
+		
+		gameState.hero.currentMana = gameState.hero.maxMana
+		gameState.enemy.currentMana = gameState.enemy.maxMana
+	}
+	
+	func restoreStats() {
+		
+		restoreHP()
+		restoreMana()
+		restoreEnergy()
 	}
 	
 	func winLoseCondition() {
@@ -214,8 +254,6 @@ class MainViewModel: ObservableObject {
 				print("We are under attack!")
 				print(heroPosition)
 
-				// Pass the flag that enemy has been met
-				gameState.didEncounterEnemy = true
 				goToBattle()
 				restoreStats()
 

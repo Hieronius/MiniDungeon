@@ -129,7 +129,7 @@ extension MainView {
 			Section(header: Text("Utility")) {
 				
 				Button("End Turn") {
-					viewModel.endTurn()
+					viewModel.endHeroTurn()
 				}
 				
 				Button("Restore Stats") {
