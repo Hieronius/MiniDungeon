@@ -49,17 +49,33 @@ class MainViewModel: ObservableObject {
 	
 	func attack() {
 		
-		gameState.isHeroTurn ?
-		(gameState.enemy.enemyCurrentHP -= gameState.hero.heroDamage) :
-		(gameState.hero.heroCurrentHP -= gameState.enemy.enemyDamage)
+		if gameState.isHeroTurn && gameState.hero.currentEnergy >= gameState.skillEnergyCost {
+			
+			gameState.hero.currentEnergy -= gameState.skillEnergyCost
+			gameState.enemy.enemyCurrentHP -= gameState.hero.heroDamage
+			
+		} else if !gameState.isHeroTurn && gameState.enemy.currentEnergy >= gameState.skillEnergyCost {
+			
+			gameState.enemy.currentEnergy -= gameState.skillEnergyCost
+			gameState.hero.heroCurrentHP -= gameState.enemy.enemyDamage
+		}
+		
 		winLoseCondition()
 		print(!gameState.isHeroTurn ? "\(gameState.hero.heroCurrentHP)" : "\(gameState.enemy.enemyCurrentHP)")
-		
 	}
 	
 	func endTurn() {
+		
 		gameState.isHeroTurn.toggle()
 		print(gameState.isHeroTurn ? "Now is Hero Turn" : "Now is Enemy Turn")
+		restoreEnergy()
+	}
+	
+	func restoreEnergy() {
+		
+		gameState.isHeroTurn ?
+		(gameState.hero.currentEnergy = gameState.hero.maxEnergy) :
+		(gameState.enemy.currentEnergy = gameState.enemy.maxEnergy)
 	}
 	
 	func restoreStats() {

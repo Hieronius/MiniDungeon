@@ -29,6 +29,10 @@ struct GameState {
 	
 	var battlesWon = 0
 	
+	// MARK: - Abilities
+	
+	var skillEnergyCost = 1
+	
 	init() {
 		
 	}

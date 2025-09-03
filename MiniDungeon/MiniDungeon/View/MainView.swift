@@ -295,6 +295,11 @@ extension MainView {
 					viewModel.gameState.hero.upgradeHP()
 					viewModel.gameState.heroGold -= 10
 				}
+				Button("Upgrade Defence - 10G") {
+					viewModel.gameState.hero.upgradeDefence()
+					// gold probably should be in Hero struct
+					viewModel.gameState.heroGold -= 10
+				}
 			}
 			
 			Section(header: Text("Market")) {

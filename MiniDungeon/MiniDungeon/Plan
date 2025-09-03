@@ -1,3 +1,4 @@
+0. Create Enemy AI
 1. Add Screens such as Options/HeroStats and such at the first page of the game
 2. Implement little pieces of story on the paper pages you can receive randomly when you slain an enemy or solve the puzzle
 3. Implement status window of the effects as an array

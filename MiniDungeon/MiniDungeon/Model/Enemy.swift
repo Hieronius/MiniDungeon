@@ -12,4 +12,6 @@ struct Enemy {
 	var maxEnergy = 5
 	
 	var enemyDamage = 5
+	var defence = 0
+	var spellPower = 5
 }
