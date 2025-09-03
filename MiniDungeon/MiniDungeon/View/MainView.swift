@@ -117,11 +117,11 @@ extension MainView {
 				}
 				
 				Button("Block") {
-					
+					viewModel.block()
 				}
 				
 				Button("Heal") {
-					
+					viewModel.heal()
 				}
 				
 			}

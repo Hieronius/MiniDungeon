@@ -32,6 +32,7 @@ struct GameState {
 	// MARK: - Abilities
 	
 	var skillEnergyCost = 1
+	var blockValue = 2
 	
 	init() {
 		

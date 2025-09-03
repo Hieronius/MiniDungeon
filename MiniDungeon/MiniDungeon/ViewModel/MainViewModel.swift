@@ -64,6 +64,46 @@ class MainViewModel: ObservableObject {
 		print(!gameState.isHeroTurn ? "\(gameState.hero.heroCurrentHP)" : "\(gameState.enemy.enemyCurrentHP)")
 	}
 	
+	func block() {
+		
+		if gameState.isHeroTurn && gameState.hero.currentEnergy >= gameState.skillEnergyCost {
+			
+			gameState.hero.currentEnergy -= gameState.skillEnergyCost
+			gameState.hero.defence += gameState.blockValue
+			
+		} else if !gameState.isHeroTurn && gameState.enemy.currentEnergy >= gameState.skillEnergyCost {
+			
+			gameState.enemy.currentEnergy -= gameState.skillEnergyCost
+			gameState.enemy.defence += gameState.blockValue
+		}
+	}
+	
+	func heal() {
+		
+		if gameState.isHeroTurn && gameState.hero.currentEnergy >= gameState.skillEnergyCost {
+			
+			gameState.hero.currentEnergy -= gameState.skillEnergyCost
+			gameState.hero.heroCurrentHP += gameState.hero.spellPower
+			
+			if gameState.hero.heroCurrentHP >= gameState.hero.heroMaxHP {
+				gameState.hero.heroCurrentHP = gameState.hero.heroMaxHP
+			}
+			
+		} else if !gameState.isHeroTurn && gameState.enemy.currentEnergy >= gameState.skillEnergyCost {
+			
+			gameState.enemy.currentEnergy -= gameState.skillEnergyCost
+			gameState.enemy.enemyCurrentHP += gameState.enemy.spellPower
+			
+			if gameState.enemy.enemyCurrentHP >= gameState.enemy.enemyMaxHP {
+				gameState.enemy.enemyCurrentHP = gameState.enemy.enemyMaxHP
+			}
+			
+		}
+		
+	}
+	
+	// MARK: - Utility
+	
 	func endTurn() {
 		
 		gameState.isHeroTurn.toggle()
@@ -83,8 +123,6 @@ class MainViewModel: ObservableObject {
 		gameState.hero.heroCurrentHP = gameState.hero.heroMaxHP
 		gameState.enemy.enemyCurrentHP = gameState.enemy.enemyMaxHP
 	}
-	
-	// MARK: - Utility
 	
 	func winLoseCondition() {
 		
