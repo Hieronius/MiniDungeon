@@ -187,6 +187,8 @@ extension MainView {
 		
 		Spacer()
 		
+		Spacer()
+		
 		getDungeonMap()
 		
 		Spacer()
