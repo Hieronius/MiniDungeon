@@ -3,3 +3,5 @@ Project should be rogue like to avoid complexity in development
 Each run should start from scratch and each run should add some points for the hero or environment which will affect all other runs.
 
 Such as minor flat improvements of starting gold, sword, armor, health, mana or stats
+
+My current Town screen can be a screen between levels to minor upgrade and to choose a bonus abilities. So A real town should be seen when you fail to start over

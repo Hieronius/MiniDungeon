@@ -16,6 +16,8 @@ import Foundation
 struct DungeonScheme {
 
 	// MARK: - Properties
+	
+	var dungeonLevels: [[[String]]] = []
 
 	/// 1 level - 3 x 3 == 9 tiles
 	let dungeonLevel1: [[String]] = [
@@ -154,4 +156,22 @@ struct DungeonScheme {
 		["E", "R", "R", "C", "E", "R", "C", "R"],
 	
 	]
+	
+	// MARK: - Init
+	
+	init() {
+		self.dungeonLevels = [
+			dungeonLevel1,
+			dungeonLevel2,
+			dungeonLevel3,
+			dungeonLevel4,
+			dungeonLevel5,
+			dungeonLevel6,
+			dungeonLevel7,
+			dungeonLevel8,
+			dungeonLevel9,
+			dungeonLevel10,
+			dungeonLevel11
+		]
+	}
 }

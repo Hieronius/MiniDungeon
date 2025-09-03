@@ -130,6 +130,10 @@ extension MainView {
 					viewModel.attack()
 				}
 				
+				Button("Fireball") {
+					viewModel.fireball()
+				}
+				
 				Button("Block") {
 					viewModel.block()
 				}
@@ -211,6 +215,9 @@ extension MainView {
 			
 			Section(header: Text("Navigation")) {
 				
+				Button("Go To Next Level") {
+					viewModel.checkForMapBeingExplored()
+				}
 				Button("Go To Battle") {
 					viewModel.goToBattle()
 				}

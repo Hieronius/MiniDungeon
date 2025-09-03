@@ -19,10 +19,10 @@
 		DD915D092E672FB400EDCC91 /* Tile.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD915D082E672FB400EDCC91 /* Tile.swift */; };
 		DD915D0B2E672FE000EDCC91 /* TileType.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD915D0A2E672FE000EDCC91 /* TileType.swift */; };
 		DD915D0D2E672FF900EDCC91 /* EventType.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD915D0C2E672FF900EDCC91 /* EventType.swift */; };
-		DD915D112E673F0D00EDCC91 /* TileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD915D102E673F0D00EDCC91 /* TileView.swift */; };
 		DD915D132E6741F700EDCC91 /* Hero.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD915D122E6741F700EDCC91 /* Hero.swift */; };
 		DD915D152E67436600EDCC91 /* Enemy.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD915D142E67436600EDCC91 /* Enemy.swift */; };
 		DDB869C62E68B1040042CF9F /* Notes in Resources */ = {isa = PBXBuildFile; fileRef = DDB869C52E68B1040042CF9F /* Notes */; };
+		DDB869CC2E68BC200042CF9F /* MapGeneration.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDB869CB2E68BC200042CF9F /* MapGeneration.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -39,11 +39,11 @@
 		DD915D082E672FB400EDCC91 /* Tile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tile.swift; sourceTree = "<group>"; };
 		DD915D0A2E672FE000EDCC91 /* TileType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TileType.swift; sourceTree = "<group>"; };
 		DD915D0C2E672FF900EDCC91 /* EventType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventType.swift; sourceTree = "<group>"; };
-		DD915D102E673F0D00EDCC91 /* TileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TileView.swift; sourceTree = "<group>"; };
 		DD915D122E6741F700EDCC91 /* Hero.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Hero.swift; sourceTree = "<group>"; };
 		DD915D142E67436600EDCC91 /* Enemy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enemy.swift; sourceTree = "<group>"; };
 		DD915D162E674DFB00EDCC91 /* Plan */ = {isa = PBXFileReference; lastKnownFileType = text; path = Plan; sourceTree = "<group>"; };
 		DDB869C52E68B1040042CF9F /* Notes */ = {isa = PBXFileReference; lastKnownFileType = text; path = Notes; sourceTree = "<group>"; };
+		DDB869CB2E68BC200042CF9F /* MapGeneration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapGeneration.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -100,10 +100,10 @@
 		DD915CF82E66D5E400EDCC91 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				DDB869C82E68B2010042CF9F /* GameState */,
 				DDB869C72E68B1F90042CF9F /* Navigation */,
 				DDB869CA2E68B2220042CF9F /* Character */,
 				DDB869C92E68B20D0042CF9F /* Map */,
-				DDB869C82E68B2010042CF9F /* GameState */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -112,7 +112,6 @@
 			isa = PBXGroup;
 			children = (
 				DD915CEC2E66CD8900EDCC91 /* MainView.swift */,
-				DD915D102E673F0D00EDCC91 /* TileView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -121,6 +120,7 @@
 			isa = PBXGroup;
 			children = (
 				DD915CFC2E66D61D00EDCC91 /* MainViewModel.swift */,
+				DDB869CB2E68BC200042CF9F /* MapGeneration.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -240,7 +240,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DD915D112E673F0D00EDCC91 /* TileView.swift in Sources */,
 				DD915CED2E66CD8900EDCC91 /* MainView.swift in Sources */,
 				DD915D152E67436600EDCC91 /* Enemy.swift in Sources */,
 				DD915CFF2E66D65600EDCC91 /* GameState.swift in Sources */,
@@ -252,6 +251,7 @@
 				DD915D052E672F2C00EDCC91 /* DungeonGenerator.swift in Sources */,
 				DD915CFD2E66D61D00EDCC91 /* MainViewModel.swift in Sources */,
 				DD915D012E66D6BC00EDCC91 /* GameScreen.swift in Sources */,
+				DDB869CC2E68BC200042CF9F /* MapGeneration.swift in Sources */,
 				DD915D132E6741F700EDCC91 /* Hero.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

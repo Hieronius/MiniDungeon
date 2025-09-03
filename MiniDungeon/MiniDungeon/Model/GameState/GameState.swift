@@ -14,7 +14,7 @@ struct GameState {
 	
 	var isHeroAppeard = false
 	var didEncounterEnemy = false
-	var currentDungeonLevel = 10
+	var currentDungeonLevel = 0
 	var dungeonMap: [[Tile]] = []
 	var heroPosition = (row: 0, col: 0)
 	
