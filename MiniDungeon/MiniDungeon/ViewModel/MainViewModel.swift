@@ -54,6 +54,10 @@ class MainViewModel: ObservableObject {
 		gameScreen = .options
 	}
 	
+	func goToRewards() {
+		gameScreen = .rewards
+	}
+	
 	// MARK: - Combat
 	
 	func attack() {

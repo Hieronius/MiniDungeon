@@ -41,6 +41,10 @@ struct MainView: View {
 		case .options:
 			
 			buildOptions()
+			
+		case .rewards:
+			
+			buildRewards()
 		}
     }
 }
@@ -384,6 +388,26 @@ extension MainView {
 				// Difficulty
 				// Speed
 				// Other Twicks
+			}
+		}
+	}
+}
+
+extension MainView {
+	
+	@ViewBuilder
+	func buildRewards() -> some View {
+		
+		List {
+			
+			Section(header: Text("Rewards")) {
+				
+				
+			}
+			
+			Section(header: Text("Upgrades")) {
+				
+				
 			}
 		}
 	}
