@@ -222,6 +222,9 @@ extension MainView {
 				Button("Go To Next Level") {
 					viewModel.checkForMapBeingExplored()
 				}
+				Button("Go To Rewards") {
+					viewModel.goToRewards()
+				}
 				Button("Go To Battle") {
 					viewModel.goToBattle()
 				}
