@@ -21,7 +21,6 @@
 		DD915D0D2E672FF900EDCC91 /* EventType.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD915D0C2E672FF900EDCC91 /* EventType.swift */; };
 		DD915D132E6741F700EDCC91 /* Hero.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD915D122E6741F700EDCC91 /* Hero.swift */; };
 		DD915D152E67436600EDCC91 /* Enemy.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD915D142E67436600EDCC91 /* Enemy.swift */; };
-		DDB869C62E68B1040042CF9F /* Notes in Resources */ = {isa = PBXBuildFile; fileRef = DDB869C52E68B1040042CF9F /* Notes */; };
 		DDB869CC2E68BC200042CF9F /* MapGeneration.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDB869CB2E68BC200042CF9F /* MapGeneration.swift */; };
 /* End PBXBuildFile section */
 
@@ -227,7 +226,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DDB869C62E68B1040042CF9F /* Notes in Resources */,
 				DD915CF22E66CD9000EDCC91 /* Preview Assets.xcassets in Resources */,
 				DD915CEF2E66CD9000EDCC91 /* Assets.xcassets in Resources */,
 			);

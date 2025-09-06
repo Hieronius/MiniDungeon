@@ -4,4 +4,8 @@ Each run should start from scratch and each run should add some points for the h
 
 Such as minor flat improvements of starting gold, sword, armor, health, mana or stats
 
-My current Town screen can be a screen between levels to minor upgrade and to choose a bonus abilities. So A real town should be seen when you fail to start over
+Implement little pieces of story on the paper pages you can receive randomly when you slain an enemy or solve the puzzle
+
+Each action like a crit attack/tile explored/dialogue should get you some score points. After the run you should convert this score to some kind of money and exchange for skills or talants
+
+Instead of getting experience for each fight, suggest to upgrade something on user choice like hp, mana, attack after each battle win. Each 3 battles give a special talant or perk. After each 6-9 wins another one.
