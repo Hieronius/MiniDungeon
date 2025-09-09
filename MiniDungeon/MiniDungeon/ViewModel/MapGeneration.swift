@@ -1,10 +1,8 @@
 import SwiftUI
 
+// MARK: - Dungeon Generation/Movement
+
 extension MainViewModel {
-	
-	// MARK: - Dungeon Generation/Movement
-	
-	
 	
 	// MARK: GenerateMap
 
@@ -15,6 +13,8 @@ extension MainViewModel {
 		gameState.dungeonMap = self.dungeonGenerator.parseDungeonLevel(levelScheme)
 	}
 	
+	// MARK: - Check if dungeon has been explored and summon the boss
+	
 	func checkForMapBeingExplored() {
 		
 		for row in 0..<gameState.dungeonMap.count {
@@ -22,15 +22,26 @@ extension MainViewModel {
 				let tile = gameState.dungeonMap[row][col]
 				if !tile.isExplored && tile.type != .empty {
 					print("Found unexplored tile")
-					return }
+					return
+				}
 			}
 		}
-		print("Level Completed. Go to the next Level")
+		print("Level Completed. Final boss appeared")
+		gameState.enemy = generateEnemy(didFinalBossSummoned: true)
+		gameState.didEncounteredBoss = true
+		restoreEnergy()
+		goToBattle()
+	}
+	
+	// MARK: If Level complete and boss has been defeated go to the next one
+	
+	func endLevelAndGenerateNewOne() {
+		
+		gameState.didEncounteredBoss = false
 		gameState.currentDungeonLevel += 1
 		gameState.isHeroAppeard = false
 		generateMap()
 		spawnHero()
-		
 	}
 
 	// MARK: SpawnHero
@@ -57,74 +68,6 @@ extension MainViewModel {
 			}
 		}
 		gameState.dungeonMap[gameState.heroPosition.row][gameState.heroPosition.col].isExplored = true
-	}
-
-	// MARK: Handle Tapped Direction
-
-	/// Method to define Hero movement logic based on tapped direction if it's valid to move
-	func handleTappedDirection(_ row: Int, _ col: Int) {
-
-		// If valid -> move hero position to a new coordinate
-
-		if checkIfDirectionValid(row, col) {
-
-			// move hero to the new position
-			
-
-			gameState.heroPosition = (row, col)
-			
-			let heroPosition = gameState.heroPosition
-
-			if gameState.dungeonMap[heroPosition.row][heroPosition.col].events.contains(.enemy) &&
-				!gameState.dungeonMap[heroPosition.row][heroPosition.col].isExplored {
-				
-				// MARK: Transition to Combat Screen
-				print("We are under attack!")
-				print(heroPosition)
-
-				goToBattle()
-				restoreEnergy()
-				restoreEnemyEnergy()
-				restoreEnemyHP()
-
-			}
-			gameState.dungeonMap[gameState.heroPosition.row][gameState.heroPosition.col].isExplored = true
-			print("New Hero Position is \(row), \(col)")
-
-		} else {
-			print("failed attempt to move")
-		}
-	}
-
-	// MARK: Check If Direction Valid
-
-	/// Method to check is destination tile is neighbour vertically or horizontally
-	func checkIfDirectionValid(_ row: Int, _ col: Int) -> Bool {
-
-		// If empty tile -> return false
-
-		let tileType = gameState.dungeonMap[row][col].type
-		let heroPosition = gameState.heroPosition
-
-		guard tileType != .empty else { return false }
-
-		// Movement valid only if only X or Y axis coordinate change by 1
-
-		let isTopDirectionValid = (row - heroPosition.row == 1 && col == heroPosition.col)
-		let isBotDirectionValid = (heroPosition.row - row == 1 && col == heroPosition.col)
-		let isLeftDirectionValid = (col - heroPosition.col == 1 &&  row == heroPosition.row)
-		let isRightDirectionValid = (heroPosition.col - col == 1 && row == heroPosition.row)
-
-		// Check each of all four possible directions
-
-		if (isTopDirectionValid || isBotDirectionValid) ||
-			(isLeftDirectionValid || isRightDirectionValid) {
-
-			return true
-
-		} else {
-			return false
-		}
 	}
 }
 
