@@ -76,9 +76,20 @@ extension MainViewModel {
 		
 		if gameState.hero.heroCurrentHP <= 0 {
 			fatalError("The End")
-		} else if gameState.enemy.enemyCurrentHP <= 0 {
+			
+		} else if gameState.enemy.enemyCurrentHP <= 0 &&
+					!gameState.didEncounteredBoss {
+			print("Average Enemy has been defeated!")
 			getRewardAfterFight()
 			gameState.didEncounterEnemy = false
+			goToDungeon()
+			
+		} else if gameState.enemy.enemyCurrentHP <= 0 &&
+					gameState.didEncounteredBoss {
+			
+			print("Boss has been defeated!")
+			getRewardAfterFight()
+			endLevelAndGenerateNewOne()
 			goToDungeon()
 		}
 	}
