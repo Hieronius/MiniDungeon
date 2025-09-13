@@ -14,6 +14,8 @@ struct Hero {
 	var maxEnergy = 5
 	
 	var heroDamage = 10
+	
+	/// Defence seems too powerful if you add one point each level
 	var defence = 1
 	var spellPower = 10
 	
@@ -23,34 +25,36 @@ struct Hero {
 		
 		self.heroMaxHP += 20
 		self.heroCurrentHP = self.heroMaxHP
+		self.maxMana += 10
+		self.currentMana = self.maxMana
 		self.heroDamage += 2
+		self.spellPower += 1
 		self.skillPoints += 2
 		self.heroLevel += 1
-		self.defence += 1
 	}
 	
 	mutating func upgradeDamage() {
 		
-		self.skillPoints -= 1
-		self.heroDamage += 5
+//		self.skillPoints -= 1
+		self.heroDamage += 1
 	}
 	
 	mutating func upgradeHP() {
 		
-		self.skillPoints -= 1
-		self.heroMaxHP += 5
+//		self.skillPoints -= 1
+		self.heroMaxHP += 1
 		self.heroCurrentHP = self.heroMaxHP
 	}
 	
 	mutating func upgradeDefence() {
 		
-		self.skillPoints -= 1
-		self.defence += 2
+//		self.skillPoints -= 1
+		self.defence += 1
 	}
 	
 	mutating func upgradeSpellPower() {
 		
-		self.skillPoints -= 1
-		self.spellPower += 2
+//		self.skillPoints -= 1
+		self.spellPower += 1
 	}
 }

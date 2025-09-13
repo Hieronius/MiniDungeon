@@ -9,6 +9,10 @@ extension MainView {
 		
 		Spacer()
 		
+		Text("Dungeon Level - \(viewModel.gameState.currentDungeonLevel + 1)")
+		
+		Spacer()
+		
 		VStack {
 			
 			HStack {
@@ -29,7 +33,6 @@ extension MainView {
 				Spacer()
 			}
 			
-			Text("Orbs - \(viewModel.gameState.orbesCollected) / \(viewModel.gameState.orbesCollected)")
 		}
 		
 		Spacer()

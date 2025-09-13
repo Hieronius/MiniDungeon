@@ -25,7 +25,6 @@ struct DungeonScheme {
 		["R", "C", "R"],
 		["C", "E", "C"],
 		["R", "E", "R"]
-
 	]
 
 	/// 2 level - 4 x 3 = 12 tiles
@@ -35,7 +34,6 @@ struct DungeonScheme {
 		["C", "E", "C"],
 		["C", "C", "C"],
 		["E", "R", "E"]
-
 	]
 
 	/// 3 level - 4 x 4 = 16 tiles
@@ -55,7 +53,6 @@ struct DungeonScheme {
 		["E", "E", "E", "C"],
 		["C", "C", "C", "R"],
 		["R", "E", "E", "E"]
-
 	]
 
 	/// 5 level - 5 x 5 = 25 tiles
@@ -66,7 +63,6 @@ struct DungeonScheme {
 		["C", "E", "E", "R", "C"],
 		["R", "C", "C", "E", "R"],
 		["E", "E", "R", "E", "E"],
-
 	]
 
 	/// 6 level - 6 x 5 = 30 tiles
@@ -78,7 +74,6 @@ struct DungeonScheme {
 		["E", "C", "E", "R", "C"],
 		["R", "C", "E", "C", "E"],
 		["E", "E", "E", "C", "R"],
-
 	]
 
 	/// 7 level - 6 x 6 = 36 tiles
@@ -90,7 +85,6 @@ struct DungeonScheme {
 		["C", "E", "E", "E", "E", "E"],
 		["C", "E", "R", "C", "C", "E"],
 		["R", "C", "C", "E", "R", "E"]
-
 	]
 
 	/// 8 level - 6 x 6 = 36 tiles
@@ -102,7 +96,6 @@ struct DungeonScheme {
 		["E", "C", "E", "R", "C", "E"],
 		["R", "C", "E", "E", "E", "E"],
 		["E", "E", "E", "E", "E", "E"]
-
 	]
 
 	/// 9 level - 6 x 7 = 42 tiles
@@ -114,7 +107,6 @@ struct DungeonScheme {
 		["C", "E", "C", "C", "C", "E"],
 		["C", "E", "E", "E", "E", "E"],
 		["C", "C", "C", "C", "C", "R"]
-
 	]
 
 	/// 10 level - 6 x 6 = 36 tiles
@@ -127,7 +119,6 @@ struct DungeonScheme {
 		["C", "E", "E", "C", "C", "R"],
 		["R", "C", "C", "E", "E", "E"],
 		["E", "E", "R", "E", "E", "E"]
-
 	]
 	
 	/// 11 level - 7 x 7 = 49 tiles
@@ -154,7 +145,6 @@ struct DungeonScheme {
 		["R", "C", "C", "E", "E", "E", "R", "R"],
 		["E", "E", "R", "E", "E", "E", "E", "E"],
 		["E", "R", "R", "C", "E", "R", "C", "R"],
-	
 	]
 	
 	// MARK: - Init

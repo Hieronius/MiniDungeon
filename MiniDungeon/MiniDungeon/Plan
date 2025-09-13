@@ -1,2 +1,6 @@
+1. Implement Random Dungeon Generation (discuss with Kostyan and send him preview)
 
-3. Implement status window of the effects as an array
+1.1. I need an algorithm to check dungeon scheme after generation and find "R" or "C" without any leading/trailing/top/bot tiles to get access to
+Or create a method to count all tiles you can reach accordingly to current game mechanic and make a flag like "dungeon has been explored" to summon the boss
+
+2. Implement DFS algorithm to immitate exploration

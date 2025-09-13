@@ -28,6 +28,45 @@ class MainViewModel: ObservableObject {
 		spawnHero()
 	}
 	
+	// MARK: SetupNewGame
+	
+	func setupNewGame() {
+		
+		gameState.isHeroTurn = true
+		goToMenu()
+		
+		// Reset all hero progress to 0
+		gameState.hero = Hero()
+		gameState.enemy = Enemy()
+		gameState.heroCurrentXP = 0
+		gameState.heroMaxXP = 100
+		gameState.currentDungeonLevel = 0
+		gameState.isHeroAppeard = false
+		gameState.heroPosition = (0,0)
+		gameState.battlesWon = 0
+		
+		// Start from the beginning
+		generateMap()
+		spawnHero()
+		
+		for _ in 0..<gameState.hpUpgradeCount {
+			gameState.hero.upgradeHP()
+		}
+		
+		for _ in 0..<gameState.damageUpgradeCount {
+			gameState.hero.upgradeDamage()
+		}
+		
+		for _ in 0..<gameState.defenceUpgradeCount {
+			gameState.hero.upgradeDefence()
+		}
+		
+		for _ in 0..<gameState.spellPowerUpgradeCount {
+			gameState.hero.upgradeSpellPower()
+		}
+		
+	}
+	
 	// MARK: - Navigation
 	
 	func goToMenu() {

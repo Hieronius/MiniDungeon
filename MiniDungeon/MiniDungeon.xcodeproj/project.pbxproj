@@ -21,7 +21,16 @@
 		DD915D0D2E672FF900EDCC91 /* EventType.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD915D0C2E672FF900EDCC91 /* EventType.swift */; };
 		DD915D132E6741F700EDCC91 /* Hero.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD915D122E6741F700EDCC91 /* Hero.swift */; };
 		DD915D152E67436600EDCC91 /* Enemy.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD915D142E67436600EDCC91 /* Enemy.swift */; };
+		DDB29BD22E6BF47A007BB7DC /* Utility.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDB29BD12E6BF47A007BB7DC /* Utility.swift */; };
+		DDB29BD42E6BF508007BB7DC /* Combat.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDB29BD32E6BF508007BB7DC /* Combat.swift */; };
+		DDB29BD62E6BF53B007BB7DC /* EventGeneration.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDB29BD52E6BF53B007BB7DC /* EventGeneration.swift */; };
 		DDB869CC2E68BC200042CF9F /* MapGeneration.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDB869CB2E68BC200042CF9F /* MapGeneration.swift */; };
+		DDE6A01F2E6E977D00BEA51F /* DungeonHeroMovement.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDE6A01E2E6E977D00BEA51F /* DungeonHeroMovement.swift */; };
+		DDEE6C752E6D4C0E00BD2E3C /* BattleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDEE6C742E6D4C0E00BD2E3C /* BattleView.swift */; };
+		DDEE6C772E6D4C3500BD2E3C /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDEE6C762E6D4C3500BD2E3C /* MapView.swift */; };
+		DDF7EAC72E713F8D00EC6AF2 /* TownView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDF7EAC62E713F8D00EC6AF2 /* TownView.swift */; };
+		DDF7EADE2E746B8300EC6AF2 /* GameLoop in Resources */ = {isa = PBXBuildFile; fileRef = DDF7EADD2E746B8300EC6AF2 /* GameLoop */; };
+		DDF7EAE02E746BDA00EC6AF2 /* FeaturesToAdd in Resources */ = {isa = PBXBuildFile; fileRef = DDF7EADF2E746BDA00EC6AF2 /* FeaturesToAdd */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -41,8 +50,17 @@
 		DD915D122E6741F700EDCC91 /* Hero.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Hero.swift; sourceTree = "<group>"; };
 		DD915D142E67436600EDCC91 /* Enemy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enemy.swift; sourceTree = "<group>"; };
 		DD915D162E674DFB00EDCC91 /* Plan */ = {isa = PBXFileReference; lastKnownFileType = text; path = Plan; sourceTree = "<group>"; };
+		DDB29BD12E6BF47A007BB7DC /* Utility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utility.swift; sourceTree = "<group>"; };
+		DDB29BD32E6BF508007BB7DC /* Combat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Combat.swift; sourceTree = "<group>"; };
+		DDB29BD52E6BF53B007BB7DC /* EventGeneration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventGeneration.swift; sourceTree = "<group>"; };
 		DDB869C52E68B1040042CF9F /* Notes */ = {isa = PBXFileReference; lastKnownFileType = text; path = Notes; sourceTree = "<group>"; };
 		DDB869CB2E68BC200042CF9F /* MapGeneration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapGeneration.swift; sourceTree = "<group>"; };
+		DDE6A01E2E6E977D00BEA51F /* DungeonHeroMovement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DungeonHeroMovement.swift; sourceTree = "<group>"; };
+		DDEE6C742E6D4C0E00BD2E3C /* BattleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattleView.swift; sourceTree = "<group>"; };
+		DDEE6C762E6D4C3500BD2E3C /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
+		DDF7EAC62E713F8D00EC6AF2 /* TownView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TownView.swift; sourceTree = "<group>"; };
+		DDF7EADD2E746B8300EC6AF2 /* GameLoop */ = {isa = PBXFileReference; lastKnownFileType = text; path = GameLoop; sourceTree = "<group>"; };
+		DDF7EADF2E746BDA00EC6AF2 /* FeaturesToAdd */ = {isa = PBXFileReference; lastKnownFileType = text; path = FeaturesToAdd; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -77,6 +95,8 @@
 			children = (
 				DD915D162E674DFB00EDCC91 /* Plan */,
 				DDB869C52E68B1040042CF9F /* Notes */,
+				DDF7EADD2E746B8300EC6AF2 /* GameLoop */,
+				DDF7EADF2E746BDA00EC6AF2 /* FeaturesToAdd */,
 				DD915CEA2E66CD8900EDCC91 /* MiniDungeonApp.swift */,
 				DD915CFB2E66D60B00EDCC91 /* Managers */,
 				DD915CF82E66D5E400EDCC91 /* Model */,
@@ -111,6 +131,9 @@
 			isa = PBXGroup;
 			children = (
 				DD915CEC2E66CD8900EDCC91 /* MainView.swift */,
+				DDEE6C742E6D4C0E00BD2E3C /* BattleView.swift */,
+				DDEE6C762E6D4C3500BD2E3C /* MapView.swift */,
+				DDF7EAC62E713F8D00EC6AF2 /* TownView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -119,7 +142,11 @@
 			isa = PBXGroup;
 			children = (
 				DD915CFC2E66D61D00EDCC91 /* MainViewModel.swift */,
+				DDB29BD32E6BF508007BB7DC /* Combat.swift */,
+				DDB29BD12E6BF47A007BB7DC /* Utility.swift */,
+				DDB29BD52E6BF53B007BB7DC /* EventGeneration.swift */,
 				DDB869CB2E68BC200042CF9F /* MapGeneration.swift */,
+				DDE6A01E2E6E977D00BEA51F /* DungeonHeroMovement.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -226,8 +253,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DDF7EAE02E746BDA00EC6AF2 /* FeaturesToAdd in Resources */,
 				DD915CF22E66CD9000EDCC91 /* Preview Assets.xcassets in Resources */,
 				DD915CEF2E66CD9000EDCC91 /* Assets.xcassets in Resources */,
+				DDF7EADE2E746B8300EC6AF2 /* GameLoop in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -238,11 +267,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DDF7EAC72E713F8D00EC6AF2 /* TownView.swift in Sources */,
+				DDB29BD22E6BF47A007BB7DC /* Utility.swift in Sources */,
 				DD915CED2E66CD8900EDCC91 /* MainView.swift in Sources */,
 				DD915D152E67436600EDCC91 /* Enemy.swift in Sources */,
 				DD915CFF2E66D65600EDCC91 /* GameState.swift in Sources */,
+				DDEE6C752E6D4C0E00BD2E3C /* BattleView.swift in Sources */,
+				DDE6A01F2E6E977D00BEA51F /* DungeonHeroMovement.swift in Sources */,
 				DD915D0B2E672FE000EDCC91 /* TileType.swift in Sources */,
 				DD915CEB2E66CD8900EDCC91 /* MiniDungeonApp.swift in Sources */,
+				DDEE6C772E6D4C3500BD2E3C /* MapView.swift in Sources */,
 				DD915D092E672FB400EDCC91 /* Tile.swift in Sources */,
 				DD915D072E672F5500EDCC91 /* DungeonScheme.swift in Sources */,
 				DD915D0D2E672FF900EDCC91 /* EventType.swift in Sources */,
@@ -250,6 +284,8 @@
 				DD915CFD2E66D61D00EDCC91 /* MainViewModel.swift in Sources */,
 				DD915D012E66D6BC00EDCC91 /* GameScreen.swift in Sources */,
 				DDB869CC2E68BC200042CF9F /* MapGeneration.swift in Sources */,
+				DDB29BD62E6BF53B007BB7DC /* EventGeneration.swift in Sources */,
+				DDB29BD42E6BF508007BB7DC /* Combat.swift in Sources */,
 				DD915D132E6741F700EDCC91 /* Hero.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

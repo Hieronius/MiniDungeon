@@ -8,8 +8,8 @@ struct Enemy {
 	var currentMana = 100
 	var maxMana = 100
 	
-	var currentEnergy = 5
-	var maxEnergy = 5
+	var currentEnergy = 3
+	var maxEnergy = 3
 	
 	var enemyDamage = 5
 	var defence = 0
