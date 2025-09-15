@@ -103,13 +103,27 @@ extension MainView {
 
 		let originalBackgroundColor: Color = tile.isExplored ? .gray : .white
 		let isHeroPosition = tile.isHeroPosition(viewModel.gameState.heroPosition)
+		let neighbours = viewModel.checkForHeroTileNeighbours()
 		let tileColor: Color = isHeroPosition ? .orange : originalBackgroundColor
 		var title: String
 		var opacityRatio: CGFloat = 1.0
+		
+		// MARK: Just comment all checks to manage map generation
 
-		// Just turn this property to 0 for complete hidden state of the button
+		
+		// If not a hero Position and is not explored - create the fog of war
 
-		if tile.type == .empty { opacityRatio = 0.1 }
+		if isHeroPosition == false && tile.isExplored == false  { opacityRatio = 0.01 }
+		
+		// Hero can see through a single tile around him
+		
+		if neighbours.contains(tile) {
+			opacityRatio = 1.0
+		}
+		
+		// Because empty tiles mean "Empty" make them totally opaque
+		
+		if tile.type == .empty { opacityRatio = 0.01 }
 
 		switch tile.type {
 		case .room:

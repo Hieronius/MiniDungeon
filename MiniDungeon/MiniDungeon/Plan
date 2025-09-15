@@ -1,4 +1,4 @@
-1. Add property like "isVisible" to Tile and make a method to check all user neighours to display only them to make an atmosphere of dungeon exploration
+
 
 1.1. I need an algorithm to check dungeon scheme after generation and find "R" or "C" without any leading/trailing/top/bot tiles to get access to
 Or create a method to count all tiles you can reach accordingly to current game mechanic and make a flag like "dungeon has been explored" to summon the boss

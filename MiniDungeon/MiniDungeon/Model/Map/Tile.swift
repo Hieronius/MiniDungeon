@@ -25,3 +25,11 @@ extension Tile {
 		return (self.row, self.col) == heroPosition
 	}
 }
+
+extension Tile: Equatable {
+	
+	static func ==(lhs: Tile, rhs: Tile) -> Bool {
+		return lhs.row == rhs.row && lhs.col == rhs.col
+		
+	}
+}
