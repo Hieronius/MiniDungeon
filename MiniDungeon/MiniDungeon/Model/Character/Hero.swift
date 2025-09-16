@@ -2,6 +2,8 @@ import Foundation
 
 struct Hero {
 	
+	// Stats
+	
 	var heroLevel = 1
 	
 	var heroCurrentHP = 100
@@ -13,13 +15,40 @@ struct Hero {
 	var currentEnergy = 5
 	var maxEnergy = 5
 	
-	var heroDamage = 10
+//	var heroDamage = 10
+	var minDamage = 5
+	var maxDamage = 10
 	
-	/// Defence seems too powerful if you add one point each level
+	var weaponSlot: Weapon
+	var armorSlot: Armor
+	
 	var defence = 1
 	var spellPower = 10
 	
 	var skillPoints = 1
+	
+	// MARK: Equip/Unequip Items
+	
+	mutating func equipWeapon(_ item: Weapon) {
+		
+		// add min/max damage
+	}
+	
+	mutating func unequipWeapon(_ item: Weapon) {
+		
+		// remove min/max damage
+	}
+	
+	mutating func equipArmor(_ item: Armor) {
+		
+	}
+	
+	mutating func unequipArmor(_ item: Armor) {
+		
+		
+	}
+	
+	// MARK: Increase/Decrease Stats
 	
 	mutating func levelUP() {
 		
@@ -27,7 +56,8 @@ struct Hero {
 		self.heroCurrentHP = self.heroMaxHP
 		self.maxMana += 10
 		self.currentMana = self.maxMana
-		self.heroDamage += 2
+		self.minDamage += 1
+		self.maxDamage += 1
 		self.spellPower += 1
 		self.skillPoints += 2
 		self.heroLevel += 1
@@ -36,7 +66,7 @@ struct Hero {
 	mutating func upgradeDamage() {
 		
 //		self.skillPoints -= 1
-		self.heroDamage += 1
+//		self.heroDamage += 1
 	}
 	
 	mutating func upgradeHP() {

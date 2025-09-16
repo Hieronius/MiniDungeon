@@ -48,6 +48,8 @@ class MainViewModel: ObservableObject {
 			
 			for difCol in -1...1 {
 				
+				// Ignore the middle (hero's) tile
+				
 				if difRow == 0 && difCol == 0 { continue }
 				
 				let neighbourRow = heroTile.row + difRow
@@ -83,7 +85,10 @@ class MainViewModel: ObservableObject {
 		goToMenu()
 		
 		// Reset all hero progress to 0
-		gameState.hero = Hero()
+		gameState.hero = Hero(
+			weaponSlot: WeaponManager.weapons[0],
+			armorSlot: ArmorManager.armors[0]
+		)
 		gameState.enemy = Enemy()
 		gameState.heroCurrentXP = 0
 		gameState.heroMaxXP = 100

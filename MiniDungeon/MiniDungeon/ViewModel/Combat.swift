@@ -11,7 +11,7 @@ extension MainViewModel {
 			gameState.hero.currentEnergy -= gameState.skillEnergyCost
 			
 			
-			let damage = gameState.hero.heroDamage - gameState.enemy.defence
+			let damage = Int.random(in: gameState.hero.minDamage...gameState.hero.maxDamage) - gameState.enemy.defence
 			
 			if damage > 0 {
 				gameState.enemy.enemyCurrentHP -= damage

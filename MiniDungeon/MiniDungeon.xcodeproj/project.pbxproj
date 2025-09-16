@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		DD7EC0C72E78A0BA00849B0B /* Weapon.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD7EC0C62E78A0BA00849B0B /* Weapon.swift */; };
+		DD7EC0CC2E78A45C00849B0B /* Armor.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD7EC0CB2E78A45C00849B0B /* Armor.swift */; };
 		DD915CEB2E66CD8900EDCC91 /* MiniDungeonApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD915CEA2E66CD8900EDCC91 /* MiniDungeonApp.swift */; };
 		DD915CED2E66CD8900EDCC91 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD915CEC2E66CD8900EDCC91 /* MainView.swift */; };
 		DD915CEF2E66CD9000EDCC91 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DD915CEE2E66CD9000EDCC91 /* Assets.xcassets */; };
@@ -34,6 +36,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		DD7EC0C62E78A0BA00849B0B /* Weapon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Weapon.swift; sourceTree = "<group>"; };
+		DD7EC0CB2E78A45C00849B0B /* Armor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Armor.swift; sourceTree = "<group>"; };
 		DD915CE72E66CD8900EDCC91 /* MiniDungeon.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MiniDungeon.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD915CEA2E66CD8900EDCC91 /* MiniDungeonApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiniDungeonApp.swift; sourceTree = "<group>"; };
 		DD915CEC2E66CD8900EDCC91 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
@@ -74,6 +78,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		DD7EC0CA2E78A0D100849B0B /* Items */ = {
+			isa = PBXGroup;
+			children = (
+				DD7EC0C62E78A0BA00849B0B /* Weapon.swift */,
+				DD7EC0CB2E78A45C00849B0B /* Armor.swift */,
+			);
+			path = Items;
+			sourceTree = "<group>";
+		};
 		DD915CDE2E66CD8900EDCC91 = {
 			isa = PBXGroup;
 			children = (
@@ -98,7 +111,6 @@
 				DDF7EADD2E746B8300EC6AF2 /* GameLoop */,
 				DDF7EADF2E746BDA00EC6AF2 /* FeaturesToAdd */,
 				DD915CEA2E66CD8900EDCC91 /* MiniDungeonApp.swift */,
-				DD915CFB2E66D60B00EDCC91 /* Managers */,
 				DD915CF82E66D5E400EDCC91 /* Model */,
 				DD915CFA2E66D5FD00EDCC91 /* ViewModel */,
 				DD915CF92E66D5F100EDCC91 /* View */,
@@ -119,6 +131,7 @@
 		DD915CF82E66D5E400EDCC91 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				DD7EC0CA2E78A0D100849B0B /* Items */,
 				DDB869C82E68B2010042CF9F /* GameState */,
 				DDB869C72E68B1F90042CF9F /* Navigation */,
 				DDB869CA2E68B2220042CF9F /* Character */,
@@ -151,14 +164,6 @@
 			path = ViewModel;
 			sourceTree = "<group>";
 		};
-		DD915CFB2E66D60B00EDCC91 /* Managers */ = {
-			isa = PBXGroup;
-			children = (
-				DD915D042E672F2C00EDCC91 /* DungeonGenerator.swift */,
-			);
-			path = Managers;
-			sourceTree = "<group>";
-		};
 		DDB869C72E68B1F90042CF9F /* Navigation */ = {
 			isa = PBXGroup;
 			children = (
@@ -182,6 +187,7 @@
 				DD915D082E672FB400EDCC91 /* Tile.swift */,
 				DD915D0A2E672FE000EDCC91 /* TileType.swift */,
 				DD915D0C2E672FF900EDCC91 /* EventType.swift */,
+				DD915D042E672F2C00EDCC91 /* DungeonGenerator.swift */,
 			);
 			path = Map;
 			sourceTree = "<group>";
@@ -270,6 +276,7 @@
 				DDF7EAC72E713F8D00EC6AF2 /* TownView.swift in Sources */,
 				DDB29BD22E6BF47A007BB7DC /* Utility.swift in Sources */,
 				DD915CED2E66CD8900EDCC91 /* MainView.swift in Sources */,
+				DD7EC0CC2E78A45C00849B0B /* Armor.swift in Sources */,
 				DD915D152E67436600EDCC91 /* Enemy.swift in Sources */,
 				DD915CFF2E66D65600EDCC91 /* GameState.swift in Sources */,
 				DDEE6C752E6D4C0E00BD2E3C /* BattleView.swift in Sources */,
@@ -284,6 +291,7 @@
 				DD915CFD2E66D61D00EDCC91 /* MainViewModel.swift in Sources */,
 				DD915D012E66D6BC00EDCC91 /* GameScreen.swift in Sources */,
 				DDB869CC2E68BC200042CF9F /* MapGeneration.swift in Sources */,
+				DD7EC0C72E78A0BA00849B0B /* Weapon.swift in Sources */,
 				DDB29BD62E6BF53B007BB7DC /* EventGeneration.swift in Sources */,
 				DDB29BD42E6BF508007BB7DC /* Combat.swift in Sources */,
 				DD915D132E6741F700EDCC91 /* Hero.swift in Sources */,

@@ -1,4 +1,4 @@
-
-
-1.1. I need an algorithm to check dungeon scheme after generation and find "R" or "C" without any leading/trailing/top/bot tiles to get access to
-Or create a method to count all tiles you can reach accordingly to current game mechanic and make a flag like "dungeon has been explored" to summon the boss
+1. Twick Weapon damage and Armor defence to hero stats
+1.1. Add min/max damage to enemy in generateEnemy method
+1.2. Add method to equip/uneqiup weapon to add/remove damage
+1.3 Add ability to buy weapon/armor in town store

@@ -111,17 +111,17 @@ extension MainView {
 		// MARK: Just comment all checks to manage map generation
 
 		
-		// If not a hero Position and is not explored - create the fog of war
+		// 1. If not a hero Position and is not explored - create the fog of war
 
 		if isHeroPosition == false && tile.isExplored == false  { opacityRatio = 0.01 }
 		
-		// Hero can see through a single tile around him
+		// 2. Hero can see through a single tile around him
 		
 		if neighbours.contains(tile) {
 			opacityRatio = 1.0
 		}
 		
-		// Because empty tiles mean "Empty" make them totally opaque
+		// 3. Because empty tiles mean "Empty" make them totally opaque
 		
 		if tile.type == .empty { opacityRatio = 0.01 }
 
