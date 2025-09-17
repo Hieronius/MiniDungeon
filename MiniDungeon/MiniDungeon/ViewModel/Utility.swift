@@ -93,7 +93,7 @@ extension MainViewModel {
 	func endHeroBlockEffect() {
 		
 		gameState.didHeroUseBlock = false
-		gameState.hero.defence -= gameState.blockValue
+		gameState.hero.baseDefence -= gameState.blockValue
 		print("Hero Block Ability has been removed")
 	}
 	

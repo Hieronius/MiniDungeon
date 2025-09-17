@@ -11,7 +11,11 @@ struct Enemy {
 	var currentEnergy = 3
 	var maxEnergy = 3
 	
-	var enemyDamage = 5
+	var minDamage = 3
+	var maxDamage = 6
+	var hitChance = 85
+	var critChance = 5
+	
 	var defence = 0
 	var spellPower = 5
 }

@@ -10,12 +10,28 @@ extension MainViewModel {
 			
 			gameState.hero.currentEnergy -= gameState.skillEnergyCost
 			
+			let hitRoll = Int.random(in: 1...100)
+			if hitRoll > gameState.hero.hitChance {
+				print("Hero's Attack has been missed!")
+				return
+			}
 			
 			let damage = Int.random(in: gameState.hero.minDamage...gameState.hero.maxDamage) - gameState.enemy.defence
 			
+			let critRoll = Int.random(in: 1...100)
+			
 			if damage > 0 {
-				gameState.enemy.enemyCurrentHP -= damage
-				print("\(damage) has been received")
+				
+				if critRoll <= gameState.hero.critChance {
+					
+					let criticalDamage = Int(Double(damage) * 1.5)
+					gameState.enemy.enemyCurrentHP -= criticalDamage
+					print("Critical hit - \(criticalDamage) has been done!")
+					
+				} else {
+					gameState.enemy.enemyCurrentHP -= damage
+					print("\(damage) has been done")
+				}
 				
 			} else {
 				print("0 damage has been received")
@@ -26,12 +42,27 @@ extension MainViewModel {
 			
 			gameState.enemy.currentEnergy -= gameState.skillEnergyCost
 			
-			let damage = gameState.enemy.enemyDamage - gameState.hero.defence
+			let hitRoll = Int.random(in: 1...100)
+			if hitRoll > gameState.enemy.hitChance {
+				print("Enemy Attack has been missed")
+				return
+			}
+			
+			let damage = Int.random(in: gameState.enemy.minDamage...gameState.enemy.maxDamage) - gameState.hero.defence
+			
+			let critRoll = Int.random(in: 1...100)
 			
 			if damage > 0 {
 				
-				gameState.hero.heroCurrentHP -= damage
-				print("\(damage) damage has been done")
+				if critRoll <= gameState.enemy.critChance {
+					let criticalDamage = Int(Double(damage) * 1.5)
+					gameState.hero.heroCurrentHP -= criticalDamage
+					print("Critical hit - \(criticalDamage) has been done!")
+					
+				} else {
+					gameState.hero.heroCurrentHP -= damage
+					print("\(damage) damage has been done")
+				}
 				
 			} else {
 				print("0 damage has been received")
@@ -57,7 +88,7 @@ extension MainViewModel {
 			
 			if gameState.didHeroUseBlock == false {
 				
-				gameState.hero.defence += gameState.blockValue
+				gameState.hero.baseDefence += gameState.blockValue
 				gameState.didHeroUseBlock = true
 				print("Block Ability has been used by the Hero!")
 			}

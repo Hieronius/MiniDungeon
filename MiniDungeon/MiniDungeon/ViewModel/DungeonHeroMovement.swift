@@ -25,6 +25,8 @@ extension MainViewModel {
 
 				gameState.enemy = generateEnemy(didFinalBossSummoned: false)
 				restoreAllEnergy()
+				gameState.didHeroUseBlock = false
+				gameState.didEnemyUseBlock = false
 				goToBattle()
 
 			}

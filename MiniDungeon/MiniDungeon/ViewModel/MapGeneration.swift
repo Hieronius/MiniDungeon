@@ -6,11 +6,8 @@ extension MainViewModel {
 	
 	// MARK: GenerateMap
 
-	/// Extract current DungeonSnapshot -> generate new map based on current level -> save and apply new snapshot
+	/// Generate map scheme -> generate new map based on current level
 	func generateMap() {
-
-//		let levelScheme = dungeonScheme.dungeonLevels[gameState.currentDungeonLevel]
-//		gameState.dungeonMap = self.dungeonGenerator.parseDungeonLevel(levelScheme)
 		
 		let scheme = self.generateRandomDungeonLevel()
 		let level = self.dungeonGenerator.parseDungeonLevel(scheme)
@@ -44,6 +41,18 @@ extension MainViewModel {
 		gameState.didEncounteredBoss = false
 		gameState.currentDungeonLevel += 1
 		gameState.isHeroAppeard = false
+		
+		let currentLevel = gameState.currentDungeonLevel
+		
+		if currentLevel % 2 != 0, currentLevel < 4 {
+			gameState.hero.weaponSlot = WeaponManager.weapons[currentLevel]
+			print("\(WeaponManager.weapons[currentLevel]) has been found!")
+				  
+		} else if currentLevel % 2 == 0, currentLevel < 4 {
+			gameState.hero.armorSlot = ArmorManager.armors[currentLevel-1]
+			print("\(ArmorManager.armors[currentLevel-1]) has been found!")
+		}
+		
 		generateMap()
 		spawnHero()
 		print("New level has been created - \(gameState.currentDungeonLevel + 1)")
@@ -258,8 +267,6 @@ extension MainViewModel {
 				col >= 0, col < map[row].count else { return nil }
 		return map[row][col]
 	}
-	
-	
 	
 	// MARK: generateRandomElement
 	

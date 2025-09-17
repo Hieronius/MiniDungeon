@@ -2,9 +2,22 @@ import Foundation
 
 struct Hero {
 	
-	// Stats
+	// Base Stats
 	
 	var heroLevel = 1
+	
+	var baseMinDamage = 5
+	var baseMaxDamage = 10
+	
+	var baseDefence = 1
+	
+	// In %
+	var baseHitChance = 85
+	
+	// In %
+	var baseCritChance = 5
+	
+	// Current Stats
 	
 	var heroCurrentHP = 100
 	var heroMaxHP = 100
@@ -15,14 +28,15 @@ struct Hero {
 	var currentEnergy = 5
 	var maxEnergy = 5
 	
-//	var heroDamage = 10
-	var minDamage = 5
-	var maxDamage = 10
+	var weaponSlot: Weapon? = nil
+	var armorSlot: Armor? = nil
 	
-	var weaponSlot: Weapon
-	var armorSlot: Armor
+	var minDamage: Int { baseMinDamage + (weaponSlot?.minDamage ?? 0) }
+	var maxDamage: Int { baseMaxDamage + (weaponSlot?.maxDamage ?? 0) }
+	var hitChance: Int { baseHitChance + (weaponSlot?.hitChance ?? 0) }
+	var critChance: Int { baseCritChance + (weaponSlot?.critChance ?? 0) }
 	
-	var defence = 1
+	var defence: Int { baseDefence + (armorSlot?.defence ?? 0) }
 	var spellPower = 10
 	
 	var skillPoints = 1
@@ -56,8 +70,8 @@ struct Hero {
 		self.heroCurrentHP = self.heroMaxHP
 		self.maxMana += 10
 		self.currentMana = self.maxMana
-		self.minDamage += 1
-		self.maxDamage += 1
+		self.baseMinDamage += 1
+		self.baseMaxDamage += 1
 		self.spellPower += 1
 		self.skillPoints += 2
 		self.heroLevel += 1
@@ -66,7 +80,8 @@ struct Hero {
 	mutating func upgradeDamage() {
 		
 //		self.skillPoints -= 1
-//		self.heroDamage += 1
+		self.baseMinDamage += 1
+		self.baseMaxDamage += 1
 	}
 	
 	mutating func upgradeHP() {
@@ -79,7 +94,7 @@ struct Hero {
 	mutating func upgradeDefence() {
 		
 //		self.skillPoints -= 1
-		self.defence += 1
+		self.baseDefence += 1
 	}
 	
 	mutating func upgradeSpellPower() {

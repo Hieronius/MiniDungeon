@@ -27,8 +27,11 @@ extension MainViewModel {
 		let mp = Int.random(in: 10...50)
 		let finalMP = mp + Int(Double(mp) * difficultyLevel)
 		
-		let damage = Int.random(in: 5...10)
-		let finalDamage = damage + Int(Double(damage) * difficultyLevel)
+		let minDamage = Int.random(in: 2...4)
+		let finalMinDamage = minDamage + Int(Double(minDamage) * difficultyLevel)
+		
+		let maxDamage = Int.random(in: 4...6)
+		let finalMaxDamage = maxDamage + Int(Double(maxDamage) * difficultyLevel)
 		
 		let energy = 3
 		let maxEnergy = 3
@@ -36,7 +39,7 @@ extension MainViewModel {
 		let spellPower = Int.random(in: 5...10)
 		let finalSpellPower = spellPower + Int(Double(spellPower) * difficultyLevel)
 		
-		let defence = Int.random(in: 0...3)
+		let defence = Int.random(in: 0...2)
 		let finalDefence = defence + Int(Double(defence) * difficultyLevel)
 		
 		if !didFinalBossSummoned {
@@ -48,7 +51,8 @@ extension MainViewModel {
 				maxMana: finalMP,
 				currentEnergy: energy,
 				maxEnergy: maxEnergy,
-				enemyDamage: finalDamage,
+				minDamage: finalMinDamage,
+				maxDamage: finalMaxDamage,
 				defence: finalDefence,
 				spellPower: finalSpellPower
 			)
@@ -62,7 +66,8 @@ extension MainViewModel {
 				maxMana: Int(Double(finalMP) * bossModifier),
 				currentEnergy: energy + 2,
 				maxEnergy: maxEnergy + 2,
-				enemyDamage: Int(Double(finalDamage) * bossModifier),
+				minDamage: Int(Double(finalMinDamage) * bossModifier),
+				maxDamage: Int(Double(finalMaxDamage) * bossModifier),
 				defence: Int(Double(finalDefence) * bossModifier),
 				spellPower: Int(Double(finalSpellPower) * bossModifier)
 			)
