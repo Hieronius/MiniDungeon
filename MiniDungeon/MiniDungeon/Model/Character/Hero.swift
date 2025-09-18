@@ -9,7 +9,7 @@ struct Hero {
 	var baseMinDamage = 5
 	var baseMaxDamage = 10
 	
-	var baseDefence = 1
+	var baseDefence = 0
 	
 	// In %
 	var baseHitChance = 85
@@ -37,6 +37,7 @@ struct Hero {
 	var critChance: Int { baseCritChance + (weaponSlot?.critChance ?? 0) }
 	
 	var defence: Int { baseDefence + (armorSlot?.defence ?? 0) }
+	
 	var spellPower = 10
 	
 	var skillPoints = 1

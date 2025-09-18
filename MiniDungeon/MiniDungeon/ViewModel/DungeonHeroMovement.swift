@@ -28,6 +28,7 @@ extension MainViewModel {
 				gameState.didHeroUseBlock = false
 				gameState.didEnemyUseBlock = false
 				goToBattle()
+				gameState.logMessage = "Battle begin!"
 
 			}
 			gameState.dungeonMap[gameState.heroPosition.row][gameState.heroPosition.col].isExplored = true

@@ -15,6 +15,7 @@ extension MainViewModel {
 			if gameState.didEnemyUseBlock {
 				endEnemyBlockEffect()
 			}
+			gameState.logMessage = "Now is Enemy Turn"
 			print("Now is Enemy Turn")
 			
 		}
@@ -36,6 +37,7 @@ extension MainViewModel {
 				}
 				
 				restoreAllEnergy()
+				gameState.logMessage = "Now is Hero Turn"
 				print("Now is Hero Turn")
 				return
 			}
@@ -94,6 +96,7 @@ extension MainViewModel {
 		
 		gameState.didHeroUseBlock = false
 		gameState.hero.baseDefence -= gameState.blockValue
+		gameState.logMessage = "Hero Block Ability has been removed"
 		print("Hero Block Ability has been removed")
 	}
 	
@@ -101,6 +104,7 @@ extension MainViewModel {
 		
 		gameState.didEnemyUseBlock = false
 		gameState.enemy.defence -= gameState.blockValue
+		gameState.logMessage = "Enemy Block Ability has been removed"
 		print("Enemy Block Ability has been removed")
 	}
 	

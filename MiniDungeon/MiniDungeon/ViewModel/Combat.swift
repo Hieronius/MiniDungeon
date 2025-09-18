@@ -2,7 +2,7 @@ import SwiftUI
 
 extension MainViewModel {
 	
-	// MARK: - Combat
+	// MARK: - Attack
 	
 	func attack() {
 		
@@ -10,13 +10,20 @@ extension MainViewModel {
 			
 			gameState.hero.currentEnergy -= gameState.skillEnergyCost
 			
+			// hit chance
+			
 			let hitRoll = Int.random(in: 1...100)
 			if hitRoll > gameState.hero.hitChance {
+				gameState.logMessage = "Hero's Attack has been missed!"
 				print("Hero's Attack has been missed!")
 				return
 			}
 			
+			// damage
+			
 			let damage = Int.random(in: gameState.hero.minDamage...gameState.hero.maxDamage) - gameState.enemy.defence
+			
+			// crit chance
 			
 			let critRoll = Int.random(in: 1...100)
 			
@@ -26,11 +33,13 @@ extension MainViewModel {
 					
 					let criticalDamage = Int(Double(damage) * 1.5)
 					gameState.enemy.enemyCurrentHP -= criticalDamage
+					gameState.logMessage = "Critical hit - \(criticalDamage) has been done!"
 					print("Critical hit - \(criticalDamage) has been done!")
 					
 				} else {
 					gameState.enemy.enemyCurrentHP -= damage
-					print("\(damage) has been done")
+					gameState.logMessage = "\(damage) damage has been done"
+					print("\(damage) damage has been done")
 				}
 				
 			} else {
@@ -44,6 +53,7 @@ extension MainViewModel {
 			
 			let hitRoll = Int.random(in: 1...100)
 			if hitRoll > gameState.enemy.hitChance {
+				gameState.logMessage = "Enemy Attack has been missed"
 				print("Enemy Attack has been missed")
 				return
 			}
@@ -57,14 +67,17 @@ extension MainViewModel {
 				if critRoll <= gameState.enemy.critChance {
 					let criticalDamage = Int(Double(damage) * 1.5)
 					gameState.hero.heroCurrentHP -= criticalDamage
+					gameState.logMessage = "Critical hit - \(criticalDamage) has been done!"
 					print("Critical hit - \(criticalDamage) has been done!")
 					
 				} else {
 					gameState.hero.heroCurrentHP -= damage
+					gameState.logMessage = "\(damage) damage has been done"
 					print("\(damage) damage has been done")
 				}
 				
 			} else {
+				gameState.logMessage = "0 damage has been received"
 				print("0 damage has been received")
 			}
 		}
@@ -73,12 +86,16 @@ extension MainViewModel {
 		print(!gameState.isHeroTurn ? "\(gameState.hero.heroCurrentHP)" : "\(gameState.enemy.enemyCurrentHP)")
 	}
 	
+	// MARK: Fireball
+	
 	func fireball() {
 		
 		guard gameState.isHeroTurn else { return }
 		gameState.enemy.enemyCurrentHP -= 100
 		winLoseCondition()
 	}
+	
+	// MARK: Block
 	
 	func block() {
 		
@@ -90,6 +107,7 @@ extension MainViewModel {
 				
 				gameState.hero.baseDefence += gameState.blockValue
 				gameState.didHeroUseBlock = true
+				gameState.logMessage = "Block Ability has been used by the Hero!"
 				print("Block Ability has been used by the Hero!")
 			}
 			
@@ -103,9 +121,12 @@ extension MainViewModel {
 				gameState.enemy.defence += gameState.blockValue
 				gameState.didEnemyUseBlock = true
 			}
+			gameState.logMessage = "Block Ability has been used by the Enemy!"
 			print("Block Ability has been used by the Enemy!")
 		}
 	}
+	
+	// MARK: Heal
 	
 	func heal() {
 		
@@ -121,6 +142,7 @@ extension MainViewModel {
 				gameState.hero.heroCurrentHP = gameState.hero.heroMaxHP
 			}
 			
+			gameState.logMessage = "\(gameState.hero.spellPower) amount of health has been recovered"
 			print("\(gameState.hero.spellPower) amount of health has been recovered")
 			
 		} else if !gameState.isHeroTurn &&

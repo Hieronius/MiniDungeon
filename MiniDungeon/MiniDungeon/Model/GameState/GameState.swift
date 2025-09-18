@@ -39,7 +39,7 @@ struct GameState {
 	// MARK: - Stats
 	
 	var heroCurrentXP = 0
-	var heroMaxXP = 100
+	var heroMaxXP = 150
 	var heroGold = 0
 	
 	var xpPerEnemy = 34
@@ -52,6 +52,10 @@ struct GameState {
 	var skillEnergyCost = 1
 	var spellManaCost = 10
 	var blockValue = 2
+	
+	// MARK: - Log
+	
+	var logMessage = "This is a test Log Message"
 	
 	// MARK: - Items
 	

@@ -26,6 +26,8 @@ extension MainView {
 				Text("EP - \(viewModel.gameState.hero.currentEnergy) / \(viewModel.gameState.hero.maxEnergy)")
 				Rectangle()
 					.frame(width: 80, height: 80)
+					.foregroundColor(Color.black)
+					.border(Color.white, width: 5)
 				Text(viewModel.gameState.didHeroUseBlock ? "Armor ⬆️" : "      ")
 			}
 			
@@ -38,11 +40,17 @@ extension MainView {
 				Text("EP - \(viewModel.gameState.enemy.currentEnergy) / \(viewModel.gameState.enemy.maxEnergy)")
 				Rectangle()
 					.frame(width: 80, height: 80)
+					.foregroundColor(Color.black)
+					.border(Color.white, width: 5)
 				Text(viewModel.gameState.didEnemyUseBlock ? "Armor ⬆️" : "      ")
 			}
 			
 			Spacer()
 		}
+		
+		Spacer()
+		
+		Text(viewModel.gameState.logMessage)
 		
 		Spacer()
 		

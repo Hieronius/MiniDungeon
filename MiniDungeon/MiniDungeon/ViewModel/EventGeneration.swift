@@ -27,10 +27,10 @@ extension MainViewModel {
 		let mp = Int.random(in: 10...50)
 		let finalMP = mp + Int(Double(mp) * difficultyLevel)
 		
-		let minDamage = Int.random(in: 2...4)
+		let minDamage = Int.random(in: 6...8)
 		let finalMinDamage = minDamage + Int(Double(minDamage) * difficultyLevel)
 		
-		let maxDamage = Int.random(in: 4...6)
+		let maxDamage = Int.random(in: 10...12)
 		let finalMaxDamage = maxDamage + Int(Double(maxDamage) * difficultyLevel)
 		
 		let energy = 3
