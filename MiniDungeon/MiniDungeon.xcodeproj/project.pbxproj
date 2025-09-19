@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		DD7EC0C72E78A0BA00849B0B /* Weapon.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD7EC0C62E78A0BA00849B0B /* Weapon.swift */; };
 		DD7EC0CC2E78A45C00849B0B /* Armor.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD7EC0CB2E78A45C00849B0B /* Armor.swift */; };
+		DD7EC0CE2E7C47E800849B0B /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD7EC0CD2E7C47E800849B0B /* Item.swift */; };
 		DD915CEB2E66CD8900EDCC91 /* MiniDungeonApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD915CEA2E66CD8900EDCC91 /* MiniDungeonApp.swift */; };
 		DD915CED2E66CD8900EDCC91 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD915CEC2E66CD8900EDCC91 /* MainView.swift */; };
 		DD915CEF2E66CD9000EDCC91 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DD915CEE2E66CD9000EDCC91 /* Assets.xcassets */; };
@@ -38,6 +39,7 @@
 /* Begin PBXFileReference section */
 		DD7EC0C62E78A0BA00849B0B /* Weapon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Weapon.swift; sourceTree = "<group>"; };
 		DD7EC0CB2E78A45C00849B0B /* Armor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Armor.swift; sourceTree = "<group>"; };
+		DD7EC0CD2E7C47E800849B0B /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
 		DD915CE72E66CD8900EDCC91 /* MiniDungeon.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MiniDungeon.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD915CEA2E66CD8900EDCC91 /* MiniDungeonApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiniDungeonApp.swift; sourceTree = "<group>"; };
 		DD915CEC2E66CD8900EDCC91 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
@@ -81,6 +83,7 @@
 		DD7EC0CA2E78A0D100849B0B /* Items */ = {
 			isa = PBXGroup;
 			children = (
+				DD7EC0CD2E7C47E800849B0B /* Item.swift */,
 				DD7EC0C62E78A0BA00849B0B /* Weapon.swift */,
 				DD7EC0CB2E78A45C00849B0B /* Armor.swift */,
 			);
@@ -279,6 +282,7 @@
 				DD7EC0CC2E78A45C00849B0B /* Armor.swift in Sources */,
 				DD915D152E67436600EDCC91 /* Enemy.swift in Sources */,
 				DD915CFF2E66D65600EDCC91 /* GameState.swift in Sources */,
+				DD7EC0CE2E7C47E800849B0B /* Item.swift in Sources */,
 				DDEE6C752E6D4C0E00BD2E3C /* BattleView.swift in Sources */,
 				DDE6A01F2E6E977D00BEA51F /* DungeonHeroMovement.swift in Sources */,
 				DD915D0B2E672FE000EDCC91 /* TileType.swift in Sources */,

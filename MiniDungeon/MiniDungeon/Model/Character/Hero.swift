@@ -42,26 +42,9 @@ struct Hero {
 	
 	var skillPoints = 1
 	
-	// MARK: Equip/Unequip Items
-	
-	mutating func equipWeapon(_ item: Weapon) {
-		
-		// add min/max damage
-	}
-	
-	mutating func unequipWeapon(_ item: Weapon) {
-		
-		// remove min/max damage
-	}
-	
-	mutating func equipArmor(_ item: Armor) {
-		
-	}
-	
-	mutating func unequipArmor(_ item: Armor) {
-		
-		
-	}
+	var weapons: [Weapon] = []
+	var armors: [Armor] = []
+	var inventory: [Item] = []
 	
 	// MARK: Increase/Decrease Stats
 	

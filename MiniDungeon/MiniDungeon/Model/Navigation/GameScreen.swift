@@ -6,7 +6,8 @@ enum GameScreen {
 	case battle
 	case dungeon
 	case town
-	case heroStats
+	case stats
+	case inventory
 	case rewards
 	case options
 }

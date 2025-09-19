@@ -96,6 +96,12 @@ extension MainView {
 				Button("Go To Dungeon") {
 					viewModel.goToDungeon()
 				}
+				Button("Go To Stats") {
+					viewModel.goToHeroStats()
+				}
+				Button("Go To Inventory") {
+					viewModel.goToInventory()
+				}
 				Button("Go To Town") {
 					viewModel.goToTown()
 				}

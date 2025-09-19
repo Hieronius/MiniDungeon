@@ -138,7 +138,11 @@ class MainViewModel: ObservableObject {
 	}
 	
 	func goToHeroStats() {
-		gameScreen = .heroStats
+		gameScreen = .stats
+	}
+	
+	func goToInventory() {
+		gameScreen = .inventory
 	}
 	
 	func goToOptions() {
@@ -148,4 +152,5 @@ class MainViewModel: ObservableObject {
 	func goToRewards() {
 		gameScreen = .rewards
 	}
+	
 }

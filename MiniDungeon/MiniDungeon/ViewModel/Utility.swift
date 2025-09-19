@@ -169,6 +169,30 @@ extension MainViewModel {
 			print("Average Enemy has been defeated!")
 			getRewardAfterFight()
 			gameState.didEncounterEnemy = false
+			
+			if let loot = generateSaleableLoot(didFinalBossSummoned: gameState.didEncounteredBoss) {
+				gameState.hero.inventory.append(loot)
+				print("found \(loot)")
+			}
+			
+			if let potion = generatePotionLoot(didFinalBossSummoned: gameState.didEncounteredBoss) {
+				gameState.hero.inventory.append(potion)
+				print("found \(potion)")
+			}
+			
+			if let weapon = generateWeaponLoot(didFinalBossSummoned: gameState.didEncounteredBoss) {
+				gameState.hero.weaponSlot = weapon
+				gameState.hero.weapons.append(weapon)
+				print("found and equiped \(weapon)")
+			}
+			
+			if let armor = generateArmorLoot(didFinalBossSummoned: gameState.didEncounteredBoss) {
+				gameState.hero.armorSlot = armor
+				gameState.hero.armors.append(armor)
+				print("found and equiped \(armor)")
+			}
+			
+			
 			goToDungeon()
 			
 		} else if gameState.enemy.enemyCurrentHP <= 0 &&

@@ -2,6 +2,116 @@ import SwiftUI
 
 extension MainViewModel {
 	
+	// MARK: - Generate Weapon Loot
+	
+	func generateWeaponLoot(didFinalBossSummoned: Bool) -> Weapon? {
+		
+		/*
+		 1 level = 10% to generate level 1 weapon
+		 2 level = 9% to generate level 2 weapon
+		 3 level = 8% to generate level 3 weapon
+		 4 level = 7% to generate level 4 weapon
+		 5 level = 6% to generate level 5 weapon
+		 */
+		
+		var dropRoll = Int.random(in: 1...100)
+		
+		if didFinalBossSummoned { dropRoll /= 2 }
+		
+		var weaponLoot: Weapon? = nil
+		
+		switch gameState.currentDungeonLevel {
+			
+		case 0: if dropRoll <= 10 { weaponLoot = WeaponManager.weapons[0] }
+			
+		case 1: if dropRoll <= 9 { weaponLoot = WeaponManager.weapons[1] }
+			
+		case 2: if dropRoll <= 8 { weaponLoot = WeaponManager.weapons[2] }
+			
+		case 3: if dropRoll <= 7 { weaponLoot = WeaponManager.weapons[3] }
+			
+		case 4: if dropRoll <= 6 { weaponLoot = WeaponManager.weapons[4] }
+			
+		default:
+			break
+		}
+		return weaponLoot
+	}
+	
+	// MARK: - Generate Weapon Loot
+	
+	func generateArmorLoot(didFinalBossSummoned: Bool) -> Armor? {
+		
+		/*
+		 1 level = 10% to generate level 1 armor
+		 2 level = 9% to generate level 2 armor
+		 3 level = 8% to generate level 3 armor
+		 4 level = 7% to generate level 4 armor
+		 5 level = 6% to generate level 5 armor
+		 */
+		
+		var dropRoll = Int.random(in: 1...100)
+		
+		if didFinalBossSummoned { dropRoll /= 2 }
+		
+		var armorLoot: Armor? = nil
+		
+		switch gameState.currentDungeonLevel {
+			
+		case 0: if dropRoll <= 10 { armorLoot = ArmorManager.armors[0] }
+			
+		case 1: if dropRoll <= 9 { armorLoot = ArmorManager.armors[1] }
+			
+		case 2: if dropRoll <= 8 { armorLoot = ArmorManager.armors[2] }
+			
+		case 3: if dropRoll <= 7 { armorLoot = ArmorManager.armors[3] }
+			
+		case 4: if dropRoll <= 6 { armorLoot = ArmorManager.armors[4] }
+			
+		default:
+			break
+		}
+		return armorLoot
+	}
+	
+	// MARK: - Generate Potion Loot
+	
+	func generatePotionLoot(didFinalBossSummoned: Bool) -> Item? {
+		
+		var dropRoll = Int.random(in: 1...100)
+		
+		if didFinalBossSummoned { dropRoll /= 2 }
+		
+		var potion: Item? = nil
+		
+		if dropRoll <= 10 {
+			
+			let itemIndex = Int.random(in: 0...1)
+			potion = ItemManager.potions[itemIndex]
+		}
+		return potion
+	}
+	
+	// MARK: - Generate Saleable Loot
+	
+	/// Use method to manage loot on sale drop chance
+	func generateSaleableLoot(didFinalBossSummoned: Bool) -> Item? {
+		
+		// bubbles, trinkets and so on
+		var dropRoll = Int.random(in: 1...100)
+		
+		if didFinalBossSummoned { dropRoll /= 2 }
+		
+		var loot: Item? = nil
+		
+		if dropRoll <= 10 {
+			
+			let itemIndex = Int.random(in: 0...2)
+			loot = ItemManager.loot[itemIndex]
+		}
+		return loot
+	}
+	
 	// MARK: - Generate Enemy
 	
 	func generateEnemy(didFinalBossSummoned: Bool) -> Enemy {

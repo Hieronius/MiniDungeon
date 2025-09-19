@@ -14,8 +14,8 @@ struct MainView: View {
 	
 	// MARK: - Body
 	
-    var body: some View {
-        
+	var body: some View {
+		
 		switch viewModel.gameScreen {
 			
 		case .menu:
@@ -29,14 +29,18 @@ struct MainView: View {
 		case .dungeon:
 			
 			buildDungeon()
-		
+			
 		case .town:
 			
 			buildTown()
 			
-		case .heroStats:
+		case .stats:
 			
-			buildHeroStats()
+			buildStats()
+			
+		case .inventory:
+			
+			buildInventory()
 			
 		case .options:
 			
@@ -46,7 +50,7 @@ struct MainView: View {
 			
 			buildRewards()
 		}
-    }
+	}
 }
 
 // MARK: - Menu Screen (View)
@@ -66,11 +70,14 @@ extension MainView {
 				Button("Go To Dungeon") {
 					viewModel.goToDungeon()
 				}
-				Button("Go To Town") {
-					viewModel.goToTown()
-				}
 				Button("Go To Hero Stats") {
 					viewModel.goToHeroStats()
+				}
+				Button("Go To Inventory") {
+					viewModel.goToInventory()
+				}
+				Button("Go To Town") {
+					viewModel.goToTown()
 				}
 				Button("Go To Options") {
 					viewModel.goToOptions()
@@ -80,12 +87,13 @@ extension MainView {
 	}
 }
 
-// MARK: - HeroStats Screen (View)
+// MARK: - Stats Screen (View)
 
 extension MainView {
 	
+	/// Try to collect all stats/skills and such into structs inside Hero class so you can use something like Lise(gameState.hero.Stats.\.self
 	@ViewBuilder
-	func buildHeroStats() -> some View {
+	func buildStats() -> some View {
 		
 		List {
 			
@@ -100,6 +108,36 @@ extension MainView {
 				}
 			}
 		}
+	}
+}
+
+// MARK: - Inventory Screen (View)
+
+extension MainView {
+	
+	@ViewBuilder
+	func buildInventory() -> some View {
+		
+		Spacer()
+		Text("Amount of items - \(viewModel.gameState.hero.inventory.count)")
+		List(viewModel.gameState.hero.weapons) { weapon in
+			Section(header: Text("Navigation")) {
+				Text(weapon.label)
+			}
+		}
+		Spacer()
+		List(viewModel.gameState.hero.armors) { armor in
+			Text(armor.label)
+		}
+		Spacer()
+		List(viewModel.gameState.hero.inventory) { item in
+			Text(item.label)
+		}
+		Spacer()
+		Button("Go To Menu") {
+			viewModel.goToMenu()
+		}
+		Spacer()
 	}
 }
 

@@ -50,6 +50,12 @@ extension MainView {
 				Button("Go To Next Level") {
 					viewModel.checkForMapBeingExplored()
 				}
+				Button("Go To Stats") {
+					viewModel.goToHeroStats()
+				}
+				Button("Go To Inventory") {
+					viewModel.goToInventory()
+				}
 				Button("Go To Rewards") {
 					viewModel.goToRewards()
 				}

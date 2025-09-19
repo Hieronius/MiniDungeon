@@ -9,10 +9,7 @@ struct GameState {
 	var didHeroUseBlock = false
 	var didEnemyUseBlock = false
 	
-	var hero = Hero(
-		weaponSlot: WeaponManager.weapons[0],
-		armorSlot: ArmorManager.armors[0]
-	)
+	var hero = Hero()
 	
 	var enemy = Enemy()
 	
