@@ -2,8 +2,10 @@ import Foundation
 
 protocol ItemProtocol: Identifiable {
 	
-	var label: String { get }
 	var id: UUID { get }
+	var label: String { get }
+	var itemLevel: Int { get }
+	var description: String { get }
 }
 
 struct ItemManager {

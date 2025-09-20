@@ -56,6 +56,8 @@ struct GameState {
 	
 	// MARK: - Items
 	
+	var itemToDisplay: ItemProtocol?
+	
 	init() {
 		
 	}

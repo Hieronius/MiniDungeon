@@ -118,26 +118,56 @@ extension MainView {
 	@ViewBuilder
 	func buildInventory() -> some View {
 		
-		Spacer()
-		Text("Amount of items - \(viewModel.gameState.hero.inventory.count)")
-		List(viewModel.gameState.hero.weapons) { weapon in
+		// TODO: Remove the gap between item info section and items
+		
+		List {
+			
+			Section(header: Text("Item Info")) {
+				
+				Text("Item Name - \(viewModel.gameState.itemToDisplay?.label ?? "")")
+				Text("Item Level - \(viewModel.gameState.itemToDisplay?.itemLevel ?? 0)")
+				Text("Description - \(viewModel.gameState.itemToDisplay?.description ?? "")")
+			}
+			
+		}
+		
+		
+		List {
+			
+			Section(header: Text("Weapons")) {
+				
+				ForEach(viewModel.gameState.hero.weapons) { weapon in
+					Button(weapon.label) {
+						viewModel.gameState.itemToDisplay = weapon
+					}
+				}
+			}
+			
+			Section(header: Text("Armors")) {
+				
+				ForEach(viewModel.gameState.hero.armors) { armor in
+					Button(armor.label) {
+						viewModel.gameState.itemToDisplay = armor
+					}
+				}
+			}
+			
+			Section(header: Text("Items")) {
+				
+				ForEach(viewModel.gameState.hero.inventory) { item in
+					Button(item.label) {
+						viewModel.gameState.itemToDisplay = item
+					}
+				}
+			}
+			
 			Section(header: Text("Navigation")) {
-				Text(weapon.label)
+				
+				Button("Go To Menu") {
+					viewModel.goToMenu()
+				}
 			}
 		}
-		Spacer()
-		List(viewModel.gameState.hero.armors) { armor in
-			Text(armor.label)
-		}
-		Spacer()
-		List(viewModel.gameState.hero.inventory) { item in
-			Text(item.label)
-		}
-		Spacer()
-		Button("Go To Menu") {
-			viewModel.goToMenu()
-		}
-		Spacer()
 	}
 }
 

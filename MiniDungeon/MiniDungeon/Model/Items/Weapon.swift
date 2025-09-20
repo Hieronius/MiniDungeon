@@ -6,6 +6,7 @@ struct WeaponManager {
 		
 		Weapon(label: "Wooden Sword",
 			   itemLevel: 1,
+			   description: "like a wood",
 			   minDamage: 1,
 			   maxDamage: 2,
 			   hitChance: 0,
@@ -13,6 +14,7 @@ struct WeaponManager {
 		
 		Weapon(label: "Bronze Axe",
 			   itemLevel: 2,
+			   description: "Is it a real bronze?",
 			   minDamage: 2,
 			   maxDamage: 4,
 			   hitChance: 1,
@@ -20,6 +22,7 @@ struct WeaponManager {
 		
 		Weapon(label: "Morning Star",
 			   itemLevel: 3,
+			   description: "Suppose an evening too?",
 			   minDamage: 3,
 			   maxDamage: 6,
 			   hitChance: 2,
@@ -27,6 +30,7 @@ struct WeaponManager {
 		
 		Weapon(label: "Steel Sword",
 			   itemLevel: 4,
+			   description: "Did they really knew how to make steel?",
 			   minDamage: 5,
 			   maxDamage: 10,
 			   hitChance: 3,
@@ -34,6 +38,7 @@ struct WeaponManager {
 		
 		Weapon(label: "Frostmourne",
 			   itemLevel: 5,
+			   description: "Now i have the power my father never seen before!",
 			   minDamage: 8,
 			   maxDamage: 16,
 			   hitChance: 5,
@@ -46,6 +51,7 @@ struct Weapon: ItemProtocol {
 	let id = UUID()
 	let label: String
 	let itemLevel: Int
+	let description: String
 	let minDamage: Int
 	let maxDamage: Int
 	let hitChance: Int
@@ -53,6 +59,7 @@ struct Weapon: ItemProtocol {
 	
 	init(label: String,
 		 itemLevel: Int,
+		 description: String,
 		 minDamage: Int,
 		 maxDamage: Int,
 		 hitChance: Int,
@@ -60,6 +67,7 @@ struct Weapon: ItemProtocol {
 	{
 		self.label = label
 		self.itemLevel = itemLevel
+		self.description = description
 		self.minDamage = minDamage
 		self.maxDamage = maxDamage
 		self.hitChance = hitChance
