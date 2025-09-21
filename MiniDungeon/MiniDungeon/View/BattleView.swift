@@ -21,7 +21,7 @@ extension MainView {
 			
 			VStack {
 				
-				Text("HP - \(viewModel.gameState.hero.heroCurrentHP) / \(viewModel.gameState.hero.heroMaxHP)")
+				Text("HP - \(viewModel.gameState.hero.currentHP) / \(viewModel.gameState.hero.maxHP)")
 				Text("MP - \(viewModel.gameState.hero.currentMana) / \(viewModel.gameState.hero.maxMana)")
 				Text("EP - \(viewModel.gameState.hero.currentEnergy) / \(viewModel.gameState.hero.maxEnergy)")
 				Rectangle()
@@ -60,7 +60,7 @@ extension MainView {
 			
 			Section(header: Text("Actions")) {
 				
-				Button("Attack") {
+				Button("Attack (Hit Chance \(viewModel.gameState.hero.hitChance)%)") {
 					viewModel.attack()
 				}
 				

@@ -66,12 +66,12 @@ extension MainViewModel {
 				
 				if critRoll <= gameState.enemy.critChance {
 					let criticalDamage = Int(Double(damage) * 1.5)
-					gameState.hero.heroCurrentHP -= criticalDamage
+					gameState.hero.currentHP -= criticalDamage
 					gameState.logMessage = "Critical hit - \(criticalDamage) has been done!"
 					print("Critical hit - \(criticalDamage) has been done!")
 					
 				} else {
-					gameState.hero.heroCurrentHP -= damage
+					gameState.hero.currentHP -= damage
 					gameState.logMessage = "\(damage) damage has been done"
 					print("\(damage) damage has been done")
 				}
@@ -83,7 +83,7 @@ extension MainViewModel {
 		}
 		
 		winLoseCondition()
-		print(!gameState.isHeroTurn ? "\(gameState.hero.heroCurrentHP)" : "\(gameState.enemy.enemyCurrentHP)")
+		print(!gameState.isHeroTurn ? "\(gameState.hero.currentHP)" : "\(gameState.enemy.enemyCurrentHP)")
 	}
 	
 	// MARK: Fireball
@@ -136,10 +136,10 @@ extension MainViewModel {
 			
 			gameState.hero.currentEnergy -= gameState.skillEnergyCost
 			gameState.hero.currentMana -= gameState.spellManaCost
-			gameState.hero.heroCurrentHP += gameState.hero.spellPower
+			gameState.hero.currentHP += gameState.hero.spellPower
 			
-			if gameState.hero.heroCurrentHP >= gameState.hero.heroMaxHP {
-				gameState.hero.heroCurrentHP = gameState.hero.heroMaxHP
+			if gameState.hero.currentHP >= gameState.hero.maxHP {
+				gameState.hero.currentHP = gameState.hero.maxHP
 			}
 			
 			gameState.logMessage = "\(gameState.hero.spellPower) amount of health has been recovered"

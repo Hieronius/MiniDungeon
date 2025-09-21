@@ -133,7 +133,7 @@ extension MainViewModel {
 	
 	func restoreHP() {
 		
-		gameState.hero.heroCurrentHP = gameState.hero.heroMaxHP
+		gameState.hero.currentHP = gameState.hero.maxHP
 		gameState.enemy.enemyCurrentHP = gameState.enemy.enemyMaxHP
 	}
 	
@@ -160,7 +160,7 @@ extension MainViewModel {
 	/// Otherwise go to the start screen, lose everything except score and gold
 	func winLoseCondition() {
 		
-		if gameState.hero.heroCurrentHP <= 0 {
+		if gameState.hero.currentHP <= 0 {
 			print("The End")
 			setupNewGame()
 			
@@ -224,6 +224,79 @@ extension MainViewModel {
 			gameState.hero.levelUP()
 			gameState.heroCurrentXP = 0
 			gameState.heroMaxXP += 20
+		}
+	}
+	
+	// MARK: EquipOrUseItem
+	
+	/// If it's a weapon or armor - equip it, otherwise use the item if possible
+	func equipOrUseItem() {
+		
+		guard let itemToDisplay = gameState.itemToDisplay else { return }
+		
+		switch itemToDisplay.itemType {
+			
+		case .weapon: gameState.hero.weaponSlot = itemToDisplay as? Weapon
+			
+		case .armor: gameState.hero.armorSlot = itemToDisplay as? Armor
+			
+		case .potion: usePotion(itemToDisplay as! Item)
+			
+		case .loot:
+			print("it's a loot")
+		}
+	}
+	
+	// MARK: usePotion
+	
+	func usePotion(_ potion: Item) {
+		
+		/*
+		 Item(label: "Small Health Potion", itemType: .potion, itemLevel: 1, description: "Heals by 25% of maximum HP", price: 75),
+		 
+		 Item(label: "Mana Potion", itemType: .potion, itemLevel: 1, description: "Resumes mana by 25% of maximum MP", price: 75),
+		 
+		 Item(label: "Great Health Elixir", itemType: .potion, itemLevel: 2, description: "Adds 10% to maximum HP", price: 300),
+		 
+		 Item(label: "Great Mana Elixir", itemType: .potion, itemLevel: 2, description: "Adds 10% to maximum MP", price: 300),
+		 */
+		
+		switch potion.label {
+			
+		case "Small Health Potion":
+			
+			// heals by 25% of max HP
+			let heal = Int(Double(gameState.hero.maxHP) / 4.0)
+			if gameState.hero.currentHP + heal <= gameState.hero.maxHP {
+				gameState.hero.currentHP += heal
+			} else {
+				gameState.hero.currentHP = gameState.hero.maxHP
+			}
+			// TODO: Implement removing technic for used potion
+			
+		case "Mana Potion":
+			
+			// Resumes mana by 25% of maximum MP
+			let manaRegen = Int(Double(gameState.hero.maxMana) / 4.0)
+			if gameState.hero.currentMana + manaRegen <= gameState.hero.maxMana {
+				gameState.hero.currentMana += manaRegen
+			} else {
+				gameState.hero.currentMana = gameState.hero.maxMana
+			}
+			
+		case "Great Health Elixir":
+			
+			// Adds 10% to maximum HP
+			let value = Int(Double(gameState.hero.maxHP) * 0.1)
+			gameState.hero.maxHP += value
+			
+		case "Great Mana Elixir":
+			
+			// Adds 10% to maximum MP
+			let value = Int(Double(gameState.hero.maxMana) * 0.1)
+			gameState.hero.maxMana += value
+			
+		default: return
 		}
 	}
 }

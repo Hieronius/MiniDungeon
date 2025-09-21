@@ -99,8 +99,8 @@ extension MainView {
 			
 			Section(header: Text("Hero Stats")) {
 				
-				Text("Current HP - \(viewModel.gameState.hero.heroCurrentHP)")
-				Text("Max HP - \(viewModel.gameState.hero.heroMaxHP)")
+				Text("Current HP - \(viewModel.gameState.hero.currentHP)")
+				Text("Max HP - \(viewModel.gameState.hero.maxHP)")
 				Text("Current MP - \(viewModel.gameState.hero.currentMana)")
 				Text("Max MP - \(viewModel.gameState.hero.maxMana)")
 				Button("Go To Menu") {
@@ -127,9 +127,13 @@ extension MainView {
 				Text("Item Name - \(viewModel.gameState.itemToDisplay?.label ?? "")")
 				Text("Item Level - \(viewModel.gameState.itemToDisplay?.itemLevel ?? 0)")
 				Text("Description - \(viewModel.gameState.itemToDisplay?.description ?? "")")
+				Button("Equip/Use") {
+					 viewModel.equipOrUseItem()
+				}
 			}
 			
 		}
+		.frame(height: 250)
 		
 		
 		List {

@@ -19,8 +19,8 @@ struct Hero {
 	
 	// Current Stats
 	
-	var heroCurrentHP = 100
-	var heroMaxHP = 100
+	var currentHP = 100
+	var maxHP = 100
 	
 	var currentMana = 100
 	var maxMana = 100
@@ -50,8 +50,8 @@ struct Hero {
 	
 	mutating func levelUP() {
 		
-		self.heroMaxHP += 20
-		self.heroCurrentHP = self.heroMaxHP
+		self.maxHP += 20
+		self.currentHP = self.maxHP
 		self.maxMana += 10
 		self.currentMana = self.maxMana
 		self.baseMinDamage += 1
@@ -71,8 +71,8 @@ struct Hero {
 	mutating func upgradeHP() {
 		
 //		self.skillPoints -= 1
-		self.heroMaxHP += 1
-		self.heroCurrentHP = self.heroMaxHP
+		self.maxHP += 1
+		self.currentHP = self.maxHP
 	}
 	
 	mutating func upgradeDefence() {
