@@ -170,39 +170,59 @@ extension MainViewModel {
 			getRewardAfterFight()
 			gameState.didEncounterEnemy = false
 			
-			if let loot = generateSaleableLoot(didFinalBossSummoned: gameState.didEncounteredBoss) {
-				gameState.hero.inventory.append(loot)
-				print("found \(loot)")
-			}
-			
-			if let potion = generatePotionLoot(didFinalBossSummoned: gameState.didEncounteredBoss) {
-				gameState.hero.inventory.append(potion)
-				print("found \(potion)")
-			}
-			
-			if let weapon = generateWeaponLoot(didFinalBossSummoned: gameState.didEncounteredBoss) {
-				gameState.hero.weaponSlot = weapon
-				gameState.hero.weapons.append(weapon)
-				print("found and equiped \(weapon)")
-			}
-			
-			if let armor = generateArmorLoot(didFinalBossSummoned: gameState.didEncounteredBoss) {
-				gameState.hero.armorSlot = armor
-				gameState.hero.armors.append(armor)
-				print("found and equiped \(armor)")
-			}
-			
-			
-			goToDungeon()
+			generateLoot()
 			
 		} else if gameState.enemy.enemyCurrentHP <= 0 &&
 					gameState.didEncounteredBoss {
 			
 			print("Boss has been defeated!")
 			getRewardAfterFight()
+			generateLoot()
 			endLevelAndGenerateNewOne()
+		}
+		
+		if gameState.didFindLootAfterFight {
+			goToRewards()
+		} else {
 			goToDungeon()
 		}
+	}
+	
+	// MARK: generateLoot
+	
+	/// Combine all types of items and it's chance to drop in a single method to call
+	func generateLoot() {
+		
+		if let loot = generateSaleableLoot(didFinalBossSummoned: gameState.didEncounteredBoss) {
+			gameState.hero.inventory[loot, default: 0] += 1
+			gameState.didFindLootAfterFight = true
+			gameState.lootToDisplay.append(loot.label)
+			print("found \(loot)")
+		}
+		
+		if let potion = generatePotionLoot(didFinalBossSummoned: gameState.didEncounteredBoss) {
+			gameState.hero.inventory[potion, default: 0] += 1
+			gameState.didFindLootAfterFight = true
+			gameState.lootToDisplay.append(potion.label)
+			print("found \(potion)")
+		}
+		
+		if let weapon = generateWeaponLoot(didFinalBossSummoned: gameState.didEncounteredBoss) {
+			gameState.hero.weaponSlot = weapon
+			gameState.hero.weapons.append(weapon)
+			gameState.didFindLootAfterFight = true
+			gameState.lootToDisplay.append(weapon.label)
+			print("found and equiped \(weapon)")
+		}
+		
+		if let armor = generateArmorLoot(didFinalBossSummoned: gameState.didEncounteredBoss) {
+			gameState.hero.armorSlot = armor
+			gameState.hero.armors.append(armor)
+			gameState.didFindLootAfterFight = true
+			gameState.lootToDisplay.append(armor.label)
+			print("found and equiped \(armor)")
+		}
+		
 	}
 	
 	// MARK: getRewardAfterFight
@@ -261,6 +281,12 @@ extension MainViewModel {
 		 Item(label: "Great Mana Elixir", itemType: .potion, itemLevel: 2, description: "Adds 10% to maximum MP", price: 300),
 		 */
 		
+		if gameState.hero.inventory[potion] != nil {
+			if gameState.hero.inventory[potion]! > 0 {
+				gameState.hero.inventory[potion]! -= 1
+			}
+		}
+		
 		switch potion.label {
 			
 		case "Small Health Potion":
@@ -272,7 +298,6 @@ extension MainViewModel {
 			} else {
 				gameState.hero.currentHP = gameState.hero.maxHP
 			}
-			// TODO: Implement removing technic for used potion
 			
 		case "Mana Potion":
 			

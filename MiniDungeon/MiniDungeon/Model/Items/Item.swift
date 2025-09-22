@@ -1,5 +1,7 @@
 import Foundation
 
+// MARK: - ItemProtocol
+
 protocol ItemProtocol: Identifiable {
 	
 	var id: UUID { get }
@@ -9,6 +11,8 @@ protocol ItemProtocol: Identifiable {
 	var description: String { get }
 }
 
+// MARK: - ItemType
+
 enum ItemType {
 	
 	case weapon
@@ -16,6 +20,8 @@ enum ItemType {
 	case potion
 	case loot
 }
+
+// MARK: - ItemManager
 
 struct ItemManager {
 	
@@ -47,7 +53,9 @@ struct ItemManager {
 	]
 }
 
-struct Item: ItemProtocol {
+// MARK: - Item
+
+struct Item: ItemProtocol, Hashable {
 	
 	let id = UUID()
 	let label: String

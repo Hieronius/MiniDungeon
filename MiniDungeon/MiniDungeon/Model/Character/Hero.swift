@@ -42,9 +42,16 @@ struct Hero {
 	
 	var skillPoints = 1
 	
-	var weapons: [Weapon] = [WeaponManager.weapons[0], WeaponManager.weapons[1]]
+	var weapons: [Weapon] = [
+		WeaponManager.weapons[0],
+		WeaponManager.weapons[1]
+	]
 	var armors: [Armor] = [ArmorManager.armors[0], ArmorManager.armors[1]]
-	var inventory: [Item] = [ItemManager.potions[0], ItemManager.loot[0]]
+//	var inventory: [Item] = [ItemManager.potions[0], ItemManager.loot[0]]
+	var inventory: [Item: Int] = [
+		ItemManager.potions[0] : 1,
+		ItemManager.loot[0] : 1
+	]
 	
 	// MARK: Increase/Decrease Stats
 	

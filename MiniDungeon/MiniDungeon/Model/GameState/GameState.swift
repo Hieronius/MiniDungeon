@@ -27,6 +27,7 @@ struct GameState {
 	var didEncounterEnemy = false
 	var didEncounteredBoss = false
 	var dungeonLevelBeenExplored = false
+	var didFindLootAfterFight = false
 	
 	var currentDungeonLevel = 0
 	var dungeonMap: [[Tile]] = []
@@ -56,6 +57,7 @@ struct GameState {
 	
 	// MARK: - Items
 	
+	var lootToDisplay: [String] = []
 	var itemToDisplay: ItemProtocol?
 	
 	init() {

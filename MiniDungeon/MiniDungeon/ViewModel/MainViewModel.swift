@@ -28,55 +28,6 @@ class MainViewModel: ObservableObject {
 		spawnHero()
 	}
 	
-	// MARK: Check Hero Tile's Neighbours
-	
-	/// Method to return all possible neighbours of the hero's current tile
-	func checkForHeroTileNeighbours() -> [Tile] {
-		
-		/*
-		 [-1, -1] [-1, 0] [-1, 1]
-		 [0, -1]  [0, 0]  [0, 1]
-		 [1, -1]  [1, 0]  [1, 1]
-		 */
-		
-		let heroTile = gameState.heroPosition
-		var neighbours: [Tile] = []
-		
-		// difRow and difCol mean different coordinates from hero position
-		
-		for difRow in -1...1 {
-			
-			for difCol in -1...1 {
-				
-				// Ignore the middle (hero's) tile
-				
-				if difRow == 0 && difCol == 0 { continue }
-				
-				let neighbourRow = heroTile.row + difRow
-				let neighbourCol = heroTile.col + difCol
-				
-				if let neighbourTile = safeTile(atRow: neighbourRow, col: neighbourCol) {
-					neighbours.append(neighbourTile)
-				}
-			}
-		}
-		
-		return neighbours
-		
-	}
-	
-	// MARK: Safely Tile Coordinate Retrival
-	
-	/// Check if possible neighbour Tile is existing in the dungeon map
-	func safeTile(atRow row: Int, col: Int) -> Tile? {
-		
-		guard row >= 0, row < gameState.dungeonMap.count,
-			  col >= 0, col < gameState.dungeonMap[row].count else {
-			return nil
-		}
-		return gameState.dungeonMap[row][col]
-	}
-	
 	// MARK: SetupNewGame
 	
 	func setupNewGame() {
@@ -114,6 +65,15 @@ class MainViewModel: ObservableObject {
 			gameState.hero.upgradeSpellPower()
 		}
 		
+	}
+	
+	// MARK: - getRewardsAndCleanTheScreen
+	
+	func getRewardsAndCleanTheScreen() {
+		
+		gameState.didFindLootAfterFight = false
+		gameState.lootToDisplay = []
+		goToDungeon()
 	}
 	
 	// MARK: - Navigation

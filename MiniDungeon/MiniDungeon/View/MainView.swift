@@ -158,8 +158,8 @@ extension MainView {
 			
 			Section(header: Text("Items")) {
 				
-				ForEach(viewModel.gameState.hero.inventory) { item in
-					Button(item.label) {
+				ForEach(Array(viewModel.gameState.hero.inventory.keys)) { item in
+					Button("\(item.label) - \(viewModel.gameState.hero.inventory[item] ?? 0)") {
 						viewModel.gameState.itemToDisplay = item
 					}
 				}
@@ -205,6 +205,9 @@ extension MainView {
 			
 			Section(header: Text("Rewards")) {
 				
+				ForEach(viewModel.gameState.lootToDisplay, id: \.self) { item in
+					Text(item)
+				}
 				
 			}
 			
@@ -212,8 +215,19 @@ extension MainView {
 				
 				
 			}
+			
+			Section(header: Text("Items to Buy")) {
+				
+				
+			}
+			
+			Button("Got it") {
+				viewModel.getRewardsAndCleanTheScreen()
+			}
 		}
 	}
 }
+
+// MARK: - LevelComplete Screen (View)
 
 

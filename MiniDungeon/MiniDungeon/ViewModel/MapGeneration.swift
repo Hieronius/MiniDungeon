@@ -42,16 +42,16 @@ extension MainViewModel {
 		gameState.currentDungeonLevel += 1
 		gameState.isHeroAppeard = false
 		
-		let currentLevel = gameState.currentDungeonLevel
+//		let currentLevel = gameState.currentDungeonLevel
 		
-		if currentLevel % 2 != 0, currentLevel < 4 {
-			gameState.hero.weaponSlot = WeaponManager.weapons[currentLevel]
-			print("\(WeaponManager.weapons[currentLevel]) has been found!")
-				  
-		} else if currentLevel % 2 == 0, currentLevel < 4 {
-			gameState.hero.armorSlot = ArmorManager.armors[currentLevel-1]
-			print("\(ArmorManager.armors[currentLevel-1]) has been found!")
-		}
+//		if currentLevel % 2 != 0, currentLevel < 4 {
+//			gameState.hero.weaponSlot = WeaponManager.weapons[currentLevel]
+//			print("\(WeaponManager.weapons[currentLevel]) has been found!")
+//				  
+//		} else if currentLevel % 2 == 0, currentLevel < 4 {
+//			gameState.hero.armorSlot = ArmorManager.armors[currentLevel-1]
+//			print("\(ArmorManager.armors[currentLevel-1]) has been found!")
+//		}
 		
 		generateMap()
 		spawnHero()
