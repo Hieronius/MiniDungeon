@@ -51,7 +51,7 @@ struct WeaponManager {
 	]
 }
 
-struct Weapon: ItemProtocol {
+struct Weapon: ItemProtocol, Hashable {
 	
 	let id = UUID()
 	let label: String

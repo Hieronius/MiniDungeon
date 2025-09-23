@@ -1,1 +1,3 @@
-Test Rewards and Loot after killing the boss
+1. Fix the bug - when you encouner your first enemy any attack brings you back to dungeon view
+2. Implement rewards screen after each fight even if there is no loot
+Implement random experience/gold generation after killing the monster

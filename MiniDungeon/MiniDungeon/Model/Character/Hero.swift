@@ -2,7 +2,7 @@ import Foundation
 
 struct Hero {
 	
-	// Base Stats
+	// MARK: Base Stats
 	
 	var heroLevel = 1
 	
@@ -17,7 +17,7 @@ struct Hero {
 	// In %
 	var baseCritChance = 5
 	
-	// Current Stats
+	// MARK: Current Stats
 	
 	var currentHP = 100
 	var maxHP = 100
@@ -42,15 +42,21 @@ struct Hero {
 	
 	var skillPoints = 1
 	
-	var weapons: [Weapon] = [
-		WeaponManager.weapons[0],
-		WeaponManager.weapons[1]
+	// MARK: Inventory
+	
+	var weapons: [Weapon: Int] = [
+		WeaponManager.weapons[0]: 1,
+		WeaponManager.weapons[1]: 1
 	]
-	var armors: [Armor] = [ArmorManager.armors[0], ArmorManager.armors[1]]
-//	var inventory: [Item] = [ItemManager.potions[0], ItemManager.loot[0]]
+
+	var armors: [Armor: Int] = [
+		ArmorManager.armors[0]: 1,
+		ArmorManager.armors[1]: 1
+	]
+	
 	var inventory: [Item: Int] = [
-		ItemManager.potions[0] : 1,
-		ItemManager.loot[0] : 1
+		ItemManager.potions[0]: 1,
+		ItemManager.loot[0]: 1
 	]
 	
 	// MARK: Increase/Decrease Stats

@@ -171,6 +171,7 @@ extension MainViewModel {
 			gameState.didEncounterEnemy = false
 			
 			generateLoot()
+			goToRewards()
 			
 		} else if gameState.enemy.enemyCurrentHP <= 0 &&
 					gameState.didEncounteredBoss {
@@ -180,12 +181,6 @@ extension MainViewModel {
 			generateLoot()
 			endLevelAndGenerateNewOne()
 		}
-		
-		if gameState.didFindLootAfterFight {
-			goToRewards()
-		} else {
-			goToDungeon()
-		}
 	}
 	
 	// MARK: generateLoot
@@ -193,32 +188,28 @@ extension MainViewModel {
 	/// Combine all types of items and it's chance to drop in a single method to call
 	func generateLoot() {
 		
+		gameState.didFindLootAfterFight = true
+		
 		if let loot = generateSaleableLoot(didFinalBossSummoned: gameState.didEncounteredBoss) {
 			gameState.hero.inventory[loot, default: 0] += 1
-			gameState.didFindLootAfterFight = true
 			gameState.lootToDisplay.append(loot.label)
 			print("found \(loot)")
 		}
 		
 		if let potion = generatePotionLoot(didFinalBossSummoned: gameState.didEncounteredBoss) {
 			gameState.hero.inventory[potion, default: 0] += 1
-			gameState.didFindLootAfterFight = true
 			gameState.lootToDisplay.append(potion.label)
 			print("found \(potion)")
 		}
 		
 		if let weapon = generateWeaponLoot(didFinalBossSummoned: gameState.didEncounteredBoss) {
-			gameState.hero.weaponSlot = weapon
-			gameState.hero.weapons.append(weapon)
-			gameState.didFindLootAfterFight = true
+			gameState.hero.weapons[weapon, default: 1] += 1
 			gameState.lootToDisplay.append(weapon.label)
 			print("found and equiped \(weapon)")
 		}
 		
 		if let armor = generateArmorLoot(didFinalBossSummoned: gameState.didEncounteredBoss) {
-			gameState.hero.armorSlot = armor
-			gameState.hero.armors.append(armor)
-			gameState.didFindLootAfterFight = true
+			gameState.hero.armors[armor, default: 1] += 1
 			gameState.lootToDisplay.append(armor.label)
 			print("found and equiped \(armor)")
 		}
@@ -256,14 +247,56 @@ extension MainViewModel {
 		
 		switch itemToDisplay.itemType {
 			
-		case .weapon: gameState.hero.weaponSlot = itemToDisplay as? Weapon
+		case .weapon:
 			
-		case .armor: gameState.hero.armorSlot = itemToDisplay as? Armor
+			guard let weapon = itemToDisplay as? Weapon else { return }
+			
+			equipWeapon(weapon)
+			
+		case .armor:
+			
+			guard let armor = itemToDisplay as? Armor else { return }
+			
+			equipArmor(armor)
 			
 		case .potion: usePotion(itemToDisplay as! Item)
 			
 		case .loot:
 			print("it's a loot")
+		}
+	}
+	
+	// MARK: equipWeapon
+	
+	func equipWeapon(_ weapon: Weapon) {
+		
+		// If there is a weapon currently equipped, return it to inventory count
+		if let currentWeapon = gameState.hero.weaponSlot {
+			gameState.hero.weapons[currentWeapon, default: 0] += 1
+		}
+
+		// Equip the new weapon
+		gameState.hero.weaponSlot = weapon
+
+		// Decrement the count of the new weapon in inventory if present and count > 0
+		if let currentCount = gameState.hero.weapons[weapon], currentCount > 0 {
+			gameState.hero.weapons[weapon]! = currentCount - 1
+		}
+	}
+	
+	func equipArmor(_ armor: Armor) {
+		
+		// If there is a Armor currently equipped, return it to inventory count
+		if let currentArmor = gameState.hero.armorSlot {
+			gameState.hero.armors[currentArmor, default: 0] += 1
+		}
+
+		// Equip the new armor
+		gameState.hero.armorSlot = armor
+
+		// Decrement the count of the new armor in inventory if present and count > 0
+		if let currentCount = gameState.hero.armors[armor], currentCount > 0 {
+			gameState.hero.armors[armor]! = currentCount - 1
 		}
 	}
 	

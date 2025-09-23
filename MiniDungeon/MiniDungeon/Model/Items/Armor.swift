@@ -36,7 +36,7 @@ struct ArmorManager {
 	]
 }
 
-struct Armor: ItemProtocol {
+struct Armor: ItemProtocol, Hashable {
 	
 	let id = UUID()
 	let label: String

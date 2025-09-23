@@ -118,9 +118,15 @@ extension MainView {
 	@ViewBuilder
 	func buildInventory() -> some View {
 		
-		// TODO: Remove the gap between item info section and items
-		
 		List {
+			
+			Section(header: Text("Weapon Slot")) {
+				Text("\(viewModel.gameState.hero.weaponSlot?.label ?? "Empty")")
+			}
+			
+			Section(header: Text("Armor Slot")) {
+				Text("\(viewModel.gameState.hero.armorSlot?.label ?? "Empty")")
+			}
 			
 			Section(header: Text("Item Info")) {
 				
@@ -133,15 +139,15 @@ extension MainView {
 			}
 			
 		}
-		.frame(height: 250)
+		.frame(height: 450)
 		
 		
 		List {
 			
 			Section(header: Text("Weapons")) {
 				
-				ForEach(viewModel.gameState.hero.weapons) { weapon in
-					Button(weapon.label) {
+				ForEach(Array(viewModel.gameState.hero.weapons.keys)) { weapon in
+					Button("\(weapon.label) - \(viewModel.gameState.hero.weapons[weapon] ?? 0)") {
 						viewModel.gameState.itemToDisplay = weapon
 					}
 				}
@@ -149,8 +155,8 @@ extension MainView {
 			
 			Section(header: Text("Armors")) {
 				
-				ForEach(viewModel.gameState.hero.armors) { armor in
-					Button(armor.label) {
+				ForEach(Array(viewModel.gameState.hero.armors.keys)) { armor in
+					Button("\(armor.label) - \(viewModel.gameState.hero.armors[armor] ?? 0)") {
 						viewModel.gameState.itemToDisplay = armor
 					}
 				}
@@ -204,6 +210,11 @@ extension MainView {
 		List {
 			
 			Section(header: Text("Rewards")) {
+				Text("Gold - \(viewModel.gameState.goldPerEnemy)")
+				Text("Experience - \(viewModel.gameState.xpPerEnemy)")
+			}
+			
+			Section(header: Text("Loot")) {
 				
 				ForEach(viewModel.gameState.lootToDisplay, id: \.self) { item in
 					Text(item)
@@ -211,15 +222,15 @@ extension MainView {
 				
 			}
 			
-			Section(header: Text("Upgrades")) {
-				
-				
-			}
-			
-			Section(header: Text("Items to Buy")) {
-				
-				
-			}
+//			Section(header: Text("Upgrades")) {
+//				
+//				
+//			}
+//			
+//			Section(header: Text("Items to Buy")) {
+//				
+//				
+//			}
 			
 			Button("Got it") {
 				viewModel.getRewardsAndCleanTheScreen()
