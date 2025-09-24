@@ -1,30 +1,32 @@
-1. Perks
-2. Weapons
-3. Armor
-4. Talants
-5. Abilities
-6. Stats
-7. Min/Max Damage
-8. Crit Chance
-9. Hit Chance
-10. Combo
-11. Stances
-12. Dungeon Random generation
-13. Audio
-14. Visuals
-15. Quests
-16. Storyline
-17. Advanced enemy AI
-18. Extra swipes/pinches/gestures to add extra damage/healing or to decrease income damage
-19. Difficulty
-20. Game Speed
-21. Riddles/Traps/Events on the map
+- Perks
+- Weapons - ✅
+- Armor - ✅
+- Talants
+- Abilities
+- Stats
+- Min/Max Damage - ✅
+- Crit Chance - ✅
+- Hit Chance - ✅
+- Combo
+- Stances
+- Dungeon Random generation - ✅
+- Audio
+- Visuals
+- Quests
+- Storyline
+- Advanced enemy AI
+- Inventory - ✅
+- Difficulty
+- Game Speed
+- Riddles/Traps/Events on the map
 
-22. How about some random mechanic to occure when new fight begin? Like some roll of dice to get extra bonus for hero/enemy or the curse for hero/enemy. Because it's god damn rogue like
+- How about some random mechanic to occure when new fight begin? Like some roll of dice to get extra bonus for hero/enemy or the curse for hero/enemy. Because it's god damn rogue like
 
-23. Research features from modern rpg games such as BaldureGate 3
+- Research features from modern rpg games such as BaldureGate 3
 
-24. How about swipes to add some dynamic to actions in game?
+- Extra swipes/pinches/gestures to add extra damage/healing or to decrease income damage
 Each spell or skill you have an opportunity to improve it's effect by 10-25% or even decrease it's efficiency if failed by swiping in the right moment and order
 
-25. After killing the boss you can visit the market to sell stuff and buy some random stuff. Market after the boss or during the dungeon should be different and more expensive than in the town
+- After killing the boss you can visit the market to sell stuff and buy some random stuff. Market after the boss or during the dungeon should be different and more expensive than in the town
+
+- Souls instead/with gold as a game currency across different runs

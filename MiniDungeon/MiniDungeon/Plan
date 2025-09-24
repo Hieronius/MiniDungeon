@@ -1,3 +1,2 @@
-1. Fix the bug - when you encouner your first enemy any attack brings you back to dungeon view
-2. Implement rewards screen after each fight even if there is no loot
-Implement random experience/gold generation after killing the monster
+1. Implement some random talant/technic/weapon to choose at the start of each run
+2. Implement a technic like fast reload in GearsOfWar. If you hit the button in right time -> add 10-25% for the effect. Otherwise -> decrease the Effect by 10-25%

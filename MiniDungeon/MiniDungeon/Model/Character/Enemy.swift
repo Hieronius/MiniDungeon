@@ -2,6 +2,8 @@ import Foundation
 
 struct Enemy {
 	
+	var name = "Enemy"
+	
 	var enemyCurrentHP = 100
 	var enemyMaxHP = 100
 	

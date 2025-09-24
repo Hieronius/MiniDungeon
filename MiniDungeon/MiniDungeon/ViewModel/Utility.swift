@@ -167,18 +167,18 @@ extension MainViewModel {
 		} else if gameState.enemy.enemyCurrentHP <= 0 &&
 					!gameState.didEncounteredBoss {
 			print("Average Enemy has been defeated!")
-			getRewardAfterFight()
 			gameState.didEncounterEnemy = false
-			
 			generateLoot()
+			getRewardAfterFight()
 			goToRewards()
 			
 		} else if gameState.enemy.enemyCurrentHP <= 0 &&
 					gameState.didEncounteredBoss {
 			
 			print("Boss has been defeated!")
-			getRewardAfterFight()
 			generateLoot()
+			getRewardAfterFight()
+			goToRewards()
 			endLevelAndGenerateNewOne()
 		}
 	}
@@ -190,11 +190,15 @@ extension MainViewModel {
 		
 		gameState.didFindLootAfterFight = true
 		
+		// saleable loot
+		
 		if let loot = generateSaleableLoot(didFinalBossSummoned: gameState.didEncounteredBoss) {
 			gameState.hero.inventory[loot, default: 0] += 1
 			gameState.lootToDisplay.append(loot.label)
 			print("found \(loot)")
 		}
+		
+		// potion loot
 		
 		if let potion = generatePotionLoot(didFinalBossSummoned: gameState.didEncounteredBoss) {
 			gameState.hero.inventory[potion, default: 0] += 1
@@ -202,11 +206,15 @@ extension MainViewModel {
 			print("found \(potion)")
 		}
 		
+		// weapon loot
+		
 		if let weapon = generateWeaponLoot(didFinalBossSummoned: gameState.didEncounteredBoss) {
 			gameState.hero.weapons[weapon, default: 1] += 1
 			gameState.lootToDisplay.append(weapon.label)
 			print("found and equiped \(weapon)")
 		}
+		
+		// armor loot
 		
 		if let armor = generateArmorLoot(didFinalBossSummoned: gameState.didEncounteredBoss) {
 			gameState.hero.armors[armor, default: 1] += 1
@@ -214,6 +222,17 @@ extension MainViewModel {
 			print("found and equiped \(armor)")
 		}
 		
+		// gold loot
+		
+		let gold = generateGoldLoot(didFinalBossSummoned: gameState.didEncounteredBoss)
+		gameState.heroGold += gold
+		gameState.goldLootToDisplay = gold
+		
+		// experience loot
+		
+		let exp = generateExperienceLoot(didFinalBossSummoned: gameState.didEncounteredBoss)
+		gameState.heroCurrentXP += exp
+		gameState.expLootToDisplay = exp
 	}
 	
 	// MARK: getRewardAfterFight
@@ -221,9 +240,6 @@ extension MainViewModel {
 	func getRewardAfterFight() {
 		
 		gameState.battlesWon += 1
-		gameState.heroCurrentXP += gameState.xpPerEnemy
-		gameState.heroGold += gameState.goldPerEnemy
-		
 		checkForLevelUP()
 	}
 	

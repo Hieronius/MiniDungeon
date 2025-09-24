@@ -24,10 +24,15 @@ extension MainView {
 				Text("HP - \(viewModel.gameState.hero.currentHP) / \(viewModel.gameState.hero.maxHP)")
 				Text("MP - \(viewModel.gameState.hero.currentMana) / \(viewModel.gameState.hero.maxMana)")
 				Text("EP - \(viewModel.gameState.hero.currentEnergy) / \(viewModel.gameState.hero.maxEnergy)")
-				Rectangle()
-					.frame(width: 80, height: 80)
-					.foregroundColor(Color.black)
-					.border(Color.white, width: 5)
+				ZStack {
+					Rectangle()
+						.frame(width: 80, height: 80)
+						.foregroundColor(Color.black)
+						.border(Color.white, width: 5)
+					Text("Hero")
+						.frame(width: 80)
+						.multilineTextAlignment(.center)
+				}
 				Text(viewModel.gameState.didHeroUseBlock ? "Armor ⬆️" : "      ")
 			}
 			
@@ -38,10 +43,15 @@ extension MainView {
 				Text("HP - \(viewModel.gameState.enemy.enemyCurrentHP) / \(viewModel.gameState.enemy.enemyMaxHP)")
 				Text("MP - \(viewModel.gameState.enemy.currentMana) / \(viewModel.gameState.enemy.maxMana)")
 				Text("EP - \(viewModel.gameState.enemy.currentEnergy) / \(viewModel.gameState.enemy.maxEnergy)")
-				Rectangle()
-					.frame(width: 80, height: 80)
-					.foregroundColor(Color.black)
-					.border(Color.white, width: 5)
+				ZStack {
+					Rectangle()
+						.frame(width: 80, height: 80)
+						.foregroundColor(Color.black)
+						.border(Color.white, width: 5)
+					Text("\(viewModel.gameState.enemy.name)")
+						.frame(width: 80)
+						.multilineTextAlignment(.center)
+				}
 				Text(viewModel.gameState.didEnemyUseBlock ? "Armor ⬆️" : "      ")
 			}
 			

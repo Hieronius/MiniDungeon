@@ -40,9 +40,6 @@ struct GameState {
 	var heroMaxXP = 150
 	var heroGold = 0
 	
-	var xpPerEnemy = 34
-	var goldPerEnemy = 25
-	
 	var battlesWon = 0
 	
 	// MARK: - Abilities
@@ -59,6 +56,8 @@ struct GameState {
 	
 	var lootToDisplay: [String] = []
 	var itemToDisplay: ItemProtocol?
+	var expLootToDisplay = 34
+	var goldLootToDisplay = 25
 	
 	init() {
 		

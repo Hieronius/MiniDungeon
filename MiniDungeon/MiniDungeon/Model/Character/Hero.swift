@@ -76,27 +76,20 @@ struct Hero {
 	
 	mutating func upgradeDamage() {
 		
-//		self.skillPoints -= 1
 		self.baseMinDamage += 1
 		self.baseMaxDamage += 1
 	}
 	
 	mutating func upgradeHP() {
-		
-//		self.skillPoints -= 1
 		self.maxHP += 1
 		self.currentHP = self.maxHP
 	}
 	
 	mutating func upgradeDefence() {
-		
-//		self.skillPoints -= 1
 		self.baseDefence += 1
 	}
 	
 	mutating func upgradeSpellPower() {
-		
-//		self.skillPoints -= 1
 		self.spellPower += 1
 	}
 }

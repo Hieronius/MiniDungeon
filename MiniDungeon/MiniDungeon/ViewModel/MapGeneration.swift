@@ -28,8 +28,8 @@ extension MainViewModel {
 			}
 		}
 		print("Level Completed. Final boss appeared")
-		gameState.enemy = generateEnemy(didFinalBossSummoned: true)
 		gameState.didEncounteredBoss = true
+		gameState.enemy = generateEnemy(didFinalBossSummoned: gameState.didEncounteredBoss)
 		restoreAllEnergy()
 		goToBattle()
 	}
@@ -41,17 +41,6 @@ extension MainViewModel {
 		gameState.didEncounteredBoss = false
 		gameState.currentDungeonLevel += 1
 		gameState.isHeroAppeard = false
-		
-//		let currentLevel = gameState.currentDungeonLevel
-		
-//		if currentLevel % 2 != 0, currentLevel < 4 {
-//			gameState.hero.weaponSlot = WeaponManager.weapons[currentLevel]
-//			print("\(WeaponManager.weapons[currentLevel]) has been found!")
-//				  
-//		} else if currentLevel % 2 == 0, currentLevel < 4 {
-//			gameState.hero.armorSlot = ArmorManager.armors[currentLevel-1]
-//			print("\(ArmorManager.armors[currentLevel-1]) has been found!")
-//		}
 		
 		generateMap()
 		spawnHero()

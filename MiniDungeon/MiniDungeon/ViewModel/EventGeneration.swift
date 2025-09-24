@@ -38,7 +38,7 @@ extension MainViewModel {
 		return weaponLoot
 	}
 	
-	// MARK: - Generate Weapon Loot
+	// MARK: - Generate Armor Loot
 	
 	func generateArmorLoot(didFinalBossSummoned: Bool) -> Armor? {
 		
@@ -112,12 +112,38 @@ extension MainViewModel {
 		return loot
 	}
 	
+	// MARK: - Generate Gold Loot
+	
+	/// Method to generate random amount of gold after winning the fight
+	func generateGoldLoot(didFinalBossSummoned: Bool) -> Int {
+		
+		var goldRoll = Int.random(in: 10...30)
+		
+		if didFinalBossSummoned { goldRoll *= 2 }
+		
+		return goldRoll
+	}
+	
+	// MARK: - Generate Experience Loot
+	
+	/// Method to generate random amount of experience based on enemy level
+	func generateExperienceLoot(didFinalBossSummoned: Bool) -> Int {
+		
+		var expRoll = Int.random(in: 25...35)
+		
+		if didFinalBossSummoned { expRoll *= 2 }
+		
+		return expRoll
+	}
+	
 	// MARK: - Generate Enemy
 	
 	func generateEnemy(didFinalBossSummoned: Bool) -> Enemy {
 		
 		// Monster name generator
-		let enemyName = ["Skeleton", "Goblin", "Rat", "Ghoul"].randomElement()
+		guard var enemyName = ["Skeleton", "Goblin", "Rat", "Ghoul"].randomElement() else { return Enemy() }
+		
+		if didFinalBossSummoned { enemyName += " Elite" }
 		
 		// Modifer for level difficulty
 		// 1 level = 0 %
@@ -131,7 +157,7 @@ extension MainViewModel {
 		// dividing 0 by 100 is totally fine
 		let difficultyLevel = Double(gameState.currentDungeonLevel * 10) / 100.0
 		
-		let hp = Int(Double.random(in: 50...100))
+		let hp = Int(Double.random(in: 25...50))
 		let finalHP = hp + Int(Double(hp) * difficultyLevel)
 		
 		let mp = Int.random(in: 10...50)
@@ -155,6 +181,7 @@ extension MainViewModel {
 		if !didFinalBossSummoned {
 			
 			return Enemy(
+				name: enemyName,
 				enemyCurrentHP: finalHP,
 				enemyMaxHP: finalHP,
 				currentMana: finalMP,
@@ -170,6 +197,7 @@ extension MainViewModel {
 		} else {
 			
 			return Enemy(
+				name: enemyName,
 				enemyCurrentHP: Int(Double(finalHP) * bossModifier),
 				enemyMaxHP: Int(Double(finalHP) * bossModifier),
 				currentMana: Int(Double(finalMP) * bossModifier),
