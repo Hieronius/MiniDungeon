@@ -5,7 +5,8 @@ struct MiniDungeonApp: App {
 	
     var body: some Scene {
         WindowGroup {
-			buildMainView()
+//			buildMainView()
+			MiniGameView()
         }
     }
 	

@@ -8,6 +8,8 @@ extension MainViewModel {
 		
 		if gameState.isHeroTurn && gameState.hero.currentEnergy >= gameState.skillEnergyCost {
 			
+			// TODO: mini game "Fast Reload" starts here
+			
 			gameState.hero.currentEnergy -= gameState.skillEnergyCost
 			
 			// hit chance

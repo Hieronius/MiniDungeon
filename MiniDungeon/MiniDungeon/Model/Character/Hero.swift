@@ -19,11 +19,11 @@ struct Hero {
 	
 	// MARK: Current Stats
 	
-	var currentHP = 100
-	var maxHP = 100
+	var currentHP = 75
+	var maxHP = 75
 	
-	var currentMana = 100
-	var maxMana = 100
+	var currentMana = 50
+	var maxMana = 50
 	
 	var currentEnergy = 5
 	var maxEnergy = 5
@@ -44,28 +44,19 @@ struct Hero {
 	
 	// MARK: Inventory
 	
-	var weapons: [Weapon: Int] = [
-		WeaponManager.weapons[0]: 1,
-		WeaponManager.weapons[1]: 1
-	]
+	var weapons: [Weapon: Int] = [:]
 
-	var armors: [Armor: Int] = [
-		ArmorManager.armors[0]: 1,
-		ArmorManager.armors[1]: 1
-	]
+	var armors: [Armor: Int] = [:]
 	
-	var inventory: [Item: Int] = [
-		ItemManager.potions[0]: 1,
-		ItemManager.loot[0]: 1
-	]
+	var inventory: [Item: Int] = [:]
 	
 	// MARK: Increase/Decrease Stats
 	
 	mutating func levelUP() {
 		
-		self.maxHP += 20
+		self.maxHP += 10
 		self.currentHP = self.maxHP
-		self.maxMana += 10
+		self.maxMana += 5
 		self.currentMana = self.maxMana
 		self.baseMinDamage += 1
 		self.baseMaxDamage += 1
