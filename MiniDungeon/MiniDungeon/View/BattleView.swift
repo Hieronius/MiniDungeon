@@ -66,59 +66,72 @@ extension MainView {
 		
 		// MARK: Actions
 		
-		List {
+		if viewModel.gameState.isMiniGameOn {
 			
-			Section(header: Text("Actions")) {
-				
-				Button("Attack (Hit Chance \(viewModel.gameState.hero.hitChance)%)") {
-					viewModel.attack()
-				}
-				
-				Button("Fireball") {
-					viewModel.fireball()
-				}
-				
-				Button("Block") {
-					viewModel.block()
-				}
-				
-				Button("Heal") {
-					viewModel.heal()
-				}
-				
-			}
-			
-			Section(header: Text("Utility")) {
-				
-				Button("End Turn") {
-					viewModel.endHeroTurn()
-				}
-				
-				Button("Restore Stats") {
-					viewModel.restoreStats()
+			// MARK: Call Mini Game and get it's result
+			MiniGameView { success in
+				viewModel.gameState.isMiniGameSuccessful = success
+				print(success)
+				DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+					viewModel.gameState.isMiniGameOn = false
+					viewModel.continueAttackAfterMiniGame(success: success)
 				}
 			}
-			
-			// MARK: Navigation
-			
-			Section(header: Text("Navigation")) {
+		}
+
+			List {
 				
-				Button("Go To Dungeon") {
-					viewModel.goToDungeon()
+				Section(header: Text("Actions")) {
+					
+					Button("Attack (Hit Chance \(viewModel.gameState.hero.hitChance)%)") {
+						viewModel.startMiniGame()
+					}
+					
+					Button("Fireball") {
+						viewModel.fireball()
+					}
+					
+					Button("Block") {
+						viewModel.block()
+					}
+					
+					Button("Heal") {
+						viewModel.heal()
+					}
+					
 				}
-				Button("Go To Stats") {
-					viewModel.goToHeroStats()
+				
+				Section(header: Text("Utility")) {
+					
+					Button("End Turn") {
+						viewModel.endHeroTurn()
+					}
+					
+					Button("Restore Stats") {
+						viewModel.restoreStats()
+					}
 				}
-				Button("Go To Inventory") {
-					viewModel.goToInventory()
-				}
-				Button("Go To Town") {
-					viewModel.goToTown()
-				}
-				Button("Go To Menu") {
-					viewModel.goToMenu()
+				
+				// MARK: Navigation
+				
+				Section(header: Text("Navigation")) {
+					
+					Button("Go To Dungeon") {
+						viewModel.goToDungeon()
+					}
+					Button("Go To Stats") {
+						viewModel.goToHeroStats()
+					}
+					Button("Go To Inventory") {
+						viewModel.goToInventory()
+					}
+					Button("Go To Town") {
+						viewModel.goToTown()
+					}
+					Button("Go To Menu") {
+						viewModel.goToMenu()
+					}
 				}
 			}
 		}
 	}
-}

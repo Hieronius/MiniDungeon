@@ -71,7 +71,7 @@ extension MainViewModel {
 						
 						// 70% for attack ability
 					default:
-						self.attack()
+						self.continueAttackAfterMiniGame(success: false)
 						print("Enemy Attack!")
 					}
 					self.enemyTurn()
@@ -80,7 +80,7 @@ extension MainViewModel {
 				} else {
 					
 					print("Enemy has more than 30% of hp -> Normal Move will be calculated")
-					self.attack()
+					self.continueAttackAfterMiniGame(success: false)
 					print("Enemy Attack!")
 					self.enemyTurn()
 				}

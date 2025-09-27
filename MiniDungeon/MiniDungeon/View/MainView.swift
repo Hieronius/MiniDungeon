@@ -49,6 +49,16 @@ struct MainView: View {
 		case .rewards:
 			
 			buildRewards()
+			
+		case .miniGame:
+			
+			MiniGameView { success in
+				viewModel.gameState.isMiniGameSuccessful = success
+				print(success)
+				DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+					self.viewModel.goToBattle()
+				}
+			}
 		}
 	}
 }
@@ -81,6 +91,9 @@ extension MainView {
 				}
 				Button("Go To Options") {
 					viewModel.goToOptions()
+				}
+				Button("Go To Mini Game") {
+					viewModel.goToMiniGame()
 				}
 			}
 		}

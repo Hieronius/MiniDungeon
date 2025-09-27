@@ -9,24 +9,26 @@ import SwiftUI
  */
 
 struct MiniGameView: View {
-
+	
 	@State var timeRemaining = 0.0
-	@State var inProgress = true
+	@State var inProgress = false
 	@State var bonusArea: Double = Double.random(in: 0.2...0.8)
 	@State var gameResult = "          "
 	@State var isSuccess = false
 	@State var progressBarColor: Color = .blue
 	
+	var onGameEnd: ((Bool) -> Void)? // Callback for game result
+	
 	/// Speed of the game bar to move. You can twick for easier or harder difficulty
 	var difficulty = 0.02
 	
-	let timer = Timer.publish(every: 0.02, on: .main, in: .common).autoconnect()
+	var timer = Timer.publish(every: 0.02, on: .main, in: .common).autoconnect()
 	
 	var body: some View {
 		
 		ZStack {
 			Rectangle()
-				.frame(width: UIScreen.main.bounds.width, height: 300)
+				.frame(width: UIScreen.main.bounds.width, height: 200)
 				.foregroundStyle(Color.black)
 				.border(.white, width: 5)
 			
@@ -61,7 +63,7 @@ extension MiniGameView {
 	
 	func hitBonusArea() {
 		
-		if timeRemaining > bonusArea - 0.05 && timeRemaining < bonusArea + 0.05 {
+		if timeRemaining > bonusArea - 0.1 && timeRemaining < bonusArea + 0.1 {
 			gameResult = "Perfect!"
 			isSuccess = true
 			progressBarColor = .green
@@ -71,6 +73,11 @@ extension MiniGameView {
 			isSuccess = false
 			progressBarColor = .red
 		}
+		
+		// Turn it to true from battle screen while doing an attack
+		inProgress = false
+		
+		onGameEnd?(isSuccess)
 		
 		DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
 			gameResult = "          "

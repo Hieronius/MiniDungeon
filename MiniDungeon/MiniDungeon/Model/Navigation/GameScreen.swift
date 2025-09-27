@@ -10,4 +10,5 @@ enum GameScreen {
 	case inventory
 	case rewards
 	case options
+	case miniGame
 }

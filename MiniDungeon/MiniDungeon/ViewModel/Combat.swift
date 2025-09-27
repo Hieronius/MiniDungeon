@@ -2,13 +2,24 @@ import SwiftUI
 
 extension MainViewModel {
 	
-	// MARK: - Attack
+	// MARK: - Start Mini Game
 	
-	func attack() {
+	/// Check energy for action and start a miniGame
+	func startMiniGame() {
 		
 		if gameState.isHeroTurn && gameState.hero.currentEnergy >= gameState.skillEnergyCost {
-			
-			// TODO: mini game "Fast Reload" starts here
+			gameState.isMiniGameOn = true
+		}
+	}
+	
+	// MARK: - Attack
+	
+	func continueAttackAfterMiniGame(success: Bool) {
+		
+		gameState.isMiniGameOn = false
+		gameState.isMiniGameSuccessful = success
+		
+		if gameState.isHeroTurn && gameState.hero.currentEnergy >= gameState.skillEnergyCost {
 			
 			gameState.hero.currentEnergy -= gameState.skillEnergyCost
 			
@@ -23,7 +34,13 @@ extension MainViewModel {
 			
 			// damage
 			
-			let damage = Int.random(in: gameState.hero.minDamage...gameState.hero.maxDamage) - gameState.enemy.defence
+			var damage = Int.random(in: gameState.hero.minDamage...gameState.hero.maxDamage) - gameState.enemy.defence
+			
+			// mini game success check
+			
+			if gameState.isMiniGameSuccessful  {
+				damage = Int(Double(damage) * 1.25)
+			}
 			
 			// crit chance
 			
@@ -40,9 +57,10 @@ extension MainViewModel {
 					
 				} else {
 					gameState.enemy.enemyCurrentHP -= damage
-					gameState.logMessage = "\(damage) damage has been done"
+					gameState.logMessage = "\(damage) damage has been done."
 					print("\(damage) damage has been done")
 				}
+				if gameState.isMiniGameSuccessful { gameState.logMessage += " Nice Hit!" }
 				
 			} else {
 				print("0 damage has been received")

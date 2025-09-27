@@ -1,6 +1,10 @@
 import Foundation
 
 struct GameState {
+	
+	// MARK: - Properties to move
+	
+	var isMiniGameOn = false
 
 	// MARK: - Combat
 	
@@ -8,6 +12,8 @@ struct GameState {
 	
 	var didHeroUseBlock = false
 	var didEnemyUseBlock = false
+	
+	var isMiniGameSuccessful = false
 	
 	var hero = Hero()
 	

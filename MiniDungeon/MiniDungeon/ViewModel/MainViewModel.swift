@@ -110,4 +110,8 @@ class MainViewModel: ObservableObject {
 		gameScreen = .rewards
 	}
 	
+	func goToMiniGame() {
+		gameScreen = .miniGame
+	}
+	
 }
