@@ -83,6 +83,7 @@ class MainViewModel: ObservableObject {
 	}
 	
 	func goToBattle() {
+		gameState.logMessage = "Battle Begins!"
 		gameScreen = .battle
 	}
 	
@@ -112,6 +113,10 @@ class MainViewModel: ObservableObject {
 	
 	func goToMiniGame() {
 		gameScreen = .miniGame
+	}
+	
+	func goToSpecialisation() {
+		gameScreen = .specialisation
 	}
 	
 }

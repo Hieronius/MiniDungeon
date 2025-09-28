@@ -209,17 +209,19 @@ extension MainViewModel {
 		// weapon loot
 		
 		if let weapon = generateWeaponLoot(didFinalBossSummoned: gameState.didEncounteredBoss) {
-			gameState.hero.weapons[weapon, default: 1] += 1
+			gameState.hero.weapons[weapon, default: 0] += 1
 			gameState.lootToDisplay.append(weapon.label)
 			print("found and equiped \(weapon)")
+			print(gameState.hero.weapons)
 		}
 		
 		// armor loot
 		
 		if let armor = generateArmorLoot(didFinalBossSummoned: gameState.didEncounteredBoss) {
-			gameState.hero.armors[armor, default: 1] += 1
+			gameState.hero.armors[armor, default: 0] += 1
 			gameState.lootToDisplay.append(armor.label)
 			print("found and equiped \(armor)")
+			print(gameState.hero.armors)
 		}
 		
 		// gold loot
@@ -250,7 +252,7 @@ extension MainViewModel {
 		if gameState.heroCurrentXP >= gameState.heroMaxXP {
 			gameState.hero.levelUP()
 			gameState.heroCurrentXP = 0
-			gameState.heroMaxXP += 20
+			gameState.heroMaxXP += 50
 		}
 	}
 	

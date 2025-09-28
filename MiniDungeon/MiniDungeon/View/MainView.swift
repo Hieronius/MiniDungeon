@@ -59,6 +59,10 @@ struct MainView: View {
 					self.viewModel.goToBattle()
 				}
 			}
+			
+		case .specialisation:
+			
+			buildSpecialisation()
 		}
 	}
 }
@@ -94,6 +98,9 @@ extension MainView {
 				}
 				Button("Go To Mini Game") {
 					viewModel.goToMiniGame()
+				}
+				Button("Go To Specialisation") {
+					viewModel.goToSpecialisation()
 				}
 			}
 		}
@@ -247,6 +254,34 @@ extension MainView {
 			
 			Button("Got it") {
 				viewModel.getRewardsAndCleanTheScreen()
+			}
+		}
+	}
+}
+
+// MARK: - Specialisation Screen (View)
+
+extension MainView {
+	
+	/*
+	 Method to generate specialisation
+	 Method to choose 3 of random ones
+	 Method to apply one to the hero
+	 
+	 View should get a text and an image probably to describe it's value
+	 */
+	
+	func buildSpecialisation() -> some View {
+		
+		VStack {
+			Button("First") {
+				//
+			}
+			Button("Second") {
+				//
+			}
+			Button("Third") {
+				//
 			}
 		}
 	}

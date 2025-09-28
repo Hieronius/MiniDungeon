@@ -157,8 +157,8 @@ extension MainViewModel {
 		// dividing 0 by 100 is totally fine
 		let difficultyLevel = Double(gameState.currentDungeonLevel * 10) / 100.0
 		
-		let hp = Int(Double.random(in: 25...50))
-		let finalHP = hp + Int(Double(hp) * difficultyLevel)
+		let baseHP = Int(Double.random(in: 25...50))
+		let finalHP = baseHP + Int(Double(baseHP) * difficultyLevel)
 		
 		let mp = Int.random(in: 10...50)
 		let finalMP = mp + Int(Double(mp) * difficultyLevel)

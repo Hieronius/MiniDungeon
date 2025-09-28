@@ -11,4 +11,5 @@ enum GameScreen {
 	case rewards
 	case options
 	case miniGame
+	case specialisation
 }
