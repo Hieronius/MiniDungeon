@@ -3,10 +3,12 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 56;
+	objectVersion = 70;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		DD7641DD2E88F77400359C52 /* Inventory.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD7641DC2E88F77400359C52 /* Inventory.swift */; };
+		DD7641DF2E88F90E00359C52 /* Specs.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD7641DE2E88F90E00359C52 /* Specs.swift */; };
 		DD7EC0C72E78A0BA00849B0B /* Weapon.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD7EC0C62E78A0BA00849B0B /* Weapon.swift */; };
 		DD7EC0CC2E78A45C00849B0B /* Armor.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD7EC0CB2E78A45C00849B0B /* Armor.swift */; };
 		DD7EC0CE2E7C47E800849B0B /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD7EC0CD2E7C47E800849B0B /* Item.swift */; };
@@ -38,6 +40,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		DD7641DC2E88F77400359C52 /* Inventory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Inventory.swift; sourceTree = "<group>"; };
+		DD7641DE2E88F90E00359C52 /* Specs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Specs.swift; sourceTree = "<group>"; };
 		DD7EC0C62E78A0BA00849B0B /* Weapon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Weapon.swift; sourceTree = "<group>"; };
 		DD7EC0CB2E78A45C00849B0B /* Armor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Armor.swift; sourceTree = "<group>"; };
 		DD7EC0CD2E7C47E800849B0B /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
@@ -70,6 +74,10 @@
 		DDF7EADD2E746B8300EC6AF2 /* GameLoop */ = {isa = PBXFileReference; lastKnownFileType = text; path = GameLoop; sourceTree = "<group>"; };
 		DDF7EADF2E746BDA00EC6AF2 /* FeaturesToAdd */ = {isa = PBXFileReference; lastKnownFileType = text; path = FeaturesToAdd; sourceTree = "<group>"; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		DD7641D92E88F2B800359C52 /* Talants */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Talants; sourceTree = "<group>"; };
+/* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		DD915CE42E66CD8900EDCC91 /* Frameworks */ = {
@@ -136,6 +144,7 @@
 		DD915CF82E66D5E400EDCC91 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				DD7641D92E88F2B800359C52 /* Talants */,
 				DD7EC0CA2E78A0D100849B0B /* Items */,
 				DDB869C82E68B2010042CF9F /* GameState */,
 				DDB869C72E68B1F90042CF9F /* Navigation */,
@@ -153,6 +162,7 @@
 				DDEE6C762E6D4C3500BD2E3C /* MapView.swift */,
 				DDF7EAC62E713F8D00EC6AF2 /* TownView.swift */,
 				DD7EC0D62E83B13000849B0B /* MiniGameView.swift */,
+				DD7641DC2E88F77400359C52 /* Inventory.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -166,6 +176,7 @@
 				DDB29BD52E6BF53B007BB7DC /* EventGeneration.swift */,
 				DDB869CB2E68BC200042CF9F /* MapGeneration.swift */,
 				DDE6A01E2E6E977D00BEA51F /* DungeonHeroMovement.swift */,
+				DD7641DE2E88F90E00359C52 /* Specs.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -221,6 +232,9 @@
 			buildRules = (
 			);
 			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				DD7641D92E88F2B800359C52 /* Talants */,
 			);
 			name = MiniDungeon;
 			productName = MiniDungeon;
@@ -290,10 +304,12 @@
 				DDE6A01F2E6E977D00BEA51F /* DungeonHeroMovement.swift in Sources */,
 				DD915D0B2E672FE000EDCC91 /* TileType.swift in Sources */,
 				DD915CEB2E66CD8900EDCC91 /* MiniDungeonApp.swift in Sources */,
+				DD7641DF2E88F90E00359C52 /* Specs.swift in Sources */,
 				DDEE6C772E6D4C3500BD2E3C /* MapView.swift in Sources */,
 				DD7EC0D72E83B13000849B0B /* MiniGameView.swift in Sources */,
 				DD915D092E672FB400EDCC91 /* Tile.swift in Sources */,
 				DD915D072E672F5500EDCC91 /* DungeonScheme.swift in Sources */,
+				DD7641DD2E88F77400359C52 /* Inventory.swift in Sources */,
 				DD915D0D2E672FF900EDCC91 /* EventType.swift in Sources */,
 				DD915D052E672F2C00EDCC91 /* DungeonGenerator.swift in Sources */,
 				DD915CFD2E66D61D00EDCC91 /* MainViewModel.swift in Sources */,

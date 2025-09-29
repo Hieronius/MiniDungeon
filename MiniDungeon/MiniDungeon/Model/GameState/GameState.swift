@@ -26,6 +26,8 @@ struct GameState {
 	var damageUpgradeCount = 0
 	var defenceUpgradeCount = 0
 	var spellPowerUpgradeCount = 0
+	var didApplySpec = false
+	var specToDisplay: Specialisation?
 	
 	// MARK: - Dungeon
 	

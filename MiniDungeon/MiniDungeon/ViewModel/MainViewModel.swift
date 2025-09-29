@@ -24,7 +24,13 @@ class MainViewModel: ObservableObject {
 		self.gameState = gameState
 		self.gameScreen = gameScreen
 		
+		// Choose and apply on of three random specs
+		goToSpecialisation()
+		
+		// Create new map
 		generateMap()
+		
+		// Prepare hero
 		spawnHero()
 	}
 	
@@ -33,7 +39,7 @@ class MainViewModel: ObservableObject {
 	func setupNewGame() {
 		
 		gameState.isHeroTurn = true
-		goToMenu()
+		gameState.didApplySpec = false
 		
 		// Reset all hero progress to 0
 		gameState.hero = Hero()
@@ -46,8 +52,11 @@ class MainViewModel: ObservableObject {
 		gameState.battlesWon = 0
 		
 		// Start from the beginning
+		goToSpecialisation()
 		generateMap()
 		spawnHero()
+		
+		// Apply all previous upgrades on the camp
 		
 		for _ in 0..<gameState.hpUpgradeCount {
 			gameState.hero.upgradeHP()
