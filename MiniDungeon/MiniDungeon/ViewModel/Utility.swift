@@ -233,7 +233,7 @@ extension MainViewModel {
 		// experience loot
 		
 		let exp = generateExperienceLoot(didFinalBossSummoned: gameState.didEncounteredBoss)
-		gameState.heroCurrentXP += exp
+		gameState.hero.currentXP += exp
 		gameState.expLootToDisplay = exp
 	}
 	
@@ -249,10 +249,10 @@ extension MainViewModel {
 	
 	func checkForLevelUP() {
 		
-		if gameState.heroCurrentXP >= gameState.heroMaxXP {
+		if 		gameState.hero.currentXP >= gameState.hero.maxXP {
 			gameState.hero.levelUP()
-			gameState.heroCurrentXP = 0
-			gameState.heroMaxXP += 50
+			gameState.hero.currentXP = 0
+			gameState.hero.maxXP += 50
 		}
 	}
 	

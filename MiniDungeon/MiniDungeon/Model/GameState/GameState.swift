@@ -28,6 +28,7 @@ struct GameState {
 	var spellPowerUpgradeCount = 0
 	var didApplySpec = false
 	var specToDisplay: Specialisation?
+	var specsToChooseAtStart: [Specialisation] = []
 	
 	// MARK: - Dungeon
 	
@@ -44,8 +45,8 @@ struct GameState {
 	
 	// MARK: - Stats
 	
-	var heroCurrentXP = 0
-	var heroMaxXP = 150
+//	var heroCurrentXP = 0
+//	var heroMaxXP = 150
 	var heroGold = 0
 	
 	var battlesWon = 0

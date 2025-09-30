@@ -5,6 +5,9 @@ struct Hero {
 	// MARK: Base Stats
 	
 	var heroLevel = 1
+	var specialisation: Specialisation?
+	var currentXP = 0
+	var maxXP = 150
 	
 	var baseMinDamage = 5
 	var baseMaxDamage = 10

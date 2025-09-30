@@ -2,8 +2,9 @@ import Foundation
 
 extension MainViewModel {
 	
-	func applySpecialisation(_ spec: Specialisation) {
+	func applySpecialisation(_ spec: Specialisation?) {
 		
+		guard let spec = spec else { return }
 		/*
 		 Current ones:
 		 
@@ -41,7 +42,7 @@ extension MainViewModel {
 		default: return
 			
 		}
-		gameState.specToDisplay = spec
 		gameState.didApplySpec = true
+		gameState.hero.specialisation = spec
 	}
 }

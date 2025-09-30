@@ -24,6 +24,9 @@ class MainViewModel: ObservableObject {
 		self.gameState = gameState
 		self.gameScreen = gameScreen
 		
+		// Generate three random specs
+		self.gameState.specsToChooseAtStart = SpecialisationManager.getThreeRandomSpecialisations()
+		
 		// Choose and apply on of three random specs
 		goToSpecialisation()
 		
@@ -44,14 +47,15 @@ class MainViewModel: ObservableObject {
 		// Reset all hero progress to 0
 		gameState.hero = Hero()
 		gameState.enemy = Enemy()
-		gameState.heroCurrentXP = 0
-		gameState.heroMaxXP = 100
+		gameState.hero.currentXP = 0
+		gameState.hero.maxXP = 100
 		gameState.currentDungeonLevel = 0
 		gameState.isHeroAppeard = false
 		gameState.heroPosition = (0,0)
 		gameState.battlesWon = 0
 		
 		// Start from the beginning
+		gameState.specsToChooseAtStart = SpecialisationManager.getThreeRandomSpecialisations()
 		goToSpecialisation()
 		generateMap()
 		spawnHero()
@@ -105,7 +109,11 @@ class MainViewModel: ObservableObject {
 	}
 	
 	func goToHeroStats() {
-		gameScreen = .stats
+		gameScreen = .heroStats
+	}
+	
+	func goToEnemyStats() {
+		gameScreen = .enemyStats
 	}
 	
 	func goToInventory() {

@@ -34,7 +34,7 @@ struct MainView: View {
 			
 			buildTown()
 			
-		case .stats:
+		case .heroStats:
 			
 			buildStats()
 			
@@ -63,6 +63,10 @@ struct MainView: View {
 		case .specialisation:
 			
 			buildSpecialisation()
+			
+		case .enemyStats:
+			
+			buildEnemyStats()
 		}
 	}
 }
@@ -101,30 +105,6 @@ extension MainView {
 				}
 				Button("Go To Specialisation") {
 					viewModel.goToSpecialisation()
-				}
-			}
-		}
-	}
-}
-
-// MARK: - Stats Screen (View)
-
-extension MainView {
-	
-	/// Try to collect all stats/skills and such into structs inside Hero class so you can use something like Lise(gameState.hero.Stats.\.self
-	@ViewBuilder
-	func buildStats() -> some View {
-		
-		List {
-			
-			Section(header: Text("Hero Stats")) {
-				
-				Text("Current HP - \(viewModel.gameState.hero.currentHP)")
-				Text("Max HP - \(viewModel.gameState.hero.maxHP)")
-				Text("Current MP - \(viewModel.gameState.hero.currentMana)")
-				Text("Max MP - \(viewModel.gameState.hero.maxMana)")
-				Button("Go To Menu") {
-					viewModel.goToMenu()
 				}
 			}
 		}
@@ -184,41 +164,6 @@ extension MainView {
 			
 			Button("Got it") {
 				viewModel.getRewardsAndCleanTheScreen()
-			}
-		}
-	}
-}
-
-// MARK: - Specialisation Screen (View)
-
-extension MainView {
-	
-	/*
-	 Method to generate specialisation
-	 Method to choose 3 of random ones
-	 Method to apply one to the hero
-	 
-	 View should get a text and an image probably to describe it's value
-	 */
-	
-	func buildSpecialisation() -> some View {
-		
-		VStack {
-			
-			List {
-				Text("Name - \(viewModel.gameState.specToDisplay?.name ?? "")")
-				Text("Description - \(viewModel.gameState.specToDisplay?.description ?? "")")
-			}
-			
-			List {
-				
-				ForEach(SpecialisationManager.getThreeRandomSpecialisations(), id: \.self) { spec in
-					
-					Button(spec.name) {
-						viewModel.applySpecialisation(spec)
-						viewModel.goToMenu()
-					}
-				}
 			}
 		}
 	}

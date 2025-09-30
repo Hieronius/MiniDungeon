@@ -29,7 +29,7 @@ extension MainView {
 				Spacer()
 				Text("Hero's lvl - \(viewModel.gameState.hero.heroLevel)")
 				Spacer()
-				Text("XP - \(viewModel.gameState.heroCurrentXP) / \(viewModel.gameState.heroMaxXP)")
+				Text("XP - \(viewModel.gameState.hero.currentXP) / \(viewModel.gameState.hero.maxXP)")
 				Spacer()
 			}
 			
