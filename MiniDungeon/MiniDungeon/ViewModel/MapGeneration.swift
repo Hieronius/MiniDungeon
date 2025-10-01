@@ -38,6 +38,8 @@ extension MainViewModel {
 	
 	func endLevelAndGenerateNewOne() {
 		
+		goToMerchant()
+		
 		gameState.didEncounteredBoss = false
 		gameState.currentDungeonLevel += 1
 		gameState.isHeroAppeard = false

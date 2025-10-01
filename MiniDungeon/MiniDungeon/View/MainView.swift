@@ -36,7 +36,7 @@ struct MainView: View {
 			
 		case .heroStats:
 			
-			buildStats()
+			buildHeroStats()
 			
 		case .inventory:
 			
@@ -67,105 +67,12 @@ struct MainView: View {
 		case .enemyStats:
 			
 			buildEnemyStats()
+			
+		case .merchant:
+			
+			buildMerchant()
 		}
-	}
-}
-
-// MARK: - Menu Screen (View)
-
-extension MainView {
-	
-	@ViewBuilder
-	func buildMenu() -> some View {
 		
-		List {
-			
-			Section(header: Text("It's a Menu")) {
-				
-				Button("Go To Battle") {
-					viewModel.goToBattle()
-				}
-				Button("Go To Dungeon") {
-					viewModel.goToDungeon()
-				}
-				Button("Go To Hero Stats") {
-					viewModel.goToHeroStats()
-				}
-				Button("Go To Inventory") {
-					viewModel.goToInventory()
-				}
-				Button("Go To Town") {
-					viewModel.goToTown()
-				}
-				Button("Go To Options") {
-					viewModel.goToOptions()
-				}
-				Button("Go To Mini Game") {
-					viewModel.goToMiniGame()
-				}
-				Button("Go To Specialisation") {
-					viewModel.goToSpecialisation()
-				}
-			}
-		}
-	}
-}
-
-// MARK: - Options Screen (View)
-
-extension MainView {
-	
-	@ViewBuilder
-	func buildOptions() -> some View {
-		
-		List {
-			
-			Section(header: Text("Game Options")) {
-				
-				// Difficulty
-				// Speed
-				// Other Twicks
-			}
-		}
-	}
-}
-
-// MARK: - Rewards Screen (View)
-
-extension MainView {
-	
-	@ViewBuilder
-	func buildRewards() -> some View {
-		
-		List {
-			
-			Section(header: Text("Rewards")) {
-				Text("Gold - \(viewModel.gameState.goldLootToDisplay)")
-				Text("Experience - \(viewModel.gameState.expLootToDisplay)")
-			}
-			
-			Section(header: Text("Loot")) {
-				
-				ForEach(viewModel.gameState.lootToDisplay, id: \.self) { item in
-					Text(item)
-				}
-				
-			}
-			
-//			Section(header: Text("Upgrades")) {
-//				
-//				
-//			}
-//			
-//			Section(header: Text("Items to Buy")) {
-//				
-//				
-//			}
-			
-			Button("Got it") {
-				viewModel.getRewardsAndCleanTheScreen()
-			}
-		}
 	}
 }
 

@@ -11,7 +11,8 @@ struct WeaponManager {
 			   minDamage: 1,
 			   maxDamage: 2,
 			   hitChance: 0,
-			   critChance: 0),
+			   critChance: 0,
+			   price: 25),
 		
 		Weapon(label: "Bronze Axe",
 			   itemLevel: 2,
@@ -20,7 +21,8 @@ struct WeaponManager {
 			   minDamage: 2,
 			   maxDamage: 4,
 			   hitChance: 1,
-			   critChance: 1),
+			   critChance: 1,
+			   price: 50),
 		
 		Weapon(label: "Morning Star",
 			   itemLevel: 3,
@@ -29,7 +31,8 @@ struct WeaponManager {
 			   minDamage: 3,
 			   maxDamage: 6,
 			   hitChance: 2,
-			   critChance: 2),
+			   critChance: 2,
+			   price: 75),
 		
 		Weapon(label: "Steel Sword",
 			   itemLevel: 4,
@@ -38,7 +41,8 @@ struct WeaponManager {
 			   minDamage: 5,
 			   maxDamage: 10,
 			   hitChance: 3,
-			   critChance: 3),
+			   critChance: 3,
+			   price: 100),
 		
 		Weapon(label: "Frostmourne",
 			   itemLevel: 5,
@@ -47,7 +51,8 @@ struct WeaponManager {
 			   minDamage: 8,
 			   maxDamage: 16,
 			   hitChance: 5,
-			   critChance: 5)
+			   critChance: 5,
+			   price: 125)
 	]
 }
 
@@ -62,6 +67,7 @@ struct Weapon: ItemProtocol, Hashable {
 	let maxDamage: Int
 	let hitChance: Int
 	let critChance: Int
+	let price: Int
 	
 	init(label: String,
 		 itemLevel: Int,
@@ -70,7 +76,8 @@ struct Weapon: ItemProtocol, Hashable {
 		 minDamage: Int,
 		 maxDamage: Int,
 		 hitChance: Int,
-		 critChance: Int)
+		 critChance: Int,
+		 price: Int)
 	{
 		self.label = label
 		self.itemLevel = itemLevel
@@ -80,5 +87,6 @@ struct Weapon: ItemProtocol, Hashable {
 		self.maxDamage = maxDamage
 		self.hitChance = hitChance
 		self.critChance = critChance
+		self.price = price
 	}
 }

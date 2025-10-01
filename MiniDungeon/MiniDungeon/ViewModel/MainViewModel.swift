@@ -136,4 +136,8 @@ class MainViewModel: ObservableObject {
 		gameScreen = .specialisation
 	}
 	
+	func goToMerchant() {
+		gameScreen = .merchant
+	}
+	
 }

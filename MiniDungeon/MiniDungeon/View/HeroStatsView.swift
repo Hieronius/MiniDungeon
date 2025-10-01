@@ -6,7 +6,7 @@ extension MainView {
 	
 	/// Try to collect all stats/skills and such into structs inside Hero class so you can use something like Lise(gameState.hero.Stats.\.self
 	@ViewBuilder
-	func buildStats() -> some View {
+	func buildHeroStats() -> some View {
 		
 		List {
 			
