@@ -26,6 +26,9 @@ extension MainView {
 				Button("Go To Town") {
 					viewModel.goToTown()
 				}
+				Button("Go To Merchant") {
+					viewModel.goToMerchant()
+				}
 				Button("Go To Options") {
 					viewModel.goToOptions()
 				}

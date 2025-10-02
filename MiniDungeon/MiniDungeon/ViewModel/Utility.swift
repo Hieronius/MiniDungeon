@@ -256,6 +256,106 @@ extension MainViewModel {
 		}
 	}
 	
+	// MARK: Buy/Sell Item
+	
+	func buyOrSellItem(onSale: Bool) {
+		
+		/*
+		 1. Add Amount of Items for sale and buy
+		 2. If you sell it should be subtracted correctly
+		 */
+		
+		guard let itemToDisplay = gameState.itemToDisplay else { return }
+		
+		switch itemToDisplay.itemType {
+			
+		case .weapon:
+			
+			guard let weapon = itemToDisplay as? Weapon else { return }
+			
+			if onSale {
+				
+				if gameState.hero.weapons[weapon]! >= 1 {
+					gameState.hero.weapons[weapon]! -= 1
+					gameState.heroGold += weapon.price
+					
+					if gameState.hero.weapons[weapon]! == 0 {
+						gameState.hero.weapons[weapon] = nil
+					}
+				}
+				
+			} else {
+				
+				if weapon.price <= gameState.heroGold {
+					gameState.hero.weapons[weapon, default: 0] += 1
+					gameState.heroGold -= weapon.price
+				}
+			}
+			
+		case .armor:
+			
+			guard let armor = itemToDisplay as? Armor else { return }
+			
+			if onSale {
+				
+				if gameState.hero.armors[armor]! >= 1 {
+					gameState.hero.armors[armor]! -= 1
+					gameState.heroGold += armor.price
+					
+					if gameState.hero.armors[armor]! == 0 {
+						gameState.hero.armors[armor] = nil
+					}
+				}
+				
+			} else {
+				
+				if armor.price <= gameState.heroGold {
+					gameState.hero.armors[armor, default: 0] += 1
+					gameState.heroGold -= armor.price
+				}
+			}
+			
+		case .potion:
+			
+			guard let potion = itemToDisplay as? Item else { return }
+			
+			if onSale {
+				
+				if gameState.hero.inventory[potion]! >= 1 {
+					gameState.hero.inventory[potion]! -= 1
+					gameState.heroGold += potion.price
+					
+					if gameState.hero.inventory[potion]! == 0 {
+						gameState.hero.inventory[potion] = nil
+					}
+				}
+				
+			} else {
+				
+				if potion.price <= gameState.heroGold {
+					gameState.hero.inventory[potion, default: 0] += 1
+					gameState.heroGold += potion.price
+				}
+			}
+			
+		case .loot:
+			
+			guard let loot = itemToDisplay as? Item else { return }
+			
+			if onSale {
+				
+				if gameState.hero.inventory[loot]! >= 1 {
+					gameState.hero.inventory[loot]! -= 1
+					gameState.heroGold += loot.price
+					
+					if gameState.hero.inventory[loot]! == 0 {
+						gameState.hero.inventory[loot] = nil
+					}
+				}
+			}
+		}
+	}
+	
 	// MARK: EquipOrUseItem
 	
 	/// If it's a weapon or armor - equip it, otherwise use the item if possible

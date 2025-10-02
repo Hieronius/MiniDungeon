@@ -47,11 +47,15 @@ struct Hero {
 	
 	// MARK: Inventory
 	
-	var weapons: [Weapon: Int] = [:]
-
-	var armors: [Armor: Int] = [:]
+//	var weapons: [Weapon: Int] = [:]
+//
+//	var armors: [Armor: Int] = [:]
+//	
+//	var inventory: [Item: Int] = [:]
 	
-	var inventory: [Item: Int] = [:]
+	var weapons = [WeaponManager.weapons[0]: 3]
+	var armors = [ArmorManager.armors[0]: 3]
+	var inventory = [ItemManager.loot[0]: 3]
 	
 	// MARK: Increase/Decrease Stats
 	

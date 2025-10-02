@@ -172,6 +172,7 @@
 			isa = PBXGroup;
 			children = (
 				DD915CEC2E66CD8900EDCC91 /* MainView.swift */,
+				DD7641EC2E8B9DE000359C52 /* MenuView.swift */,
 				DDEE6C742E6D4C0E00BD2E3C /* BattleView.swift */,
 				DDEE6C762E6D4C3500BD2E3C /* MapView.swift */,
 				DDF7EAC62E713F8D00EC6AF2 /* TownView.swift */,
@@ -182,7 +183,6 @@
 				DD7641E62E8A504B00359C52 /* EnemyStatsView.swift */,
 				DD7641E82E8B9DB200359C52 /* RewardsView.swift */,
 				DD7641EA2E8B9DC900359C52 /* OptionsView.swift */,
-				DD7641EC2E8B9DE000359C52 /* MenuView.swift */,
 				DD7641EE2E8B9E1300359C52 /* MerchantView.swift */,
 			);
 			path = View;

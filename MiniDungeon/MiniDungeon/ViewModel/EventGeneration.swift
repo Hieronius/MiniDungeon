@@ -112,6 +112,17 @@ extension MainViewModel {
 		return loot
 	}
 	
+	// MARK: - Generate Merchant Loot
+	
+	func generateMerchantLoot() -> [any ItemProtocol] {
+		
+		var items: [any ItemProtocol] = []
+		
+		
+		
+		return items
+	}
+	
 	// MARK: - Generate Gold Loot
 	
 	/// Method to generate random amount of gold after winning the fight

@@ -63,10 +63,19 @@ struct GameState {
 	
 	// MARK: - Items
 	
+	var merchantWeaponsLoot: [Weapon: Int] = [:]
+	var merchantArmorsLoot: [Armor: Int] = [:]
+	var merchantInventoryLoot: [Item: Int] = [:]
+	
 	var lootToDisplay: [String] = []
-	var itemToDisplay: ItemProtocol?
-	var expLootToDisplay = 34
-	var goldLootToDisplay = 25
+	var itemToDisplay: (any ItemProtocol)?
+	
+	var wasItemSelected: Bool {
+		itemToDisplay != nil
+	}
+	var isItemOnSale = false
+	var expLootToDisplay = 0
+	var goldLootToDisplay = 0
 	
 	init() {
 		
