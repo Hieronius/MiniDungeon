@@ -249,7 +249,7 @@ extension MainViewModel {
 	
 	func checkForLevelUP() {
 		
-		if 		gameState.hero.currentXP >= gameState.hero.maxXP {
+		if  gameState.hero.currentXP >= gameState.hero.maxXP {
 			gameState.hero.levelUP()
 			gameState.hero.currentXP = 0
 			gameState.hero.maxXP += 50
@@ -259,11 +259,6 @@ extension MainViewModel {
 	// MARK: Buy/Sell Item
 	
 	func buyOrSellItem(onSale: Bool) {
-		
-		/*
-		 1. Add Amount of Items for sale and buy
-		 2. If you sell it should be subtracted correctly
-		 */
 		
 		guard let itemToDisplay = gameState.itemToDisplay else { return }
 		
@@ -275,9 +270,10 @@ extension MainViewModel {
 			
 			if onSale {
 				
-				if gameState.hero.weapons[weapon]! >= 1 {
+				if gameState.hero.weapons[weapon] ?? 0 >= 1 {
 					gameState.hero.weapons[weapon]! -= 1
 					gameState.heroGold += weapon.price
+					gameState.merchantWeaponsLoot[weapon, default: 0] += 1
 					
 					if gameState.hero.weapons[weapon]! == 0 {
 						gameState.hero.weapons[weapon] = nil
@@ -286,10 +282,17 @@ extension MainViewModel {
 				
 			} else {
 				
-				if weapon.price <= gameState.heroGold {
-					gameState.hero.weapons[weapon, default: 0] += 1
-					gameState.heroGold -= weapon.price
-				}
+				if weapon.price <= gameState.heroGold &&
+					gameState.merchantWeaponsLoot[weapon] ?? 0 >= 1 {
+					
+						gameState.merchantWeaponsLoot[weapon]! -= 1
+						gameState.hero.weapons[weapon, default: 0] += 1
+						gameState.heroGold -= weapon.price
+						
+						if gameState.merchantWeaponsLoot[weapon]! == 0 {
+							gameState.merchantWeaponsLoot[weapon] = nil
+						}
+					}
 			}
 			
 		case .armor:
@@ -298,9 +301,10 @@ extension MainViewModel {
 			
 			if onSale {
 				
-				if gameState.hero.armors[armor]! >= 1 {
+				if gameState.hero.armors[armor] ?? 0 >= 1 {
 					gameState.hero.armors[armor]! -= 1
 					gameState.heroGold += armor.price
+					gameState.merchantArmorsLoot[armor, default: 0] += 1
 					
 					if gameState.hero.armors[armor]! == 0 {
 						gameState.hero.armors[armor] = nil
@@ -309,9 +313,16 @@ extension MainViewModel {
 				
 			} else {
 				
-				if armor.price <= gameState.heroGold {
+				if armor.price <= gameState.heroGold &&
+					gameState.merchantArmorsLoot[armor] ?? 0 >= 1  {
+					
+					gameState.merchantArmorsLoot[armor]! -= 1
 					gameState.hero.armors[armor, default: 0] += 1
 					gameState.heroGold -= armor.price
+					
+					if gameState.merchantArmorsLoot[armor]! == 0 {
+						gameState.merchantArmorsLoot[armor] = nil
+					}
 				}
 			}
 			
@@ -321,9 +332,10 @@ extension MainViewModel {
 			
 			if onSale {
 				
-				if gameState.hero.inventory[potion]! >= 1 {
+				if gameState.hero.inventory[potion] ?? 0 >= 1 {
 					gameState.hero.inventory[potion]! -= 1
 					gameState.heroGold += potion.price
+					gameState.merchantInventoryLoot[potion, default: 0] += 1
 					
 					if gameState.hero.inventory[potion]! == 0 {
 						gameState.hero.inventory[potion] = nil
@@ -332,9 +344,16 @@ extension MainViewModel {
 				
 			} else {
 				
-				if potion.price <= gameState.heroGold {
+				if potion.price <= gameState.heroGold &&
+					gameState.merchantInventoryLoot[potion] ?? 0 >= 1 {
+					
+					gameState.merchantInventoryLoot[potion]! -= 1
 					gameState.hero.inventory[potion, default: 0] += 1
-					gameState.heroGold += potion.price
+					gameState.heroGold -= potion.price
+					
+					if gameState.merchantInventoryLoot[potion]! == 0 {
+						gameState.merchantInventoryLoot[potion] = nil
+					}
 				}
 			}
 			
@@ -344,12 +363,27 @@ extension MainViewModel {
 			
 			if onSale {
 				
-				if gameState.hero.inventory[loot]! >= 1 {
+				if gameState.hero.inventory[loot] ?? 0 >= 1 {
 					gameState.hero.inventory[loot]! -= 1
 					gameState.heroGold += loot.price
+					gameState.merchantInventoryLoot[loot, default: 0] += 1
 					
 					if gameState.hero.inventory[loot]! == 0 {
 						gameState.hero.inventory[loot] = nil
+					}
+				}
+				
+			} else {
+				
+				if loot.price <= gameState.heroGold &&
+					gameState.merchantInventoryLoot[loot] ?? 0 >= 1 {
+					
+					gameState.merchantInventoryLoot[loot]! -= 1
+					gameState.hero.inventory[loot, default: 0] += 1
+					gameState.heroGold -= loot.price
+					
+					if gameState.merchantInventoryLoot[loot]! == 0 {
+						gameState.merchantInventoryLoot[loot] = nil
 					}
 				}
 			}

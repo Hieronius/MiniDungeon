@@ -114,13 +114,30 @@ extension MainViewModel {
 	
 	// MARK: - Generate Merchant Loot
 	
-	func generateMerchantLoot() -> [any ItemProtocol] {
+	func generateMerchantLoot() {
 		
-		var items: [any ItemProtocol] = []
+		gameState.merchantWeaponsLoot = [:]
+		gameState.merchantArmorsLoot = [:]
+		gameState.merchantInventoryLoot = [:]
 		
+		for _ in 1...5 {
+			
+			let weapon = generateWeaponLoot(didFinalBossSummoned: true)
+			if weapon != nil {
+				gameState.merchantWeaponsLoot[weapon!, default: 0] += 1
+			}
+			
+			let armor = generateArmorLoot(didFinalBossSummoned: true)
+			if armor != nil {
+				gameState.merchantArmorsLoot[armor!, default: 0] += 1
+			}
+			
+			let potion = generatePotionLoot(didFinalBossSummoned: true)
+			if potion != nil {
+				gameState.merchantInventoryLoot[potion!, default: 0] += 1
+			}
+		}
 		
-		
-		return items
 	}
 	
 	// MARK: - Generate Gold Loot

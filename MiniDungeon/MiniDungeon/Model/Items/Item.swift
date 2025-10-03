@@ -9,6 +9,7 @@ protocol ItemProtocol: Identifiable {
 	var itemType: ItemType { get }
 	var itemLevel: Int { get }
 	var description: String { get }
+	var price: Int { get }
 }
 
 // MARK: - ItemType

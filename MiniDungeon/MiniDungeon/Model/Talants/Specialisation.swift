@@ -3,6 +3,7 @@ import Foundation
 struct SpecialisationManager {
 	
 	static let specialisations: [Specialisation] = [
+		
 		Specialisation(
 			name: "Warrior",
 			description: "Mighty Warrior gain 5 more max health and 1 more max damage"),

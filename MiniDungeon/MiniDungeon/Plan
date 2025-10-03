@@ -1,5 +1,1 @@
-1. When you sell/buy stuff it should correctly display player's inventory and money -> fix buyOrSell method
-5. Create an array of items to buy and add items you did sell to buy them back for the same or bigger price
-2. Implement random generation of the items in the store accordingly to the level
-3. Implement the same MerchantScreen or different ones for Town and Dungeon
-4. Implement transition to the next level from Merchant screen after level boss
+Test the game and think about it's feature

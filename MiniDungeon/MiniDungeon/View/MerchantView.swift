@@ -25,10 +25,11 @@ extension MainView {
 			if viewModel.gameState.wasItemSelected {
 				Section(header: Text("Item Info")) {
 					
-					Text("Item Name - \(viewModel.gameState.itemToDisplay?.label ?? "")")
-					Text("Item Level - \(viewModel.gameState.itemToDisplay?.itemLevel ?? 0)")
-					Text("Description - \(viewModel.gameState.itemToDisplay?.description ?? "")")
-					Button("Buy/Sell") {
+					Text("Item Name: \(viewModel.gameState.itemToDisplay?.label ?? "")")
+					Text("Item Level: \(viewModel.gameState.itemToDisplay?.itemLevel ?? 0)")
+					Text("Price: \(viewModel.gameState.itemToDisplay?.price ?? 0)")
+					Text("Description:  \(viewModel.gameState.itemToDisplay?.description ?? "")")
+					Button(viewModel.gameState.isItemOnSale ? "Sell" : "Buy") {
 						viewModel.buyOrSellItem(
 							onSale: viewModel.gameState.isItemOnSale
 						)

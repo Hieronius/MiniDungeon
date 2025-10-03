@@ -37,11 +37,8 @@ extension MainViewModel {
 	// MARK: If Level complete and boss has been defeated go to the next one
 	
 	func endLevelAndGenerateNewOne() {
-		// generate loot to display by the merchant
 		
-		gameState.merchantWeaponsLoot = [:]
-		gameState.merchantArmorsLoot = [:]
-		gameState.merchantInventoryLoot = [:]
+		generateMerchantLoot()
 		
 		goToMerchant()
 		

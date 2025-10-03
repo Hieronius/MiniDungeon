@@ -45,8 +45,6 @@ struct GameState {
 	
 	// MARK: - Stats
 	
-//	var heroCurrentXP = 0
-//	var heroMaxXP = 150
 	var heroGold = 0
 	
 	var battlesWon = 0
