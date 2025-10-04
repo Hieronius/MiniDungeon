@@ -140,4 +140,9 @@ class MainViewModel: ObservableObject {
 		gameScreen = .merchant
 	}
 	
+	func goToLevelBonus() {
+		getRewardAfterLevel()
+		gameScreen = .levelBonus
+	}
+	
 }

@@ -2,6 +2,8 @@ import Foundation
 
 extension MainViewModel {
 	
+	// MARK: applySpecialisation
+	
 	func applySpecialisation(_ spec: Specialisation?) {
 		
 		guard let spec = spec else { return }

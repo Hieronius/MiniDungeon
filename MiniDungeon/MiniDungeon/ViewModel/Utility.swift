@@ -183,60 +183,6 @@ extension MainViewModel {
 		}
 	}
 	
-	// MARK: generateLoot
-	
-	/// Combine all types of items and it's chance to drop in a single method to call
-	func generateLoot() {
-		
-		gameState.didFindLootAfterFight = true
-		
-		// saleable loot
-		
-		if let loot = generateSaleableLoot(didFinalBossSummoned: gameState.didEncounteredBoss) {
-			gameState.hero.inventory[loot, default: 0] += 1
-			gameState.lootToDisplay.append(loot.label)
-			print("found \(loot)")
-		}
-		
-		// potion loot
-		
-		if let potion = generatePotionLoot(didFinalBossSummoned: gameState.didEncounteredBoss) {
-			gameState.hero.inventory[potion, default: 0] += 1
-			gameState.lootToDisplay.append(potion.label)
-			print("found \(potion)")
-		}
-		
-		// weapon loot
-		
-		if let weapon = generateWeaponLoot(didFinalBossSummoned: gameState.didEncounteredBoss) {
-			gameState.hero.weapons[weapon, default: 0] += 1
-			gameState.lootToDisplay.append(weapon.label)
-			print("found and equiped \(weapon)")
-			print(gameState.hero.weapons)
-		}
-		
-		// armor loot
-		
-		if let armor = generateArmorLoot(didFinalBossSummoned: gameState.didEncounteredBoss) {
-			gameState.hero.armors[armor, default: 0] += 1
-			gameState.lootToDisplay.append(armor.label)
-			print("found and equiped \(armor)")
-			print(gameState.hero.armors)
-		}
-		
-		// gold loot
-		
-		let gold = generateGoldLoot(didFinalBossSummoned: gameState.didEncounteredBoss)
-		gameState.heroGold += gold
-		gameState.goldLootToDisplay = gold
-		
-		// experience loot
-		
-		let exp = generateExperienceLoot(didFinalBossSummoned: gameState.didEncounteredBoss)
-		gameState.hero.currentXP += exp
-		gameState.expLootToDisplay = exp
-	}
-	
 	// MARK: getRewardAfterFight
 	
 	func getRewardAfterFight() {
@@ -253,7 +199,22 @@ extension MainViewModel {
 			gameState.hero.levelUP()
 			gameState.hero.currentXP = 0
 			gameState.hero.maxXP += 50
+			
+			getRewardAfterLevel()
 		}
+	}
+	
+	// MARK: getRewardAfterLevel
+	
+	func getRewardAfterLevel() {
+		
+		gameState.levelBonusesRarities = []
+		
+		for _ in 1...3 {
+			gameState.levelBonusesRarities.append(generateRewardRarity())
+		}
+		
+		goToRewards()
 	}
 	
 	// MARK: Buy/Sell Item

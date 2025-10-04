@@ -2,6 +2,81 @@ import SwiftUI
 
 extension MainViewModel {
 	
+	// MARK: generateRewardRarity
+	
+	func generateRewardRarity() -> Rarity {
+		
+		let roll = Int.random(in: 1...100)
+		
+		switch roll {
+			
+		case 1...5: return Rarity.legendary
+			
+		case 6...15: return Rarity.epic
+			
+		case 16...30: return Rarity.rare
+			
+		case 31...100: return Rarity.common
+			
+		default: return Rarity.common
+			
+		}
+	}
+	
+	// MARK: generateLoot
+	
+	/// Combine all types of items and it's chance to drop in a single method to call
+	func generateLoot() {
+		
+		gameState.didFindLootAfterFight = true
+		
+		// saleable loot
+		
+		if let loot = generateSaleableLoot(didFinalBossSummoned: gameState.didEncounteredBoss) {
+			gameState.hero.inventory[loot, default: 0] += 1
+			gameState.lootToDisplay.append(loot.label)
+			print("found \(loot)")
+		}
+		
+		// potion loot
+		
+		if let potion = generatePotionLoot(didFinalBossSummoned: gameState.didEncounteredBoss) {
+			gameState.hero.inventory[potion, default: 0] += 1
+			gameState.lootToDisplay.append(potion.label)
+			print("found \(potion)")
+		}
+		
+		// weapon loot
+		
+		if let weapon = generateWeaponLoot(didFinalBossSummoned: gameState.didEncounteredBoss) {
+			gameState.hero.weapons[weapon, default: 0] += 1
+			gameState.lootToDisplay.append(weapon.label)
+			print("found and equiped \(weapon)")
+			print(gameState.hero.weapons)
+		}
+		
+		// armor loot
+		
+		if let armor = generateArmorLoot(didFinalBossSummoned: gameState.didEncounteredBoss) {
+			gameState.hero.armors[armor, default: 0] += 1
+			gameState.lootToDisplay.append(armor.label)
+			print("found and equiped \(armor)")
+			print(gameState.hero.armors)
+		}
+		
+		// gold loot
+		
+		let gold = generateGoldLoot(didFinalBossSummoned: gameState.didEncounteredBoss)
+		gameState.heroGold += gold
+		gameState.goldLootToDisplay = gold
+		
+		// experience loot
+		
+		let exp = generateExperienceLoot(didFinalBossSummoned: gameState.didEncounteredBoss)
+		gameState.hero.currentXP += exp
+		gameState.expLootToDisplay = exp
+	}
+	
 	// MARK: - Generate Weapon Loot
 	
 	func generateWeaponLoot(didFinalBossSummoned: Bool) -> Weapon? {

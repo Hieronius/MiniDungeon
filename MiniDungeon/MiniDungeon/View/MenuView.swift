@@ -38,6 +38,9 @@ extension MainView {
 				Button("Go To Specialisation") {
 					viewModel.goToSpecialisation()
 				}
+				Button("Go To Level Reward") {
+					viewModel.goToLevelBonus()
+				}
 			}
 		}
 	}

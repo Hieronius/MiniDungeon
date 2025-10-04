@@ -14,4 +14,5 @@ enum GameScreen {
 	case miniGame
 	case specialisation
 	case merchant
+	case levelBonus
 }

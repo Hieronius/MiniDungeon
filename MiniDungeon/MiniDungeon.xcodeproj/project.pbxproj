@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		DD7641DD2E88F77400359C52 /* InventoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD7641DC2E88F77400359C52 /* InventoryView.swift */; };
-		DD7641DF2E88F90E00359C52 /* Specs.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD7641DE2E88F90E00359C52 /* Specs.swift */; };
+		DD7641DF2E88F90E00359C52 /* Specialisations.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD7641DE2E88F90E00359C52 /* Specialisations.swift */; };
 		DD7641E32E8A4EF200359C52 /* HeroStatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD7641E22E8A4EF200359C52 /* HeroStatsView.swift */; };
 		DD7641E52E8A4FDA00359C52 /* SpecialisationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD7641E42E8A4FDA00359C52 /* SpecialisationView.swift */; };
 		DD7641E72E8A504B00359C52 /* EnemyStatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD7641E62E8A504B00359C52 /* EnemyStatsView.swift */; };
@@ -16,6 +16,8 @@
 		DD7641EB2E8B9DC900359C52 /* OptionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD7641EA2E8B9DC900359C52 /* OptionsView.swift */; };
 		DD7641ED2E8B9DE000359C52 /* MenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD7641EC2E8B9DE000359C52 /* MenuView.swift */; };
 		DD7641EF2E8B9E1300359C52 /* MerchantView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD7641EE2E8B9E1300359C52 /* MerchantView.swift */; };
+		DD7641F12E8F9ED300359C52 /* LevelBonusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD7641F02E8F9ED300359C52 /* LevelBonusView.swift */; };
+		DD7641F62E8FA45D00359C52 /* LevelBonuses.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD7641F52E8FA45D00359C52 /* LevelBonuses.swift */; };
 		DD7EC0C72E78A0BA00849B0B /* Weapon.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD7EC0C62E78A0BA00849B0B /* Weapon.swift */; };
 		DD7EC0CC2E78A45C00849B0B /* Armor.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD7EC0CB2E78A45C00849B0B /* Armor.swift */; };
 		DD7EC0CE2E7C47E800849B0B /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD7EC0CD2E7C47E800849B0B /* Item.swift */; };
@@ -48,7 +50,7 @@
 
 /* Begin PBXFileReference section */
 		DD7641DC2E88F77400359C52 /* InventoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InventoryView.swift; sourceTree = "<group>"; };
-		DD7641DE2E88F90E00359C52 /* Specs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Specs.swift; sourceTree = "<group>"; };
+		DD7641DE2E88F90E00359C52 /* Specialisations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Specialisations.swift; sourceTree = "<group>"; };
 		DD7641E22E8A4EF200359C52 /* HeroStatsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeroStatsView.swift; sourceTree = "<group>"; };
 		DD7641E42E8A4FDA00359C52 /* SpecialisationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpecialisationView.swift; sourceTree = "<group>"; };
 		DD7641E62E8A504B00359C52 /* EnemyStatsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnemyStatsView.swift; sourceTree = "<group>"; };
@@ -56,6 +58,8 @@
 		DD7641EA2E8B9DC900359C52 /* OptionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionsView.swift; sourceTree = "<group>"; };
 		DD7641EC2E8B9DE000359C52 /* MenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuView.swift; sourceTree = "<group>"; };
 		DD7641EE2E8B9E1300359C52 /* MerchantView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MerchantView.swift; sourceTree = "<group>"; };
+		DD7641F02E8F9ED300359C52 /* LevelBonusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelBonusView.swift; sourceTree = "<group>"; };
+		DD7641F52E8FA45D00359C52 /* LevelBonuses.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelBonuses.swift; sourceTree = "<group>"; };
 		DD7EC0C62E78A0BA00849B0B /* Weapon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Weapon.swift; sourceTree = "<group>"; };
 		DD7EC0CB2E78A45C00849B0B /* Armor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Armor.swift; sourceTree = "<group>"; };
 		DD7EC0CD2E7C47E800849B0B /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
@@ -184,6 +188,7 @@
 				DD7641E82E8B9DB200359C52 /* RewardsView.swift */,
 				DD7641EA2E8B9DC900359C52 /* OptionsView.swift */,
 				DD7641EE2E8B9E1300359C52 /* MerchantView.swift */,
+				DD7641F02E8F9ED300359C52 /* LevelBonusView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -197,7 +202,8 @@
 				DDB29BD52E6BF53B007BB7DC /* EventGeneration.swift */,
 				DDB869CB2E68BC200042CF9F /* MapGeneration.swift */,
 				DDE6A01E2E6E977D00BEA51F /* DungeonHeroMovement.swift */,
-				DD7641DE2E88F90E00359C52 /* Specs.swift */,
+				DD7641DE2E88F90E00359C52 /* Specialisations.swift */,
+				DD7641F52E8FA45D00359C52 /* LevelBonuses.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -328,13 +334,15 @@
 				DDE6A01F2E6E977D00BEA51F /* DungeonHeroMovement.swift in Sources */,
 				DD915D0B2E672FE000EDCC91 /* TileType.swift in Sources */,
 				DD915CEB2E66CD8900EDCC91 /* MiniDungeonApp.swift in Sources */,
-				DD7641DF2E88F90E00359C52 /* Specs.swift in Sources */,
+				DD7641DF2E88F90E00359C52 /* Specialisations.swift in Sources */,
+				DD7641F62E8FA45D00359C52 /* LevelBonuses.swift in Sources */,
 				DDEE6C772E6D4C3500BD2E3C /* MapView.swift in Sources */,
 				DD7EC0D72E83B13000849B0B /* MiniGameView.swift in Sources */,
 				DD915D092E672FB400EDCC91 /* Tile.swift in Sources */,
 				DD7641EF2E8B9E1300359C52 /* MerchantView.swift in Sources */,
 				DD915D072E672F5500EDCC91 /* DungeonScheme.swift in Sources */,
 				DD7641DD2E88F77400359C52 /* InventoryView.swift in Sources */,
+				DD7641F12E8F9ED300359C52 /* LevelBonusView.swift in Sources */,
 				DD7641EB2E8B9DC900359C52 /* OptionsView.swift in Sources */,
 				DD915D0D2E672FF900EDCC91 /* EventType.swift in Sources */,
 				DD915D052E672F2C00EDCC91 /* DungeonGenerator.swift in Sources */,

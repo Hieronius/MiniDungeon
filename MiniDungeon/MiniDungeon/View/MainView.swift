@@ -71,6 +71,10 @@ struct MainView: View {
 		case .merchant:
 			
 			buildMerchant()
+			
+		case .levelBonus:
+			
+			buildLevelBonus()
 		}
 		
 	}
