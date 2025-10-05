@@ -208,8 +208,14 @@ extension MainViewModel {
 	
 	func getRewardAfterLevel() {
 		
+		// This line works as a placeholder for bonuses -> remove it with actual bonuses
 		gameState.levelBonusesRarities = []
 		
+		// This line cleans previous bonuses to generate
+		gameState.levelBonusesToChoose = []
+		
+		// Generate level of raririty -> ask LevelBonusManager to provide a random bonus accordingly to the rarity
+		// Add this bonus to levelBonusesToChoose
 		for _ in 1...3 {
 			gameState.levelBonusesRarities.append(generateRewardRarity())
 		}
@@ -394,6 +400,10 @@ extension MainViewModel {
 		// Decrement the count of the new weapon in inventory if present and count > 0
 		if let currentCount = gameState.hero.weapons[weapon], currentCount > 0 {
 			gameState.hero.weapons[weapon]! = currentCount - 1
+			
+			if gameState.hero.weapons[weapon]! == 0 {
+				gameState.hero.weapons[weapon] = nil
+			}
 		}
 	}
 	
@@ -410,6 +420,10 @@ extension MainViewModel {
 		// Decrement the count of the new armor in inventory if present and count > 0
 		if let currentCount = gameState.hero.armors[armor], currentCount > 0 {
 			gameState.hero.armors[armor]! = currentCount - 1
+			
+			if gameState.hero.armors[armor]! == 0 {
+				gameState.hero.armors[armor] = nil
+			}
 		}
 	}
 	
@@ -430,6 +444,10 @@ extension MainViewModel {
 		if gameState.hero.inventory[potion] != nil {
 			if gameState.hero.inventory[potion]! > 0 {
 				gameState.hero.inventory[potion]! -= 1
+				
+				if gameState.hero.inventory[potion]! == 0 {
+					gameState.hero.inventory[potion] = nil
+				}
 			}
 		}
 		

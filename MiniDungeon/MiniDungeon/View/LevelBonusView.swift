@@ -12,13 +12,13 @@ extension MainView {
 			List {
 				
 				Section(header: Text("Bonus Rarities")) {
-					Button("\(viewModel.gameState.levelBonusesRarities[0])") {
+					Button("\(viewModel.gameState.levelBonusesRarities[0])".uppercased()) {
 						
 					}
-					Button("\(viewModel.gameState.levelBonusesRarities[1])") {
+					Button("\(viewModel.gameState.levelBonusesRarities[1])".uppercased()) {
 						
 					}
-					Button("\(viewModel.gameState.levelBonusesRarities[2])") {
+					Button("\(viewModel.gameState.levelBonusesRarities[2])".uppercased()) {
 						
 					}
 				}

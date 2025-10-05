@@ -8,8 +8,9 @@ extension MainViewModel {
 		
 		guard let bonus = bonus else { return }
 		
-//		switch bonus {
-//			
-//		}
+		switch bonus {
+			
+			
+		}
 	}
 }

@@ -1,4 +1,4 @@
-In the method generateLevelBonusRarity implement another method in LevelBonus file to generate a random bonus accordingly to it's rarity like
+1. In the method generateLevelBonusRarity implement another method in LevelBonus file to generate a random bonus accordingly to it's rarity like
 
 func generateLevelBonus(_ rarity: generateRarity()) -> LevelBonus {
 
