@@ -11,33 +11,25 @@ extension MainView {
 			
 			List {
 				
-				Section(header: Text("Bonus Rarities")) {
-					Button("\(viewModel.gameState.levelBonusesRarities[0])".uppercased()) {
-						
+				Section(header: Text("Level Bonus")) {
+					Button("\(viewModel.gameState.levelBonusesToChoose[0].name)") {
+						viewModel.gameState.levelBonusToDisplay = viewModel.gameState.levelBonusesToChoose[0]
 					}
-					Button("\(viewModel.gameState.levelBonusesRarities[1])".uppercased()) {
-						
+					Button("\(viewModel.gameState.levelBonusesToChoose[1].name)") {
+						viewModel.gameState.levelBonusToDisplay = viewModel.gameState.levelBonusesToChoose[1]
 					}
-					Button("\(viewModel.gameState.levelBonusesRarities[2])".uppercased()) {
-						
-					}
-				}
-				
-				Section(header: Text("Rewards")) {
-					ForEach(viewModel.gameState.levelBonusesToChoose, id: \.self) { bonus in
-						Button(bonus.name) {
-							viewModel.gameState.levelBonusToDisplay = bonus
-						}
+					Button("\(viewModel.gameState.levelBonusesToChoose[2].name)") {
+						viewModel.gameState.levelBonusToDisplay = viewModel.gameState.levelBonusesToChoose[2]
 					}
 				}
 				
 				Section(header: Text("Description")) {
 					Text("Name - \(viewModel.gameState.levelBonusToDisplay?.name ?? "")")
-					Text("Description - \(viewModel.gameState.levelBonusToDisplay?.description ?? "")")
+					Text("Description:  \(viewModel.gameState.levelBonusToDisplay?.description ?? "")")
 					Button("Choose") {
-//						viewModel.applySpecialisation(viewModel.gameState.specToDisplay)
-						// viewModel.applyLevelBonus(viewModel.gameState.specToDisplay)
-						viewModel.goToMenu()
+						viewModel.applyLevelBonus(viewModel.gameState.levelBonusToDisplay)
+						viewModel.gameState.hero.levelUP()
+						viewModel.goToDungeon()
 					}
 				}
 			}

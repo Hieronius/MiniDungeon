@@ -18,6 +18,8 @@
 		DD7641EF2E8B9E1300359C52 /* MerchantView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD7641EE2E8B9E1300359C52 /* MerchantView.swift */; };
 		DD7641F12E8F9ED300359C52 /* LevelBonusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD7641F02E8F9ED300359C52 /* LevelBonusView.swift */; };
 		DD7641F62E8FA45D00359C52 /* LevelBonuses.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD7641F52E8FA45D00359C52 /* LevelBonuses.swift */; };
+		DD7641FA2E93956D00359C52 /* TownUpgrades.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD7641F92E93956D00359C52 /* TownUpgrades.swift */; };
+		DD7641FC2E9398B000359C52 /* Navigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD7641FB2E9398B000359C52 /* Navigation.swift */; };
 		DD7EC0C72E78A0BA00849B0B /* Weapon.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD7EC0C62E78A0BA00849B0B /* Weapon.swift */; };
 		DD7EC0CC2E78A45C00849B0B /* Armor.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD7EC0CB2E78A45C00849B0B /* Armor.swift */; };
 		DD7EC0CE2E7C47E800849B0B /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD7EC0CD2E7C47E800849B0B /* Item.swift */; };
@@ -60,6 +62,8 @@
 		DD7641EE2E8B9E1300359C52 /* MerchantView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MerchantView.swift; sourceTree = "<group>"; };
 		DD7641F02E8F9ED300359C52 /* LevelBonusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelBonusView.swift; sourceTree = "<group>"; };
 		DD7641F52E8FA45D00359C52 /* LevelBonuses.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelBonuses.swift; sourceTree = "<group>"; };
+		DD7641F92E93956D00359C52 /* TownUpgrades.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TownUpgrades.swift; sourceTree = "<group>"; };
+		DD7641FB2E9398B000359C52 /* Navigation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Navigation.swift; sourceTree = "<group>"; };
 		DD7EC0C62E78A0BA00849B0B /* Weapon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Weapon.swift; sourceTree = "<group>"; };
 		DD7EC0CB2E78A45C00849B0B /* Armor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Armor.swift; sourceTree = "<group>"; };
 		DD7EC0CD2E7C47E800849B0B /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
@@ -197,6 +201,7 @@
 			isa = PBXGroup;
 			children = (
 				DD915CFC2E66D61D00EDCC91 /* MainViewModel.swift */,
+				DD7641FB2E9398B000359C52 /* Navigation.swift */,
 				DDB29BD32E6BF508007BB7DC /* Combat.swift */,
 				DDB29BD12E6BF47A007BB7DC /* Utility.swift */,
 				DDB29BD52E6BF53B007BB7DC /* EventGeneration.swift */,
@@ -204,6 +209,7 @@
 				DDE6A01E2E6E977D00BEA51F /* DungeonHeroMovement.swift */,
 				DD7641DE2E88F90E00359C52 /* Specialisations.swift */,
 				DD7641F52E8FA45D00359C52 /* LevelBonuses.swift */,
+				DD7641F92E93956D00359C52 /* TownUpgrades.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -346,6 +352,8 @@
 				DD7641EB2E8B9DC900359C52 /* OptionsView.swift in Sources */,
 				DD915D0D2E672FF900EDCC91 /* EventType.swift in Sources */,
 				DD915D052E672F2C00EDCC91 /* DungeonGenerator.swift in Sources */,
+				DD7641FC2E9398B000359C52 /* Navigation.swift in Sources */,
+				DD7641FA2E93956D00359C52 /* TownUpgrades.swift in Sources */,
 				DD915CFD2E66D61D00EDCC91 /* MainViewModel.swift in Sources */,
 				DD915D012E66D6BC00EDCC91 /* GameScreen.swift in Sources */,
 				DDB869CC2E68BC200042CF9F /* MapGeneration.swift in Sources */,

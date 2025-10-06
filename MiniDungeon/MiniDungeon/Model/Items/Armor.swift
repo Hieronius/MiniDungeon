@@ -9,35 +9,35 @@ struct ArmorManager {
 			  itemType: .armor,
 			  description: "Is it a real armor?",
 			  defence: 1,
-			  price: 25),
+			  price: 100),
 		
 		Armor(label: "Boiled Leather Armor",
 			  itemLevel: 2,
 			  itemType: .armor,
 			  description: "And there might be Fried Armor as well?",
 			  defence: 2,
-			  price: 50),
+			  price: 200),
 		
 		Armor(label: "Bronze Armor",
 			  itemLevel: 3,
 			  itemType: .armor,
 			  description: "Finally something like a real ARMOR",
 			  defence: 3,
-			  price: 75),
+			  price: 300),
 		
 		Armor(label: "Steel Armor",
 			  itemLevel: 4,
 			  itemType: .armor,
 			  description: "Uf, it's heavy",
 			  defence: 4,
-			  price: 100),
+			  price: 400),
 		
 		Armor(label: "Bone Armor",
 			  itemLevel: 5,
 			  itemType: .armor,
 			  description: "Seems fansy",
 			  defence: 5,
-			  price: 125)
+			  price: 500)
 	]
 }
 

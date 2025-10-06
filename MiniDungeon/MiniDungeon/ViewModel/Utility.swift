@@ -188,7 +188,7 @@ extension MainViewModel {
 	func getRewardAfterFight() {
 		
 		gameState.battlesWon += 1
-		checkForLevelUP()
+//		checkForLevelUP()
 	}
 	
 	// MARK: checkForLevelUP
@@ -196,11 +196,11 @@ extension MainViewModel {
 	func checkForLevelUP() {
 		
 		if  gameState.hero.currentXP >= gameState.hero.maxXP {
-			gameState.hero.levelUP()
+			
+			getRewardAfterLevel()
 			gameState.hero.currentXP = 0
 			gameState.hero.maxXP += 50
 			
-			getRewardAfterLevel()
 		}
 	}
 	
@@ -208,19 +208,21 @@ extension MainViewModel {
 	
 	func getRewardAfterLevel() {
 		
-		// This line works as a placeholder for bonuses -> remove it with actual bonuses
-		gameState.levelBonusesRarities = []
-		
 		// This line cleans previous bonuses to generate
 		gameState.levelBonusesToChoose = []
 		
 		// Generate level of raririty -> ask LevelBonusManager to provide a random bonus accordingly to the rarity
 		// Add this bonus to levelBonusesToChoose
 		for _ in 1...3 {
-			gameState.levelBonusesRarities.append(generateRewardRarity())
+
+			let rarity = generateRewardRarity()
+			guard let bonus = LevelBonusManager.generateLevelBonus(of: rarity) else {
+				return
+			}
+			gameState.levelBonusesToChoose.append(bonus)
 		}
 		
-		goToRewards()
+		goToLevelBonus()
 	}
 	
 	// MARK: Buy/Sell Item
@@ -239,7 +241,8 @@ extension MainViewModel {
 				
 				if gameState.hero.weapons[weapon] ?? 0 >= 1 {
 					gameState.hero.weapons[weapon]! -= 1
-					gameState.heroGold += weapon.price
+					// When you sell an item you get only 25% of it's value
+					gameState.heroGold += weapon.price / 4
 					gameState.merchantWeaponsLoot[weapon, default: 0] += 1
 					
 					if gameState.hero.weapons[weapon]! == 0 {
@@ -270,7 +273,8 @@ extension MainViewModel {
 				
 				if gameState.hero.armors[armor] ?? 0 >= 1 {
 					gameState.hero.armors[armor]! -= 1
-					gameState.heroGold += armor.price
+					// When you sell an item you get only 25% of it's value
+					gameState.heroGold += armor.price / 4
 					gameState.merchantArmorsLoot[armor, default: 0] += 1
 					
 					if gameState.hero.armors[armor]! == 0 {
@@ -301,7 +305,8 @@ extension MainViewModel {
 				
 				if gameState.hero.inventory[potion] ?? 0 >= 1 {
 					gameState.hero.inventory[potion]! -= 1
-					gameState.heroGold += potion.price
+					// When you sell an item you get only 25% of it's value
+					gameState.heroGold += potion.price / 4
 					gameState.merchantInventoryLoot[potion, default: 0] += 1
 					
 					if gameState.hero.inventory[potion]! == 0 {
@@ -332,7 +337,8 @@ extension MainViewModel {
 				
 				if gameState.hero.inventory[loot] ?? 0 >= 1 {
 					gameState.hero.inventory[loot]! -= 1
-					gameState.heroGold += loot.price
+					// When you sell an item you get only 25% of it's value
+					gameState.heroGold += loot.price / 4
 					gameState.merchantInventoryLoot[loot, default: 0] += 1
 					
 					if gameState.hero.inventory[loot]! == 0 {

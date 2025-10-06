@@ -2,13 +2,13 @@ import Foundation
 
 struct LevelBonusManager {
 	
-	private let commonLevelBonuses: [LevelBonus] = [
+	static private let commonLevelBonuses: [LevelBonus] = [
 		
 		LevelBonus(name: "Flat HP Bonus", description: "+5 max HP"),
 		LevelBonus(name: "Flat MP Bonus", description: "+5 max MP")
 	]
 	
-	private let rareLevelBonuses: [LevelBonus] = [
+	static private let rareLevelBonuses: [LevelBonus] = [
 		
 		LevelBonus(name: "Great HP Bonus", description: "+10 max HP"),
 		LevelBonus(name: "Great MP Bonus", description: "+10 max MP"),
@@ -20,7 +20,7 @@ struct LevelBonusManager {
 		
 	]
 	
-	private let epicLevelBonuses: [LevelBonus] = [
+	static private let epicLevelBonuses: [LevelBonus] = [
 		
 		LevelBonus(name: "Big HP Bonus", description: "+15 max HP"),
 		LevelBonus(name: "Big MP Bonus", description: "+15 max MP"),
@@ -31,7 +31,7 @@ struct LevelBonusManager {
 		LevelBonus(name: "Big Hit Chance Bonus", description: "+2% Hit Chance")
 	]
 	
-	private let legendaryLevelBonuses: [LevelBonus] = [
+	static private let legendaryLevelBonuses: [LevelBonus] = [
 		
 		LevelBonus(name: "Perfect HP Bonus", description: "+20 max HP"),
 		LevelBonus(name: "Perfect MP Bonus", description: "+20 max MP"),
@@ -42,6 +42,20 @@ struct LevelBonusManager {
 		LevelBonus(name: "Perfect Hit Chance Bonus", description: "+3% Hit Chance"),
 		LevelBonus(name: "Perfect Energy Bonus", description: "+1 max Energy")
 	]
+	
+	/// Method gets rarity of the level bonus and generates one accordingly
+	static func generateLevelBonus(of rarity: Rarity) -> LevelBonus? {
+		
+		switch rarity {
+			
+		case .common: return self.commonLevelBonuses.randomElement()
+		case .rare: return self.rareLevelBonuses.randomElement()
+		case .epic: return self.epicLevelBonuses.randomElement()
+		case .legendary: return self.legendaryLevelBonuses.randomElement()
+		}
+	}
+	
+	
 }
 
 struct LevelBonus: Identifiable, Hashable {

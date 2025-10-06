@@ -89,9 +89,11 @@ extension MainView {
 			Section(header: Text("Navigation")) {
 				Button("Go To Menu") {
 					viewModel.goToMenu()
+					viewModel.checkForLevelUP()
 				}
 				Button("Go To Dungeon") {
 					viewModel.goToDungeon()
+					viewModel.checkForLevelUP()
 				}
 			}
 		}

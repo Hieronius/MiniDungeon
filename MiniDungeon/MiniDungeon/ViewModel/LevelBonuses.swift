@@ -8,8 +8,45 @@ extension MainViewModel {
 		
 		guard let bonus = bonus else { return }
 		
-		switch bonus {
+		switch bonus.name {
 			
+		// Common
+			
+		case "Flat HP Bonus": gameState.hero.maxHP += 5
+		case "Flat MP Bonus": gameState.hero.maxMana += 5
+			
+		// Rare
+			
+		case "Great Hit Chance Bonus": gameState.hero.baseHitChance += 1
+		case "Great Crit Chance Bonus": gameState.hero.baseCritChance += 1
+		case "Great Spell Power Bonus": gameState.hero.spellPower += 1
+		case "Great Defence Bonus": gameState.hero.baseDefence += 1
+		case "Great Damage Bonus": gameState.hero.baseMaxDamage += 1
+		case "Great MP Bonus": gameState.hero.maxMana += 10
+		case "Great HP Bonus": gameState.hero.maxHP += 10
+			
+		// Epic
+		
+		case "Big Hit Chance Bonus": gameState.hero.baseHitChance += 2
+		case "Big Crit Chance Bonus": gameState.hero.baseCritChance += 2
+		case "Big Spell Power Bonus": gameState.hero.spellPower += 2
+		case "Big Defence Bonus": gameState.hero.baseDefence += 2
+		case "Big Damage Bonus": gameState.hero.baseMaxDamage += 2
+		case "Big MP Bonus": gameState.hero.maxMana += 15
+		case "Big HP Bonus": gameState.hero.maxHP += 15
+			
+		// Legendary
+			
+		case "Perfect Energy Bonus": gameState.hero.maxEnergy += 1
+		case "Perfect Hit Chance Bonus": gameState.hero.baseHitChance += 3
+		case "Perfect Crit Chance Bonus": gameState.hero.baseCritChance += 3
+		case "Perfect Spell Power Bonus": gameState.hero.spellPower += 3
+		case "Perfect Defence Bonus": gameState.hero.baseDefence += 3
+		case "Perfect Damage Bonus": gameState.hero.baseMaxDamage += 3
+		case "Perfect MP Bonus": gameState.hero.maxMana += 20
+		case "Perfect HP Bonus": gameState.hero.maxHP += 20
+			
+		default: fatalError("Something went wrong")
 			
 		}
 	}

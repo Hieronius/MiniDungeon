@@ -12,7 +12,7 @@ struct WeaponManager {
 			   maxDamage: 2,
 			   hitChance: 0,
 			   critChance: 0,
-			   price: 25),
+			   price: 100),
 		
 		Weapon(label: "Bronze Axe",
 			   itemLevel: 2,
@@ -22,7 +22,7 @@ struct WeaponManager {
 			   maxDamage: 4,
 			   hitChance: 1,
 			   critChance: 1,
-			   price: 50),
+			   price: 200),
 		
 		Weapon(label: "Morning Star",
 			   itemLevel: 3,
@@ -32,7 +32,7 @@ struct WeaponManager {
 			   maxDamage: 6,
 			   hitChance: 2,
 			   critChance: 2,
-			   price: 75),
+			   price: 300),
 		
 		Weapon(label: "Steel Sword",
 			   itemLevel: 4,
@@ -42,7 +42,7 @@ struct WeaponManager {
 			   maxDamage: 10,
 			   hitChance: 3,
 			   critChance: 3,
-			   price: 100),
+			   price: 400),
 		
 		Weapon(label: "Frostmourne",
 			   itemLevel: 5,
@@ -52,7 +52,7 @@ struct WeaponManager {
 			   maxDamage: 16,
 			   hitChance: 5,
 			   critChance: 5,
-			   price: 125)
+			   price: 500)
 	]
 }
 
