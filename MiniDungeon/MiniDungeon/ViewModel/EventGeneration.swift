@@ -97,6 +97,8 @@ extension MainViewModel {
 		
 		switch gameState.currentDungeonLevel {
 			
+			// TODO: This loot system won't work on level 5+
+			
 		case 0: if dropRoll <= 10 { weaponLoot = WeaponManager.weapons[0] }
 			
 		case 1: if dropRoll <= 9 { weaponLoot = WeaponManager.weapons[1] }

@@ -1,5 +1,7 @@
-1. If you choose an item in inventory such as weapon or armor you should see the actual effect of it like damage or defence
-
 2. Add BaseMaxMana, BaseMaxHP, BaseSpellPower and other properties of the hero
 
-3. Fix prices for sell and buy options. Morning Star can't cost just a 75 gold
+3. add reward screen after boss fight before merchant screen
+
+4. Probably should change hero energy to 3 from 5 and boss from 5 to 4
+
+5. Fix loot chance of the weapons and armors in 5+ levels. It's just won't drop any
