@@ -19,7 +19,9 @@ extension MainViewModel {
 	func checkForMapBeingExplored() {
 		
 		for row in 0..<gameState.dungeonMap.count {
+			
 			for col in 0..<row {
+				
 				let tile = gameState.dungeonMap[row][col]
 				if !tile.isExplored && tile.type != .empty {
 					print("Found unexplored tile")

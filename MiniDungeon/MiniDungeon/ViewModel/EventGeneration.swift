@@ -32,7 +32,9 @@ extension MainViewModel {
 		
 		// saleable loot
 		
-		if let loot = generateSaleableLoot(didFinalBossSummoned: gameState.didEncounteredBoss) {
+		if let loot = generateSaleableLoot(
+			didFinalBossSummoned: gameState.didEncounteredBoss
+		) {
 			gameState.hero.inventory[loot, default: 0] += 1
 			gameState.lootToDisplay.append(loot.label)
 			print("found \(loot)")
@@ -40,7 +42,9 @@ extension MainViewModel {
 		
 		// potion loot
 		
-		if let potion = generatePotionLoot(didFinalBossSummoned: gameState.didEncounteredBoss) {
+		if let potion = generatePotionLoot(
+			didFinalBossSummoned: gameState.didEncounteredBoss
+		) {
 			gameState.hero.inventory[potion, default: 0] += 1
 			gameState.lootToDisplay.append(potion.label)
 			print("found \(potion)")
@@ -48,7 +52,9 @@ extension MainViewModel {
 		
 		// weapon loot
 		
-		if let weapon = generateWeaponLoot(didFinalBossSummoned: gameState.didEncounteredBoss) {
+		if let weapon = generateWeaponLoot(
+			didFinalBossSummoned: gameState.didEncounteredBoss
+		) {
 			gameState.hero.weapons[weapon, default: 0] += 1
 			gameState.lootToDisplay.append(weapon.label)
 			print("found and equiped \(weapon)")
@@ -57,7 +63,9 @@ extension MainViewModel {
 		
 		// armor loot
 		
-		if let armor = generateArmorLoot(didFinalBossSummoned: gameState.didEncounteredBoss) {
+		if let armor = generateArmorLoot(
+			didFinalBossSummoned: gameState.didEncounteredBoss
+		) {
 			gameState.hero.armors[armor, default: 0] += 1
 			gameState.lootToDisplay.append(armor.label)
 			print("found and equiped \(armor)")
@@ -66,52 +74,80 @@ extension MainViewModel {
 		
 		// gold loot
 		
-		let gold = generateGoldLoot(didFinalBossSummoned: gameState.didEncounteredBoss)
+		let gold = generateGoldLoot(
+			didFinalBossSummoned: gameState.didEncounteredBoss
+		)
 		gameState.heroGold += gold
 		gameState.goldLootToDisplay = gold
 		
 		// experience loot
 		
-		let exp = generateExperienceLoot(didFinalBossSummoned: gameState.didEncounteredBoss)
+		let exp = generateExperienceLoot(
+			didFinalBossSummoned: gameState.didEncounteredBoss
+		)
 		gameState.hero.currentXP += exp
 		gameState.expLootToDisplay = exp
 	}
 	
 	// MARK: - Generate Weapon Loot
 	
+	/// Throw loot roll and if it's in the range throw rarity roll to get a random weapon of given quality
 	func generateWeaponLoot(didFinalBossSummoned: Bool) -> Weapon? {
 		
-		/*
-		 1 level = 10% to generate level 1 weapon
-		 2 level = 9% to generate level 2 weapon
-		 3 level = 8% to generate level 3 weapon
-		 4 level = 7% to generate level 4 weapon
-		 5 level = 6% to generate level 5 weapon
-		 */
+		// 1. After killing the target -> throw the loot roll
 		
 		var dropRoll = Int.random(in: 1...100)
+		
+		// If boss killed -> increase the chance for loot by 2
 		
 		if didFinalBossSummoned { dropRoll /= 2 }
 		
 		var weaponLoot: Weapon? = nil
 		
+		// Chance to drop any loot should be around 20%
+		
+		guard dropRoll <= 20 else { return nil }
+		
+		// 2. If we in the range of the 20% let's generate rarity of the loot
+		
+		let rarity = generateRewardRarity()
+		
 		switch gameState.currentDungeonLevel {
 			
-			// TODO: This loot system won't work on level 5+
+			// In level 0 we can drop common weapons
+		case 0:
 			
-		case 0: if dropRoll <= 10 { weaponLoot = WeaponManager.weapons[0] }
+			if rarity == .common {
+				weaponLoot = WeaponManager.generateWeapon(of: .common)
+			}
 			
-		case 1: if dropRoll <= 9 { weaponLoot = WeaponManager.weapons[1] }
+			// In level 1 we can drop rare weapons + common weapons
+		case 1:
 			
-		case 2: if dropRoll <= 8 { weaponLoot = WeaponManager.weapons[2] }
+			if rarity == .common {
+				weaponLoot = WeaponManager.generateWeapon(of: .common)
+				
+			} else if rarity == .rare {
+				weaponLoot = WeaponManager.generateWeapon(of: .rare)
+			}
 			
-		case 3: if dropRoll <= 7 { weaponLoot = WeaponManager.weapons[3] }
+			// In level 2 we can drop epic weapons + rare weapons + common weapons
+		case 2:
 			
-		case 4: if dropRoll <= 6 { weaponLoot = WeaponManager.weapons[4] }
+			if rarity == .common {
+				weaponLoot = WeaponManager.generateWeapon(of: .common)
+				
+			} else if rarity == .rare {
+				weaponLoot = WeaponManager.generateWeapon(of: .rare)
+				
+			} else if rarity == .epic {
+				weaponLoot = WeaponManager.generateWeapon(of: .epic)
+			}
 			
-		default:
-			break
+			// In level 3+ we can drop legendary + epic + rare + common weapons
+		default: weaponLoot = WeaponManager.generateWeapon(of: rarity)
 		}
+		
 		return weaponLoot
 	}
 	
@@ -132,6 +168,10 @@ extension MainViewModel {
 		if didFinalBossSummoned { dropRoll /= 2 }
 		
 		var armorLoot: Armor? = nil
+		
+		/* Feels like we need a pool of armor rolls to drop
+		   So we can add more drops for each level
+		*/
 		
 		switch gameState.currentDungeonLevel {
 			

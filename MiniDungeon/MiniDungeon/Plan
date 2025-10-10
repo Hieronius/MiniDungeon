@@ -1,7 +1,7 @@
-2. Add BaseMaxMana, BaseMaxHP, BaseSpellPower and other properties of the hero
+1. Rework of the loot system:
+	- Create epic/legendary loot arrays. DONE
+	- Create a method to generate level of items rarity. DONE
+	- Create a method to generate loot slot item based on rarity. DONE
+	- Create a method to sum up all loot slots and return as generated loot or nil if all rolls were failed
 
-3. add reward screen after boss fight before merchant screen
-
-4. Probably should change hero energy to 3 from 5 and boss from 5 to 4
-
-5. Fix loot chance of the weapons and armors in 5+ levels. It's just won't drop any
+2. Fix GenerateMerchantLoot for Weapons. Weapon system has been changed.

@@ -1,3 +1,13 @@
-- In current Version of the game hero becomes too strong after level 2 or die before
-- Prices should be fixed. To sell item you should get 10-25% of it's value
-- In the second run hero feels too strong due to multiple cheap upgrades
+
+
+2. Add BaseMaxMana, BaseMaxHP, BaseSpellPower and other properties of the hero
+
+3. Add reward screen after boss fight before merchant screen
+
+4. Probably should change hero energy to 3 from 5 and boss from 5 to 4
+
+6. Add Russian Localisation so folks can play test it better
+
+7. Add not only hit chance label on the attack button but also it's crit chance
+
+8. Create random generation for weapons and armors

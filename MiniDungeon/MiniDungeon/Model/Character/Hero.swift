@@ -34,7 +34,10 @@ struct Hero {
 	var weaponSlot: Weapon? = nil
 	var armorSlot: Armor? = nil
 	
+	/// Adds weapon MinDamage to hero baseMinDamage
 	var minDamage: Int { baseMinDamage + (weaponSlot?.minDamage ?? 0) }
+	
+	/// Adds weapon MaxDamage to hero baseMaxDamage
 	var maxDamage: Int { baseMaxDamage + (weaponSlot?.maxDamage ?? 0) }
 	var hitChance: Int { baseHitChance + (weaponSlot?.hitChance ?? 0) }
 	var critChance: Int { baseCritChance + (weaponSlot?.critChance ?? 0) }
