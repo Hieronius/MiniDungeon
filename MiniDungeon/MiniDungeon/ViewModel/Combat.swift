@@ -34,6 +34,9 @@ extension MainViewModel {
 			
 			// damage
 			
+			// if we make it Double = 5.0 - 10.0 = 6.0 - 0.5 defence = 5.5
+			// Int(5.5) = 5
+			
 			var damage = Int.random(in: gameState.hero.minDamage...gameState.hero.maxDamage) - gameState.enemy.defence
 			
 			// mini game success check

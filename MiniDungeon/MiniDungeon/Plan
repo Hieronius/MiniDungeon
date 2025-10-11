@@ -1,7 +1,13 @@
-1. Rework of the loot system:
-	- Create epic/legendary loot arrays. DONE
-	- Create a method to generate level of items rarity. DONE
-	- Create a method to generate loot slot item based on rarity. DONE
-	- Create a method to sum up all loot slots and return as generated loot or nil if all rolls were failed
+1.1. Add all hero's stats as a bonuses to Armor/Weapon so you can create different items
 
-2. Fix GenerateMerchantLoot for Weapons. Weapon system has been changed.
+2. Add Armor with hp/mana/energy bonus
+
+3. Implement the same generation system for Armors/Bubbles/Potions as we did with Weapons
+
+4. Test and fix Weapon/loot generation (in a single fight i did collect common, rare and legendary weapon - is it a result i want to achieve or only one item per type should be allowed in loot generation?)
+
+3. If the blue line in mini game reached the end of the screen you should get - "failed" result
+
+4. When all romes of the dungeon has been cleared there should be the mark or something like that to notice the user to press "go to next level" button
+
+5. Inventory Armor/Weapons slots should be as a buttons so user can inspect what he already wear

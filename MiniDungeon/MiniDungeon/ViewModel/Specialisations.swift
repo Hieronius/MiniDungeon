@@ -20,12 +20,12 @@ extension MainViewModel {
 		switch spec.name {
 			
 		case "Warrior":
-			gameState.hero.maxHP += 5
+			gameState.hero.baseMaxHP += 5
 			gameState.hero.currentHP = gameState.hero.maxHP
 			gameState.hero.baseMaxDamage += 1
 			
 		case "Knight":
-			gameState.hero.maxHP += 5
+			gameState.hero.baseMaxHP += 5
 			gameState.hero.currentHP = gameState.hero.maxHP
 			gameState.hero.baseDefence += 1
 			
@@ -33,12 +33,12 @@ extension MainViewModel {
 			gameState.hero.baseMaxDamage += 3
 			
 		case "Priest":
-			gameState.hero.maxMana += 5
+			gameState.hero.baseMaxMP += 5
 			gameState.hero.currentMana = gameState.hero.maxMana
-			gameState.hero.spellPower += 1
+			gameState.hero.baseSpellPower += 1
 			
 		case "Mage":
-			gameState.hero.maxMana += 10
+			gameState.hero.baseMaxMP += 10
 			gameState.hero.currentMana = gameState.hero.maxMana
 			
 		default: return

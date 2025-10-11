@@ -20,9 +20,9 @@ extension MainView {
 			if viewModel.gameState.wasItemSelected {
 				Section(header: Text("Item Info")) {
 					
-					Text("Item Name - \(viewModel.gameState.itemToDisplay?.label ?? "")")
-					Text("Item Level - \(viewModel.gameState.itemToDisplay?.itemLevel ?? 0)")
-					Text("Description - \(viewModel.gameState.itemToDisplay?.description ?? "")")
+					Text("Item Name:  \(viewModel.gameState.itemToDisplay?.label ?? "")")
+					Text("Item Level:  \(viewModel.gameState.itemToDisplay?.itemLevel ?? 0)")
+					Text("Description:  \(viewModel.gameState.itemToDisplay?.description ?? "")")
 					Button("Equip/Use") {
 						viewModel.equipOrUseItem()
 					}

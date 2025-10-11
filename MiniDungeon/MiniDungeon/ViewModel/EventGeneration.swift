@@ -153,40 +153,59 @@ extension MainViewModel {
 	
 	// MARK: - Generate Armor Loot
 	
+	/// Throw loot roll and if it's in the range throw rarity roll to get a random weapon of given quality
 	func generateArmorLoot(didFinalBossSummoned: Bool) -> Armor? {
-		
-		/*
-		 1 level = 10% to generate level 1 armor
-		 2 level = 9% to generate level 2 armor
-		 3 level = 8% to generate level 3 armor
-		 4 level = 7% to generate level 4 armor
-		 5 level = 6% to generate level 5 armor
-		 */
+	
+		// 1. After killing the target -> throw the loot roll
 		
 		var dropRoll = Int.random(in: 1...100)
 		
+		// If boss killed -> increase the chance for loot by 2
+		
 		if didFinalBossSummoned { dropRoll /= 2 }
+		
+		guard dropRoll <= 20 else { return nil }
 		
 		var armorLoot: Armor? = nil
 		
-		/* Feels like we need a pool of armor rolls to drop
-		   So we can add more drops for each level
-		*/
+		// 2. If we in the range of the 20% let's generate rarity of the loot
+		
+		let rarity = generateRewardRarity()
 		
 		switch gameState.currentDungeonLevel {
 			
-		case 0: if dropRoll <= 10 { armorLoot = ArmorManager.armors[0] }
+			// In level 0 we can drop common armors
+		case 0:
 			
-		case 1: if dropRoll <= 9 { armorLoot = ArmorManager.armors[1] }
+			if rarity == .common {
+				armorLoot = ArmorManager.generateArmor(of: .common)
+			}
 			
-		case 2: if dropRoll <= 8 { armorLoot = ArmorManager.armors[2] }
+			// In level 1 we can drop rare armors + common armors
+		case 1:
 			
-		case 3: if dropRoll <= 7 { armorLoot = ArmorManager.armors[3] }
+			if rarity == .common {
+				armorLoot = ArmorManager.generateArmor(of: .common)
+				
+			} else if rarity == .rare {
+				armorLoot = ArmorManager.generateArmor(of: .rare)
+			}
 			
-		case 4: if dropRoll <= 6 { armorLoot = ArmorManager.armors[4] }
+			// In level 2 we can drop epic armors + rare armors + common armors
+		case 2:
 			
-		default:
-			break
+			if rarity == .common {
+				armorLoot = ArmorManager.generateArmor(of: .common)
+				
+			} else if rarity == .rare {
+				armorLoot = ArmorManager.generateArmor(of: .rare)
+				
+			} else if rarity == .epic {
+				armorLoot = ArmorManager.generateArmor(of: .epic)
+			}
+			
+			// In level 3+ we can drop legendary + epic + rare + common weapons
+		default: armorLoot = ArmorManager.generateArmor(of: rarity)
 		}
 		return armorLoot
 	}

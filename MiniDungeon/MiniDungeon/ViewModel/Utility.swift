@@ -483,13 +483,13 @@ extension MainViewModel {
 			
 			// Adds 10% to maximum HP
 			let value = Int(Double(gameState.hero.maxHP) * 0.1)
-			gameState.hero.maxHP += value
+			gameState.hero.baseMaxHP += value
 			
 		case "Great Mana Elixir":
 			
 			// Adds 10% to maximum MP
 			let value = Int(Double(gameState.hero.maxMana) * 0.1)
-			gameState.hero.maxMana += value
+			gameState.hero.baseMaxMP += value
 			
 		default: return
 		}
