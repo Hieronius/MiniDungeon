@@ -1,6 +1,4 @@
-1.1. Add all hero's stats as a bonuses to Armor/Weapon so you can create different items
-
-2. Add Armor with hp/mana/energy bonus
+1. Create different potions and saleable loot for rarity system
 
 3. Implement the same generation system for Armors/Bubbles/Potions as we did with Weapons
 
@@ -11,3 +9,7 @@
 4. When all romes of the dungeon has been cleared there should be the mark or something like that to notice the user to press "go to next level" button
 
 5. Inventory Armor/Weapons slots should be as a buttons so user can inspect what he already wear
+
+6. In Town Screen when you choose an upgrade it should be the same as choosing a weapon or armor. Choose, inspect and only after decide to learn it.
+
+7. When you start a fresh game and move to Inventory, "item info" should be empty

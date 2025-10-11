@@ -44,6 +44,36 @@ struct ItemManager {
 		// and so on
 	]
 	
+	// MARK: - Common Potions
+	
+	static let commonPotions: [Item] = [
+		
+		
+	]
+	
+	// MARK: - Rare Potions
+	
+	static let rarePotions: [Item] = [
+		
+		
+	]
+	
+	// MARK: - Epic Potions
+	
+	static let epicPotions: [Item] = [
+		
+		
+	]
+	
+	// MARK: - Legendary Potions
+	
+	static let legendaryPotions: [Item] = [
+		
+		
+	]
+	
+	// MARK: - Loot
+	
 	static let loot: [Item] = [
 		
 		Item(label: "Trinket", itemType: .loot, itemLevel: 1, description: "An old and chip accessory", price: 150),

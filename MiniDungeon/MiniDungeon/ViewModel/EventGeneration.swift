@@ -256,6 +256,8 @@ extension MainViewModel {
 		gameState.merchantArmorsLoot = [:]
 		gameState.merchantInventoryLoot = [:]
 		
+		// Throw 5 rolls for each type of loot
+		
 		for _ in 1...5 {
 			
 			let weapon = generateWeaponLoot(didFinalBossSummoned: true)
@@ -366,8 +368,8 @@ extension MainViewModel {
 				enemyMaxHP: Int(Double(finalHP) * bossModifier),
 				currentMana: Int(Double(finalMP) * bossModifier),
 				maxMana: Int(Double(finalMP) * bossModifier),
-				currentEnergy: energy + 2,
-				maxEnergy: maxEnergy + 2,
+				currentEnergy: energy + 1,
+				maxEnergy: maxEnergy + 1,
 				minDamage: Int(Double(finalMinDamage) * bossModifier),
 				maxDamage: Int(Double(finalMaxDamage) * bossModifier),
 				defence: Int(Double(finalDefence) * bossModifier),
