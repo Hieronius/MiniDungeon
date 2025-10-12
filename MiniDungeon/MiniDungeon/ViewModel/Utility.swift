@@ -437,16 +437,6 @@ extension MainViewModel {
 	
 	func usePotion(_ potion: Item) {
 		
-		/*
-		 Item(label: "Small Health Potion", itemType: .potion, itemLevel: 1, description: "Heals by 25% of maximum HP", price: 75),
-		 
-		 Item(label: "Mana Potion", itemType: .potion, itemLevel: 1, description: "Resumes mana by 25% of maximum MP", price: 75),
-		 
-		 Item(label: "Great Health Elixir", itemType: .potion, itemLevel: 2, description: "Adds 10% to maximum HP", price: 300),
-		 
-		 Item(label: "Great Mana Elixir", itemType: .potion, itemLevel: 2, description: "Adds 10% to maximum MP", price: 300),
-		 */
-		
 		if gameState.hero.inventory[potion] != nil {
 			if gameState.hero.inventory[potion]! > 0 {
 				gameState.hero.inventory[potion]! -= 1

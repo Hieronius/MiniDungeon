@@ -1,0 +1,3 @@
+- Test and fix Weapon/loot generation (in a single fight i did collect common, rare and legendary weapon - is it a result i want to achieve or only one item per type should be allowed in loot generation?)
+
+- When you start a fresh game and move to Inventory, "item info" should be empty
