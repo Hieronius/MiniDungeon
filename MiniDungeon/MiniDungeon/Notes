@@ -1,6 +1,6 @@
+1. Add more common bonuses from level UP such as +1 minDamage, 1maxDamage
 
-
-2. Add BaseMaxMana, BaseMaxHP, BaseSpellPower and other properties of the hero
+2. Remove any power ups in stats after level bonus. Hero should rise only by gear, level bonuses and potions
 
 3. Add reward screen after boss fight before merchant screen
 

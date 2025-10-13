@@ -1,5 +1,5 @@
-1. Create different potions and saleable loot for rarity system
+1. Implement random generation of potions based on rarity
 
-2. Change old and add new potions to the method "usePotion"
+2. Implement different loot variations accordingly to level and rarity
 
-3. Implement the same generation system for Armors/Bubbles/Potions as we did with Weapons
+3. Implement random generation of loot based on rarity

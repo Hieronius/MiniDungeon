@@ -6,6 +6,8 @@ struct LevelBonusManager {
 		
 		LevelBonus(name: "Flat HP Bonus", description: "+5 max HP"),
 		LevelBonus(name: "Flat MP Bonus", description: "+5 max MP")
+		// LevelBonus (+1 min damage)
+		// LevelBonus (+1 max damage)
 	]
 	
 	static private let rareLevelBonuses: [LevelBonus] = [
