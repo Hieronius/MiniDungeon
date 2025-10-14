@@ -1,5 +1,6 @@
-1. Implement random generation of potions based on rarity
 
 2. Implement different loot variations accordingly to level and rarity
 
 3. Implement random generation of loot based on rarity
+
+4. Fix the bug of generating all kinds of the loot in level 3+

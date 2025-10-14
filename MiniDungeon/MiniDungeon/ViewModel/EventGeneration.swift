@@ -144,6 +144,8 @@ extension MainViewModel {
 				weaponLoot = WeaponManager.generateWeapon(of: .epic)
 			}
 			
+		case 3: weaponLoot = WeaponManager.generateWeapon(of: rarity)
+			
 			// In level 3+ we can drop legendary + epic + rare + common weapons
 		default: weaponLoot = WeaponManager.generateWeapon(of: rarity)
 		}
@@ -204,6 +206,9 @@ extension MainViewModel {
 				armorLoot = ArmorManager.generateArmor(of: .epic)
 			}
 			
+		case 3...: armorLoot = ArmorManager.generateArmor(of: rarity)
+			
+			
 			// In level 3+ we can drop legendary + epic + rare + common weapons
 		default: armorLoot = ArmorManager.generateArmor(of: rarity)
 		}
@@ -212,20 +217,65 @@ extension MainViewModel {
 	
 	// MARK: - Generate Potion Loot
 	
+	/// Throw loot roll and if it's in the range throw rarity roll to get a random potion of given quality
 	func generatePotionLoot(didFinalBossSummoned: Bool) -> Item? {
+		
+		// 1. After killing the target -> throw the loot roll
 		
 		var dropRoll = Int.random(in: 1...100)
 		
+		// If boss killed -> increase the chance for loot by 2
+		
 		if didFinalBossSummoned { dropRoll /= 2 }
 		
-		var potion: Item? = nil
+		guard dropRoll <= 20 else { return nil }
 		
-		if dropRoll <= 10 {
+		var potionLoot: Item? = nil
+		
+		// 2. If we in the range of the 20% let's generate rarity of the loot
+		
+		let rarity = generateRewardRarity()
+		
+		switch gameState.currentDungeonLevel {
 			
-			let itemIndex = Int.random(in: 0...1)
-			potion = ItemManager.potions[itemIndex]
+		case 0:
+			
+			if rarity == .common {
+				potionLoot = ItemManager.generatePotion(of: .common)
+				
+			}
+			
+		case 1:
+			
+			if rarity == .common {
+				potionLoot = ItemManager.generatePotion(of: .common)
+				
+			} else if rarity == .rare {
+				potionLoot = ItemManager.generatePotion(of: .rare)
+				
+			}
+			
+		case 2:
+			
+			if rarity == .common {
+				potionLoot = ItemManager.generatePotion(of: .common)
+				
+			} else if rarity == .rare {
+				potionLoot = ItemManager.generatePotion(of: .rare)
+				
+			} else if rarity == .epic {
+				potionLoot = ItemManager.generatePotion(of: .epic)
+			}
+			
+		case 3...: potionLoot = ItemManager.generatePotion(of: rarity)
+			
+			
+			// In level 3+ we can drop legendary + epic + rare + common weapons
+		default: potionLoot = ItemManager.generatePotion(of: rarity)
 		}
-		return potion
+		
+		
+		return potionLoot
 	}
 	
 	// MARK: - Generate Saleable Loot
