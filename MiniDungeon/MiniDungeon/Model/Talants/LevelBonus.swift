@@ -5,9 +5,10 @@ struct LevelBonusManager {
 	static private let commonLevelBonuses: [LevelBonus] = [
 		
 		LevelBonus(name: "Flat HP Bonus", description: "+5 max HP"),
-		LevelBonus(name: "Flat MP Bonus", description: "+5 max MP")
-		// LevelBonus (+1 min damage)
-		// LevelBonus (+1 max damage)
+		LevelBonus(name: "Flat MP Bonus", description: "+5 max MP"),
+		LevelBonus(name: "Flat Min Damage Bonus", description: "+1 min damage"),
+		LevelBonus(name: "Flat Max Damage Bonus", description: "+1 max damage"),
+		LevelBonus(name: "Flat Spell Power Bonus", description: "+1 spell power")
 	]
 	
 	static private let rareLevelBonuses: [LevelBonus] = [
@@ -16,7 +17,7 @@ struct LevelBonusManager {
 		LevelBonus(name: "Great MP Bonus", description: "+10 max MP"),
 		LevelBonus(name: "Great Damage Bonus", description: "+1 min and max Damage"),
 		LevelBonus(name: "Great Defence Bonus", description: "+1 Defence"),
-		LevelBonus(name: "Great Spell Power Bonus", description: "+1 Spell Power"),
+		LevelBonus(name: "Great Spell Power Bonus", description: "+2 Spell Power"),
 		LevelBonus(name: "Great Crit Chance Bonus", description: "+1% Crit Chance"),
 		LevelBonus(name: "Great Hit Chance Bonus", description: "+1% Hit Chance")
 		
@@ -28,7 +29,7 @@ struct LevelBonusManager {
 		LevelBonus(name: "Big MP Bonus", description: "+15 max MP"),
 		LevelBonus(name: "Big Damage Bonus", description: "+2 min and max Damage"),
 		LevelBonus(name: "Big Defence Bonus", description: "+2 Defence"),
-		LevelBonus(name: "Big Spell Power Bonus", description: "+2 Spell Power"),
+		LevelBonus(name: "Big Spell Power Bonus", description: "+3 Spell Power"),
 		LevelBonus(name: "Big Crit Chance Bonus", description: "+2% Crit Chance"),
 		LevelBonus(name: "Big Hit Chance Bonus", description: "+2% Hit Chance")
 	]
