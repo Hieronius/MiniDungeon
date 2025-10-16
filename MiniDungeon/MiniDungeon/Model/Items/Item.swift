@@ -26,48 +26,6 @@ enum ItemType {
 
 struct ItemManager {
 	
-	static let potions: [Item] = [
-		
-		Item(
-			label: "Small Health Potion",
-			itemType: .potion,
-			itemLevel: 1,
-			description: "Heals by 25% of maximum HP",
-			price: 150
-		),
-		
-		Item(
-			label: "Mana Potion",
-			itemType: .potion,
-			itemLevel: 1,
-			description: "Resumes mana by 25% of maximum MP",
-			price: 150
-		),
-		
-		Item(
-			label: "Great Health Elixir",
-			itemType: .potion,
-			itemLevel: 2,
-			description: "Adds 10% to maximum HP",
-			price: 600
-		),
-		
-		Item(
-			label: "Great Mana Elixir",
-			itemType: .potion,
-			itemLevel: 2,
-			description: "Adds 10% to maximum MP",
-			price: 600
-		),
-		
-		// + damage potion
-		// + hp potion
-		// + defence potion
-		// + mana potion
-		// restore all stats potion
-		// and so on
-	]
-	
 	// MARK: - Common Potions
 	
 	static let commonPotions: [Item] = [
@@ -302,6 +260,186 @@ struct ItemManager {
 		Item(label: "Cracked Jewel", itemType: .loot, itemLevel: 1, description: "Probably was fansy when someone woar it", price: 500)
 	]
 	
+	// MARK: - Common Loot
+	
+	static let commonLoot: [Item] = [
+		
+		Item(
+			label: "Broken Trinket",
+			itemType: .loot,
+			itemLevel: 1,
+			description: "An old and chip accessory",
+			price: 75
+		),
+		
+		Item(
+			label: "Cheap gem",
+			itemType: .loot,
+			itemLevel: 1,
+			description: "Really cheap",
+			price: 75
+		),
+		
+		Item(
+			label: "Cracked Jewel",
+			itemType: .loot,
+			itemLevel: 1,
+			description: "Probably was fancy when was new",
+			price: 75
+		),
+		
+		Item(
+			label: "Darkened Ring",
+			itemType: .loot,
+			itemLevel: 1,
+			description: "You can't see it's original color",
+			price: 75
+		),
+		
+		Item(
+			label: "Damaged Necklace",
+			itemType: .loot,
+			itemLevel: 1,
+			description: "Part of it is missing",
+			price: 75
+		),
+	]
+	
+	// MARK: - Rare Loot
+	
+	static let rareLoot: [Item] = [
+		
+		Item(
+			label: "Steel Ring",
+			itemType: .loot,
+			itemLevel: 2,
+			description: "Just a ring",
+			price: 100
+		),
+		
+		Item(
+			label: "Bronze Necklace",
+			itemType: .loot,
+			itemLevel: 2,
+			description: "An ordinary one",
+			price: 100
+		),
+		
+		Item(
+			label: "Old Ridge",
+			itemType: .loot,
+			itemLevel: 2,
+			description: "Still handy if you want to get your hair in order",
+			price: 100
+		),
+		
+		Item(
+			label: "White Stud",
+			itemType: .loot,
+			itemLevel: 2,
+			description: "Someone important was probably wearing it",
+			price: 100
+		),
+		
+		Item(
+			label: "Gray Chain",
+			itemType: .loot,
+			itemLevel: 2,
+			description: "Probably was part of some kind of a costume",
+			price: 100
+		),
+	]
+	
+	// MARK: - Epic Loot
+	
+	static let epicLoot: [Item] = [
+		
+		Item(
+			label: "Moon Stone",
+			itemType: .loot,
+			itemLevel: 3,
+			description: "A shiny and beautiful gem",
+			price: 150
+		),
+		
+		Item(
+			label: "Golden Statue",
+			itemType: .loot,
+			itemLevel: 3,
+			description: "Statue of someone important like a king or a lord",
+			price: 150
+		),
+		
+		Item(
+			label: "Silver Mirror",
+			itemType: .loot,
+			itemLevel: 3,
+			description: "An old but still well made mirror",
+			price: 150
+		),
+		
+		Item(
+			label: "Painted Vase",
+			itemType: .loot,
+			itemLevel: 3,
+			description: "You still can see an epic battle between a dragon and a knight described on it",
+			price: 150
+		),
+		
+		Item(
+			label: "Scarlet Ruby",
+			itemType: .loot,
+			itemLevel: 3,
+			description: "Probably ment to be used in one of these well made king's crowns",
+			price: 150
+		),
+	]
+	
+	// MARK: - Legendary Loot
+	
+	static let legendaryLoot: [Item] = [
+		
+		Item(
+			label: "Perfect Diamond",
+			itemType: .loot,
+			itemLevel: 4,
+			description: "A truly perfect gem",
+			price: 300
+		),
+		
+		Item(
+			label: "Jewel-encrusted Casket",
+			itemType: .loot,
+			itemLevel: 4,
+			description: "An empty but very expensive chest",
+			price: 300
+		),
+		
+		Item(
+			label: "Violet Soul Crystal",
+			itemType: .loot,
+			itemLevel: 4,
+			description: "As legend tells that kind of crystal can be a storage or a prison for poor's souls",
+			price: 300
+		),
+		
+		Item(
+			label: "Ivory Flute covered with gold",
+			itemType: .loot,
+			itemLevel: 4,
+			description: "You still can try to made a sound from this thing",
+			price: 300
+		),
+		
+		Item(
+			label: "Giant Silver Cup",
+			itemType: .loot,
+			itemLevel: 4,
+			description: "Cup so huge you think only giant's king could drink from it",
+			price: 300
+		),
+	]
+	
 	// MARK: GeneratePotion()
 	
 	/// Method gets rarity of the potion and generates one accordingly
@@ -313,6 +451,20 @@ struct ItemManager {
 		case .rare: return self.rarePotions.randomElement()
 		case .epic: return self.epicPotions.randomElement()
 		case .legendary: return self.legendaryPotions.randomElement()
+		}
+	}
+	
+	// MARK: - GenerateLoot()
+	
+	/// Method gets rarity of the loot and generates one accordingly
+	static func generateLoot(of rarity: Rarity) -> Item? {
+		
+		switch rarity {
+			
+		case .common: return self.commonLoot.randomElement()
+		case .rare: return self.rareLoot.randomElement()
+		case .epic: return self.epicLoot.randomElement()
+		case .legendary: return self.legendaryLoot.randomElement()
 		}
 	}
 }
