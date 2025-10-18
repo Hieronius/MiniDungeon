@@ -299,14 +299,14 @@ struct ArmorManager {
 			label: "Corrupted tunic",
 			itemLevel: 3,
 			itemType: .armor,
-			description: "+1 defence, +40 mana, -20 health, +2 spell power, -2% crit chance, -2% hit chance",
+			description: "+1 defence, +40 mana, -20 health, +5 spell power, -1% crit chance, -1% hit chance",
 			defence: 1,
 			healthBonus: -20,
 			manaBonus: 40,
 			energyBonus: 0,
-			spellPowerBonus: 2,
-			critChanceBonus: -2,
-			hitChanceBonus: -2,
+			spellPowerBonus: 5,
+			critChanceBonus: -1,
+			hitChanceBonus: -1,
 			price: 250
 		),
 		
