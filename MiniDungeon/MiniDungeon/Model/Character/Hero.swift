@@ -42,8 +42,8 @@ struct Hero {
 	
 	/// Adds weapon MaxDamage to hero baseMaxDamage
 	var maxDamage: Int { baseMaxDamage + (weaponSlot?.maxDamage ?? 0) }
-	var hitChance: Int { baseHitChance + (weaponSlot?.hitChance ?? 0) }
-	var critChance: Int { baseCritChance + (weaponSlot?.critChance ?? 0) }
+	var hitChance: Int { baseHitChance + (weaponSlot?.hitChance ?? 0) + (armorSlot?.hitChanceBonus ?? 0) }
+	var critChance: Int { baseCritChance + (weaponSlot?.critChance ?? 0) + (armorSlot?.critChanceBonus ?? 0) }
 	
 	var defence: Int { baseDefence + (armorSlot?.defence ?? 0) }
 	
@@ -64,21 +64,12 @@ struct Hero {
 	
 	var inventory: [Item: Int] = [:]
 	
-//	var weapons = [WeaponManager.weapons[0]: 3]
-//	var armors = [ArmorManager.armors[0]: 3]
-//	var inventory = [ItemManager.loot[0]: 3]
-	
 	// MARK: Increase/Decrease Stats
 	
 	mutating func levelUP() {
 		
-		self.baseMaxHP += 10
 		self.currentHP = self.maxHP
-		self.baseMaxMP += 5
 		self.currentMana = self.maxMana
-		self.baseMinDamage += 1
-		self.baseMaxDamage += 1
-		self.baseSpellPower += 1
 		self.skillPoints += 2
 		self.heroLevel += 1
 	}
