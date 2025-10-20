@@ -27,8 +27,8 @@ extension MainView {
 				}
 				
 				Section(header: Text("Description")) {
-					Text("Name - \(viewModel.gameState.specToDisplay?.name ?? "")")
-					Text("Description - \(viewModel.gameState.specToDisplay?.description ?? "")")
+					Text("Name: \(viewModel.gameState.specToDisplay?.name ?? "")")
+					Text("Description: \(viewModel.gameState.specToDisplay?.description ?? "")")
 					Button("Choose") {
 						viewModel.applySpecialisation(viewModel.gameState.specToDisplay)
 						viewModel.goToMenu()
