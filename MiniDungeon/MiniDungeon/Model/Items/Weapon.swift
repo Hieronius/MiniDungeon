@@ -237,7 +237,7 @@ struct WeaponManager {
 			label: "Silver Spear",
 			itemLevel: 4,
 			itemType: .weapon,
-			description: "+5 min damage, +6 max damage, +10% hit chance, -2% crit chance. An incrediably light and agile spear left by someone with very good taste and agile fighting style",
+			description: "+5 min damage, +6 max damage, +10% hit chance, -2% crit chance. An incrediably light spear left by someone with very good taste and agile fighting style",
 			minDamage: 5,
 			maxDamage: 6,
 			hitChance: 10,
