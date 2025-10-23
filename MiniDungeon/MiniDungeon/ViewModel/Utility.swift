@@ -255,15 +255,16 @@ extension MainViewModel {
 				if weapon.price <= gameState.heroGold &&
 					gameState.merchantWeaponsLoot[weapon] ?? 0 >= 1 {
 					
-						gameState.merchantWeaponsLoot[weapon]! -= 1
-						gameState.hero.weapons[weapon, default: 0] += 1
-						gameState.heroGold -= weapon.price
-						
-						if gameState.merchantWeaponsLoot[weapon]! == 0 {
-							gameState.merchantWeaponsLoot[weapon] = nil
-						}
+					gameState.merchantWeaponsLoot[weapon]! -= 1
+					gameState.hero.weapons[weapon, default: 0] += 1
+					gameState.heroGold -= weapon.price
+					
+					if gameState.merchantWeaponsLoot[weapon]! == 0 {
+						gameState.merchantWeaponsLoot[weapon] = nil
 					}
+				}
 			}
+			gameState.itemToDisplay = nil
 			
 		case .armor:
 			
@@ -297,6 +298,8 @@ extension MainViewModel {
 				}
 			}
 			
+			gameState.itemToDisplay = nil
+			
 		case .potion:
 			
 			guard let potion = itemToDisplay as? Item else { return }
@@ -329,6 +332,8 @@ extension MainViewModel {
 				}
 			}
 			
+			gameState.itemToDisplay = nil
+			
 		case .loot:
 			
 			guard let loot = itemToDisplay as? Item else { return }
@@ -360,6 +365,8 @@ extension MainViewModel {
 					}
 				}
 			}
+			
+			gameState.itemToDisplay = nil
 		}
 	}
 	
@@ -377,14 +384,21 @@ extension MainViewModel {
 			guard let weapon = itemToDisplay as? Weapon else { return }
 			
 			equipWeapon(weapon)
+			gameState.itemToDisplay = nil
 			
 		case .armor:
 			
 			guard let armor = itemToDisplay as? Armor else { return }
 			
 			equipArmor(armor)
+			gameState.itemToDisplay = nil
 			
-		case .potion: usePotion(itemToDisplay as! Item)
+		case .potion:
+			
+			guard let potion = itemToDisplay as? Item else { return }
+			
+			usePotion(potion)
+			gameState.itemToDisplay = nil
 			
 		case .loot:
 			print("it's a loot")
