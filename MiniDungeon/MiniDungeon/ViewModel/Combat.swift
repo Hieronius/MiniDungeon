@@ -166,7 +166,10 @@ extension MainViewModel {
 			}
 			
 			gameState.logMessage = "\(gameState.hero.spellPower) amount of health has been recovered"
-			print("\(gameState.hero.spellPower) amount of health has been recovered")
+			
+		} else if gameState.isHeroTurn && gameState.hero.currentEnergy >= gameState.skillEnergyCost &&
+			gameState.hero.currentMana < gameState.spellManaCost {
+			gameState.logMessage = "Not enough mana to cast"
 			
 		} else if !gameState.isHeroTurn &&
 					gameState.enemy.currentEnergy >= gameState.skillEnergyCost &&
