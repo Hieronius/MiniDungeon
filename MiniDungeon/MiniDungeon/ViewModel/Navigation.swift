@@ -49,6 +49,11 @@ extension MainViewModel {
 		gameScreen = .specialisation
 	}
 	
+	func applyActiveShrineEffectsAndGoToSpecialisation() {
+		gameScreen = .specialisation
+		applyActiveShrineEffects()
+	}
+	
 	func goToMerchant() {
 		gameScreen = .merchant
 	}
