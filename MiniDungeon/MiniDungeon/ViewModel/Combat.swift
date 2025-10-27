@@ -147,7 +147,8 @@ extension MainViewModel {
 			
 			if gameState.didEnemyUseBlock == false {
 				
-				gameState.enemy.defence += gameState.blockValue
+				// Enemy should get 50% of block value due to lack of test data so it won't ruin an entire game
+				gameState.enemy.defence += (gameState.blockValue / 2)
 				gameState.didEnemyUseBlock = true
 			}
 			gameState.logMessage = "Block Ability has been used by the Enemy!"
@@ -170,7 +171,7 @@ extension MainViewModel {
 				gameState.hero.currentHP = gameState.hero.maxHP
 			}
 			
-			gameState.logMessage = "\(gameState.hero.spellPower) amount of health has been recovered"
+			gameState.logMessage = "\(gameState.hero.spellPower) amount of health has been recovered by hero"
 			
 		} else if gameState.isHeroTurn && gameState.hero.currentEnergy >= gameState.skillEnergyCost &&
 			gameState.hero.currentMana < gameState.spellManaCost {
@@ -182,6 +183,7 @@ extension MainViewModel {
 			
 			gameState.enemy.currentEnergy -= gameState.skillEnergyCost
 			gameState.enemy.enemyCurrentHP += gameState.enemy.spellPower
+			gameState.logMessage += "\(gameState.enemy.spellPower) amount of health has been recovered by enemy"
 			
 			if gameState.enemy.enemyCurrentHP >= gameState.enemy.enemyMaxHP {
 				gameState.enemy.enemyCurrentHP = gameState.enemy.enemyMaxHP

@@ -68,7 +68,7 @@ struct GameState {
 	
 	var skillEnergyCost = 1
 	var spellManaCost = 10
-	var blockValue = 2
+	var blockValue = 5
 	
 	// MARK: - Log
 	
