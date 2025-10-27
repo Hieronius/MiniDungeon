@@ -44,7 +44,7 @@ extension MainViewModel {
 			
 		// Legendary
 			
-		case "Perfect Energy Bonus": gameState.hero.baseMaxMP += 1
+		case "Perfect Energy Bonus": gameState.hero.baseMaxEP += 1
 		case "Perfect Hit Chance Bonus": gameState.hero.baseHitChance += 3
 		case "Perfect Crit Chance Bonus": gameState.hero.baseCritChance += 3
 		case "Perfect Spell Power Bonus": gameState.hero.baseSpellPower += 3
@@ -58,5 +58,8 @@ extension MainViewModel {
 		default: fatalError("Something went wrong")
 			
 		}
+		gameState.levelBonusToDisplay = nil
+		gameState.hero.levelUP()
+		goToDungeon()
 	}
 }

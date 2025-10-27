@@ -2,7 +2,7 @@ import SwiftUI
 
 extension MainViewModel {
 	
-	// MARK: - Start Mini Game
+	// MARK: Start Mini Game
 	
 	/// Check energy for action and start a miniGame
 	func startMiniGame() {
@@ -10,6 +10,19 @@ extension MainViewModel {
 		if gameState.isHeroTurn && gameState.hero.currentEnergy >= gameState.skillEnergyCost {
 			gameState.isMiniGameOn = true
 		}
+	}
+	
+	// MARK: startBattleWithRandomNonEliteEnemy
+	
+	/// Method to prepare game state and both sides for a battle
+	func startBattleWithRandomNonEliteEnemy() {
+		
+		gameState.enemy = generateEnemy(didFinalBossSummoned: false)
+		restoreAllEnergy()
+		gameState.didHeroUseBlock = false
+		gameState.didEnemyUseBlock = false
+		goToBattle()
+		gameState.logMessage = "Battle begin!"
 	}
 	
 	// MARK: - Attack
@@ -28,14 +41,10 @@ extension MainViewModel {
 			let hitRoll = Int.random(in: 1...100)
 			if hitRoll > gameState.hero.hitChance {
 				gameState.logMessage = "Hero's Attack has been missed!"
-				print("Hero's Attack has been missed!")
 				return
 			}
 			
 			// damage
-			
-			// if we make it Double = 5.0 - 10.0 = 6.0 - 0.5 defence = 5.5
-			// Int(5.5) = 5
 			
 			var damage = Int.random(in: gameState.hero.minDamage...gameState.hero.maxDamage) - gameState.enemy.defence
 			
@@ -43,6 +52,7 @@ extension MainViewModel {
 			
 			if gameState.isMiniGameSuccessful  {
 				damage = Int(Double(damage) * 1.25)
+				gameState.logMessage += " Nice Hit!"
 			}
 			
 			// crit chance
@@ -56,17 +66,14 @@ extension MainViewModel {
 					let criticalDamage = Int(Double(damage) * 1.5)
 					gameState.enemy.enemyCurrentHP -= criticalDamage
 					gameState.logMessage = "Critical hit - \(criticalDamage) has been done!"
-					print("Critical hit - \(criticalDamage) has been done!")
+					// if critical strike successful get 1 extra dark energy
+					gameState.heroDarkEnergy += 1
 					
 				} else {
 					gameState.enemy.enemyCurrentHP -= damage
 					gameState.logMessage = "\(damage) damage has been done."
-					print("\(damage) damage has been done")
 				}
-				if gameState.isMiniGameSuccessful { gameState.logMessage += " Nice Hit!" }
 				
-			} else {
-				print("0 damage has been received")
 			}
 			
 			
@@ -77,7 +84,6 @@ extension MainViewModel {
 			let hitRoll = Int.random(in: 1...100)
 			if hitRoll > gameState.enemy.hitChance {
 				gameState.logMessage = "Enemy Attack has been missed"
-				print("Enemy Attack has been missed")
 				return
 			}
 			
@@ -91,22 +97,23 @@ extension MainViewModel {
 					let criticalDamage = Int(Double(damage) * 1.5)
 					gameState.hero.currentHP -= criticalDamage
 					gameState.logMessage = "Critical hit - \(criticalDamage) has been done!"
-					print("Critical hit - \(criticalDamage) has been done!")
+					
+					// If enemy get a critical strike and hero has more than 0 dark energy -> deduct a single one
+					if gameState.heroDarkEnergy > 0 {
+						gameState.heroDarkEnergy -= 1
+					}
 					
 				} else {
 					gameState.hero.currentHP -= damage
-					gameState.logMessage = "\(damage) damage has been done"
-					print("\(damage) damage has been done")
+					gameState.logMessage = "\(damage) damage has been done by enemy"
 				}
 				
 			} else {
-				gameState.logMessage = "0 damage has been received"
-				print("0 damage has been received")
+				gameState.logMessage = "0 damage has been made"
 			}
 		}
 		
 		winLoseCondition()
-		print(!gameState.isHeroTurn ? "\(gameState.hero.currentHP)" : "\(gameState.enemy.enemyCurrentHP)")
 	}
 	
 	// MARK: Fireball
@@ -131,7 +138,6 @@ extension MainViewModel {
 				gameState.hero.baseDefence += gameState.blockValue
 				gameState.didHeroUseBlock = true
 				gameState.logMessage = "Block Ability has been used by the Hero!"
-				print("Block Ability has been used by the Hero!")
 			}
 			
 		} else if !gameState.isHeroTurn &&
@@ -145,7 +151,6 @@ extension MainViewModel {
 				gameState.didEnemyUseBlock = true
 			}
 			gameState.logMessage = "Block Ability has been used by the Enemy!"
-			print("Block Ability has been used by the Enemy!")
 		}
 	}
 	

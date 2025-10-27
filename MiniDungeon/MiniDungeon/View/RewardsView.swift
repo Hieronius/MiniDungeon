@@ -10,8 +10,9 @@ extension MainView {
 		List {
 			
 			Section(header: Text("Rewards")) {
-				Text("Gold - \(viewModel.gameState.goldLootToDisplay)")
-				Text("Experience - \(viewModel.gameState.expLootToDisplay)")
+				Text("Gold: \(viewModel.gameState.goldLootToDisplay)")
+				Text("Experience: \(viewModel.gameState.expLootToDisplay)")
+				Text("Dark Energy: \(viewModel.gameState.darkEnergyToDisplay)")
 			}
 			
 			Section(header: Text("Loot")) {

@@ -11,6 +11,7 @@ extension MainView {
 		
 		Spacer()
 		
+		Text("Dark Energy: \(viewModel.gameState.heroDarkEnergy)")
 		Text(viewModel.gameState.isHeroTurn ? "Hero Turn" : "Enemy Turn")
 		
 		Spacer()
@@ -116,23 +117,8 @@ extension MainView {
 				
 				Section(header: Text("Navigation")) {
 					
-					Button("Go To Dungeon") {
-						viewModel.goToDungeon()
-					}
-					Button("Go To Hero Stats") {
-						viewModel.goToHeroStats()
-					}
-					Button("Go To Enemy Stats") {
+					Button("Enemy Stats") {
 						viewModel.goToEnemyStats()
-					}
-					Button("Go To Inventory") {
-						viewModel.goToInventory()
-					}
-					Button("Go To Town") {
-						viewModel.goToTown()
-					}
-					Button("Go To Menu") {
-						viewModel.goToMenu()
 					}
 				}
 			}

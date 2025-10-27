@@ -21,9 +21,7 @@ extension MainView {
 			}
 			
 			Section(header: Text("Navigation")) {
-				Button("Go To Menu") {
-					viewModel.goToMenu()
-				}
+
 				Button("Go To Battle") {
 					viewModel.goToBattle()
 				}

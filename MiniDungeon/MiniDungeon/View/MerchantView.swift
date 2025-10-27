@@ -7,15 +7,6 @@ extension MainView {
 	@ViewBuilder
 	func buildMerchant() -> some View {
 		
-		/*
-		 
-		 Souls / gold count
-		 
-		 Items to sell
-		 
-		 Items to buy
-		 */
-		
 		List {
 			
 			Section(header: Text("Currency")) {
@@ -26,6 +17,7 @@ extension MainView {
 				Section(header: Text("Item Info")) {
 					
 					Text("Item Name: \(viewModel.gameState.itemToDisplay?.label ?? "")")
+						.bold()
 					Text("Item Level: \(viewModel.gameState.itemToDisplay?.itemLevel ?? 0)")
 					Text("Price: \(viewModel.gameState.itemToDisplay?.price ?? 0)")
 					Text("Description:  \(viewModel.gameState.itemToDisplay?.description ?? "")")
@@ -87,10 +79,6 @@ extension MainView {
 			}
 			
 			Section(header: Text("Navigation")) {
-				Button("Go To Menu") {
-					viewModel.goToMenu()
-					viewModel.checkForLevelUP()
-				}
 				Button("Go To Dungeon") {
 					viewModel.goToDungeon()
 					viewModel.checkForLevelUP()

@@ -1,0 +1,21 @@
+1. Implement condition to upgrade shrines in order accordingly to it's rarity. It's mean you can't upgrade legendary ones before common, rare and epic ones being upgraded
+
+2.. Create a method to go back to previous screen you went from:
+- if you select map from menu -> menu should appear in navigation block
+- if you press "hero stats" from dungeon map, "dungeon" should appear in navigation
+and so on
+
+3. Adjust enemy hp/damage/defence to be a little bit easier
+
+4. Adjust Gold/Exp/Energy reward generation system accordingly to current level of the dungeon
+
+5. Implement one unique ability for each class:
+- block for knight
+- fireball for mage
+- heal for priest
+- 100% critical attack for assasin
+- Double Strike for Warrior
+and so on
+
+
+6. I need localisation if i want folks to test it

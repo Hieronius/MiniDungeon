@@ -14,30 +14,47 @@ extension MainViewModel {
 		gameState.dungeonMap = level
 	}
 	
-	// MARK: - Check if dungeon has been explored and summon the boss
+	// MARK: checkMapForAllEventsToBeExplored
 	
-	func checkForMapBeingExplored() {
+	/// Method to check all rooms with events in the game level and if so returns true
+	func checkMapForAllEventsToBeExplored() -> Bool {
+		
+		var eventsToExplore = 0
+		var exploredEvents = 0
 		
 		for row in 0..<gameState.dungeonMap.count {
 			
-			for col in 0..<row {
+			for col in 0..<gameState.dungeonMap[row].count {
 				
 				let tile = gameState.dungeonMap[row][col]
-				if !tile.isExplored && tile.type != .empty {
-					print("Found unexplored tile")
-					return
+				
+				// MODIFICATION STARTS HERE
+				if tile.type == .room && tile.isExplored { exploredEvents += 1 }
+				if tile.type == .room { eventsToExplore += 1 }
+				// MODIFICATION ENDS HERE
+				
+				if !tile.isExplored && tile.type == .room && tile.type != .empty {
+					return false
 				}
 			}
 		}
-		print("Level Completed. Final boss appeared")
+		return true
+	}
+	
+	// MARK: summonBoss
+	
+	/// If level been completed -> summon the boss and start the fight
+	func summonBoss() {
+		
 		gameState.didEncounteredBoss = true
 		gameState.enemy = generateEnemy(didFinalBossSummoned: gameState.didEncounteredBoss)
 		restoreAllEnergy()
 		goToBattle()
 	}
 	
-	// MARK: If Level complete and boss has been defeated go to the next one
+	// MARK: endLevelAndGenerateNewOne
 	
+	/// If Level complete and boss has been defeated go to the next one
 	func endLevelAndGenerateNewOne() {
 		
 		generateMerchantLoot()
@@ -50,7 +67,6 @@ extension MainViewModel {
 		
 		generateMap()
 		spawnHero()
-		print("New level has been created - \(gameState.currentDungeonLevel + 1)")
 	}
 
 	// MARK: SpawnHero
@@ -83,7 +99,6 @@ extension MainViewModel {
 	
 	/// Use random generation to create random levels
 	/// Basic size of 7x7 and can be twicked accordinly to the depth of the dungeon
-	/// like first few of them should have 3x3, 4x4 and so on and so on
 	func generateRandomDungeonLevel() -> [[String]] {
 		
 		// "E" - Empty Room - 30%
@@ -113,8 +128,6 @@ extension MainViewModel {
 					map[row][col] = generateRandomElement()
 				}
 			}
-		
-		// check map for being valid and return fixed version if it's not
 		return checkDungeonLevelForValidRouts(map)
 		
 		
@@ -141,7 +154,6 @@ extension MainViewModel {
 					let neighbours = checkTopBotLeftRightDirectionsFromTile(row: row, col: col, in: map)
 					
 					if neighbours.isEmpty {
-						print("Found inValid direction -> Fixed it")
 						
 						if let top = safeSchemeValue(atRow: row - 1, col: col, in: map), top == "E" {
 							map[row - 1][col] = "C"

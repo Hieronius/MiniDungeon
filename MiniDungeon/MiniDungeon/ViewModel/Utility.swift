@@ -38,7 +38,6 @@ extension MainViewModel {
 				
 				restoreAllEnergy()
 				gameState.logMessage = "Now is Hero Turn"
-				print("Now is Hero Turn")
 				return
 			}
 			
@@ -52,7 +51,6 @@ extension MainViewModel {
 				
 				// if enemy has less than 30% hp add heal/block as actions to choose between
 				if currentHealthInPercent <= 30.0 {
-					print("Enemy has 30% hp and less -> Special Move will be calculated")
 					
 					// 1 - 100 equal to part of 100% of the chance to get a specific action
 					let chance = Int.random(in: 1...100)
@@ -62,26 +60,20 @@ extension MainViewModel {
 						// 15% for healing ability
 					case 1...15:
 						self.heal()
-						print("Enemy used Healing Ability")
 						
 						// 15% for block ability
 					case 16...30:
 						self.block()
-						print("Enemy used Block Ability!")
 						
 						// 70% for attack ability
 					default:
 						self.continueAttackAfterMiniGame(success: false)
-						print("Enemy Attack!")
 					}
 					self.enemyTurn()
 					
-					// If more than 30% of hp just use attack
 				} else {
 					
-					print("Enemy has more than 30% of hp -> Normal Move will be calculated")
 					self.continueAttackAfterMiniGame(success: false)
-					print("Enemy Attack!")
 					self.enemyTurn()
 				}
 				
@@ -97,7 +89,6 @@ extension MainViewModel {
 		gameState.didHeroUseBlock = false
 		gameState.hero.baseDefence -= gameState.blockValue
 		gameState.logMessage = "Hero Block Ability has been removed"
-		print("Hero Block Ability has been removed")
 	}
 	
 	func endEnemyBlockEffect() {
@@ -105,7 +96,6 @@ extension MainViewModel {
 		gameState.didEnemyUseBlock = false
 		gameState.enemy.defence -= gameState.blockValue
 		gameState.logMessage = "Enemy Block Ability has been removed"
-		print("Enemy Block Ability has been removed")
 	}
 	
 	// MARK: restoreAllEnergy
@@ -157,7 +147,7 @@ extension MainViewModel {
 	// MARK: winLoseCondition
 	
 	/// If enemy is dead -> collect rewards and move on
-	/// Otherwise go to the start screen, lose everything except score and gold
+	/// Otherwise go to the start screen, lose everything except dark energy
 	func winLoseCondition() {
 		
 		if gameState.hero.currentHP <= 0 {
@@ -179,7 +169,6 @@ extension MainViewModel {
 			generateLoot()
 			getRewardAfterFight()
 			goToRewards()
-			endLevelAndGenerateNewOne()
 		}
 	}
 	
@@ -188,7 +177,6 @@ extension MainViewModel {
 	func getRewardAfterFight() {
 		
 		gameState.battlesWon += 1
-//		checkForLevelUP()
 	}
 	
 	// MARK: checkForLevelUP

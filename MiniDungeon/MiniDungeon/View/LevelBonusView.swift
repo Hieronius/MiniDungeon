@@ -25,6 +25,7 @@ extension MainView {
 				
 				Section(header: Text("Description")) {
 					Text("Name - \(viewModel.gameState.levelBonusToDisplay?.name ?? "")")
+						.bold()
 					Text("Description:  \(viewModel.gameState.levelBonusToDisplay?.description ?? "")")
 					Button("Choose") {
 						viewModel.applyLevelBonus(viewModel.gameState.levelBonusToDisplay)

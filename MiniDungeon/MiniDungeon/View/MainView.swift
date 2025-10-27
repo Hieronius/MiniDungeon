@@ -54,7 +54,6 @@ struct MainView: View {
 			
 			MiniGameView { success in
 				viewModel.gameState.isMiniGameSuccessful = success
-				print(success)
 				DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
 					self.viewModel.goToBattle()
 				}
@@ -79,7 +78,5 @@ struct MainView: View {
 		
 	}
 }
-
-// MARK: - LevelComplete Screen (View)
 
 

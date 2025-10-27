@@ -26,12 +26,14 @@ extension MainView {
 					}
 				}
 				
-				Section(header: Text("Description")) {
-					Text("Name: \(viewModel.gameState.specToDisplay?.name ?? "")")
-					Text("Description: \(viewModel.gameState.specToDisplay?.description ?? "")")
-					Button("Choose") {
-						viewModel.applySpecialisation(viewModel.gameState.specToDisplay)
-						viewModel.goToMenu()
+				if viewModel.gameState.specWasSelected {
+					Section(header: Text("Description")) {
+						Text("Name: \(viewModel.gameState.specToDisplay?.name ?? "")")
+							.bold()
+						Text("Description: \(viewModel.gameState.specToDisplay?.description ?? "")")
+						Button("Choose") {
+							viewModel.applySpecialisation(viewModel.gameState.specToDisplay)
+						}
 					}
 				}
 			}

@@ -1,0 +1,19 @@
+1. Файл Utility
+В методе endHeroTurn можно добавить в ветку else для if gameState.isHeroTurn и перенести использование enemyTurn() туда. И убрать проверку if !gameState.isHeroTurn из метода - Tried to do it but something went wrong and enemy turn won't start
+
+
+- If the blue line in mini game reached the end of the screen you should get - "failed" result
+
+- When all roomes of the dungeon has been cleared there should be the mark or something like that to notice the user to press "go to next level" button
+
+- Inventory Armor/Weapons slots should be as a buttons so user can inspect what he already wear
+
+- In Town Screen when you choose an upgrade it should be the same as choosing a weapon or armor. Choose, inspect and only after decide to learn it.
+
+- Refactor an entire Potion System because using a switch with potion Labels is not quite good
+
+- When you spam a spell with mana cost but have no mana it should print something like "not enough mana" in console
+
+- May be should implement NavigationBar
+
+- In MerchantView you should also add categories for items like Weapons/Armors/Potions and so on. Because when you get 10+ items it's already hard to distinguish what is what

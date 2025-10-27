@@ -33,18 +33,22 @@ extension MainViewModel {
 			gameState.hero.baseMaxDamage += 3
 			
 		case "Priest":
-			gameState.hero.baseMaxMP += 5
-			gameState.hero.currentMana = gameState.hero.maxMana
-			gameState.hero.baseSpellPower += 1
-			
-		case "Mage":
 			gameState.hero.baseMaxMP += 10
 			gameState.hero.currentMana = gameState.hero.maxMana
+			gameState.hero.baseMaxHP += 10
+			gameState.hero.currentHP = gameState.hero.maxHP
+			gameState.hero.baseSpellPower += 3
+			
+		case "Mage":
+			gameState.hero.baseMaxMP += 20
+			gameState.hero.currentMana = gameState.hero.maxMana
+			gameState.hero.baseSpellPower += 5
 			
 		default: return
 			
 		}
 		gameState.didApplySpec = true
 		gameState.hero.specialisation = spec
+		goToMenu()
 	}
 }

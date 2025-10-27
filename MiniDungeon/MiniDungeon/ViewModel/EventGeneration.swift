@@ -37,39 +37,36 @@ extension MainViewModel {
 		) {
 			gameState.hero.inventory[loot, default: 0] += 1
 			gameState.lootToDisplay.append(loot.label)
-			print("found \(loot)")
 		}
 		
 		// potion loot
 		
 		if let potion = generatePotionLoot(
-			didFinalBossSummoned: gameState.didEncounteredBoss
+			didFinalBossSummoned: gameState.didEncounteredBoss,
+			of: generateRewardRarity()
 		) {
 			gameState.hero.inventory[potion, default: 0] += 1
 			gameState.lootToDisplay.append(potion.label)
-			print("found \(potion)")
 		}
 		
 		// weapon loot
 		
 		if let weapon = generateWeaponLoot(
-			didFinalBossSummoned: gameState.didEncounteredBoss
+			didFinalBossSummoned: gameState.didEncounteredBoss,
+			of: generateRewardRarity()
 		) {
 			gameState.hero.weapons[weapon, default: 0] += 1
 			gameState.lootToDisplay.append(weapon.label)
-			print("found and equiped \(weapon)")
-			print(gameState.hero.weapons)
 		}
 		
 		// armor loot
 		
 		if let armor = generateArmorLoot(
-			didFinalBossSummoned: gameState.didEncounteredBoss
+			didFinalBossSummoned: gameState.didEncounteredBoss,
+			of: generateRewardRarity()
 		) {
 			gameState.hero.armors[armor, default: 0] += 1
 			gameState.lootToDisplay.append(armor.label)
-			print("found and equiped \(armor)")
-			print(gameState.hero.armors)
 		}
 		
 		// gold loot
@@ -87,12 +84,20 @@ extension MainViewModel {
 		)
 		gameState.hero.currentXP += exp
 		gameState.expLootToDisplay = exp
+		
+		// dark energy loot
+		
+		let energy = generateDarkEnergyLoot(
+			didFinalBossSummoned: gameState.didEncounteredBoss
+		)
+		gameState.heroDarkEnergy += energy
+		gameState.darkEnergyToDisplay = energy
 	}
 	
 	// MARK: - Generate Weapon Loot
 	
 	/// Throw loot roll and if it's in the range throw rarity roll to get a random weapon of given quality
-	func generateWeaponLoot(didFinalBossSummoned: Bool) -> Weapon? {
+	func generateWeaponLoot(didFinalBossSummoned: Bool, of rarity: Rarity) -> Weapon? {
 		
 		// 1. After killing the target -> throw the loot roll
 		
@@ -109,8 +114,6 @@ extension MainViewModel {
 		guard dropRoll <= 20 else { return nil }
 		
 		// 2. If we in the range of the 20% let's generate rarity of the loot
-		
-		let rarity = generateRewardRarity()
 		
 		switch gameState.currentDungeonLevel {
 			
@@ -156,7 +159,7 @@ extension MainViewModel {
 	// MARK: - Generate Armor Loot
 	
 	/// Throw loot roll and if it's in the range throw rarity roll to get a random weapon of given quality
-	func generateArmorLoot(didFinalBossSummoned: Bool) -> Armor? {
+	func generateArmorLoot(didFinalBossSummoned: Bool, of rarity: Rarity) -> Armor? {
 	
 		// 1. After killing the target -> throw the loot roll
 		
@@ -171,8 +174,6 @@ extension MainViewModel {
 		var armorLoot: Armor? = nil
 		
 		// 2. If we in the range of the 20% let's generate rarity of the loot
-		
-		let rarity = generateRewardRarity()
 		
 		switch gameState.currentDungeonLevel {
 			
@@ -218,7 +219,7 @@ extension MainViewModel {
 	// MARK: - Generate Potion Loot
 	
 	/// Throw loot roll and if it's in the range throw rarity roll to get a random potion of given quality
-	func generatePotionLoot(didFinalBossSummoned: Bool) -> Item? {
+	func generatePotionLoot(didFinalBossSummoned: Bool, of rarity: Rarity) -> Item? {
 		
 		// 1. After killing the target -> throw the loot roll
 		
@@ -233,8 +234,6 @@ extension MainViewModel {
 		var potionLoot: Item? = nil
 		
 		// 2. If we in the range of the 20% let's generate rarity of the loot
-		
-		let rarity = generateRewardRarity()
 		
 		switch gameState.currentDungeonLevel {
 			
@@ -270,7 +269,7 @@ extension MainViewModel {
 		case 3...: potionLoot = ItemManager.generatePotion(of: rarity)
 			
 			
-			// In level 3+ we can drop legendary + epic + rare + common weapons
+			// In level 3+ we can drop legendary + epic + rare + common potions
 		default: potionLoot = ItemManager.generatePotion(of: rarity)
 		}
 		
@@ -283,17 +282,58 @@ extension MainViewModel {
 	/// Use method to manage loot on sale drop chance
 	func generateSaleableLoot(didFinalBossSummoned: Bool) -> Item? {
 		
-		// bubbles, trinkets and so on
+		// 1. After killing the target -> throw the loot roll
+
 		var dropRoll = Int.random(in: 1...100)
+		
+		// If boss killed -> increase the chance for loot by 2
 		
 		if didFinalBossSummoned { dropRoll /= 2 }
 		
+		guard dropRoll <= 20 else { return nil }
+		
 		var loot: Item? = nil
 		
-		if dropRoll <= 10 {
+		// 2. If we in the range of the 20% let's generate rarity of the loot
+		
+		let rarity = generateRewardRarity()
+		
+		switch gameState.currentDungeonLevel {
 			
-			let itemIndex = Int.random(in: 0...2)
-			loot = ItemManager.loot[itemIndex]
+		case 0:
+			
+			if rarity == .common {
+				loot = ItemManager.generateLoot(of: .common)
+				
+			}
+			
+		case 1:
+			
+			if rarity == .common {
+				loot = ItemManager.generateLoot(of: .common)
+				
+			} else if rarity == .rare {
+				loot = ItemManager.generateLoot(of: .rare)
+				
+			}
+			
+		case 2:
+			
+			if rarity == .common {
+				loot = ItemManager.generateLoot(of: .common)
+				
+			} else if rarity == .rare {
+				loot = ItemManager.generateLoot(of: .rare)
+				
+			} else if rarity == .epic {
+				loot = ItemManager.generateLoot(of: .epic)
+			}
+			
+			// In level 3+ we can drop legendary + epic + rare + common loot
+			
+		case 3...: loot = ItemManager.generateLoot(of: rarity)
+			
+		default: loot = ItemManager.generateLoot(of: rarity)
 		}
 		return loot
 	}
@@ -310,17 +350,20 @@ extension MainViewModel {
 		
 		for _ in 1...5 {
 			
-			let weapon = generateWeaponLoot(didFinalBossSummoned: true)
+			let weapon = generateWeaponLoot(didFinalBossSummoned: true,
+											of: generateRewardRarity())
 			if weapon != nil {
 				gameState.merchantWeaponsLoot[weapon!, default: 0] += 1
 			}
 			
-			let armor = generateArmorLoot(didFinalBossSummoned: true)
+			let armor = generateArmorLoot(didFinalBossSummoned: true,
+										  of: generateRewardRarity())
 			if armor != nil {
 				gameState.merchantArmorsLoot[armor!, default: 0] += 1
 			}
 			
-			let potion = generatePotionLoot(didFinalBossSummoned: true)
+			let potion = generatePotionLoot(didFinalBossSummoned: true,
+											of: generateRewardRarity())
 			if potion != nil {
 				gameState.merchantInventoryLoot[potion!, default: 0] += 1
 			}
@@ -350,6 +393,22 @@ extension MainViewModel {
 		if didFinalBossSummoned { expRoll *= 2 }
 		
 		return expRoll
+	}
+	
+	// MARK: - Generate Dark Energy Loot
+	
+	func generateDarkEnergyLoot(didFinalBossSummoned: Bool) -> Int {
+		
+		var energyRoll = Int.random(in: 3...8)
+		
+		if didFinalBossSummoned { energyRoll *= 2 }
+		
+		if gameState.shadowGreedShrineBeenActivated {
+			print("You receive extra dark energy from Shadow Greed Shrine")
+			return Int(Double(energyRoll) * 1.25)
+		} else {
+			return energyRoll
+		}
 	}
 	
 	// MARK: - Generate Enemy

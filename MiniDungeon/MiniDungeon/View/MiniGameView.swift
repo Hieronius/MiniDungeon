@@ -63,7 +63,7 @@ extension MiniGameView {
 	
 	func hitBonusArea() {
 		
-		if timeRemaining > bonusArea - 0.1 && timeRemaining < bonusArea + 0.1 {
+		if timeRemaining > bonusArea - 0.035 && timeRemaining < bonusArea + 0.05 {
 			gameResult = "Perfect!"
 			isSuccess = true
 			progressBarColor = .green

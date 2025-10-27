@@ -9,27 +9,31 @@ extension MainView {
 		
 		Spacer()
 		
-		Text("Dungeon Level - \(viewModel.gameState.currentDungeonLevel + 1)")
-		
-		Spacer()
-		
 		VStack {
 			
 			HStack {
-				
 				Spacer()
-				Text("Battles won - \(viewModel.gameState.battlesWon)")
+				Text("Dungeon Level: \(viewModel.gameState.currentDungeonLevel + 1)")
 				Spacer()
-				Text("Gold - \(viewModel.gameState.heroGold)")
+				Text("Battles won: \(viewModel.gameState.battlesWon)")
 				Spacer()
 			}
 			
 			HStack {
 				
 				Spacer()
-				Text("Hero's lvl - \(viewModel.gameState.hero.heroLevel)")
+				Text("Dark Energy: \(viewModel.gameState.heroDarkEnergy)")
 				Spacer()
-				Text("XP - \(viewModel.gameState.hero.currentXP) / \(viewModel.gameState.hero.maxXP)")
+				Text("Gold: \(viewModel.gameState.heroGold)")
+				Spacer()
+			}
+			
+			HStack {
+				
+				Spacer()
+				Text("Hero's lvl: \(viewModel.gameState.hero.heroLevel)")
+				Spacer()
+				Text("XP: \(viewModel.gameState.hero.currentXP) / \(viewModel.gameState.hero.maxXP)")
 				Spacer()
 			}
 			
@@ -47,26 +51,26 @@ extension MainView {
 			
 			Section(header: Text("Navigation")) {
 				
-				Button("Go To Next Level") {
-					viewModel.checkForMapBeingExplored()
+				// If Hero has 0 dark energy it's a game over
+				if viewModel.gameState.heroDarkEnergy <= 0 {
+					Button("No More Dark Energy To Move - Start Over") {
+						viewModel.setupNewGame()
+					}
+					.foregroundStyle(.red)
 				}
-				Button("Go To Stats") {
+				
+				if viewModel.checkMapForAllEventsToBeExplored() {
+					Button("Summon Level Boss") {
+						viewModel.summonBoss()
+					}
+					.foregroundStyle(.purple)
+				}
+				
+				Button("Stats") {
 					viewModel.goToHeroStats()
 				}
-				Button("Go To Inventory") {
+				Button("Inventory") {
 					viewModel.goToInventory()
-				}
-				Button("Go To Rewards") {
-					viewModel.goToRewards()
-				}
-				Button("Go To Battle") {
-					viewModel.goToBattle()
-				}
-				Button("Go To Town") {
-					viewModel.goToTown()
-				}
-				Button("Go To Menu") {
-					viewModel.goToMenu()
 				}
 			}
 		}
@@ -90,8 +94,6 @@ extension MainView {
 						getTileButton(tile: tile) {
 
 							viewModel.handleTappedDirection(row, col)
-
-							print("taped the tile")
 
 						}
 					}

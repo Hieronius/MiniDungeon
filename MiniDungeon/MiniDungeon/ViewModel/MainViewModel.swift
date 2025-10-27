@@ -28,7 +28,7 @@ class MainViewModel: ObservableObject {
 		self.gameState.specsToChooseAtStart = SpecialisationManager.getThreeRandomSpecialisations()
 		
 		// Choose and apply on of three random specs
-		goToSpecialisation()
+		applyActiveShrineEffectsAndGoToSpecialisation()
 		
 		// Create new map
 		generateMap()
@@ -41,6 +41,7 @@ class MainViewModel: ObservableObject {
 	
 	func setupNewGame() {
 		
+		gameState.didEncounteredBoss = false
 		gameState.isHeroTurn = true
 		gameState.didApplySpec = false
 		
@@ -49,34 +50,31 @@ class MainViewModel: ObservableObject {
 		gameState.enemy = Enemy()
 		gameState.hero.currentXP = 0
 		gameState.hero.maxXP = 100
+		gameState.heroGold = 0
+		gameState.itemToDisplay = nil
+		gameState.lootToDisplay = []
+		gameState.specToDisplay = nil
+		gameState.levelBonusToDisplay = nil
+		
+		// If there is less than 10 dark energy refill it, otherwise do nothing
+		if gameState.heroDarkEnergy < 10 {
+			let difference = 10 - gameState.heroDarkEnergy
+			gameState.heroDarkEnergy += difference
+		}
 		gameState.currentDungeonLevel = 0
 		gameState.isHeroAppeard = false
 		gameState.heroPosition = (0,0)
 		gameState.battlesWon = 0
 		
+		// TODO: There we should go to TownView -> SpecView -> Dungeon
+		
 		// Start from the beginning
 		gameState.specsToChooseAtStart = SpecialisationManager.getThreeRandomSpecialisations()
-		goToSpecialisation()
+		goToTown()
 		generateMap()
 		spawnHero()
 		
 		// Apply all previous upgrades on the camp
-		
-		for _ in 0..<gameState.hpUpgradeCount {
-			gameState.hero.upgradeHP()
-		}
-		
-		for _ in 0..<gameState.damageUpgradeCount {
-			gameState.hero.upgradeDamage()
-		}
-		
-		for _ in 0..<gameState.defenceUpgradeCount {
-			gameState.hero.upgradeDefence()
-		}
-		
-		for _ in 0..<gameState.spellPowerUpgradeCount {
-			gameState.hero.upgradeSpellPower()
-		}
 		
 	}
 	
@@ -86,7 +84,12 @@ class MainViewModel: ObservableObject {
 		
 		gameState.didFindLootAfterFight = false
 		gameState.lootToDisplay = []
-		goToDungeon()
+		
+		if gameState.didEncounteredBoss {
+			endLevelAndGenerateNewOne()
+		} else {
+			goToDungeon()
+		}
 		checkForLevelUP()
 	}
 	

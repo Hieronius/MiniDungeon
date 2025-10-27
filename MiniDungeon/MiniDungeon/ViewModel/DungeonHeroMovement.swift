@@ -51,18 +51,17 @@ extension MainViewModel {
 		return gameState.dungeonMap[row][col]
 	}
 	
-	// MARK: Handle Tapped Direction
+	// MARK: handleTappedDirection
 
 	/// Method to define Hero movement logic based on tapped direction if it's valid to move
 	func handleTappedDirection(_ row: Int, _ col: Int) {
 
 		// If valid -> move hero position to a new coordinate
 
-		if checkIfDirectionValid(row, col) {
+		if checkIfDirectionValid(row, col) && gameState.heroDarkEnergy > 0 {
 
 			// move hero to the new position
 			
-
 			gameState.heroPosition = (row, col)
 			
 			let heroPosition = gameState.heroPosition
@@ -72,17 +71,18 @@ extension MainViewModel {
 				
 				// MARK: Transition to Combat Screen
 
-				gameState.enemy = generateEnemy(didFinalBossSummoned: false)
-				restoreAllEnergy()
-				gameState.didHeroUseBlock = false
-				gameState.didEnemyUseBlock = false
-				goToBattle()
-				gameState.logMessage = "Battle begin!"
+				startBattleWithRandomNonEliteEnemy()
 
 			}
+			// Take one Dark Energy Point for each unexplored tile
+			// And do not if Mystery Shrine been activated
+			if gameState.dungeonMap[gameState.heroPosition.row][gameState.heroPosition.col].isExplored == false &&
+				!gameState.mysteryShrineBeenActivated {
+				gameState.heroDarkEnergy -= 1
+				
+			}
 			gameState.dungeonMap[gameState.heroPosition.row][gameState.heroPosition.col].isExplored = true
-			print("New Hero Position is \(row), \(col)")
-
+			
 		} else {
 			print("failed attempt to move")
 		}

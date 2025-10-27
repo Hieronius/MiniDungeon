@@ -11,35 +11,14 @@ extension MainView {
 			
 			Section(header: Text("It's a Menu")) {
 				
-				Button("Go To Battle") {
-					viewModel.goToBattle()
-				}
-				Button("Go To Dungeon") {
+				Button("Dungeon") {
 					viewModel.goToDungeon()
 				}
-				Button("Go To Hero Stats") {
+				Button("Stats") {
 					viewModel.goToHeroStats()
 				}
-				Button("Go To Inventory") {
+				Button("Inventory") {
 					viewModel.goToInventory()
-				}
-				Button("Go To Town") {
-					viewModel.goToTown()
-				}
-				Button("Go To Merchant") {
-					viewModel.goToMerchant()
-				}
-				Button("Go To Options") {
-					viewModel.goToOptions()
-				}
-				Button("Go To Mini Game") {
-					viewModel.goToMiniGame()
-				}
-				Button("Go To Specialisation") {
-					viewModel.goToSpecialisation()
-				}
-				Button("Go To Level Reward") {
-					viewModel.goToLevelBonus()
 				}
 			}
 		}

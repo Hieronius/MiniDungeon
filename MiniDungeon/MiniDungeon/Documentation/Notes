@@ -1,6 +1,4 @@
-1. Add more common bonuses from level UP such as +1 minDamage, 1maxDamage
-
-2. Remove any power ups in stats after level bonus. Hero should rise only by gear, level bonuses and potions
+1. Game is quite hard at this stage for the User
 
 3. Add reward screen after boss fight before merchant screen
 
@@ -15,3 +13,5 @@
 9. Should i finally create a Mirro or Freeform mural to keep all my things on check?
 
 10. Add ingame info tab with stats/professions/and other objects of the game with description to lead player's way
+
+11. What about replacing all rooms chars to "?" so you don't know where you going until you step. And when you clear the room it's char should be changed to actual event happened here such as fight, riddle, blessing and so on.

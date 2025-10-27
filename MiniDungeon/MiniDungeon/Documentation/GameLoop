@@ -1,0 +1,29 @@
+- Start
+- Choose Specialisation
+- Explore Dungeon
+- Kill the boss
+- Get Loot
+- Sell Loot / Buy some random items
+- Choose extra Perk/Talant/Gear
+- Die
+- Go to the starting point and do minor upgrades for dark energy you got during last run
+- Become stronger
+- Repeat
+
+Dungeon Game Loop:
+- Enter new room
+- Explore
+- Repeat
+
+Combat Game Loop:
+- Hit
+- Win
+- Collect the loot
+- Repeat
+
+Game Loop Across Different Runs:
+- Enter the dungeon
+- Die
+- Become Stronger
+- Repeat
+

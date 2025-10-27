@@ -1,6 +1,10 @@
 import Foundation
 
+// MARK: - SpecialisationManager
+
 struct SpecialisationManager {
+	
+	// MARK: specialisations
 	
 	static let specialisations: [Specialisation] = [
 		
@@ -18,12 +22,14 @@ struct SpecialisationManager {
 		
 		Specialisation(
 			name: "Priest",
-			description: "Prist gain 1 spell power and 5 max mana points"),
+			description: "Priest gains 3 spell power and 10 max mana and health points"),
 		
 		Specialisation(
 			name: "Mage",
-			description: "Mage gain 10 extra max mana points")
+			description: "Mage gains 5 extra spell power and 20 extra max mana points")
 	]
+	
+	// MARK: getThreeRandomSpecialisations
 	
 	static func getThreeRandomSpecialisations() -> [Specialisation] {
 		
@@ -38,6 +44,8 @@ struct SpecialisationManager {
 		return Array(specs)
 	}
 }
+
+// MARK: Specialisation
 
 /// You can choose one of three different specialisation at the start of each run
 struct Specialisation: Identifiable, Hashable {

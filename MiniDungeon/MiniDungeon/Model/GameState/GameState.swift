@@ -21,19 +21,24 @@ struct GameState {
 	
 	// MARK: - Upgrades
 	
-	var hpUpgradeCount = 0
-	var manaUpgradeCount = 0
-	var damageUpgradeCount = 0
-	var defenceUpgradeCount = 0
-	var spellPowerUpgradeCount = 0
-	
 	var didApplySpec = false
 	
 	var specToDisplay: Specialisation?
 	var specsToChooseAtStart: [Specialisation] = []
+	var specWasSelected: Bool {
+		specToDisplay != nil
+	}
+	
+	var shrineUpgradeToDisplay: Shrine?
+	var upgradedShrines: [Shrine] = []
+	var shrineUpgradeWasSelected: Bool {
+		shrineUpgradeToDisplay != nil
+	}
+	var shadowGreedShrineBeenActivated = false
+	var mysteryShrineBeenActivated = false
 	
 	var levelBonusToDisplay: LevelBonus?
-	var levelBonusesToChoose: [LevelBonus] = []
+	var levelBonusesToChoose: [LevelBonus?] = []
 	
 	var levelBonusesRarities: [Rarity] = []
 	
@@ -53,6 +58,9 @@ struct GameState {
 	// MARK: - Stats
 	
 	var heroGold = 0
+	
+	/// Resource to boost abilities/explore dungeon/rebuild the town
+	var heroDarkEnergy = 10
 	
 	var battlesWon = 0
 	
@@ -81,6 +89,7 @@ struct GameState {
 	var isItemOnSale = false
 	var expLootToDisplay = 0
 	var goldLootToDisplay = 0
+	var darkEnergyToDisplay = 0
 	
 	init() {
 		

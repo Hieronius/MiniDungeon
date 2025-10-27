@@ -1,6 +1,10 @@
 import Foundation
 
+// MARK: - LevelBonusManager
+
 struct LevelBonusManager {
+	
+	// MARK: commonLevelBonuses
 	
 	static private let commonLevelBonuses: [LevelBonus] = [
 		
@@ -26,6 +30,8 @@ struct LevelBonusManager {
 		)
 	]
 	
+	// MARK: rareLevelBonuses
+	
 	static private let rareLevelBonuses: [LevelBonus] = [
 		
 		LevelBonus(
@@ -46,7 +52,7 @@ struct LevelBonusManager {
 		),
 		LevelBonus(
 			name: "Great Spell Power Bonus",
-			description: "+2 Spell Power"
+			description: "+3 Spell Power"
 		),
 		LevelBonus(
 			name: "Great Crit Chance Bonus",
@@ -58,6 +64,8 @@ struct LevelBonusManager {
 		)
 		
 	]
+	
+	// MARK: epicLevelBonuses
 	
 	static private let epicLevelBonuses: [LevelBonus] = [
 		
@@ -79,7 +87,7 @@ struct LevelBonusManager {
 		),
 		LevelBonus(
 			name: "Big Spell Power Bonus",
-			description: "+3 Spell Power"
+			description: "+5 Spell Power"
 		),
 		LevelBonus(
 			name: "Big Crit Chance Bonus",
@@ -90,6 +98,8 @@ struct LevelBonusManager {
 			description: "+2% Hit Chance"
 		)
 	]
+	
+	// MARK: legendaryLevelBonuses
 	
 	static private let legendaryLevelBonuses: [LevelBonus] = [
 		
@@ -111,7 +121,7 @@ struct LevelBonusManager {
 		),
 		LevelBonus(
 			name: "Perfect Spell Power Bonus",
-			description: "+3 Spell Power"
+			description: "+5 Spell Power"
 		),
 		LevelBonus(
 			name: "Perfect Crit Chance Bonus",
@@ -126,6 +136,8 @@ struct LevelBonusManager {
 			description: "+1 max Energy"
 		)
 	]
+	
+	// MARK: generateLevelBonus
 	
 	/// Method gets rarity of the level bonus and generates one accordingly
 	static func generateLevelBonus(
@@ -143,6 +155,8 @@ struct LevelBonusManager {
 	
 	
 }
+
+// MARK: - LevelBonus
 
 struct LevelBonus: Identifiable, Hashable {
 	

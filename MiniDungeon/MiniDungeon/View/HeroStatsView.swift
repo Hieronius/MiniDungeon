@@ -28,9 +28,27 @@ extension MainView {
 				Text("Hit Chance: \(viewModel.gameState.hero.hitChance)%")
 			}
 			
+			Section(header: Text("Utility")) {
+				Text("Gold: \(viewModel.gameState.heroGold)")
+				Text("Dark Energy: \(viewModel.gameState.heroDarkEnergy)")
+			}
+			
+			if !viewModel.gameState.upgradedShrines.isEmpty {
+				Section(header: Text("Active Shrines")) {
+					
+					ForEach(viewModel.gameState.upgradedShrines) { shrine in
+						
+						Text("\(shrine.description)")
+					}
+				}
+			}
+			
 			Section(header: Text("Navigation")) {
-				Button("Go To Menu") {
-					viewModel.goToMenu()
+				Button("Dungeon") {
+					viewModel.goToDungeon()
+				}
+				Button("Inventory") {
+					viewModel.goToInventory()
 				}
 			}
 		}
