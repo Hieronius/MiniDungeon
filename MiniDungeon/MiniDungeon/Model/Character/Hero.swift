@@ -11,7 +11,7 @@ struct Hero {
 	
 	var baseMaxHP = 75
 	var baseMaxMP = 50
-	var baseMaxEP = 4
+	var baseMaxEP = 3
 	
 	var baseMinDamage = 5
 	var baseMaxDamage = 10
@@ -34,7 +34,7 @@ struct Hero {
 	var currentMana = 50
 	var maxMana: Int { baseMaxMP + (armorSlot?.manaBonus ?? 0) }
 	
-	var currentEnergy = 4
+	var currentEnergy = 3
 	var maxEnergy: Int { baseMaxEP + (armorSlot?.energyBonus ?? 0) }
 	
 	/// Adds weapon MinDamage to hero baseMinDamage
