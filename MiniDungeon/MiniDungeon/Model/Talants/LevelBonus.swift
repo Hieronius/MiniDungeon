@@ -9,23 +9,23 @@ struct LevelBonusManager {
 	static private let commonLevelBonuses: [LevelBonus] = [
 		
 		LevelBonus(
-			name: "Flat HP Bonus",
+			name: "Common HP Bonus",
 			description: "+5 max HP"
 		),
 		LevelBonus(
-			name: "Flat MP Bonus",
+			name: "Common MP Bonus",
 			description: "+5 max MP"
 		),
 		LevelBonus(
-			name: "Flat Min Damage Bonus",
+			name: "Common Min Damage Bonus",
 			description: "+1 min damage"
 		),
 		LevelBonus(
-			name: "Flat Max Damage Bonus",
+			name: "Common Max Damage Bonus",
 			description: "+1 max damage"
 		),
 		LevelBonus(
-			name: "Flat Spell Power Bonus",
+			name: "Common Spell Power Bonus",
 			description: "+1 spell power"
 		)
 	]
@@ -35,31 +35,31 @@ struct LevelBonusManager {
 	static private let rareLevelBonuses: [LevelBonus] = [
 		
 		LevelBonus(
-			name: "Great HP Bonus",
+			name: "Rare HP Bonus",
 			description: "+10 max HP"
 		),
 		LevelBonus(
-			name: "Great MP Bonus",
+			name: "Rare MP Bonus",
 			description: "+10 max MP"
 		),
 		LevelBonus(
-			name: "Great Damage Bonus",
+			name: "Rare Damage Bonus",
 			description: "+1 min and max Damage"
 		),
 		LevelBonus(
-			name: "Great Defence Bonus",
+			name: "Rare Defence Bonus",
 			description: "+1 Defence"
 		),
 		LevelBonus(
-			name: "Great Spell Power Bonus",
+			name: "Rare Spell Power Bonus",
 			description: "+3 Spell Power"
 		),
 		LevelBonus(
-			name: "Great Crit Chance Bonus",
+			name: "Rare Crit Chance Bonus",
 			description: "+1% Crit Chance"
 		),
 		LevelBonus(
-			name: "Great Hit Chance Bonus",
+			name: "Rare Hit Chance Bonus",
 			description: "+1% Hit Chance"
 		)
 		
@@ -70,31 +70,31 @@ struct LevelBonusManager {
 	static private let epicLevelBonuses: [LevelBonus] = [
 		
 		LevelBonus(
-			name: "Big HP Bonus",
+			name: "Epic HP Bonus",
 			description: "+15 max HP"
 		),
 		LevelBonus(
-			name: "Big MP Bonus",
+			name: "Epic MP Bonus",
 			description: "+15 max MP"
 		),
 		LevelBonus(
-			name: "Big Damage Bonus",
+			name: "Epic Damage Bonus",
 			description: "+2 min and max Damage"
 		),
 		LevelBonus(
-			name: "Big Defence Bonus",
+			name: "Epic Defence Bonus",
 			description: "+2 Defence"
 		),
 		LevelBonus(
-			name: "Big Spell Power Bonus",
+			name: "Epic Spell Power Bonus",
 			description: "+5 Spell Power"
 		),
 		LevelBonus(
-			name: "Big Crit Chance Bonus",
+			name: "Epic Crit Chance Bonus",
 			description: "+2% Crit Chance"
 		),
 		LevelBonus(
-			name: "Big Hit Chance Bonus",
+			name: "Epic Hit Chance Bonus",
 			description: "+2% Hit Chance"
 		)
 	]
@@ -104,35 +104,35 @@ struct LevelBonusManager {
 	static private let legendaryLevelBonuses: [LevelBonus] = [
 		
 		LevelBonus(
-			name: "Perfect HP Bonus",
+			name: "Legendary HP Bonus",
 			description: "+20 max HP"
 		),
 		LevelBonus(
-			name: "Perfect MP Bonus",
+			name: "Legendary MP Bonus",
 			description: "+20 max MP"
 		),
 		LevelBonus(
-			name: "Perfect Damage Bonus",
+			name: "Legendary Damage Bonus",
 			description: "+3 min and max Damage"
 		),
 		LevelBonus(
-			name: "Perfect Defence Bonus",
+			name: "Legendary Defence Bonus",
 			description: "+3 Defence"
 		),
 		LevelBonus(
-			name: "Perfect Spell Power Bonus",
+			name: "Legendary Spell Power Bonus",
 			description: "+5 Spell Power"
 		),
 		LevelBonus(
-			name: "Perfect Crit Chance Bonus",
+			name: "Legendary Crit Chance Bonus",
 			description: "+3% Crit Chance"
 		),
 		LevelBonus(
-			name: "Perfect Hit Chance Bonus",
+			name: "Legendary Hit Chance Bonus",
 			description: "+3% Hit Chance"
 		),
 		LevelBonus(
-			name: "Perfect Energy Bonus",
+			name: "Legendary Energy Bonus",
 			description: "+1 max Energy"
 		)
 	]
