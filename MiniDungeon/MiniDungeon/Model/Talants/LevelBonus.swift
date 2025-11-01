@@ -121,7 +121,7 @@ struct LevelBonusManager {
 		),
 		LevelBonus(
 			name: "Legendary Spell Power Bonus",
-			description: "+5 Spell Power"
+			description: "+10 Spell Power"
 		),
 		LevelBonus(
 			name: "Legendary Crit Chance Bonus",
