@@ -4,6 +4,7 @@ extension MainViewModel {
 	
 	// MARK: - applyLevelBonus
 	
+	/// Method to apply bonus of choice when hero get a new level
 	func applyLevelBonus(_ bonus: LevelBonus?) {
 		
 		guard let bonus = bonus else { return }
