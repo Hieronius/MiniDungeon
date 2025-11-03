@@ -24,6 +24,7 @@ enum ItemType {
 
 // MARK: - ItemManager
 
+/// Data Type to hold all possible items of loot and potions
 struct ItemManager {
 	
 	// MARK: - Common Potions
