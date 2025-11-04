@@ -1,5 +1,6 @@
 import Foundation
 
+/// Data type to define all possible state conditions of the game
 struct GameState {
 	
 	// MARK: - Properties to move
