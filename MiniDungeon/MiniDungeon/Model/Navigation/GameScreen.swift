@@ -1,5 +1,6 @@
 import Foundation
 
+/// Entity to define all possible screens in the game
 enum GameScreen {
 	
 	case menu
