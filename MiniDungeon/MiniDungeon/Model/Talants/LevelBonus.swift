@@ -2,6 +2,7 @@ import Foundation
 
 // MARK: - LevelBonusManager
 
+/// Data type to store all possible bonuses you can get after the level up
 struct LevelBonusManager {
 	
 	// MARK: commonLevelBonuses
