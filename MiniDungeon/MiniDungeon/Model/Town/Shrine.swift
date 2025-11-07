@@ -1,5 +1,6 @@
 import Foundation
 
+/// Entity to store information about all possible shrines you can activate at the town
 struct ShrineManager {
 	
 	// MARK: - Common Shrines
