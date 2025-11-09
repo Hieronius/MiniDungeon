@@ -2,6 +2,7 @@ import Foundation
 
 // MARK: - SpecialisationManager
 
+/// Entity to store all possible hero's specialisations in the game
 struct SpecialisationManager {
 	
 	// MARK: specialisations
