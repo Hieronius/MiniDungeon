@@ -1,5 +1,6 @@
 import Foundation
 
+/// Entity to store stats and inventory of the hero in the game
 struct Hero {
 	
 	// MARK: Base Stats
