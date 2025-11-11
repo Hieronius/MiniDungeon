@@ -1,5 +1,6 @@
 import Foundation
 
+/// Entity to store Enemy information and it's stats
 struct Enemy {
 	
 	var name = "Enemy"
