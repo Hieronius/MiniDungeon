@@ -181,6 +181,7 @@ struct ShrineManager {
 
 // MARK: - Shrine
 
+/// Entity to represent the building in the town which you can activate to get extra bonuses
 struct Shrine: Identifiable, Hashable {
 	
 	var id = UUID()
