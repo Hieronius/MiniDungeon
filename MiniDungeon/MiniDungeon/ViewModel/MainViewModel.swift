@@ -1,5 +1,6 @@
 import SwiftUI
 
+/// An entity to connect Model with View
 class MainViewModel: ObservableObject {
 	
 	// MARK: - Dependencies
@@ -27,7 +28,7 @@ class MainViewModel: ObservableObject {
 		// Generate three random specs
 		self.gameState.specsToChooseAtStart = SpecialisationManager.getThreeRandomSpecialisations()
 		
-		// Choose and apply on of three random specs
+		// Choose and apply one of three random specs
 		applyActiveShrineEffectsAndGoToSpecialisation()
 		
 		// Create new map
