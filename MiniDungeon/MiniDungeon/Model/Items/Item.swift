@@ -472,6 +472,7 @@ struct ItemManager {
 
 // MARK: - Item
 
+/// Entity to store all information about basic object of the inventory
 struct Item: ItemProtocol, Hashable {
 	
 	let id = UUID()
