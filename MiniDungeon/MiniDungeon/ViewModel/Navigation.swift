@@ -1,5 +1,9 @@
 import Foundation
 
+/*
+ Extension to provide functionality of navigation between different screens at the game
+ */
+
 extension MainViewModel {
 	
 	// MARK: - Navigation
