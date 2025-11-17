@@ -84,6 +84,7 @@ extension MainViewModel {
 	
 	// MARK: endHeroBlockEffects
 	
+	/// Method to deactivate hero's block effect
 	func endHeroBlockEffect() {
 		
 		gameState.didHeroUseBlock = false
@@ -91,6 +92,7 @@ extension MainViewModel {
 		gameState.logMessage = "Hero Block Ability has been removed"
 	}
 	
+	/// Method to deactivate enemy's block effect
 	func endEnemyBlockEffect() {
 		
 		gameState.didEnemyUseBlock = false
