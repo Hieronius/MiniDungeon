@@ -159,7 +159,12 @@ extension MainViewModel {
 		} else if gameState.enemy.enemyCurrentHP <= 0 &&
 					!gameState.didEncounteredBoss {
 			print("Average Enemy has been defeated!")
+			
 			gameState.didEncounterEnemy = false
+			
+			if gameState.didHeroUseBlock {
+				endHeroBlockEffect()
+			}
 			generateLoot()
 			getRewardAfterFight()
 			goToRewards()
