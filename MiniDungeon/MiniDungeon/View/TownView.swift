@@ -102,7 +102,7 @@ extension MainView {
 			
 			Section(header: Text("Navigation")) {
 				
-				Button("Go To Specialisation") {
+				Button("Go To Menu") {
 					viewModel.applyActiveShrineEffectsAndGoToSpecialisation()
 				}
 			}

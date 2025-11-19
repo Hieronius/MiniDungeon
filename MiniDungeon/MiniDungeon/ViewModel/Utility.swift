@@ -172,7 +172,7 @@ extension MainViewModel {
 		} else if gameState.enemy.enemyCurrentHP <= 0 &&
 					gameState.didEncounteredBoss {
 			
-			print("Boss has been defeated!")
+			print("Boss bug 1")
 			generateLoot()
 			getRewardAfterFight()
 			goToRewards()

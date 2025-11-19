@@ -54,7 +54,7 @@ extension MainViewModel {
 	}
 	
 	func applyActiveShrineEffectsAndGoToSpecialisation() {
-		gameScreen = .specialisation
+		gameScreen = .menu
 		applyActiveShrineEffects()
 	}
 	
