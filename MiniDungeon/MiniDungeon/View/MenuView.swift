@@ -9,7 +9,7 @@ extension MainView {
 		
 		List {
 			
-			Section(header: Text("It's a Menu")) {
+			Section(header: Text("Menu")) {
 				
 				Button("Dungeon") {
 					viewModel.goToDungeon()
