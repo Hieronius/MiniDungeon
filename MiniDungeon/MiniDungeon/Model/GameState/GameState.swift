@@ -10,6 +10,7 @@ struct GameState {
 	// MARK: - Combat
 	
 	var isHeroTurn = true
+	var comboPoints = 0
 	
 	var didHeroUseBlock = false
 	var didEnemyUseBlock = false
