@@ -14,10 +14,10 @@ extension MainViewModel {
 		gameState.dungeonMap = level
 	}
 	
-	// MARK: checkMapForAllEventsToBeExplored
+	// MARK: countMapEvents
 	
-	/// Method to check all rooms with events in the game level and if so returns true
-	func checkMapForAllEventsToBeExplored() -> Bool {
+	/// Method to check how many events on the map and how many hasn't been explored yet
+	func countMapEvents() -> (Int, Int) {
 		
 		var eventsToExplore = 0
 		var exploredEvents = 0
@@ -33,12 +33,9 @@ extension MainViewModel {
 				if tile.type == .room { eventsToExplore += 1 }
 				// MODIFICATION ENDS HERE
 				
-				if !tile.isExplored && tile.type == .room && tile.type != .empty {
-					return false
-				}
 			}
 		}
-		return true
+		return (exploredEvents, eventsToExplore)
 	}
 	
 	// MARK: summonBoss
@@ -64,6 +61,8 @@ extension MainViewModel {
 		gameState.didEncounteredBoss = false
 		gameState.currentDungeonLevel += 1
 		gameState.isHeroAppeard = false
+		gameState.itemToDisplay = nil
+		gameState.dungeonLevelBeenExplored = false
 		
 		generateMap()
 		spawnHero()
