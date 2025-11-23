@@ -60,6 +60,7 @@ extension MainViewModel {
 			
 		}
 		gameState.levelBonusToDisplay = nil
+		gameState.levelBonusesToChoose = []
 		gameState.hero.levelUP()
 		goToDungeon()
 	}
