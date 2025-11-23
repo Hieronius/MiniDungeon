@@ -37,6 +37,13 @@ extension MainView {
 				Spacer()
 			}
 			
+			HStack {
+				Spacer()
+				Text("Events explored: \(viewModel.countMapEvents().0)/\(viewModel.countMapEvents().1)")
+				Spacer()
+				Spacer()
+			}
+			
 		}
 		
 		Spacer()
@@ -59,7 +66,8 @@ extension MainView {
 					.foregroundStyle(.red)
 				}
 				
-				if viewModel.checkMapForAllEventsToBeExplored() {
+//				if viewModel.checkMapForAllEventsToBeExplored() {
+				if viewModel.countMapEvents().0 == viewModel.countMapEvents().1 {
 					Button("Summon Level Boss") {
 						viewModel.summonBoss()
 					}
