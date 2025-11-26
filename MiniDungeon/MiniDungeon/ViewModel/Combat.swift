@@ -76,6 +76,13 @@ extension MainViewModel {
 				
 			}
 			
+			// If hero hit an enemy even with 0 damage -> add combo points
+			if gameState.comboPoints < 5 {
+				print("HELLO?")
+				gameState.comboPoints += 1
+				print(gameState.comboPoints)
+			}
+			
 			
 		} else if !gameState.isHeroTurn && gameState.enemy.currentEnergy >= gameState.skillEnergyCost {
 			
@@ -116,13 +123,105 @@ extension MainViewModel {
 		winLoseCondition()
 	}
 	
-	// MARK: Fireball
+	// MARK: ComboAttack
 	
-	func fireball() {
+	/// You can use this attack when hero has 3 or more combo points
+	/// Attack will always hit with special effects accordingly to how much combo points hero have
+	/// 3 points -> +50% damage
+	/// 4 points -> Ignore Armor
+	/// 5 points -> 100% crit
+	func comboAttack() {
+		
+		guard gameState.hero.currentEnergy >= 1 else { return }
+		guard gameState.comboPoints >= 3 else { return }
+		
+
+		switch gameState.comboPoints {
+			
+		case 3:
+			
+			// With 3 combo points it will be a normal attack with 50% bonus damage
+			
+			let baseDamage = Int(Double(Int.random(in: gameState.hero.minDamage...gameState.hero.maxDamage) - gameState.enemy.defence) * 1.5)
+			
+			let critRoll = Int.random(in: 1...100)
+			
+			if critRoll <= gameState.hero.critChance {
+				
+				let criticalDamage = Int(Double(baseDamage) * 1.5)
+				gameState.enemy.enemyCurrentHP -= criticalDamage
+				gameState.logMessage = "Critical Combo hit! - \(criticalDamage) has been done!"
+				// if critical strike successful get 1 extra dark energy
+				gameState.heroDarkEnergy += 1
+				
+			} else {
+				gameState.enemy.enemyCurrentHP -= baseDamage
+				gameState.logMessage = "\(baseDamage) Combo damage has been done!"
+			}
+			
+		case 4:
+			
+			// With 4 Combo Points you ignore target armor + 75% damage bonus
+			
+			let baseDamage = Int(Double(Int.random(in: gameState.hero.minDamage...gameState.hero.maxDamage)) * 1.75)
+			
+			let critRoll = Int.random(in: 1...100)
+			
+			if critRoll <= gameState.hero.critChance {
+				
+				let criticalDamage = Int(Double(baseDamage) * 1.5)
+				gameState.enemy.enemyCurrentHP -= criticalDamage
+				gameState.logMessage = "Critical Combo hit! - \(criticalDamage) has been done!"
+				// if critical strike successful get 1 extra dark energy
+				gameState.heroDarkEnergy += 1
+				
+			} else {
+				gameState.enemy.enemyCurrentHP -= baseDamage
+				gameState.logMessage = "\(baseDamage) Combo damage has been done!"
+			}
+			
+		case 5:
+			
+			// With 5 Combo Points you deal a critical strike + 100% extra damage
+			
+			let baseDamage = Int(Double(Int.random(in: gameState.hero.minDamage...gameState.hero.maxDamage)) * 2.0)
+			
+			let criticalDamage = Int(Double(baseDamage) * 1.5)
+			gameState.enemy.enemyCurrentHP -= criticalDamage
+			gameState.logMessage = "Critical Combo hit! - \(criticalDamage) has been done!"
+			// if critical strike successful get 1 extra dark energy
+			gameState.heroDarkEnergy += 1
+			
+			
+		default: fatalError("Something went wrong with combo attack")
+			
+		}
+		
+		gameState.didEnemyReceivedComboAttack = true
+		gameState.comboPoints = 0
+		gameState.hero.currentEnergy -= 1
+		
+		DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+			self.winLoseCondition()
+			self.gameState.didEnemyReceivedComboAttack = false
+		}
+	}
+	
+	// MARK: TestEnemyExecute
+	
+	func testEnemyExecute() {
 		
 		guard gameState.isHeroTurn else { return }
 		gameState.enemy.enemyCurrentHP -= 100
 		winLoseCondition()
+	}
+	
+	// MARK: TestEnergyRestoration
+	
+	func testComboPointsRestoration() {
+		
+		guard gameState.isHeroTurn else { return }
+		gameState.comboPoints = 5
 	}
 	
 	// MARK: Block
@@ -159,6 +258,8 @@ extension MainViewModel {
 	
 	func heal() {
 		
+		// Hero Turn
+		
 		if gameState.isHeroTurn &&
 			gameState.hero.currentEnergy >= gameState.skillEnergyCost &&
 			gameState.hero.currentMana >= gameState.spellManaCost {
@@ -177,13 +278,16 @@ extension MainViewModel {
 			gameState.hero.currentMana < gameState.spellManaCost {
 			gameState.logMessage = "Not enough mana to cast"
 			
+			
+			// Enemy Turn
+			
 		} else if !gameState.isHeroTurn &&
 					gameState.enemy.currentEnergy >= gameState.skillEnergyCost &&
 					gameState.enemy.currentMana >= gameState.spellManaCost {
 			
 			gameState.enemy.currentEnergy -= gameState.skillEnergyCost
 			gameState.enemy.enemyCurrentHP += gameState.enemy.spellPower
-			gameState.logMessage += "\(gameState.enemy.spellPower) amount of health has been recovered by enemy"
+			gameState.logMessage = "\(gameState.enemy.spellPower) amount of health has been recovered by enemy"
 			
 			if gameState.enemy.enemyCurrentHP >= gameState.enemy.enemyMaxHP {
 				gameState.enemy.enemyCurrentHP = gameState.enemy.enemyMaxHP
