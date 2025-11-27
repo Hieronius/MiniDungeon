@@ -13,9 +13,11 @@ struct MiniGameView: View {
 	@State var timeRemaining = 0.0
 	@State var inProgress = false
 	@State var bonusArea: Double = Double.random(in: 0.2...0.8)
-	@State var gameResult = "          "
+	@State var gameResult = "             "
 	@State var isSuccess = false
 	@State var progressBarColor: Color = .blue
+	
+	let label = "Tap inside when the line will meet with the circle"
 	
 	var onGameEnd: ((Bool) -> Void)? // Callback for game result
 	
@@ -51,11 +53,16 @@ struct MiniGameView: View {
 						.frame(width: UIScreen.main.bounds.width - 20)
 						.tint(progressBarColor)
 				}
+				Text("Tap inside when the line will meet with the circle")
 			}
 		}
 		.onTapGesture {
 			hitBonusArea()
 		}
+		
+		// Handicaped condition to make view untappable after first touch action
+		// Just copy an antire line of spaces from `gameResult` property
+		.allowsHitTesting(gameResult == "             ")
 	}
 }
 
