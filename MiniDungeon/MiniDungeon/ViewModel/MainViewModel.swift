@@ -25,11 +25,11 @@ class MainViewModel: ObservableObject {
 		self.gameState = gameState
 		self.gameScreen = gameScreen
 		
-		// Generate three random specs
-		self.gameState.specsToChooseAtStart = SpecialisationManager.getThreeRandomSpecialisations()
+		// Start with predefined "WARRIOR SPECIALISATION"
+		self.applySpecialisation(SpecialisationManager.specialisations[0])
 		
-		// Choose and apply one of three random specs
-		applyActiveShrineEffectsAndGoToSpecialisation()
+		// Activate shrines and upgrades from previous runs if there are any
+		applyActiveShrineEffects()
 		
 		// Create new map
 		generateMap()
@@ -56,6 +56,7 @@ class MainViewModel: ObservableObject {
 		gameState.lootToDisplay = []
 		gameState.specToDisplay = nil
 		gameState.levelBonusToDisplay = nil
+		gameState.comboPoints = 0
 		
 		// If there is less than 10 dark energy refill it, otherwise do nothing
 		if gameState.heroDarkEnergy < 10 {
@@ -70,7 +71,7 @@ class MainViewModel: ObservableObject {
 		// TODO: There we should go to TownView -> SpecView -> Dungeon
 		
 		// Start from the beginning
-		gameState.specsToChooseAtStart = SpecialisationManager.getThreeRandomSpecialisations()
+//		gameState.specsToChooseAtStart = SpecialisationManager.getThreeRandomSpecialisations()
 		goToTown()
 		generateMap()
 		spawnHero()
@@ -90,8 +91,8 @@ class MainViewModel: ObservableObject {
 			endLevelAndGenerateNewOne()
 		} else {
 			goToDungeon()
+			checkForLevelUP()
 		}
-		checkForLevelUP()
 	}
 	
 }
