@@ -16,7 +16,6 @@ extension MainViewModel {
 				endEnemyBlockEffect()
 			}
 			gameState.logMessage = "Now is Enemy Turn"
-			print("Now is Enemy Turn")
 			
 		}
 		
@@ -168,6 +167,7 @@ extension MainViewModel {
 			generateLoot()
 			getRewardAfterFight()
 			goToRewards()
+			gameState.comboPoints = 0
 			
 		} else if gameState.enemy.enemyCurrentHP <= 0 &&
 					gameState.didEncounteredBoss {
@@ -176,7 +176,9 @@ extension MainViewModel {
 			generateLoot()
 			getRewardAfterFight()
 			goToRewards()
+			gameState.comboPoints = 0
 		}
+		gameState.isCombatMiniGameIsOn = false
 	}
 	
 	// MARK: getRewardAfterFight
