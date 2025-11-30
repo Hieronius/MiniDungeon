@@ -2,6 +2,82 @@ import SwiftUI
 
 extension MainViewModel {
 	
+	// MARK: endLevelAndGenerateNewOne
+	
+	/// If Level complete and boss has been defeated go to the next one
+	func endLevelAndGenerateNewOne() {
+		
+		generateMerchantLoot()
+		
+		goToMerchant()
+		
+		gameState.didEncounteredBoss = false
+		gameState.currentDungeonLevel += 1
+		gameState.isHeroAppeard = false
+		gameState.itemToDisplay = nil
+		gameState.dungeonLevelBeenExplored = false
+		
+		generateMap()
+		spawnHero()
+	}
+	
+	// MARK: summonBoss
+	
+	/// If level been completed -> summon the boss and start the fight
+	func summonBoss() {
+		
+		gameState.didEncounteredBoss = true
+		gameState.enemy = generateEnemy(didFinalBossSummoned: gameState.didEncounteredBoss)
+		restoreAllEnergy()
+		goToBattle()
+	}
+
+	// MARK: SpawnHero
+
+	/// Method should traverse dungeon map in reversed order and put hero at the first non empty tile
+	func spawnHero() {
+
+		// map size
+
+		let map = gameState.dungeonMap
+
+		let n = map.count
+		let m = map[0].count
+
+		// map traversing
+
+		for row in (0..<n).reversed() {
+			for col in (0..<m).reversed() {
+				let tile = map[row][col]
+				if tile.type == .room && !gameState.isHeroAppeard {
+					gameState.heroPosition = (row, col)
+					gameState.isHeroAppeard = true
+				}
+			}
+		}
+		gameState.dungeonMap[gameState.heroPosition.row][gameState.heroPosition.col].isExplored = true
+	}
+	
+	// MARK: startTrapDefusionMiniGame
+	
+	func startTrapDefusionMiniGame() {
+		
+		gameState.dealtWithTrap = true
+		gameState.isTrapDefusionMiniGameIsOn = true
+		print("Defused")
+	}
+	
+	// MARK: punishOrRewardTrapDefusion
+	
+	func punishOrRewardTrapDefusion() {
+		
+		if gameState.isTrapDefusionMiniGameSuccessful {
+			print("Plus some Exp and Dark Energy")
+		} else {
+			print("Minus some Health And Mana")
+		}
+	}
+	
 	// MARK: generateRewardRarity
 	
 	func generateRewardRarity() -> Rarity {
@@ -20,6 +96,21 @@ extension MainViewModel {
 			
 		default: return Rarity.common
 			
+		}
+	}
+	
+	// MARK: - getRewardsAndCleanTheScreen
+	
+	func getRewardsAndCleanTheScreen() {
+		
+		gameState.didFindLootAfterFight = false
+		gameState.lootToDisplay = []
+		
+		if gameState.didEncounteredBoss {
+			endLevelAndGenerateNewOne()
+		} else {
+			goToDungeon()
+			checkForLevelUP()
 		}
 	}
 	
@@ -388,6 +479,7 @@ extension MainViewModel {
 	/// Method to generate random amount of experience based on enemy level
 	func generateExperienceLoot(didFinalBossSummoned: Bool) -> Int {
 		
+		// put values back to 25...35
 		var expRoll = Int.random(in: 25...35)
 		
 		if didFinalBossSummoned { expRoll *= 2 }
