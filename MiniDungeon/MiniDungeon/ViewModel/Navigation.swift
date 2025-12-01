@@ -45,8 +45,12 @@ extension MainViewModel {
 		gameScreen = .rewards
 	}
 	
-	func goToMiniGame() {
-		gameScreen = .miniGame
+	func goToCombatMiniGame() {
+		gameScreen = .combatMiniGame
+	}
+	
+	func goToTrapDefusionMiniGame() {
+		gameScreen = .trapDefusionMiniGame
 	}
 	
 	func goToSpecialisation() {
