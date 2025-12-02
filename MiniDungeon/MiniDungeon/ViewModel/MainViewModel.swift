@@ -71,28 +71,13 @@ class MainViewModel: ObservableObject {
 		// TODO: There we should go to TownView -> SpecView -> Dungeon
 		
 		// Start from the beginning
-//		gameState.specsToChooseAtStart = SpecialisationManager.getThreeRandomSpecialisations()
+		//		gameState.specsToChooseAtStart = SpecialisationManager.getThreeRandomSpecialisations()
 		goToTown()
 		generateMap()
 		spawnHero()
 		
 		// Apply all previous upgrades on the camp
 		
-	}
-	
-	// MARK: - getRewardsAndCleanTheScreen
-	
-	func getRewardsAndCleanTheScreen() {
-		
-		gameState.didFindLootAfterFight = false
-		gameState.lootToDisplay = []
-		
-		if gameState.didEncounteredBoss {
-			endLevelAndGenerateNewOne()
-		} else {
-			goToDungeon()
-			checkForLevelUP()
-		}
 	}
 	
 }
