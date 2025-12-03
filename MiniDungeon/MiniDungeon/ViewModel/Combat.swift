@@ -8,7 +8,7 @@ extension MainViewModel {
 	func startMiniGame() {
 		
 		if gameState.isHeroTurn && gameState.hero.currentEnergy >= gameState.skillEnergyCost {
-			gameState.isMiniGameOn = true
+			gameState.isCombatMiniGameIsOn = true
 		}
 	}
 	
@@ -29,8 +29,8 @@ extension MainViewModel {
 	
 	func continueAttackAfterMiniGame(success: Bool) {
 		
-		gameState.isMiniGameOn = false
-		gameState.isMiniGameSuccessful = success
+		gameState.isCombatMiniGameIsOn = false
+		gameState.isCombatMiniGameSuccessful = success
 		
 		if gameState.isHeroTurn && gameState.hero.currentEnergy >= gameState.skillEnergyCost {
 			
@@ -50,7 +50,7 @@ extension MainViewModel {
 			
 			// mini game success check
 			
-			if gameState.isMiniGameSuccessful  {
+			if gameState.isCombatMiniGameSuccessful  {
 				damage = Int(Double(damage) * 1.25)
 				gameState.logMessage += " Nice Hit!"
 			}
