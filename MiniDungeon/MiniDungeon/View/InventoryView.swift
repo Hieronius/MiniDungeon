@@ -25,8 +25,17 @@ extension MainView {
 					Text("Item Level: \(viewModel.gameState.itemToDisplay?.itemLevel ?? 0)")
 					Text("Description: \(viewModel.gameState.itemToDisplay?.description ?? "")")
 					Text("Price: \(viewModel.gameState.itemToDisplay?.price ?? 0) gold")
-					Button("Equip/Use") {
-						viewModel.equipOrUseItem()
+					if viewModel.gameState.didEncounterDisenchantShrine {
+						
+						Button("Disenchant") {
+							viewModel.applyEffect(for: .disenchantItem)
+						}
+							
+					} else {
+						
+						Button("Equip/Use") {
+							viewModel.equipOrUseItem()
+						}
 					}
 				}
 			}
