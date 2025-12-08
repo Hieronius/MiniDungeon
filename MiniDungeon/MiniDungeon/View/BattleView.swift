@@ -22,10 +22,12 @@ extension MainView {
 			
 			VStack {
 				
-				Text("HP - \(viewModel.gameState.hero.currentHP) / \(viewModel.gameState.hero.maxHP)")
-				Text("MP - \(viewModel.gameState.hero.currentMana) / \(viewModel.gameState.hero.maxMana)")
-				Text("EP - \(viewModel.gameState.hero.currentEnergy) / \(viewModel.gameState.hero.maxEnergy)")
+				Text("HP: \(viewModel.gameState.hero.currentHP) / \(viewModel.gameState.hero.maxHP)")
+				Text("MP: \(viewModel.gameState.hero.currentMana) / \(viewModel.gameState.hero.maxMana)")
+				Text("EP: \(viewModel.gameState.hero.currentEnergy) / \(viewModel.gameState.hero.maxEnergy)")
+				Text("CP: \(viewModel.gameState.comboPoints) / 5")
 				ZStack {
+					
 					Rectangle()
 						.frame(width: 80, height: 80)
 						.foregroundColor(Color.black)
@@ -41,14 +43,24 @@ extension MainView {
 			
 			VStack {
 				
-				Text("HP - \(viewModel.gameState.enemy.enemyCurrentHP) / \(viewModel.gameState.enemy.enemyMaxHP)")
-				Text("MP - \(viewModel.gameState.enemy.currentMana) / \(viewModel.gameState.enemy.maxMana)")
-				Text("EP - \(viewModel.gameState.enemy.currentEnergy) / \(viewModel.gameState.enemy.maxEnergy)")
+				Text("HP: \(viewModel.gameState.enemy.enemyCurrentHP) / \(viewModel.gameState.enemy.enemyMaxHP)")
+				Text("MP: \(viewModel.gameState.enemy.currentMana) / \(viewModel.gameState.enemy.maxMana)")
+				Text("EP: \(viewModel.gameState.enemy.currentEnergy) / \(viewModel.gameState.enemy.maxEnergy)")
+				Text("EMPTY LINE")
+					.foregroundStyle(.background)
 				ZStack {
+					
 					Rectangle()
 						.frame(width: 80, height: 80)
 						.foregroundColor(Color.black)
 						.border(Color.white, width: 5)
+						.offset(y: viewModel.gameState.didEnemyReceivedComboAttack ? 10 : 0)
+						.animation(
+							Animation.linear(duration: 0.1)
+								.repeatCount(3, autoreverses: true),
+							value: viewModel.gameState.didEnemyReceivedComboAttack
+						)
+					
 					Text("\(viewModel.gameState.enemy.name)")
 						.frame(width: 80)
 						.multilineTextAlignment(.center)
@@ -67,14 +79,16 @@ extension MainView {
 		
 		// MARK: Actions
 		
-		if viewModel.gameState.isMiniGameOn {
+		if viewModel.gameState.isCombatMiniGameIsOn {
 			
 			// MARK: Call Mini Game and get it's result
-			MiniGameView { success in
-				viewModel.gameState.isMiniGameSuccessful = success
+			
+			CombatMiniGameView { success in
+				viewModel.gameState.isCombatMiniGameSuccessful = success
 				print(success)
-				DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-					viewModel.gameState.isMiniGameOn = false
+				// TODO: Probably should be inside the method in ViewModel
+				DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+					viewModel.gameState.isCombatMiniGameIsOn = false
 					viewModel.continueAttackAfterMiniGame(success: success)
 				}
 			}
@@ -88,29 +102,55 @@ extension MainView {
 						viewModel.startMiniGame()
 					}
 					
-					Button("Fireball") {
-						viewModel.fireball()
+					if viewModel.gameState.comboPoints == 3 {
+						Button("Combo (+50% extra damage)") {
+							viewModel.comboAttack()
+						}
+						.foregroundStyle(.orange)
 					}
 					
-					Button("Block") {
+					if viewModel.gameState.comboPoints == 4 {
+						Button("Combo (Ignore armor + 75% damage)") {
+							viewModel.comboAttack()
+						}
+						.foregroundStyle(.purple)
+					}
+					
+					if viewModel.gameState.comboPoints == 5 {
+						Button("Combo (100% crit + 100% damage)") {
+							viewModel.comboAttack()
+						}
+						.foregroundStyle(.red)
+					}
+					
+					Button("Block (Adds \(viewModel.gameState.blockValue) Armor for the turn)") {
 						viewModel.block()
 					}
 					
-					Button("Heal") {
+					Button("Heal (Restores \(viewModel.gameState.hero.spellPower) Heath Points)") {
 						viewModel.heal()
 					}
-					
-				}
-				
-				Section(header: Text("Utility")) {
 					
 					Button("End Turn") {
 						viewModel.endHeroTurn()
 					}
 					
-					Button("Restore Stats") {
+				}
+				
+				Section(header: Text("Testability")) {
+					
+					Button("Instant Enemy Kill") {
+						viewModel.testEnemyExecute()
+					}
+					
+					Button("Restore Hero Combo Points") {
+						viewModel.testComboPointsRestoration()
+					}
+					
+					Button("Restore Both Targets Stats") {
 						viewModel.restoreStats()
 					}
+					
 				}
 				
 				// MARK: Navigation
