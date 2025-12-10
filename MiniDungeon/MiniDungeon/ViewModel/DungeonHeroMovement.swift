@@ -58,29 +58,65 @@ extension MainViewModel {
 
 		// If valid -> move hero position to a new coordinate
 
-		if checkIfDirectionValid(row, col) && gameState.heroDarkEnergy > 0 {
+		if checkIfDirectionValid(row, col) && gameState.hero.currentHP > 0 && !gameState.didEncounterTrap {
+			
+			// Clear the state of encountering Restoration Shrine
+			gameState.didEncounterRestorationShrine = false
+			gameState.dealtWithRestorationShrine = false
+			
+			// Clear the state of encountering Disenchant Shrine
+			gameState.didEncounterDisenchantShrine = false
+			gameState.dealtWithDisenchantShrine = false
+			
+			// Clear the state of encountering Chest Tile
+			gameState.didEncounterChest = false
+			gameState.dealthWithChest = false
 
 			// move hero to the new position
 			
 			gameState.heroPosition = (row, col)
 			
 			let heroPosition = gameState.heroPosition
+			
+			// MARK: Transition to Combat Screen
 
 			if gameState.dungeonMap[heroPosition.row][heroPosition.col].events.contains(.enemy) &&
 				!gameState.dungeonMap[heroPosition.row][heroPosition.col].isExplored {
-				
-				// MARK: Transition to Combat Screen
 
 				startBattleWithRandomNonEliteEnemy()
-
-			}
-			// Take one Dark Energy Point for each unexplored tile
-			// And do not if Mystery Shrine been activated
-			if gameState.dungeonMap[gameState.heroPosition.row][gameState.heroPosition.col].isExplored == false &&
-				!gameState.mysteryShrineBeenActivated {
-				gameState.heroDarkEnergy -= 1
 				
+			// MARK: Encounter Trap
+
+			} else if
+				
+				gameState.dungeonMap[heroPosition.row][heroPosition.col].events.contains(.trap) &&
+					!gameState.dungeonMap[heroPosition.row][heroPosition.col].isExplored {
+				
+				gameState.didEncounterTrap = true
+				
+			// MARK: Encounter Shrine of Restoration
+				
+			} else if
+				
+				gameState.dungeonMap[heroPosition.row][heroPosition.col].events.contains(.restoration) {
+				
+				gameState.didEncounterRestorationShrine = true
+			
+			// MARK: Encounter Disenchant Shrine
+				
+			} else if
+				
+				gameState.dungeonMap[heroPosition.row][heroPosition.col].events.contains(.disenchant) {
+				
+				gameState.didEncounterDisenchantShrine = true
+				
+				// MARK: Encounter Chest Tile
+				
+			} else if gameState.dungeonMap[heroPosition.row][heroPosition.col].events.contains(.chest) {
+				
+				gameState.didEncounterChest = true
 			}
+			
 			gameState.dungeonMap[gameState.heroPosition.row][gameState.heroPosition.col].isExplored = true
 			
 		} else {
