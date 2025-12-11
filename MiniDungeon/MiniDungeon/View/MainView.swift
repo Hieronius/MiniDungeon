@@ -50,14 +50,22 @@ struct MainView: View {
 			
 			buildRewards()
 			
-		case .miniGame:
+		case .combatMiniGame:
 			
-			MiniGameView { success in
-				viewModel.gameState.isMiniGameSuccessful = success
+			CombatMiniGameView { success in
+				viewModel.gameState.isCombatMiniGameSuccessful = success
 				DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
 					self.viewModel.goToBattle()
 				}
 			}
+			
+		case .trapDefusionMiniGame:
+			
+			buildTrapDefusionMiniGameView()
+			
+		case .chestLockPickingMiniGame:
+			
+			buildChestLockPickingMiniGameView()
 			
 		case .specialisation:
 			
