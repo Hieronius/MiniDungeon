@@ -12,7 +12,9 @@ enum GameScreen {
 	case inventory
 	case rewards
 	case options
-	case miniGame
+	case combatMiniGame
+	case trapDefusionMiniGame
+	case chestLockPickingMiniGame
 	case specialisation
 	case merchant
 	case levelBonus
