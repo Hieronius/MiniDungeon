@@ -1,0 +1,11 @@
+FILE HAS BEEN INSPECTED 12.12.25
+
+- Make actions during the battle with gray color to reflect that hero is out of Energy Points
+
+- Implement a little delay when enemy is out of his energy points and passes turn to the hero so consol won't erase his last action info
+
+- When you jump to the Shrine Screen you have a very small window of it. Very hard to navigate.
+
+- Make Combo label for 2 and 3 combo points to display for more clearness
+"Ignore Armor + 175% damage"
+"Ignore Armor + 300% damage"
