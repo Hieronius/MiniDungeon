@@ -5,7 +5,14 @@ struct GameState {
 	
 	// MARK: - Properties to move
 	
-	var isMiniGameOn = false
+	/// When you hit the enemy this mini game appears
+	var isCombatMiniGameIsOn = false
+	
+	/// When you press "defuse the trap" button this game appears
+	var isTrapDefusionMiniGameIsOn = false
+	
+	/// When you press "Lock-Pick the chest" button this game appears
+	var isLockPickingMiniGameIsOn = false
 
 	// MARK: - Combat
 	
@@ -14,8 +21,9 @@ struct GameState {
 	
 	var didHeroUseBlock = false
 	var didEnemyUseBlock = false
+	var didEnemyReceivedComboAttack = false
 	
-	var isMiniGameSuccessful = false
+	var isCombatMiniGameSuccessful = false
 	
 	var hero = Hero()
 	
@@ -51,6 +59,43 @@ struct GameState {
 	var didEncounteredBoss = false
 	var dungeonLevelBeenExplored = false
 	var didFindLootAfterFight = false
+	
+	/// Property to manage event when hero did encounter the Tile with Chest event
+	var didEncounterChest = false
+	
+	/// Property to reflect if hero tried to open the chest or met with a chest monster
+	var dealthWithChest = false
+	
+	/// Property to define what type of outcome from chest lock-picking hero will have
+	var didChestLockPickingIsSuccess = false
+	
+	/// Property which might be duplicated with didChestLockPickingIsSuccess
+	var isLockPickingMiniGameIsSuccess = false
+	
+	/// Property to detect that hero is on Restoration Shrine tile
+	var didEncounterRestorationShrine = false
+	
+	/// Property to detect if hero got an effect of Shrine of Restoration
+	var dealtWithRestorationShrine = false
+	
+	/// If hero stay on the "T" Tile it's mean we deal with trap
+	var didEncounterTrap = false
+	
+	/// This property mean that we failed or succeed with the trap
+	var dealtWithTrap = false
+	
+	/// Property needed to define what type of effect hero will get after defusion of the trap
+	/// If false -> penalty, if true -> rewards
+	var didTrapDefusionIsSuccess = false
+	
+	/// Property which might be duplicated with didTrapDefusionIsSuccess
+	var isTrapDefusionMiniGameSuccessful = false
+	
+	/// Property to detect if hero reached the tile with "disenchant" event
+	var didEncounterDisenchantShrine = false
+	
+	/// Property to define if user did used disenchant shrine
+	var dealtWithDisenchantShrine = false
 	
 	var currentDungeonLevel = 0
 	var dungeonMap: [[Tile]] = []
@@ -91,7 +136,9 @@ struct GameState {
 	var isItemOnSale = false
 	var expLootToDisplay = 0
 	var goldLootToDisplay = 0
-	var darkEnergyToDisplay = 0
+	var darkEnergyLootToDisplay = 0
+	var healthPointsLootToDisplay = 0
+	var manaPointsLootToDisplay = 0
 	
 	init() {
 		
