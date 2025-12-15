@@ -54,11 +54,19 @@ struct GameState {
 	
 	// MARK: - Dungeon
 	
-	var isHeroAppeard = false
+	var currentDungeonLevel = 0
+	var dungeonMap: [[Tile]] = []
+	
+	var heroPosition = (row: 0, col: 0)
+	
+	var isHeroAppeared = false
 	var didEncounterEnemy = false
 	var didEncounteredBoss = false
 	var dungeonLevelBeenExplored = false
 	var didFindLootAfterFight = false
+	
+	/// When player tapps on empty tile and there is an enemy or loot -> change this value to true 
+	var didEncounterSecretRoom = false
 	
 	/// Property to manage event when hero did encounter the Tile with Chest event
 	var didEncounterChest = false
@@ -96,11 +104,6 @@ struct GameState {
 	
 	/// Property to define if user did used disenchant shrine
 	var dealtWithDisenchantShrine = false
-	
-	var currentDungeonLevel = 0
-	var dungeonMap: [[Tile]] = []
-	
-	var heroPosition = (row: 0, col: 0)
 	
 	// MARK: - Stats
 	

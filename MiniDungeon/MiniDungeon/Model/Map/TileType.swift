@@ -23,4 +23,7 @@ enum TileType {
 	
 	/// Case for a tile with Chest or Loot option
 	case chest
+	
+	/// Case for encountering Secret Rooms
+	case secret
 }
