@@ -26,7 +26,7 @@ class MainViewModel: ObservableObject {
 		self.gameScreen = gameScreen
 		
 		// Start with predefined "WARRIOR SPECIALISATION"
-		self.applySpecialisation(SpecialisationManager.specialisations[0])
+//		self.applySpecialisation(SpecialisationManager.specialisations[0])
 		
 		// Activate shrines and upgrades from previous runs if there are any
 		applyActiveShrineEffects()
@@ -36,6 +36,8 @@ class MainViewModel: ObservableObject {
 		
 		// Prepare hero
 		spawnHero()
+		
+		goToMenu()
 	}
 	
 	// MARK: SetupNewGame
@@ -64,7 +66,7 @@ class MainViewModel: ObservableObject {
 			gameState.heroDarkEnergy += difference
 		}
 		gameState.currentDungeonLevel = 0
-		gameState.isHeroAppeard = false
+		gameState.isHeroAppeared = false
 		gameState.heroPosition = (0,0)
 		gameState.battlesWon = 0
 		

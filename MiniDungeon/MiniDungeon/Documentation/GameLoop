@@ -1,6 +1,8 @@
+FILE HAS BEEN INSPECTED 19.11.25
+
 - Start
-- Choose Specialisation
 - Explore Dungeon
+- Participate in events
 - Kill the boss
 - Get Loot
 - Sell Loot / Buy some random items
@@ -10,20 +12,20 @@
 - Become stronger
 - Repeat
 
-Dungeon Game Loop:
-- Enter new room
-- Explore
-- Repeat
-
-Combat Game Loop:
+Combat Game Loop (Short Game Loop):
 - Hit
+- Use Flask
 - Win
 - Collect the loot
 - Repeat
 
-Game Loop Across Different Runs:
+Dungeon Game Loop (Medium Game Loop):
+- Enter new room
+- Explore
+- Repeat
+
+Game Loop Across Different Runs (Long Game Loop):
 - Enter the dungeon
 - Die
 - Become Stronger
 - Repeat
-

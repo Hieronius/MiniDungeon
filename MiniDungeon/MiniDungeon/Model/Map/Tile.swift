@@ -4,10 +4,10 @@ import Foundation
 struct Tile {
 
 	/// Row position on the map
-	let row: Int
+	var row: Int
 
 	/// Column position on the map
-	let col: Int
+	var col: Int
 
 	/// Corridor or Room or any other types we create in the future
 	var type: TileType
@@ -17,7 +17,21 @@ struct Tile {
 
 	/// A single or multiple events such as Enemy -> Quest -> Reward
 	var events: [EventType]
+	
+	/// This property should be the flag to provide an animation when it change to true
+	var wasTapped = false
 }
+
+// MARK: removeAllEvents
+
+extension Tile {
+	
+	mutating func removeAllEvents() {
+		self.events = []
+	}
+}
+
+// MARK: isHeroPosition
 
 extension Tile {
 	

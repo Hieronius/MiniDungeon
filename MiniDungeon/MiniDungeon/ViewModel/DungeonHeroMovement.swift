@@ -5,7 +5,7 @@ extension MainViewModel {
 	// MARK: Check Hero Tile's Neighbours
 	
 	/// Method to return all possible neighbours of the hero's current tile
-	func checkForHeroTileNeighbours() -> [Tile] {
+	func checkForHeroTileNeighbours(includeDiagonals: Bool) -> [Tile] {
 		
 		/*
 		 [-1, -1] [-1, 0] [-1, 1]
@@ -25,6 +25,14 @@ extension MainViewModel {
 				// Ignore the middle (hero's) tile
 				
 				if difRow == 0 && difCol == 0 { continue }
+				
+				if !includeDiagonals {
+					
+					if difRow == -1 && difCol == 1 { continue }
+					if difRow == 1 && difCol == 1 { continue }
+					if difRow == -1 && difCol == -1 { continue }
+					if difRow == 1 && difCol == -1 { continue }
+				}
 				
 				let neighbourRow = heroTile.row + difRow
 				let neighbourCol = heroTile.col + difCol
@@ -55,10 +63,17 @@ extension MainViewModel {
 
 	/// Method to define Hero movement logic based on tapped direction if it's valid to move
 	func handleTappedDirection(_ row: Int, _ col: Int) {
+		
+		let targetTile = gameState.dungeonMap[row][col]
 
 		// If valid -> move hero position to a new coordinate
 
-		if checkIfDirectionValid(row, col) && gameState.hero.currentHP > 0 && !gameState.didEncounterTrap {
+		if checkIfDirectionValid(row, col) &&
+			gameState.hero.currentHP > 0 &&
+			!gameState.didEncounterTrap {
+			
+			// Clear the state of encountering Secret Rooms for correct work
+			gameState.didEncounterSecretRoom = false
 			
 			// Clear the state of encountering Restoration Shrine
 			gameState.didEncounterRestorationShrine = false
@@ -119,8 +134,23 @@ extension MainViewModel {
 			
 			gameState.dungeonMap[gameState.heroPosition.row][gameState.heroPosition.col].isExplored = true
 			
-		} else {
-			print("failed attempt to move")
+			// MARK: If Not Explored -> Check For Secret Room Or Put ".empty" event
+			
+			// Check is hero did not stay on possible Secret Tile
+			// Check is hero still alive
+			// Check is this tile still not explored
+			// Check is this tile in a range of neighbours without diagonal tiles
+			// Check was this tile with secret founded before
+			// TODO: Test didEncounterTrap check -> you should not be able to move
+			
+		} else  if !checkIfDirectionValid(row, col) &&
+					gameState.hero.currentHP > 0 &&
+					!gameState.didEncounterTrap &&
+					!gameState.dungeonMap[row][col].isExplored &&
+					!gameState.dungeonMap[row][col].events.contains(.secret) &&
+					checkForHeroTileNeighbours(includeDiagonals: false).contains(targetTile) {
+			
+			handleSecretRoomOutcome(row: row, col: col)
 		}
 	}
 

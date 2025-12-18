@@ -1,1 +1,12 @@
-- Sometimes you can get not only a few different quality items in loot but a few totally similar ones. this fact ruins "ForEach(weaponsLoot) for this exact rewards screen"
+FILE HAS BEEN INSPECTED 10.12.25
+
+BUG - When you play chest lock-picking mini game and have 3 buttons to move, you can open the chest even by catching only 2 of them
+13.12. FEEDBACK - when you start the mini game you get "true" at the array of motions from the start. Something wrong with population of this array. Or it might get an old data from previous game during the session
+
+Small BUG - if you stay on the Disenchant Tile (and probably any other event) and summon the boss, after killing it you still have this type of event on your action bar
+
+Small BUG - when you start fight with new enemy and previous one has been killed under the Armor buff it will also reflect Armor buff but without actual effect.
+
+Small BUG - when you inspect a few items at the market after boss kill even if you didn't purchased any you still see this exact item info in the invetory after
+
+BUG - you still can check and enter secret rooms while staying on the trap tile

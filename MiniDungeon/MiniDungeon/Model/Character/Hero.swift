@@ -65,6 +65,9 @@ struct Hero {
 	
 	var inventory: [Item: Int] = [:]
 	
+//  test keys
+//	var inventory: [Item: Int] = [ItemManager.returnKeyItem(): 10]
+	
 	// MARK: Increase/Decrease Stats
 	
 	mutating func levelUP() {

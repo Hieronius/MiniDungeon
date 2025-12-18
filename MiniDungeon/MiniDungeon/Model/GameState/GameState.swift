@@ -1,4 +1,4 @@
-import Foundation
+import SwiftUI
 
 /// Data type to define all possible state conditions of the game
 struct GameState {

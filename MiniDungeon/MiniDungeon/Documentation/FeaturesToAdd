@@ -1,22 +1,29 @@
+FILE HAS BEEN INSPECTED 07.12.25
+
+- Game tutorial for beta testing:
+	Start game immediately in the dungeon with predefined amount of rooms and weak opponents + boss that you simply can't kill
+	Give some dark energy and even an estus shard when you explore this tutorial so in a new run main hero will be stronger already
+	
+- Estus should have it's own levels to upgrade accordingly to dark energy collected through all levels. Even if you lose some it's not important.
+- Estus can be upgraded via shrines or bonuses to get extra buffs when use (for example a complete damage immune for a round)
+- Estus might have it's own personality, a character. Can speak, comment and be a companion for the hero.
+
+- Events on the map:
+* Shrine (buff/debuff for hp/mana/defence/attack/loot for next battle)
+
+- Russian Localisation
+
 - Perks
-- Weapons - ✅
-- Armor - ✅
 - When enemy attacks you can play mini game to get less damage or avoid at all
 - Talants
-- Abilities
-- Stats
-- Min/Max Damage - ✅
-- Crit Chance - ✅
-- Hit Chance - ✅
+- Stats (Vitality, Agility and so on)
 - Combo
 - Stances
-- Dungeon Random generation - ✅
 - Audio
 - Visuals
 - Quests
 - Storyline
 - Advanced enemy AI
-- Inventory - ✅
 - Difficulty
 - Game Speed
 - Specific buttons or actions for each class (heal for priest, block for knight)
@@ -28,28 +35,7 @@
 
 - Research features from modern rpg games such as BaldureGate 3
 
-- Extra swipes/pinches/gestures to add extra damage/healing or to decrease income damage ✅
-Each spell or skill you have an opportunity to improve it's effect by 10-25% or even decrease it's efficiency if failed by swiping in the right moment and order ✅
-
-- After killing the boss you can visit the market to sell stuff and buy some random stuff. Market after the boss or during the dungeon should be different and more expensive than in the town ✅
-
-- Souls instead/with gold as a game currency across different runs ✅
-- Souls should be spend on improvements and also for a movements, so you should plan your route. ✅
-- Souls can be spent to buy some items at the start of each run or to buy upgrades
-- Only souls can be transfered from run to run ✅
-- Souls can be collected die to crit attacks, successfull minigames, killing of the boss or enemy, solving the riddles ✅
-
 - Only limited amount of potions during the fight. And you should equip it before. Think about Estus from DarkSouls
-
-Perks to Add at the start of the game: ✅
-- 10 flat hp
-- 10 flat mana
-- 2max damage
-- 1 armor
-- 1 hp per success hit
-- 1 hp regen per round
-- 1 mana regen per round
-- 5% chance to get energy cost back after an action
 
 - Smooth animations of screen transitions from Menu to Battle and so on (i have a note in sticker note about it)
 
@@ -57,8 +43,46 @@ Perks to Add at the start of the game: ✅
 
 - Unique Level Objectives such as to find a few pieces/pages/shrines to end
 
-- Different shrines with buffs/debuffs/feature to transform any piece of armor/weapon to dark energy
-
-- Different buildings at the town such as a tavern (gives +100 gold at the start of each run or Forge to give +1 min damage at the start of each run or a Bank to add extra gold loot from each monster)
-
 - To implement NG+ mode you can turn button to remove all talants or shrines from your runs and start over. Plus you should add runs counter. With a smaller number and with deeper dungeon floor you will get extra chance to get a rare drop plus in some cases only drop something that you can't see in normal run
+
+- New bonus after each level cleared like level bonus
+
+- Chest that you can open with animation to get some loot (also add chance to this chest becoming a monster like you did see in other games. Also add an another mini game for lockpicking and action to "boot the chest" to open it by force with a chance to get a reward but smaller one. Also if lockpicking fail -> get some damage as well)
+
+- All chars on the map can be replaced by special symbols like "Cross" or system symbols from apple. Think about it
+
+- Each level should also give a random perk to improve Attack/Heal/Block/Combo by a little
+
+- Opening screen of little story (hero - flask - conflict - locked princess)
+
+- Screen of entering the underworld (dungeon)
+
+- Shrine to explore a few tiles content (from hero neighbours to all map)
+
+- Charge ability to use some mana to improve next attack/heal/fireball/block/combo ability
+
+- First turn of the fight should be decided by coin or by some external factors such as luck, talants or position in map
+
+- More features to buy with gold
+
+- Shadow Flask should be a companion in the dungeon and in the fight. Implement it as Independent View In the left or right corner of the view. When you tap it you can tap any element on the screen and get a little explanation of what it is. Tap it again and you in combat mode
+
+- Each level of difficulty should have it's Rank Board with folks who got most of the score. As little runs you have and as higher difficulty you have than bigger score it will make
+
+- Implement an events on the map such as "Pools" with some kinds of effect you can fill you flask with and use in battle
+
+- Create a few events where your flask should be the key to solve it
+
+- With Dungeon exploration you can use "save spots" to start not from first floor of the dungeon but on 6th, 11th, 16th and 21th. So one of the features of it should be a talant or a shrine where you can put an armor or weapon to start with it all your new runs.
+
+- Create TabBar with Stats/Inventory/Map and may be Story/Talants/Perks/etc.
+
+- Add a little chance to summon a monster each time when you failed to catch the bar at the right position in Chest LockPicking mini game
+
+- Create also a different quality of the chests so for common ones there should be 1-2 bars to catch when for epic ones there should be 4-5
+
+- When you meet the boss or the final boss there should one extra mini game to avoid his attack. Plus there should be special attacks of the enemy. Plus, it's health/mana bar should be much bigger. Alongside with it's attack and defence properties. The idea is not to kill by stats but by skills. The boss at the end of the level can have a little of this skill/stats set to display ot the user what requirements will be at the 5/10/15/20 level final boss with unique mechanic
+
+- When you have Shrines that still active you should get a different color of it's tiles on the map to reflect for the user what he can use. Or may be it should be part of rogue like so you won't know where is it
+
+- Think about restoring hero's hp and mana after killing the level boss. May be need some playtests

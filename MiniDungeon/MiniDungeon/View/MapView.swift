@@ -39,7 +39,15 @@ extension MainView {
 			
 			HStack {
 				Spacer()
-				Text("Events explored: \(viewModel.countMapEvents().0)/\(viewModel.countMapEvents().1)")
+				Text("HP: \(viewModel.gameState.hero.currentHP)/\(viewModel.gameState.hero.maxHP)")
+				Spacer()
+				Text("MP: \(viewModel.gameState.hero.currentMana)/\(viewModel.gameState.hero.maxMana)")
+				Spacer()
+			}
+			
+			HStack {
+				Spacer()
+				Text("Rooms explored: \(viewModel.countMapRooms().0)/\(viewModel.countMapRooms().1)")
 				Spacer()
 				Spacer()
 			}
@@ -50,24 +58,131 @@ extension MainView {
 		
 		Spacer()
 		
-		getDungeonMap()
+		// MARK: Trap Defusion Mini Game
+		
+		if viewModel.gameState.isTrapDefusionMiniGameIsOn {
+			
+			TrapDefusionMiniGameView { success in
+				// this property seems to be duplicated
+				viewModel.gameState.isTrapDefusionMiniGameSuccessful = success
+				print(success)
+				// TODO: Probably should be inside the method in ViewModel
+				DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+					viewModel.gameState.isTrapDefusionMiniGameIsOn = false
+					viewModel.calculateTrapDefusionResult(success)
+					viewModel.gameState.didEncounterTrap = false
+					// with this one
+					viewModel.gameState.didTrapDefusionIsSuccess = success
+					viewModel.goToRewards()
+					
+				}
+			}
+		
+		// MARK: Lock Picking Mini Game
+			
+		} else if viewModel.gameState.isLockPickingMiniGameIsOn {
+			
+			ChestLockPickingMiniGameView { success in
+				// this property seems to be duplicated
+				viewModel.gameState.isLockPickingMiniGameIsSuccess = success
+				print(success)
+				// TODO: Probably should be inside the method in ViewModel
+				DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+					viewModel.gameState.isLockPickingMiniGameIsOn = false
+					viewModel.calculateChestLockPickingResult(success)
+					viewModel.gameState.didEncounterChest = false
+					// with this one
+					viewModel.gameState.didChestLockPickingIsSuccess = success
+					
+				}
+			}
+			
+			 
+		// MARK: Dungeon Map
+			 
+		} else if !(viewModel.gameState.isTrapDefusionMiniGameIsOn || viewModel.gameState.isLockPickingMiniGameIsOn) {
+		 	getDungeonMap()
+		 }
 		
 		Spacer()
 		
 		List {
 			
+			// MARK: Actions
+			
+			// if encountered any type of events such as a trap or shrine
+			
+			if viewModel.gameState.didEncounterTrap && !viewModel.gameState.isTrapDefusionMiniGameIsOn || viewModel.gameState.didEncounterRestorationShrine || viewModel.gameState.didEncounterDisenchantShrine || viewModel.gameState.didEncounterChest {
+				
+				Section(header: Text("Actions")) {
+					
+					// MARK: Trap Actions
+					
+					if viewModel.gameState.didEncounterTrap && !viewModel.gameState.isTrapDefusionMiniGameIsOn {
+						
+						Button("Inspect the Trap") {
+							viewModel.startTrapDefusionMiniGame()
+						}
+						.foregroundStyle(.orange)
+						
+					// MARK: Restoration Shrine Actions
+						
+					} else if viewModel.gameState.didEncounterRestorationShrine &&  !viewModel.gameState.dealtWithRestorationShrine {
+						
+						Button("Get Health and Mana Restoration") {
+							viewModel.applyEffect(for: .restoreHealthMana)
+							viewModel.goToRewards()
+						}
+						.foregroundStyle(.orange)
+						
+						Button("Get Shadow Flask Charge") {
+							viewModel.applyEffect(for: .getFlaskCharge)
+						}
+						.foregroundStyle(.orange)
+						
+					// MARK: Disenchant Shrine Actions
+						
+					} else if viewModel.gameState.didEncounterDisenchantShrine && !viewModel.gameState.dealtWithDisenchantShrine {
+						
+						Button("Disenchant an Item") {
+							viewModel.goToInventory()
+						}
+						.foregroundStyle(.orange)
+						
+					// MARK: Chest Tile Actions
+						
+					} else if viewModel.gameState.didEncounterChest && !viewModel.gameState.dealthWithChest {
+						
+						Button("Lock-pick the Chest") {
+							viewModel.applyEffect(for: .lockPickChest)
+							// viewModel.lockPickChest() -> LockPickingView()
+						}
+						.foregroundStyle(.orange)
+						
+						// add amount of keys in inventory like "(keys: 5)"
+						Button("Unlock with key (\(viewModel.displayKeys()))") {
+							viewModel.applyEffect(for: .unlockChestWithKey)
+							
+						}
+						.foregroundStyle(.orange)
+					}
+					
+				}
+			}
+			
+			// MARK: Navigation
+			
 			Section(header: Text("Navigation")) {
 				
-				// If Hero has 0 dark energy it's a game over
-				if viewModel.gameState.heroDarkEnergy <= 0 {
-					Button("No More Dark Energy To Move - Start Over") {
+				// if hero has negative HP
+				if viewModel.gameState.hero.currentHP <= 0 {
+					Button("You are dead -> Start New Game") {
 						viewModel.setupNewGame()
 					}
 					.foregroundStyle(.red)
 				}
 				
-//				if viewModel.checkMapForAllEventsToBeExplored() {
-				if viewModel.countMapEvents().0 == viewModel.countMapEvents().1 {
+				if viewModel.countMapRooms().0 == viewModel.countMapRooms().1 {
 					Button("Summon Level Boss") {
 						viewModel.summonBoss()
 					}
@@ -119,10 +234,11 @@ extension MainView {
 
 		let originalBackgroundColor: Color = tile.isExplored ? .gray : .white
 		let isHeroPosition = tile.isHeroPosition(viewModel.gameState.heroPosition)
-		let neighbours = viewModel.checkForHeroTileNeighbours()
+		let neighbours = viewModel.checkForHeroTileNeighbours(includeDiagonals: false)
 		let tileColor: Color = isHeroPosition ? .orange : originalBackgroundColor
 		var title: String
 		var opacityRatio: CGFloat = 1.0
+		let wasTapped = tile.wasTapped
 		
 		// MARK: Just comment all checks to manage map generation
 
@@ -137,24 +253,41 @@ extension MainView {
 			opacityRatio = 1.0
 		}
 		
-		// 3. Because empty tiles mean "Empty" make them totally opaque
+		// 3. If Tile being explored display it's type
 		
-		if tile.type == .empty { opacityRatio = 0.01 }
-
-		switch tile.type {
-		case .room:
-			title = "R"
-		case .corridor:
-			title = "C"
-		case .empty:
-			title = "E"
+		if tile.isExplored {
+			
+			switch tile.type {
+			case .room: title = "R"
+			case .corridor: title = "C"
+			case .chest: title = "L"
+			case .trap: title = "T"
+			case .restoration: title = "H"
+			case .empty: title = "E"
+			case .disenchant: title = "D"
+			default: title = "C"
+			}
+			
+		// Otherwise keep it hidden
+			
+		} else {
+			wasTapped ? (title = "") : (title = "?")
+		}
+		
+		// 4. For empty tiles provide full opacity but if player encounter secret by tapping on non explored empty tile highlight it a little
+		
+		if tile.type == .empty && !tile.events.contains(.secret) {
+			opacityRatio = 0.01
+		} else if tile.type == .empty && tile.events.contains(.secret) {
+			opacityRatio = 0.5
+			title = "S"
 		}
 
 		return Button(title, action: action)
 			.frame(width: 50, height: 50)
 			.buttonStyle(.bordered)
-			.font(.title2)
+			.font(wasTapped ? .none : .title2)
 			.foregroundColor(tileColor)
-			.opacity(opacityRatio)
+			.opacity(wasTapped ? 0.5 : opacityRatio)
 	}
 }

@@ -16,8 +16,8 @@ extension MainViewModel {
 	
 	// MARK: countMapEvents
 	
-	/// Method to check how many events on the map and how many hasn't been explored yet
-	func countMapEvents() -> (Int, Int) {
+	/// Method to check how many events 
+	func countMapRooms() -> (Int, Int) {
 		
 		var eventsToExplore = 0
 		var exploredEvents = 0
@@ -38,62 +38,6 @@ extension MainViewModel {
 		return (exploredEvents, eventsToExplore)
 	}
 	
-	// MARK: summonBoss
-	
-	/// If level been completed -> summon the boss and start the fight
-	func summonBoss() {
-		
-		gameState.didEncounteredBoss = true
-		gameState.enemy = generateEnemy(didFinalBossSummoned: gameState.didEncounteredBoss)
-		restoreAllEnergy()
-		goToBattle()
-	}
-	
-	// MARK: endLevelAndGenerateNewOne
-	
-	/// If Level complete and boss has been defeated go to the next one
-	func endLevelAndGenerateNewOne() {
-		
-		generateMerchantLoot()
-		
-		goToMerchant()
-		
-		gameState.didEncounteredBoss = false
-		gameState.currentDungeonLevel += 1
-		gameState.isHeroAppeard = false
-		gameState.itemToDisplay = nil
-		gameState.dungeonLevelBeenExplored = false
-		
-		generateMap()
-		spawnHero()
-	}
-
-	// MARK: SpawnHero
-
-	/// Method should traverse dungeon map in reversed order and put hero at the first non empty tile
-	func spawnHero() {
-
-		// map size
-
-		let map = gameState.dungeonMap
-
-		let n = map.count
-		let m = map[0].count
-
-		// map traversing
-
-		for row in (0..<n).reversed() {
-			for col in (0..<m).reversed() {
-				let tile = map[row][col]
-				if tile.type == .room && !gameState.isHeroAppeard {
-					gameState.heroPosition = (row, col)
-					gameState.isHeroAppeard = true
-				}
-			}
-		}
-		gameState.dungeonMap[gameState.heroPosition.row][gameState.heroPosition.col].isExplored = true
-	}
-	
 	// MARK: generateRandomDungeonLevel
 	
 	/// Use random generation to create random levels
@@ -102,17 +46,18 @@ extension MainViewModel {
 		
 		// "E" - Empty Room - 30%
 		// "R" - Room with enemy - 20%
-		// "C" - Corridor - 50%
+		// "C" - Corridor - 40%
+		// "T" - Trap - 10%
 		
 		/* Example of dungeon scheme 7x7 (average working size)
 		 let dungeonLevel11: [[String]] = [
 		 
 			 ["E", "R", "R", "C", "E", "R", "C"],
-			 ["R", "C", "E", "C", "C", "R", "C"],
-			 ["E", "E", "E", "E", "E", "C", "R"],
+			 ["R", "C", "E", "T", "C", "R", "C"],
+			 ["E", "E", "E", "H", "E", "C", "R"],
 			 ["C", "R", "C", "C", "E", "C", "C"],
-			 ["C", "E", "E", "C", "C", "R", "C"],
-			 ["R", "C", "C", "E", "E", "E", "R"],
+			 ["C", "E", "E", "C", "T", "R", "C"],
+			 ["R", "T", "C", "E", "E", "H", "R"],
 			 ["E", "E", "R", "E", "E", "E", "E"]
 		 ]
 		 */
@@ -124,7 +69,7 @@ extension MainViewModel {
 			
 			for row in 0..<rows {
 				for col in 0..<cols {
-					map[row][col] = generateRandomElement()
+					map[row][col] = generateRandomTileType()
 				}
 			}
 		return checkDungeonLevelForValidRouts(map)
@@ -152,6 +97,9 @@ extension MainViewModel {
 					
 					let neighbours = checkTopBotLeftRightDirectionsFromTile(row: row, col: col, in: map)
 					
+					// If we found neighbours being empty it's mean there is no valid routs to take so we should create one
+					// Start from top to bottom
+					
 					if neighbours.isEmpty {
 						
 						if let top = safeSchemeValue(atRow: row - 1, col: col, in: map), top == "E" {
@@ -176,9 +124,16 @@ extension MainViewModel {
 		
 		while true {
 			
-			// grab all non empty tiles
-			let allTiles = (0..<map.count).flatMap { row in
-				(0..<map[row].count).compactMap { col in map [row][col] != "E" ? (row, col) : nil }
+			var allTiles = [(Int, Int)]()
+			
+			for row in 0..<map.count {
+				
+				for col in 0..<map[row].count {
+					
+					if map[row][col] != "E" {
+						allTiles.append((row, col))
+					}
+				}
 			}
 			
 			guard let start = allTiles.first else { break } // im empty map
@@ -210,21 +165,34 @@ extension MainViewModel {
 			
 			if let (row, col) = allTiles.first(where: { !visited.contains([$0.0, $0.1]) }) {
 				
+				// Generate a tile to replace unvalid one with it
+				
+				var validTile = generateRandomTileType()
+				
+				while validTile == "E" {
+					validTile = generateRandomTileType()
+				}
+				
 				if let tile = safeSchemeValue(atRow: row - 1, col: col, in: map), tile == "E" {
 					
-					map[row - 1][col] = "C"
+					// Edit 28.11.25 to test
+					map[row - 1][col] = validTile
 					
 				} else if let tile = safeSchemeValue(atRow: row + 1, col: col, in: map), tile == "E" {
 					
-					map[row + 1][col] = "C"
+					// Edit 28.11.25 to test
+					map[row + 1][col] = validTile
 					
 				} else if let tile = safeSchemeValue(atRow: row, col: col - 1, in: map), tile == "E" {
 					
-					map[row][col - 1] = "C"
+					// Edit 28.11.25 to test
+					map[row][col - 1] = validTile
 					
 				} else if let tile = safeSchemeValue(atRow: row, col: col + 1, in: map), tile == "E" {
 					
-					map[row][col + 1] = "C"
+					// Edit 28.11.25 to test
+					map[row][col + 1] = validTile
+					
 				}
 			}
 		}
@@ -276,15 +244,29 @@ extension MainViewModel {
 	
 	// MARK: generateRandomElement
 	
-	func generateRandomElement() -> String {
+	/// Method to generate random tile types for DungeonMapScheme
+	/// Just add element such as Shrine, Shop, Trap here and in generateTile
+	func generateRandomTileType() -> String {
 		
 		let chance = Int.random(in: 1...100)
 		
 		switch chance {
-			
+		
+		// "Empty" tile
 		case 1...30: return "E"
+		// "Room" tile with monster and may be chest
 		case 31...50: return "R"
-		case 51...100: return "C"
+		// "Corridor" tile is just an empty tile to move through
+		case 51...86: return "C"
+		// "Loot" for loot chest tile
+		case 87...90: return "L"
+		// "Heal" or Restoration Shrine
+		case 91...94: return "H"
+		// "Trap" tile
+		case 95...97: return "T"
+		// "Disenchant" tile to convert items to dark energy
+		case 98...100: return "D"
+		
 		default: return ""
 		}
 	}

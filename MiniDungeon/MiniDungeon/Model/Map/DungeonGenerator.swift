@@ -40,6 +40,7 @@ struct DungeonGenerator {
 	// MARK: GenerateTile
 	
 	/// Method to get an exact coordinates and tile type to generate a complete Tile
+	/// If you need to add a shrine, shop or any other event - use this method
 	func generateTile(_ row: Int, _ col: Int, _ type: String) -> Tile {
 		
 		switch type {
@@ -56,11 +57,35 @@ struct DungeonGenerator {
 							  isExplored: false,
 							  events: [])
 			
+		case "L": return Tile(row: row,
+							 col: col,
+							 type: .chest,
+							 isExplored: false,
+							 events: [.chest])
+			
+		case "T": return Tile(row: row,
+							  col: col,
+							  type: .trap,
+							  isExplored: false,
+							  events: [.trap])
+			
+		case "H": return Tile(row: row,
+							  col: col,
+							  type: .restoration,
+							  isExplored: false,
+							  events: [.restoration])
+			
 		case "E": return Tile(row: row,
 							  col: col,
 							  type: .empty,
 							  isExplored: false,
 							  events: [])
+			
+		case "D": return Tile(row: row,
+							  col: col,
+							  type: .disenchant,
+							  isExplored: false,
+							  events: [.disenchant])
 			
 		default: return Tile(row: row,
 							 col: col,

@@ -10,7 +10,7 @@ enum ActionType {
 	case disenchantItem
 	case defuseTrap
 	case lockPickChest
-	case bruteForceChest
+	case unlockChestWithKey
 }
 
 extension MainViewModel {
@@ -39,11 +39,13 @@ extension MainViewModel {
 			
 		case .lockPickChest:
 			
-			print("LockPicked the chest!")
+			lockPickChest()
 		
-		case .bruteForceChest:
+		case .unlockChestWithKey:
 			
-			print("Brute Forced the Chest!")
+			unlockChestWithKey()
+			print("Unlocked with key")
+			
 			
 		default: break
 		}
@@ -64,16 +66,16 @@ extension MainViewModel {
 		gameState.dealthWithChest = true
 	}
 	
-	// MARK: - BruteForceChest
-	
-	/// Method to try to hit the chest until it open
-	/// Chance to get something will decrease
-	/// Chance to get an enemy will decrease but with some enemy damage
-	/// Quality of items should be decreased as well
-	func bruteForceChest() {
+	/// Use 1 key to open the chest and get the loot
+	func unlockChestWithKey() {
 		
+		guard displayKeys() > 0 else { return }
 		
+		let key = ItemManager.returnKeyItem()
+		
+		gameState.hero.inventory[key]! -= 1
 		gameState.dealthWithChest = true
+		generateLoot()
 		goToRewards()
 	}
 	

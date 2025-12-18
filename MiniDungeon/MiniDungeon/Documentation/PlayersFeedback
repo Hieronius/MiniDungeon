@@ -9,3 +9,5 @@ FILE HAS BEEN INSPECTED 12.12.25
 - Make Combo label for 2 and 3 combo points to display for more clearness
 "Ignore Armor + 175% damage"
 "Ignore Armor + 300% damage"
+
+- Add a button "Get/Set/Take/Charge/Hit" to combat mini game so user will tap the button instead of the view to catch bonus area

@@ -1,7 +1,8 @@
 import Foundation
 
 /// A type of the game tile in the dungeon map
-enum TileType {
+/// Codable conformance for SwiftData Models possible use
+enum TileType: Codable {
 
 	/// Square one and probably should be used to put enemies
 	case room

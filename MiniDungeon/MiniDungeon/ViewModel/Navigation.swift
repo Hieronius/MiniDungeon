@@ -53,6 +53,10 @@ extension MainViewModel {
 		gameScreen = .trapDefusionMiniGame
 	}
 	
+	func goToChestLockPickingMiniGame() {
+		gameScreen = .chestLockPickingMiniGame
+	}
+	
 	func goToSpecialisation() {
 		gameScreen = .specialisation
 	}

@@ -13,7 +13,7 @@ extension MainViewModel {
 		
 		gameState.didEncounteredBoss = false
 		gameState.currentDungeonLevel += 1
-		gameState.isHeroAppeard = false
+		gameState.isHeroAppeared = false
 		gameState.itemToDisplay = nil
 		gameState.dungeonLevelBeenExplored = false
 		
@@ -49,33 +49,13 @@ extension MainViewModel {
 		for row in (0..<n).reversed() {
 			for col in (0..<m).reversed() {
 				let tile = map[row][col]
-				if tile.type == .room && !gameState.isHeroAppeard {
+				if tile.type == .room && !gameState.isHeroAppeared {
 					gameState.heroPosition = (row, col)
-					gameState.isHeroAppeard = true
+					gameState.isHeroAppeared = true
 				}
 			}
 		}
 		gameState.dungeonMap[gameState.heroPosition.row][gameState.heroPosition.col].isExplored = true
-	}
-	
-	// MARK: startTrapDefusionMiniGame
-	
-	func startTrapDefusionMiniGame() {
-		
-		gameState.dealtWithTrap = true
-		gameState.isTrapDefusionMiniGameIsOn = true
-		print("Defused")
-	}
-	
-	// MARK: punishOrRewardTrapDefusion
-	
-	func punishOrRewardTrapDefusion() {
-		
-		if gameState.isTrapDefusionMiniGameSuccessful {
-			print("Plus some Exp and Dark Energy")
-		} else {
-			print("Minus some Health And Mana")
-		}
 	}
 	
 	// MARK: generateRewardRarity
@@ -103,8 +83,18 @@ extension MainViewModel {
 	
 	func getRewardsAndCleanTheScreen() {
 		
+		// TODO: Check if this is a correct place for reacting on secret room
+		gameState.didEncounterSecretRoom = false
+		
 		gameState.didFindLootAfterFight = false
 		gameState.lootToDisplay = []
+		gameState.itemToDisplay = nil
+		
+		gameState.goldLootToDisplay = 0
+		gameState.expLootToDisplay = 0
+		gameState.darkEnergyLootToDisplay = 0
+		gameState.healthPointsLootToDisplay = 0
+		gameState.manaPointsLootToDisplay = 0
 		
 		if gameState.didEncounteredBoss {
 			endLevelAndGenerateNewOne()
@@ -120,6 +110,14 @@ extension MainViewModel {
 	func generateLoot() {
 		
 		gameState.didFindLootAfterFight = true
+		
+		// extra keys loot
+		
+		if let loot = generateKeysLoot(didFinalBossSummoned: gameState.didEncounteredBoss) {
+			gameState.hero.inventory[loot, default: 0] += 1
+			gameState.lootToDisplay.append(loot.label)
+			print("got a key in loot")
+		}
 		
 		// saleable loot
 		
@@ -168,13 +166,20 @@ extension MainViewModel {
 		gameState.heroGold += gold
 		gameState.goldLootToDisplay = gold
 		
-		// experience loot
 		
-		let exp = generateExperienceLoot(
-			didFinalBossSummoned: gameState.didEncounteredBoss
-		)
-		gameState.hero.currentXP += exp
-		gameState.expLootToDisplay = exp
+		// experience loot (ignore if it's a chest loot)
+		if !gameState.dealthWithChest && !gameState.didEncounterSecretRoom {
+			print("No EXP loot")
+			print(gameState.dealthWithChest)
+			print(gameState.didEncounterSecretRoom)
+			
+			let exp = generateExperienceLoot(
+				didFinalBossSummoned: gameState.didEncounteredBoss
+			)
+			
+			gameState.hero.currentXP += exp
+			gameState.expLootToDisplay = exp
+		}
 		
 		// dark energy loot
 		
@@ -182,7 +187,8 @@ extension MainViewModel {
 			didFinalBossSummoned: gameState.didEncounteredBoss
 		)
 		gameState.heroDarkEnergy += energy
-		gameState.darkEnergyToDisplay = energy
+		gameState.darkEnergyLootToDisplay = energy
+		
 	}
 	
 	// MARK: - Generate Weapon Loot
@@ -368,6 +374,19 @@ extension MainViewModel {
 		return potionLoot
 	}
 	
+	// MARK: - Generate Keys Loot
+	
+	func generateKeysLoot(didFinalBossSummoned: Bool) -> Item? {
+		
+		var dropRoll = Int.random(in: 1...100)
+		
+		if didFinalBossSummoned { dropRoll /= 2 }
+		
+		guard dropRoll <= 20 else { return nil }
+		
+		return ItemManager.commonLoot[0]
+	}
+	
 	// MARK: - Generate Saleable Loot
 	
 	/// Use method to manage loot on sale drop chance
@@ -500,6 +519,98 @@ extension MainViewModel {
 			return Int(Double(energyRoll) * 1.25)
 		} else {
 			return energyRoll
+		}
+	}
+	
+	// MARK: handleSecretRoomOutcome()
+	
+	/// Method to define was a room really secret, was there a loot or an enemy
+	func handleSecretRoomOutcome(row: Int, col: Int) {
+		
+		// React on user action by changing the flag
+		gameState.dungeonMap[row][col].wasTapped = true
+		
+		// change flag back to stop tile tap animation
+		DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+			self.gameState.dungeonMap[row][col].wasTapped = false
+		}
+		
+		let room = gameState.dungeonMap[row][col]
+		let secretRoll = Int.random(in: 1...100)
+		
+		guard secretRoll >= 90 && !room.events.contains(.empty) else {
+			gameState.dungeonMap[row][col].events.append(.empty)
+			return
+		}
+		
+		gameState.dungeonMap[row][col].events = [.secret]
+		
+		let enemyRoll = Int.random(in: 1...100)
+		
+		if enemyRoll <= 20 {
+			
+			startBattleWithRandomNonEliteEnemy()
+			
+		} else {
+			
+			// If we really encounter loot mark this property as true to avoid exp generation
+			// Probably should provide a different one
+			gameState.didEncounterSecretRoom = true
+			generateLoot()
+			goToRewards()
+		}
+	}
+	
+	// MARK: - Generate Chest Lock-Picking Result
+	
+	/// Method to generate loot if opening the chest was a success and to generate enemy otherwise
+	func calculateChestLockPickingResult(_ forSuccess: Bool) {
+		
+		if forSuccess {
+			generateLoot()
+			goToRewards()
+			
+		} else {
+			startBattleWithRandomNonEliteEnemy()
+		}
+	}
+	
+	// MARK: - Generate Trap Defusion Result
+	
+	func calculateTrapDefusionResult(_ forSuccess: Bool) {
+		
+		gameState.didFindLootAfterFight = true
+		
+		if forSuccess {
+			
+			// If Success -> give some exp and dark energy to hero
+			let expLoot = Int.random(in: 1...5)
+			let darkEnergyLoot = Int.random(in: 1...5)
+			
+			gameState.hero.currentXP += expLoot
+			gameState.expLootToDisplay = expLoot
+			
+			gameState.heroDarkEnergy += darkEnergyLoot
+			gameState.darkEnergyLootToDisplay = darkEnergyLoot
+			print("Gain some rewards")
+			
+			
+		} else {
+			
+			// If Failure - deduct 10% of health and mana
+			let healthPenalty = Int(Double(gameState.hero.maxHP) * 0.1)
+			let manaPenalty = Int(Double(gameState.hero.maxMana) * 0.1)
+			
+			gameState.hero.currentHP -= healthPenalty
+			gameState.healthPointsLootToDisplay = -healthPenalty
+			
+			if gameState.hero.currentMana >= manaPenalty {
+				gameState.hero.currentMana -= manaPenalty
+			} else {
+				gameState.hero.currentMana = 0
+			}
+			gameState.manaPointsLootToDisplay = -manaPenalty
+			print("Gain some penalties")
 		}
 	}
 	

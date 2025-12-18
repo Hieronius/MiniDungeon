@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		DD50E9722EA57D900072CCC4 /* Shrines.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD50E9712EA57D900072CCC4 /* Shrines.swift */; };
+		DD5833A22EE01FE000DC4371 /* ChestLockPickingMiniGameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD5833A12EE01FE000DC4371 /* ChestLockPickingMiniGameView.swift */; };
 		DD585ABC2EADDF4C00C5446B /* Bugs in Resources */ = {isa = PBXBuildFile; fileRef = DD585AB42EADDF4C00C5446B /* Bugs */; };
 		DD585ABD2EADDF4C00C5446B /* CurrentTask in Resources */ = {isa = PBXBuildFile; fileRef = DD585AB52EADDF4C00C5446B /* CurrentTask */; };
 		DD585ABE2EADDF4C00C5446B /* FeaturesToAdd in Resources */ = {isa = PBXBuildFile; fileRef = DD585AB62EADDF4C00C5446B /* FeaturesToAdd */; };
@@ -17,6 +18,11 @@
 		DD585AC82EADDF5F00C5446B /* Rarity.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD585AC42EADDF5F00C5446B /* Rarity.swift */; };
 		DD585AC92EADDF5F00C5446B /* Specialisation.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD585AC52EADDF5F00C5446B /* Specialisation.swift */; };
 		DD585ACC2EADDF6300C5446B /* Shrine.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD585ACA2EADDF6300C5446B /* Shrine.swift */; };
+		DD597D182EDA076300CB9D7E /* TrapDefusionMiniGameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD597D172EDA076300CB9D7E /* TrapDefusionMiniGameView.swift */; };
+		DD597D1A2EDCAC5A00CB9D7E /* Story in Resources */ = {isa = PBXBuildFile; fileRef = DD597D192EDCAC5A00CB9D7E /* Story */; };
+		DD597D1C2EDCB24B00CB9D7E /* Actions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD597D1B2EDCB24B00CB9D7E /* Actions.swift */; };
+		DD597D1E2EDD80EA00CB9D7E /* GameFeatures in Resources */ = {isa = PBXBuildFile; fileRef = DD597D1D2EDD80EA00CB9D7E /* GameFeatures */; };
+		DD5C56562EEA6D09002EA3F6 /* PlayersFeedback in Resources */ = {isa = PBXBuildFile; fileRef = DD5C56552EEA6D09002EA3F6 /* PlayersFeedback */; };
 		DD7641DD2E88F77400359C52 /* InventoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD7641DC2E88F77400359C52 /* InventoryView.swift */; };
 		DD7641DF2E88F90E00359C52 /* Specialisations.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD7641DE2E88F90E00359C52 /* Specialisations.swift */; };
 		DD7641E32E8A4EF200359C52 /* HeroStatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD7641E22E8A4EF200359C52 /* HeroStatsView.swift */; };
@@ -32,7 +38,7 @@
 		DD7EC0C72E78A0BA00849B0B /* Weapon.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD7EC0C62E78A0BA00849B0B /* Weapon.swift */; };
 		DD7EC0CC2E78A45C00849B0B /* Armor.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD7EC0CB2E78A45C00849B0B /* Armor.swift */; };
 		DD7EC0CE2E7C47E800849B0B /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD7EC0CD2E7C47E800849B0B /* Item.swift */; };
-		DD7EC0D72E83B13000849B0B /* MiniGameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD7EC0D62E83B13000849B0B /* MiniGameView.swift */; };
+		DD7EC0D72E83B13000849B0B /* CombatMiniGameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD7EC0D62E83B13000849B0B /* CombatMiniGameView.swift */; };
 		DD915CEB2E66CD8900EDCC91 /* MiniDungeonApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD915CEA2E66CD8900EDCC91 /* MiniDungeonApp.swift */; };
 		DD915CED2E66CD8900EDCC91 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD915CEC2E66CD8900EDCC91 /* MainView.swift */; };
 		DD915CEF2E66CD9000EDCC91 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DD915CEE2E66CD9000EDCC91 /* Assets.xcassets */; };
@@ -51,6 +57,7 @@
 		DDB29BD42E6BF508007BB7DC /* Combat.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDB29BD32E6BF508007BB7DC /* Combat.swift */; };
 		DDB29BD62E6BF53B007BB7DC /* EventGeneration.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDB29BD52E6BF53B007BB7DC /* EventGeneration.swift */; };
 		DDB869CC2E68BC200042CF9F /* MapGeneration.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDB869CB2E68BC200042CF9F /* MapGeneration.swift */; };
+		DDD0237E2EB07C0400E7C9CE /* ImplementedFeatures in Resources */ = {isa = PBXBuildFile; fileRef = DDD0237D2EB07C0400E7C9CE /* ImplementedFeatures */; };
 		DDE6A01F2E6E977D00BEA51F /* DungeonHeroMovement.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDE6A01E2E6E977D00BEA51F /* DungeonHeroMovement.swift */; };
 		DDEE6C752E6D4C0E00BD2E3C /* BattleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDEE6C742E6D4C0E00BD2E3C /* BattleView.swift */; };
 		DDEE6C772E6D4C3500BD2E3C /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDEE6C762E6D4C3500BD2E3C /* MapView.swift */; };
@@ -59,6 +66,7 @@
 
 /* Begin PBXFileReference section */
 		DD50E9712EA57D900072CCC4 /* Shrines.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shrines.swift; sourceTree = "<group>"; };
+		DD5833A12EE01FE000DC4371 /* ChestLockPickingMiniGameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChestLockPickingMiniGameView.swift; sourceTree = "<group>"; };
 		DD585AB42EADDF4C00C5446B /* Bugs */ = {isa = PBXFileReference; lastKnownFileType = text; path = Bugs; sourceTree = "<group>"; };
 		DD585AB52EADDF4C00C5446B /* CurrentTask */ = {isa = PBXFileReference; lastKnownFileType = text; path = CurrentTask; sourceTree = "<group>"; };
 		DD585AB62EADDF4C00C5446B /* FeaturesToAdd */ = {isa = PBXFileReference; lastKnownFileType = text; path = FeaturesToAdd; sourceTree = "<group>"; };
@@ -70,6 +78,11 @@
 		DD585AC42EADDF5F00C5446B /* Rarity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Rarity.swift; sourceTree = "<group>"; };
 		DD585AC52EADDF5F00C5446B /* Specialisation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Specialisation.swift; sourceTree = "<group>"; };
 		DD585ACA2EADDF6300C5446B /* Shrine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shrine.swift; sourceTree = "<group>"; };
+		DD597D172EDA076300CB9D7E /* TrapDefusionMiniGameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrapDefusionMiniGameView.swift; sourceTree = "<group>"; };
+		DD597D192EDCAC5A00CB9D7E /* Story */ = {isa = PBXFileReference; lastKnownFileType = text; path = Story; sourceTree = "<group>"; };
+		DD597D1B2EDCB24B00CB9D7E /* Actions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Actions.swift; sourceTree = "<group>"; };
+		DD597D1D2EDD80EA00CB9D7E /* GameFeatures */ = {isa = PBXFileReference; lastKnownFileType = text; path = GameFeatures; sourceTree = "<group>"; };
+		DD5C56552EEA6D09002EA3F6 /* PlayersFeedback */ = {isa = PBXFileReference; lastKnownFileType = text; path = PlayersFeedback; sourceTree = "<group>"; };
 		DD7641DC2E88F77400359C52 /* InventoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InventoryView.swift; sourceTree = "<group>"; };
 		DD7641DE2E88F90E00359C52 /* Specialisations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Specialisations.swift; sourceTree = "<group>"; };
 		DD7641E22E8A4EF200359C52 /* HeroStatsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeroStatsView.swift; sourceTree = "<group>"; };
@@ -85,7 +98,7 @@
 		DD7EC0C62E78A0BA00849B0B /* Weapon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Weapon.swift; sourceTree = "<group>"; };
 		DD7EC0CB2E78A45C00849B0B /* Armor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Armor.swift; sourceTree = "<group>"; };
 		DD7EC0CD2E7C47E800849B0B /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
-		DD7EC0D62E83B13000849B0B /* MiniGameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiniGameView.swift; sourceTree = "<group>"; };
+		DD7EC0D62E83B13000849B0B /* CombatMiniGameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CombatMiniGameView.swift; sourceTree = "<group>"; };
 		DD915CE72E66CD8900EDCC91 /* MiniDungeon.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MiniDungeon.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD915CEA2E66CD8900EDCC91 /* MiniDungeonApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiniDungeonApp.swift; sourceTree = "<group>"; };
 		DD915CEC2E66CD8900EDCC91 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
@@ -105,6 +118,7 @@
 		DDB29BD32E6BF508007BB7DC /* Combat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Combat.swift; sourceTree = "<group>"; };
 		DDB29BD52E6BF53B007BB7DC /* EventGeneration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventGeneration.swift; sourceTree = "<group>"; };
 		DDB869CB2E68BC200042CF9F /* MapGeneration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapGeneration.swift; sourceTree = "<group>"; };
+		DDD0237D2EB07C0400E7C9CE /* ImplementedFeatures */ = {isa = PBXFileReference; lastKnownFileType = text; path = ImplementedFeatures; sourceTree = "<group>"; };
 		DDE6A01E2E6E977D00BEA51F /* DungeonHeroMovement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DungeonHeroMovement.swift; sourceTree = "<group>"; };
 		DDEE6C742E6D4C0E00BD2E3C /* BattleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattleView.swift; sourceTree = "<group>"; };
 		DDEE6C762E6D4C3500BD2E3C /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
@@ -126,12 +140,16 @@
 			isa = PBXGroup;
 			children = (
 				DD585AB52EADDF4C00C5446B /* CurrentTask */,
-				DD585AB92EADDF4C00C5446B /* SetOfTasks */,
 				DD585AB42EADDF4C00C5446B /* Bugs */,
+				DD585AB92EADDF4C00C5446B /* SetOfTasks */,
 				DD585AB62EADDF4C00C5446B /* FeaturesToAdd */,
+				DDD0237D2EB07C0400E7C9CE /* ImplementedFeatures */,
 				DD585AB72EADDF4C00C5446B /* GameLoop */,
 				DD585AB82EADDF4C00C5446B /* Notes */,
 				DD585ABA2EADDF4C00C5446B /* Refactoring */,
+				DD597D192EDCAC5A00CB9D7E /* Story */,
+				DD597D1D2EDD80EA00CB9D7E /* GameFeatures */,
+				DD5C56552EEA6D09002EA3F6 /* PlayersFeedback */,
 			);
 			path = Documentation;
 			sourceTree = "<group>";
@@ -224,7 +242,9 @@
 				DDEE6C742E6D4C0E00BD2E3C /* BattleView.swift */,
 				DDEE6C762E6D4C3500BD2E3C /* MapView.swift */,
 				DDF7EAC62E713F8D00EC6AF2 /* TownView.swift */,
-				DD7EC0D62E83B13000849B0B /* MiniGameView.swift */,
+				DD7EC0D62E83B13000849B0B /* CombatMiniGameView.swift */,
+				DD597D172EDA076300CB9D7E /* TrapDefusionMiniGameView.swift */,
+				DD5833A12EE01FE000DC4371 /* ChestLockPickingMiniGameView.swift */,
 				DD7641DC2E88F77400359C52 /* InventoryView.swift */,
 				DD7641E22E8A4EF200359C52 /* HeroStatsView.swift */,
 				DD7641E42E8A4FDA00359C52 /* SpecialisationView.swift */,
@@ -250,6 +270,7 @@
 				DD7641DE2E88F90E00359C52 /* Specialisations.swift */,
 				DD7641F52E8FA45D00359C52 /* LevelBonuses.swift */,
 				DD50E9712EA57D900072CCC4 /* Shrines.swift */,
+				DD597D1B2EDCB24B00CB9D7E /* Actions.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -350,11 +371,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				DD915CF22E66CD9000EDCC91 /* Preview Assets.xcassets in Resources */,
+				DD597D1E2EDD80EA00CB9D7E /* GameFeatures in Resources */,
 				DD915CEF2E66CD9000EDCC91 /* Assets.xcassets in Resources */,
+				DD5C56562EEA6D09002EA3F6 /* PlayersFeedback in Resources */,
 				DD585ABC2EADDF4C00C5446B /* Bugs in Resources */,
 				DD585ABD2EADDF4C00C5446B /* CurrentTask in Resources */,
 				DD585ABE2EADDF4C00C5446B /* FeaturesToAdd in Resources */,
 				DD585ABF2EADDF4C00C5446B /* GameLoop in Resources */,
+				DD597D1A2EDCAC5A00CB9D7E /* Story in Resources */,
+				DDD0237E2EB07C0400E7C9CE /* ImplementedFeatures in Resources */,
 				DD585AC22EADDF4C00C5446B /* Refactoring in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -374,6 +399,7 @@
 				DD7641E92E8B9DB200359C52 /* RewardsView.swift in Sources */,
 				DD915CFF2E66D65600EDCC91 /* GameState.swift in Sources */,
 				DD7641ED2E8B9DE000359C52 /* MenuView.swift in Sources */,
+				DD5833A22EE01FE000DC4371 /* ChestLockPickingMiniGameView.swift in Sources */,
 				DD7EC0CE2E7C47E800849B0B /* Item.swift in Sources */,
 				DDEE6C752E6D4C0E00BD2E3C /* BattleView.swift in Sources */,
 				DD50E9722EA57D900072CCC4 /* Shrines.swift in Sources */,
@@ -383,8 +409,9 @@
 				DD915CEB2E66CD8900EDCC91 /* MiniDungeonApp.swift in Sources */,
 				DD7641DF2E88F90E00359C52 /* Specialisations.swift in Sources */,
 				DD7641F62E8FA45D00359C52 /* LevelBonuses.swift in Sources */,
+				DD597D1C2EDCB24B00CB9D7E /* Actions.swift in Sources */,
 				DDEE6C772E6D4C3500BD2E3C /* MapView.swift in Sources */,
-				DD7EC0D72E83B13000849B0B /* MiniGameView.swift in Sources */,
+				DD7EC0D72E83B13000849B0B /* CombatMiniGameView.swift in Sources */,
 				DD915D092E672FB400EDCC91 /* Tile.swift in Sources */,
 				DD7641EF2E8B9E1300359C52 /* MerchantView.swift in Sources */,
 				DD915D072E672F5500EDCC91 /* DungeonScheme.swift in Sources */,
@@ -400,6 +427,7 @@
 				DD7641E72E8A504B00359C52 /* EnemyStatsView.swift in Sources */,
 				DD7641E32E8A4EF200359C52 /* HeroStatsView.swift in Sources */,
 				DD7EC0C72E78A0BA00849B0B /* Weapon.swift in Sources */,
+				DD597D182EDA076300CB9D7E /* TrapDefusionMiniGameView.swift in Sources */,
 				DDB29BD62E6BF53B007BB7DC /* EventGeneration.swift in Sources */,
 				DDB29BD42E6BF508007BB7DC /* Combat.swift in Sources */,
 				DD585AC72EADDF5F00C5446B /* LevelBonus.swift in Sources */,
@@ -537,10 +565,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"MiniDungeon/Preview Content\"";
-				DEVELOPMENT_TEAM = 7YW3V66545;
+				DEVELOPMENT_TEAM = K4P994YG2H;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -556,6 +585,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = HieroniusTeam.MiniDungeon;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -567,10 +597,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"MiniDungeon/Preview Content\"";
-				DEVELOPMENT_TEAM = 7YW3V66545;
+				DEVELOPMENT_TEAM = K4P994YG2H;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -586,6 +617,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = HieroniusTeam.MiniDungeon;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

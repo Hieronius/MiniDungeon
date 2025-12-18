@@ -1,10 +1,13 @@
-1. Game is quite hard at this stage for the User
+FILE HAS BEEN INSPECTED 07.12.25
 
-3. Add reward screen after boss fight before merchant screen
+Games for inspiration:
+- Darkest Dungeon (random buffs/debuffs/classes + town upgrades)
+- Diablo 2 (random dungeon generation and loot system with classes)
+- Dark Souls (high level of difficulty, estus, avoidance/parry skills, unique set of enemy attacks)
 
-4. Probably should change hero energy to 3 from 5 and boss from 5 to 4
+5. Estus or shadow flask can be upgraded across multiple runs (saved progress)
 
-6. Add Russian Localisation so folks can play test it better
+5.1. After multiple runs when main hero's stats absolutely exceeds the enemy's at first levels there should be the "execute" button for instant win on the opponent to get loot and exp and avoid redundant battles
 
 7. Add not only hit chance label on the attack button but also it's crit chance
 
@@ -14,4 +17,44 @@
 
 10. Add ingame info tab with stats/professions/and other objects of the game with description to lead player's way
 
-11. What about replacing all rooms chars to "?" so you don't know where you going until you step. And when you clear the room it's char should be changed to actual event happened here such as fight, riddle, blessing and so on.
+12. When you encounter secret room you can find a mini game like the one on the old phones to unlock it. You have 9 dots and some picture to replicate by swiping in right direction
+
+13. Probably i should implement levels of difficulty after ending the whole game. Like in Diablo 2
+
+14. Implement game play or a demo accordingly to Interest Curve (Hook - climax and so on)
+
+16. I probably should design game to be fun for begginers first and only after to add some hard core features
+
+17. Dark Dangerous Dungeon Death Shadow Flask
+
+18. Create Combat PipeLine, Effect PipeLine, Events Pipeline on the dungeon map and so on for each implementation of new features
+
+19. Each mini boss at the end of the level should also fought with a little mini game so player will be prepared for the one you should meet at the end of 5/10/15 lvl as location boss. So player should have some practice before.
+
+20. There also need a loot pipeline with output which you can change so you will be able to avoid redundant duplication of the code like "generateChestLoot, generateEnemyLoot, generateBossLoot" and so on
+
+21. Get Combat Pipeline with effects and different skills from my previous work with SwiftDungeon like:
+
+func attack() {
+
+gameManager.attack()
+getDataActionImpact()
+getVisualActionImpact()
+updateState()
+resetCharactersState()
+}
+
+22. We need an effect or equipment pipeline to avoid a huge switch method for equiping or using items or potions
+
+23. May be change icons of the bars to arrows. When it go bottom change it to down arrow and vice versa
+
+24. Add property like `dealtWithEventName` to avoid loot generation of specific kind
+
+25. When it's about loot pipeline i can create a special struct LootFlags with properties like:
+	- dealthWithChest
+	- dealthWithSecret
+	and so on so when you generate loot you check this data model for a specific property like
+	
+	if ifLootFlags.dealthWithChest == true { generate no exp loot }
+
+if i implement a special player controller with only top/bottom/left/right direction i will avoid user wondering through an unexplored map and clicking everything that might crush the app
