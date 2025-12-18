@@ -494,7 +494,6 @@ extension ChestLockPickingMiniGameView {
 			isSuccess = true
 			gameResult = "Perfect!"
 			boardColor = .green
-			print(motionsToCatch)
 			
 		} else {
 			attempts -= 1
@@ -509,7 +508,6 @@ extension ChestLockPickingMiniGameView {
 			
 			if attempts == 0 {
 				stopGame()
-				print("Stoped all motions")
 			}
 			
 		}

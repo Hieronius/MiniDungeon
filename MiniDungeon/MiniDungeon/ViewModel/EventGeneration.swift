@@ -104,7 +104,7 @@ extension MainViewModel {
 		}
 	}
 	
-	// MARK: generateLoot
+	// MARK: - Generate Loot
 	
 	/// Combine all types of items and it's chance to drop in a single method to call
 	func generateLoot() {
@@ -619,7 +619,13 @@ extension MainViewModel {
 	func generateEnemy(didFinalBossSummoned: Bool) -> Enemy {
 		
 		// Monster name generator
-		guard var enemyName = ["Skeleton", "Goblin", "Rat", "Ghoul"].randomElement() else { return Enemy() }
+		guard var enemyName = ["Skeleton",
+							   "Goblin",
+							   "Rat",
+							   "Ghoul"].randomElement()
+		else {
+			return Enemy()
+		}
 		
 		if didFinalBossSummoned { enemyName += " Elite" }
 		

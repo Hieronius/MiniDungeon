@@ -34,7 +34,6 @@ extension MainViewModel {
 			
 		case .disenchantItem:
 			
-			print("disenchanted!")
 			disenchantItem()
 			
 		case .lockPickChest:
@@ -44,7 +43,6 @@ extension MainViewModel {
 		case .unlockChestWithKey:
 			
 			unlockChestWithKey()
-			print("Unlocked with key")
 			
 			
 		default: break
@@ -176,6 +174,7 @@ extension MainViewModel {
 			gameState.manaPointsLootToDisplay = manaPoints
 		}
 		gameState.dealtWithRestorationShrine = true
+		goToRewards()
 		
 	}
 	

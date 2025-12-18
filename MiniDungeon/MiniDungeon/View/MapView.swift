@@ -131,7 +131,6 @@ extension MainView {
 						
 						Button("Get Health and Mana Restoration") {
 							viewModel.applyEffect(for: .restoreHealthMana)
-							viewModel.goToRewards()
 						}
 						.foregroundStyle(.orange)
 						

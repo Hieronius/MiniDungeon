@@ -10,3 +10,5 @@ Small BUG - when you start fight with new enemy and previous one has been killed
 Small BUG - when you inspect a few items at the market after boss kill even if you didn't purchased any you still see this exact item info in the invetory after
 
 BUG - you still can check and enter secret rooms while staying on the trap tile
+
+Small BUG - it seems when Restoration Shrine makes some damage it won't uppear as negative number in the Reward Screen. Check it and make similar effect as you did in TrapDefusion fail case
