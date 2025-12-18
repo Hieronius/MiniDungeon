@@ -160,6 +160,7 @@ extension MainViewModel {
 			print("Average Enemy has been defeated!")
 			
 			gameState.didEncounterEnemy = false
+			gameState.didEnemyUseBlock = false
 			
 			if gameState.didHeroUseBlock {
 				endHeroBlockEffect()
@@ -222,7 +223,7 @@ extension MainViewModel {
 		goToLevelBonus()
 	}
 	
-	// MARK: Buy/Sell Item
+	// MARK: - Buy/Sell Item
 	
 	func buyOrSellItem(onSale: Bool) {
 		
@@ -367,7 +368,7 @@ extension MainViewModel {
 		}
 	}
 	
-	// MARK: EquipOrUseItem
+	// MARK: - EquipOrUseItem
 	
 	/// If it's a weapon or armor - equip it, otherwise use the item if possible
 	func equipOrUseItem() {
@@ -402,7 +403,7 @@ extension MainViewModel {
 		}
 	}
 	
-	// MARK: equipWeapon
+	// MARK: - equipWeapon
 	
 	func equipWeapon(_ weapon: Weapon) {
 		
@@ -424,6 +425,8 @@ extension MainViewModel {
 		}
 	}
 	
+	// MARK: - equipArmor
+	
 	func equipArmor(_ armor: Armor) {
 		
 		// If there is a Armor currently equipped, return it to inventory count
@@ -444,7 +447,18 @@ extension MainViewModel {
 		}
 	}
 	
-	// MARK: usePotion
+	// MARK: - displayKeys
+	
+	/// A simple method to reflect how many keys hero have
+	func displayKeys() -> Int {
+		
+		let key = ItemManager.returnKeyItem()
+		
+		guard gameState.hero.inventory[key] != nil else { return 0 }
+		return gameState.hero.inventory[key]!
+	}
+	
+	// MARK: - usePotion
 	
 	func usePotion(_ potion: Item) {
 		
