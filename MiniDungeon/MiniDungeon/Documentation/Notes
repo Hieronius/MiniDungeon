@@ -58,3 +58,5 @@ resetCharactersState()
 	if ifLootFlags.dealthWithChest == true { generate no exp loot }
 
 if i implement a special player controller with only top/bottom/left/right direction i will avoid user wondering through an unexplored map and clicking everything that might crush the app
+
+26. Use native Alert() view from SwiftUI for random stuff like "game over" and so on"
