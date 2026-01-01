@@ -2,6 +2,8 @@ import Foundation
 
 extension MainViewModel {
 	
+	// MARK: - activateShrine
+	
 	/// Method to activate shrine by adding a selected one
 	func activateShrine(_ shrine: Shrine?) {
 		
@@ -14,17 +16,31 @@ extension MainViewModel {
 		print("dark energy deducted")
 		gameState.upgradedShrines.append(shrine)
 		print("new shrine has been activated")
-		applyShrineEffect(shrine)
-		print("new shrine effect has been applied")
 	}
 	
+	// MARK: - checkIsThereShrinesToUpgrade
+	
+	func checkIsThereShrinesToUpgrade(_ shrines: [Shrine]) -> Bool {
+		
+		for shrine in shrines {
+			if !gameState.upgradedShrines.contains(shrine) {
+				return false
+			}
+		}
+		return true
+	}
+	
+	// MARK: - applyActiveShrinesEffects()
+	
 	/// Check all upgraded shrines and apply it's effect on new run
-	func applyActiveShrineEffects() {
+	func applyActiveShrinesEffects() {
 		gameState.upgradedShrines.forEach {
 			applyShrineEffect($0)
 			print("applied \($0.name) effect for a new run")
 		}
 	}
+	
+	// MARK: - applyShrineEffect
 	
 	/// Use this method on the array of shrines to activate at the start of new run
 	func applyShrineEffect(_ shrine: Shrine) {

@@ -38,7 +38,7 @@ extension MainView {
 					
 					ForEach(viewModel.gameState.upgradedShrines) { shrine in
 						
-						Text("\(shrine.description)")
+						Text("\(shrine.shrineDescription)")
 					}
 				}
 			}

@@ -4,17 +4,18 @@ import Foundation
 
 protocol ItemProtocol: Identifiable {
 	
-	var id: UUID { get }
+	var id: String { get }
+//	var id: UUID { get }
 	var label: String { get }
 	var itemType: ItemType { get }
 	var itemLevel: Int { get }
-	var description: String { get }
+	var itemDescription: String { get }
 	var price: Int { get }
 }
 
 // MARK: - ItemType
 
-enum ItemType {
+enum ItemType: Codable {
 	
 	case weapon
 	case armor
@@ -25,27 +26,31 @@ enum ItemType {
 // MARK: - Item
 
 /// Entity to store all information about basic object of the inventory
-struct Item: ItemProtocol, Hashable {
+struct Item: ItemProtocol, Hashable, Codable, Identifiable {
 	
-	let id = UUID()
-	let label: String
+//	let id: UUID
+//	let id = UUID()
+	let id: String
+	var label: String
 	var itemType: ItemType
-	let itemLevel: Int
-	let description: String
+	var itemLevel: Int
+	var itemDescription: String
 	var amount: Int?
-	let price: Int
+	var price: Int
 	
 	init(
 		label: String,
 		itemType: ItemType,
 		itemLevel: Int,
-		description: String,
+		itemDescription: String,
 		price: Int
 	) {
+//		self.id = UUID()
+		self.id = "\(label)"
 		self.label = label
 		self.itemLevel = itemLevel
 		self.itemType = itemType
-		self.description = description
+		self.itemDescription = itemDescription
 		self.price = price
 	}
 }
@@ -63,7 +68,7 @@ struct ItemManager {
 			label: "Key",
 			itemType: .loot,
 			itemLevel: 1,
-			description: "Can open the Chest",
+			itemDescription: "Can open the Chest",
 			price: 100
 		),
 		
@@ -71,7 +76,7 @@ struct ItemManager {
 			label: "Broken Trinket",
 			itemType: .loot,
 			itemLevel: 1,
-			description: "An old and chip accessory",
+			itemDescription: "An old and chip accessory",
 			price: 75
 		),
 		
@@ -79,7 +84,7 @@ struct ItemManager {
 			label: "Cheap gem",
 			itemType: .loot,
 			itemLevel: 1,
-			description: "Really cheap",
+			itemDescription: "Really cheap",
 			price: 75
 		),
 		
@@ -87,7 +92,7 @@ struct ItemManager {
 			label: "Cracked Jewel",
 			itemType: .loot,
 			itemLevel: 1,
-			description: "Probably was fancy when was new",
+			itemDescription: "Probably was fancy when was new",
 			price: 75
 		),
 		
@@ -95,7 +100,7 @@ struct ItemManager {
 			label: "Darkened Ring",
 			itemType: .loot,
 			itemLevel: 1,
-			description: "You can't see it's original color",
+			itemDescription: "You can't see it's original color",
 			price: 75
 		),
 		
@@ -103,7 +108,7 @@ struct ItemManager {
 			label: "Damaged Necklace",
 			itemType: .loot,
 			itemLevel: 1,
-			description: "Part of it is missing",
+			itemDescription: "Part of it is missing",
 			price: 75
 		),
 	]
@@ -116,7 +121,7 @@ struct ItemManager {
 			label: "Steel Ring",
 			itemType: .loot,
 			itemLevel: 2,
-			description: "Just a ring",
+			itemDescription: "Just a ring",
 			price: 100
 		),
 		
@@ -124,7 +129,7 @@ struct ItemManager {
 			label: "Bronze Necklace",
 			itemType: .loot,
 			itemLevel: 2,
-			description: "An ordinary one",
+			itemDescription: "An ordinary one",
 			price: 100
 		),
 		
@@ -132,7 +137,7 @@ struct ItemManager {
 			label: "Old Ridge",
 			itemType: .loot,
 			itemLevel: 2,
-			description: "Still handy if you want to get your hair in order",
+			itemDescription: "Still handy if you want to get your hair in order",
 			price: 100
 		),
 		
@@ -140,7 +145,7 @@ struct ItemManager {
 			label: "White Stud",
 			itemType: .loot,
 			itemLevel: 2,
-			description: "Someone important was probably wearing it",
+			itemDescription: "Someone important was probably wearing it",
 			price: 100
 		),
 		
@@ -148,7 +153,7 @@ struct ItemManager {
 			label: "Gray Chain",
 			itemType: .loot,
 			itemLevel: 2,
-			description: "Probably was part of some kind of a costume",
+			itemDescription: "Probably was part of some kind of a costume",
 			price: 100
 		),
 	]
@@ -161,7 +166,7 @@ struct ItemManager {
 			label: "Moon Stone",
 			itemType: .loot,
 			itemLevel: 3,
-			description: "A shiny and beautiful gem",
+			itemDescription: "A shiny and beautiful gem",
 			price: 150
 		),
 		
@@ -169,7 +174,7 @@ struct ItemManager {
 			label: "Golden Statue",
 			itemType: .loot,
 			itemLevel: 3,
-			description: "Statue of someone important like a king or a lord",
+			itemDescription: "Statue of someone important like a king or a lord",
 			price: 150
 		),
 		
@@ -177,7 +182,7 @@ struct ItemManager {
 			label: "Silver Mirror",
 			itemType: .loot,
 			itemLevel: 3,
-			description: "An old but still well made mirror",
+			itemDescription: "An old but still well made mirror",
 			price: 150
 		),
 		
@@ -185,7 +190,7 @@ struct ItemManager {
 			label: "Painted Vase",
 			itemType: .loot,
 			itemLevel: 3,
-			description: "You still can see an epic battle between a dragon and a knight described on it",
+			itemDescription: "You still can see an epic battle between a dragon and a knight described on it",
 			price: 150
 		),
 		
@@ -193,7 +198,7 @@ struct ItemManager {
 			label: "Scarlet Ruby",
 			itemType: .loot,
 			itemLevel: 3,
-			description: "Probably ment to be used in one of these well made king's crowns",
+			itemDescription: "Probably ment to be used in one of these well made king's crowns",
 			price: 150
 		),
 	]
@@ -206,7 +211,7 @@ struct ItemManager {
 			label: "Perfect Diamond",
 			itemType: .loot,
 			itemLevel: 4,
-			description: "A truly perfect gem",
+			itemDescription: "A truly perfect gem",
 			price: 300
 		),
 		
@@ -214,7 +219,7 @@ struct ItemManager {
 			label: "Jewel-encrusted Casket",
 			itemType: .loot,
 			itemLevel: 4,
-			description: "An empty but very expensive chest",
+			itemDescription: "An empty but very expensive chest",
 			price: 300
 		),
 		
@@ -222,7 +227,7 @@ struct ItemManager {
 			label: "Violet Soul Crystal",
 			itemType: .loot,
 			itemLevel: 4,
-			description: "As legend tells that kind of crystal can be a storage or a prison for poor's souls",
+			itemDescription: "As legend tells that kind of crystal can be a storage or a prison for poor's souls",
 			price: 300
 		),
 		
@@ -230,7 +235,7 @@ struct ItemManager {
 			label: "Ivory Flute covered with gold",
 			itemType: .loot,
 			itemLevel: 4,
-			description: "You still can try to made a sound from this thing",
+			itemDescription: "You still can try to made a sound from this thing",
 			price: 300
 		),
 		
@@ -238,7 +243,7 @@ struct ItemManager {
 			label: "Giant Silver Cup",
 			itemType: .loot,
 			itemLevel: 4,
-			description: "Cup so huge you think only giant's king could drink from it",
+			itemDescription: "Cup so huge you think only giant's king could drink from it",
 			price: 300
 		),
 	]
@@ -251,7 +256,7 @@ struct ItemManager {
 			label: "Small Health Restoration Potion",
 			itemType: .potion,
 			itemLevel: 1,
-			description: "Heals by 10% of maximum HP",
+			itemDescription: "Heals by 10% of maximum HP",
 			price: 150
 		),
 		
@@ -259,7 +264,7 @@ struct ItemManager {
 			label: "Small Mana Restoration Potion",
 			itemType: .potion,
 			itemLevel: 1,
-			description: "Restore mana by 10% of maximum MP",
+			itemDescription: "Restore mana by 10% of maximum MP",
 			price: 150
 		),
 		
@@ -267,7 +272,7 @@ struct ItemManager {
 			label: "Small Energy Restoration Potion",
 			itemType: .potion,
 			itemLevel: 1,
-			description: "Restores ENERGY by 1",
+			itemDescription: "Restores ENERGY by 1",
 			price: 200
 		)
 	]
@@ -280,7 +285,7 @@ struct ItemManager {
 			label: "Health Restoration Potion",
 			itemType: .potion,
 			itemLevel: 2,
-			description: "Heals by 25% of max HP",
+			itemDescription: "Heals by 25% of max HP",
 			price: 300
 		),
 		
@@ -288,7 +293,7 @@ struct ItemManager {
 			label: "Mana Restoration Potion",
 			itemType: .potion,
 			itemLevel: 2,
-			description: "Restore mana by 25% of max MP",
+			itemDescription: "Restore mana by 25% of max MP",
 			price: 300
 		),
 		
@@ -296,7 +301,7 @@ struct ItemManager {
 			label: "Small Health Pool Elixir",
 			itemType: .potion,
 			itemLevel: 2,
-			description: "+5 current HP, +5 max HP",
+			itemDescription: "+5 current HP, +5 max HP",
 			price: 300
 		),
 		
@@ -304,7 +309,7 @@ struct ItemManager {
 			label: "Small Mana Pool Elixir",
 			itemType: .potion,
 			itemLevel: 2,
-			description: "+5 current MP, +5 max MP",
+			itemDescription: "+5 current MP, +5 max MP",
 			price: 300
 		),
 		
@@ -312,7 +317,7 @@ struct ItemManager {
 			label: "Small Wolf Tonic",
 			itemType: .potion,
 			itemLevel: 2,
-			description: "+1 min damage",
+			itemDescription: "+1 min damage",
 			price: 300
 		),
 		
@@ -320,7 +325,7 @@ struct ItemManager {
 			label: "Small Bear Tonic",
 			itemType: .potion,
 			itemLevel: 2,
-			description: "+1 max damage",
+			itemDescription: "+1 max damage",
 			price: 300
 		),
 		
@@ -328,7 +333,7 @@ struct ItemManager {
 			label: "Small Fox Tonic",
 			itemType: .potion,
 			itemLevel: 2,
-			description: "+1% crit chance",
+			itemDescription: "+1% crit chance",
 			price: 300
 		),
 		
@@ -336,7 +341,7 @@ struct ItemManager {
 			label: "Small Owl Tonic",
 			itemType: .potion,
 			itemLevel: 2,
-			description: "+1 spell power",
+			itemDescription: "+1 spell power",
 			price: 300
 		),
 		
@@ -344,7 +349,7 @@ struct ItemManager {
 			label: "Small Iguana Tonic",
 			itemType: .potion,
 			itemLevel: 2,
-			description: "+1% hit chance",
+			itemDescription: "+1% hit chance",
 			price: 300
 		)
 	]
@@ -359,7 +364,7 @@ struct ItemManager {
 			label: "Huge Health Restoration Potion",
 			itemType: .potion,
 			itemLevel: 3,
-			description: "Heals by 35% of max health",
+			itemDescription: "Heals by 35% of max health",
 			price: 500
 		),
 		
@@ -367,7 +372,7 @@ struct ItemManager {
 			label: "Huge Mana Restoration Potion",
 			itemType: .potion,
 			itemLevel: 3,
-			description: "Restores mana by 35% of it's max capacity",
+			itemDescription: "Restores mana by 35% of it's max capacity",
 			price: 500
 		),
 		
@@ -375,7 +380,7 @@ struct ItemManager {
 			label: "Elixir of Strength",
 			itemType: .potion,
 			itemLevel: 3,
-			description: "+1 min damage, +1 max damage",
+			itemDescription: "+1 min damage, +1 max damage",
 			price: 600
 		),
 		
@@ -383,7 +388,7 @@ struct ItemManager {
 			label: "Huge Elixir of Tortoise",
 			itemType: .potion,
 			itemLevel: 3,
-			description: "+20 health, -1% hit chance",
+			itemDescription: "+20 health, -1% hit chance",
 			price: 500
 		),
 		
@@ -391,7 +396,7 @@ struct ItemManager {
 			label: "Huge Elixir of Wisdom",
 			itemType: .potion,
 			itemLevel: 3,
-			description: "+3 spell power, -1 max damage",
+			itemDescription: "+3 spell power, -1 max damage",
 			price: 500
 		),
 		
@@ -399,7 +404,7 @@ struct ItemManager {
 			label: "Huge Elixir of Boldness",
 			itemType: .potion,
 			itemLevel: 3,
-			description: "+3% crit chance, -20 health, -20 mana",
+			itemDescription: "+3% crit chance, -20 health, -20 mana",
 			price: 500
 		),
 		
@@ -407,7 +412,7 @@ struct ItemManager {
 			label: "Huge Elixir of Accuracy",
 			itemType: .potion,
 			itemLevel: 3,
-			description: "+3% hit chance, -1 armor, -1 spell power",
+			itemDescription: "+3% hit chance, -1 armor, -1 spell power",
 			price: 500
 		)
 		
@@ -421,7 +426,7 @@ struct ItemManager {
 			label: "Legendary Potion of Energy",
 			itemType: .potion,
 			itemLevel: 4,
-			description: "+1 ENERGY",
+			itemDescription: "+1 ENERGY",
 			price: 1500
 		),
 		
@@ -429,7 +434,7 @@ struct ItemManager {
 			label: "Legendary Potion of Strength",
 			itemType: .potion,
 			itemLevel: 4,
-			description: "+2 min damage, +2 max damage, +1% hit chance, +1% crit chance",
+			itemDescription: "+2 min damage, +2 max damage, +1% hit chance, +1% crit chance",
 			price: 1500
 		),
 		
@@ -437,7 +442,7 @@ struct ItemManager {
 			label: "Corrupted Elixir of Agility",
 			itemType: .potion,
 			itemLevel: 4,
-			description: "+5% crit chance, -2% hit chance, -30 health, -30 mana",
+			itemDescription: "+5% crit chance, -2% hit chance, -30 health, -30 mana",
 			price: 1500
 		),
 		
@@ -445,7 +450,7 @@ struct ItemManager {
 			label: "Corrupted Elixir of Wisdom",
 			itemType: .potion,
 			itemLevel: 4,
-			description: "+5 spell power, +30 mana, -2% crit chance, -30 health",
+			itemDescription: "+5 spell power, +30 mana, -2% crit chance, -30 health",
 			price: 1500
 		),
 		
@@ -453,7 +458,7 @@ struct ItemManager {
 			label: "Corrupted Elixir of Behemoth",
 			itemType: .potion,
 			itemLevel: 4,
-			description: "+3 Defence, +50 health, -1% crit chance, -1% hit chance, -30 mana, -3 spell power",
+			itemDescription: "+3 Defence, +50 health, -1% crit chance, -1% hit chance, -30 mana, -3 spell power",
 			price: 1500
 		),
 		
@@ -461,7 +466,7 @@ struct ItemManager {
 			label: "Corrupted Elixir of Focus",
 			itemType: .potion,
 			itemLevel: 4,
-			description: "+5% hit chance, -1% crit chance, -20 health, -1 defence, -20 mana, -1 spell power",
+			itemDescription: "+5% hit chance, -1% crit chance, -20 health, -1 defence, -20 mana, -1 spell power",
 			price: 1500
 		),
 	]

@@ -1,14 +1,20 @@
-FILE HAS BEEN INSPECTED 10.12.25
+FILE HAS BEEN INSPECTED 29.12.25
 
-BUG - When you play chest lock-picking mini game and have 3 buttons to move, you can open the chest even by catching only 2 of them
+----------------------------------------------
+// BUGS TO CHECK AND FIX AFTER PLAYER FEEDBACK:
+
+- Small BUG 01.01.26 - when you click items in the inventory or in merchant view it causes rerendering of the items each time which leads to reordering it on the list. But no problems with functionality.
+
+- BUG 01.01.26 - when you sell stuff after killing the boss it's appear that energy potions for example won't be sold properly'' Also as health and mana potions
+
+- Small BUG 01.01.26 - When you choose Level Bonus it will change an order of bonuses each time when you click without actually ruining a set of bonuses. Just might be a little bit annoying for the user
+
+- Small BUG 25.12.25 - on Iphone 13 mini Dungeon Map won't scale correctly accordingly to the screen size. It's not flexible
+
+- BUG - When you play chest lock-picking mini game and have 3 buttons to move, you can open the chest even by catching only 2 of them
 13.12. FEEDBACK - when you start the mini game you get "true" at the array of motions from the start. Something wrong with population of this array. Or it might get an old data from previous game during the session
 
-Small BUG - if you stay on the Disenchant Tile (and probably any other event) and summon the boss, after killing it you still have this type of event on your action bar
+- BUG 21.12 - you still can check and enter secret rooms while staying on the trap tile
 
-Small BUG - when you start fight with new enemy and previous one has been killed under the Armor buff it will also reflect Armor buff but without actual effect.
-
-Small BUG - when you inspect a few items at the market after boss kill even if you didn't purchased any you still see this exact item info in the invetory after
-
-BUG - you still can check and enter secret rooms while staying on the trap tile
-
-Small BUG - it seems when Restoration Shrine makes some damage it won't uppear as negative number in the Reward Screen. Check it and make similar effect as you did in TrapDefusion fail case
+Possible BUG - Potential problem with:
+	@Transient var lootToDisplay: [String] = [] in GameState

@@ -17,24 +17,27 @@ extension MainView {
 				Text("\(viewModel.gameState.hero.armorSlot?.label ?? "Empty")")
 			}
 			
-			if viewModel.gameState.wasItemSelected {
+			if itemToDisplay != nil  {
 				Section(header: Text("Item Info")) {
 					
-					Text("Item Name: \(viewModel.gameState.itemToDisplay?.label ?? "")")
+					Text("Item Name: \(itemToDisplay?.label ?? "")")
 						.bold()
-					Text("Item Level: \(viewModel.gameState.itemToDisplay?.itemLevel ?? 0)")
-					Text("Description: \(viewModel.gameState.itemToDisplay?.description ?? "")")
-					Text("Price: \(viewModel.gameState.itemToDisplay?.price ?? 0) gold")
-					if viewModel.gameState.didEncounterDisenchantShrine {
+					Text("Item Level: \(itemToDisplay?.itemLevel ?? 0)")
+					Text("Description: \(itemToDisplay?.itemDescription ?? "")")
+					Text("Price: \(itemToDisplay?.price ?? 0) gold")
+					
+					if viewModel.gameState.didEncounterDisenchantShrine && !viewModel.gameState.dealtWithDisenchantShrine {
 						
 						Button("Disenchant") {
-							viewModel.applyEffect(for: .disenchantItem)
+							viewModel.applyEffect(for: .disenchantItem, item: itemToDisplay)
 						}
 							
 					} else {
 						
 						Button("Equip/Use") {
-							viewModel.equipOrUseItem()
+							if viewModel.equipOrUseItem(itemToDisplay) {
+								itemToDisplay = nil
+							}
 						}
 					}
 				}
@@ -51,7 +54,7 @@ extension MainView {
 					
 					ForEach(Array(viewModel.gameState.hero.weapons.keys)) { weapon in
 						Button("\(weapon.label) - \(viewModel.gameState.hero.weapons[weapon] ?? 0)") {
-							viewModel.gameState.itemToDisplay = weapon
+							itemToDisplay = weapon
 						}
 					}
 				}
@@ -62,7 +65,7 @@ extension MainView {
 					
 					ForEach(Array(viewModel.gameState.hero.armors.keys)) { armor in
 						Button("\(armor.label) - \(viewModel.gameState.hero.armors[armor] ?? 0)") {
-							viewModel.gameState.itemToDisplay = armor
+							itemToDisplay = armor
 						}
 					}
 				}
@@ -73,7 +76,7 @@ extension MainView {
 					
 					ForEach(Array(viewModel.gameState.hero.inventory.keys)) { item in
 						Button("\(item.label) - \(viewModel.gameState.hero.inventory[item] ?? 0)") {
-							viewModel.gameState.itemToDisplay = item
+							itemToDisplay = item
 						}
 					}
 				}

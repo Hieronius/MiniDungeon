@@ -89,11 +89,12 @@ extension MainViewModel {
 
 			// move hero to the new position
 			
-			gameState.heroPosition = (row, col)
+			gameState.heroPosition = Coordinate(row: row, col: col)
 			
 			let heroPosition = gameState.heroPosition
 			
 			// MARK: Transition to Combat Screen
+			
 
 			if gameState.dungeonMap[heroPosition.row][heroPosition.col].events.contains(.enemy) &&
 				!gameState.dungeonMap[heroPosition.row][heroPosition.col].isExplored {
@@ -151,6 +152,7 @@ extension MainViewModel {
 					checkForHeroTileNeighbours(includeDiagonals: false).contains(targetTile) {
 			
 			handleSecretRoomOutcome(row: row, col: col)
+			
 		}
 	}
 

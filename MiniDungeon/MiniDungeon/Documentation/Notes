@@ -60,3 +60,7 @@ resetCharactersState()
 if i implement a special player controller with only top/bottom/left/right direction i will avoid user wondering through an unexplored map and clicking everything that might crush the app
 
 26. Use native Alert() view from SwiftUI for random stuff like "game over" and so on"
+
+27. Too little things you can do with Gold in the game
+
+28. When you encounter an event in the dungeon map Flask should speak. Like if you get damage from the Restoration Shrine it should tell something like "Oh no it was a poison" and so on

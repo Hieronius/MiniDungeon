@@ -18,7 +18,7 @@ extension MainViewModel {
 	// MARK: - applyEffect
 	
 	/// Apply effect of the button in `Actions` list and clear tile's events to avoid dealing with the same situation again
-	func applyEffect(for action: ActionType) {
+	func applyEffect(for action: ActionType, item: (any ItemProtocol)?) {
 		
 		switch action {
 			
@@ -34,7 +34,7 @@ extension MainViewModel {
 			
 		case .disenchantItem:
 			
-			disenchantItem()
+			disenchantItem(item)
 			
 		case .lockPickChest:
 			
@@ -51,7 +51,7 @@ extension MainViewModel {
 		// After any type of actions remove an event from the tile so in the future you won't find yourself at the same choice twice
 		
 		let position = gameState.heroPosition
-		gameState.dungeonMap[position.0][position.1].events = []
+		gameState.dungeonMap[position.row][position.col].events = []
 	}
 	
 	// MARK: - lockPickChest
@@ -64,6 +64,8 @@ extension MainViewModel {
 		gameState.dealthWithChest = true
 	}
 	
+	// MARK: - unlockChestWithKey
+	
 	/// Use 1 key to open the chest and get the loot
 	func unlockChestWithKey() {
 		
@@ -72,6 +74,10 @@ extension MainViewModel {
 		let key = ItemManager.returnKeyItem()
 		
 		gameState.hero.inventory[key]! -= 1
+		
+		if gameState.hero.inventory[key]! <= 0 {
+			gameState.hero.inventory[key] = nil
+		}
 		gameState.dealthWithChest = true
 		generateLoot()
 		goToRewards()
@@ -79,9 +85,9 @@ extension MainViewModel {
 	
 	// MARK: - disenchantItem
 	
-	func disenchantItem() {
+	func disenchantItem(_ item: (any ItemProtocol)?){
 		
-		guard let item = gameState.itemToDisplay else { return }
+		guard let item = item else { return }
 		
 		guard item is Armor || item is Weapon  else {
 			print("Item is not Armor or Weapon")
@@ -89,7 +95,7 @@ extension MainViewModel {
 		}
 		print("Solid item to disenchant")
 		
-		switch gameState.itemToDisplay?.itemLevel {
+		switch item.itemLevel {
 			
 		case 1: gameState.darkEnergyLootToDisplay = Int.random(in: 1...5)
 		case 2: gameState.darkEnergyLootToDisplay = Int.random(in: 6...10)
@@ -130,8 +136,11 @@ extension MainViewModel {
 		// TODO: Display the outcome in Rewards screen
 		
 		let chance = Int.random(in: 1...10)
+		print(chance)
 		
 		if chance == 1 {
+			
+			print("YOU RECEIVE DAMAGE FROM RESTORATION SHRINE")
 			
 			let healthPoints = Int(Double(gameState.hero.maxHP) * 0.10)
 			
@@ -140,7 +149,7 @@ extension MainViewModel {
 			} else {
 				gameState.hero.currentHP -= healthPoints
 			}
-			gameState.healthPointsLootToDisplay = healthPoints
+			gameState.healthPointsLootToDisplay = -healthPoints
 			
 			let manaPoints = Int(Double(gameState.hero.maxMana) * 0.10)
 			
@@ -150,10 +159,12 @@ extension MainViewModel {
 				gameState.hero.currentMana -= manaPoints
 			}
 			
-			gameState.manaPointsLootToDisplay = manaPoints
+			gameState.manaPointsLootToDisplay = -manaPoints
 			
 			
 		} else {
+			
+			print("YOU RECEIVE HEALING FROM RESTORATION SHRINE")
 			
 			let healthPoints = Int(Double(gameState.hero.maxHP) * 0.25)
 			

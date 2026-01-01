@@ -9,68 +9,68 @@ extension MainViewModel {
 	// MARK: - Navigation
 	
 	func goToMenu() {
-		gameScreen = .menu
+		gameState.gameScreen = .menu
 	}
 	
 	func goToBattle() {
 		gameState.logMessage = "Battle Begins!"
-		gameScreen = .battle
+		gameState.gameScreen = .battle
 	}
 	
 	func goToDungeon() {
-		gameScreen = .dungeon
+		gameState.gameScreen = .dungeon
 	}
 	
 	func goToTown() {
-		gameScreen = .town
+		gameState.gameScreen = .town
 	}
 	
 	func goToHeroStats() {
-		gameScreen = .heroStats
+		gameState.gameScreen = .heroStats
 	}
 	
 	func goToEnemyStats() {
-		gameScreen = .enemyStats
+		gameState.gameScreen = .enemyStats
 	}
 	
 	func goToInventory() {
-		gameScreen = .inventory
+		gameState.gameScreen = .inventory
 	}
 	
 	func goToOptions() {
-		gameScreen = .options
+		gameState.gameScreen = .options
 	}
 	
 	func goToRewards() {
-		gameScreen = .rewards
+		gameState.gameScreen = .rewards
 	}
 	
 	func goToCombatMiniGame() {
-		gameScreen = .combatMiniGame
+		gameState.gameScreen = .combatMiniGame
 	}
 	
 	func goToTrapDefusionMiniGame() {
-		gameScreen = .trapDefusionMiniGame
+		gameState.gameScreen = .trapDefusionMiniGame
 	}
 	
 	func goToChestLockPickingMiniGame() {
-		gameScreen = .chestLockPickingMiniGame
+		gameState.gameScreen = .chestLockPickingMiniGame
 	}
 	
 	func goToSpecialisation() {
-		gameScreen = .specialisation
+		gameState.gameScreen = .specialisation
 	}
 	
 	func applyActiveShrineEffectsAndGoToSpecialisation() {
-		gameScreen = .menu
-		applyActiveShrineEffects()
+		gameState.gameScreen = .menu
+		applyActiveShrinesEffects()
 	}
 	
 	func goToMerchant() {
-		gameScreen = .merchant
+		gameState.gameScreen = .merchant
 	}
 	
 	func goToLevelBonus() {
-		gameScreen = .levelBonus
+		gameState.gameScreen = .levelBonus
 	}
 }

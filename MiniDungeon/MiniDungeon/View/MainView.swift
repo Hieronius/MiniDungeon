@@ -2,9 +2,13 @@ import SwiftUI
 
 struct MainView: View {
 	
+	// TODO: Test property
+	@Environment(\.scenePhase) private var scenePhase
+	
 	// MARK: - Dependencies
 	
 	@StateObject var viewModel: MainViewModel
+	@State var itemToDisplay: (any ItemProtocol)? = nil
 	
 	// MARK: - Initialization
 	
@@ -16,7 +20,10 @@ struct MainView: View {
 	
 	var body: some View {
 		
-		switch viewModel.gameScreen {
+		// It is a debug option to print property which causes a View rerendering update
+		let _ = Self._printChanges()
+		
+		switch viewModel.gameState.gameScreen {
 			
 		case .menu:
 			

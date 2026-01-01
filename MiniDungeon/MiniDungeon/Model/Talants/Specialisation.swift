@@ -11,23 +11,23 @@ struct SpecialisationManager {
 		
 		Specialisation(
 			name: "Warrior",
-			description: "Mighty Warrior gain 5 more max health and 1 more max damage"),
+			specDescription: "Mighty Warrior gain 5 more max health and 1 more max damage"),
 		
 		Specialisation(
 			name: "Knight",
-			description: "Strong Knight gain 5 more max health and 1 extra defence point"),
+			specDescription: "Strong Knight gain 5 more max health and 1 extra defence point"),
 		
 		Specialisation(
 			name: "Assasin",
-			description: "An Assasin gain 2 extra max damage points"),
+			specDescription: "An Assasin gain 2 extra max damage points"),
 		
 		Specialisation(
 			name: "Priest",
-			description: "Priest gains 3 spell power and 10 max mana and health points"),
+			specDescription: "Priest gains 3 spell power and 10 max mana and health points"),
 		
 		Specialisation(
 			name: "Mage",
-			description: "Mage gains 5 extra spell power and 20 extra max mana points")
+			specDescription: "Mage gains 5 extra spell power and 20 extra max mana points")
 	]
 	
 	// MARK: getThreeRandomSpecialisations
@@ -49,9 +49,17 @@ struct SpecialisationManager {
 // MARK: Specialisation
 
 /// You can choose one of three different specialisation at the start of each run
-struct Specialisation: Identifiable, Hashable {
+struct Specialisation: Identifiable, Hashable, Codable {
 	
-	var id = UUID()
+	var id: UUID
 	var name: String
-	var description: String
+	var specDescription: String
+	
+	init(name: String,
+		 specDescription: String
+	) {
+		self.id = UUID()
+		self.name = name
+		self.specDescription = specDescription
+	}
 }

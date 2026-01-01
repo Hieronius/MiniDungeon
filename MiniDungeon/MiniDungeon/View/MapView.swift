@@ -130,14 +130,15 @@ extension MainView {
 					} else if viewModel.gameState.didEncounterRestorationShrine &&  !viewModel.gameState.dealtWithRestorationShrine {
 						
 						Button("Get Health and Mana Restoration") {
-							viewModel.applyEffect(for: .restoreHealthMana)
+							viewModel.applyEffect(for: .restoreHealthMana, item: nil)
 						}
 						.foregroundStyle(.orange)
 						
-						Button("Get Shadow Flask Charge") {
-							viewModel.applyEffect(for: .getFlaskCharge)
-						}
-						.foregroundStyle(.orange)
+						// TODO: Uncomment this code when Shadow Flask will be here
+//						Button("Get Shadow Flask Charge") {
+//							viewModel.applyEffect(for: .getFlaskCharge, item: nil)
+//						}
+//						.foregroundStyle(.orange)
 						
 					// MARK: Disenchant Shrine Actions
 						
@@ -153,14 +154,14 @@ extension MainView {
 					} else if viewModel.gameState.didEncounterChest && !viewModel.gameState.dealthWithChest {
 						
 						Button("Lock-pick the Chest") {
-							viewModel.applyEffect(for: .lockPickChest)
+							viewModel.applyEffect(for: .lockPickChest, item: nil)
 							// viewModel.lockPickChest() -> LockPickingView()
 						}
 						.foregroundStyle(.orange)
 						
 						// add amount of keys in inventory like "(keys: 5)"
 						Button("Unlock with key (\(viewModel.displayKeys()))") {
-							viewModel.applyEffect(for: .unlockChestWithKey)
+							viewModel.applyEffect(for: .unlockChestWithKey, item: nil)
 							
 						}
 						.foregroundStyle(.orange)
@@ -203,19 +204,27 @@ extension MainView {
 	@ViewBuilder
 	func getDungeonMap() -> some View {
 
-		VStack {
+		VStack(spacing: 20) {
 
 			ForEach(viewModel.gameState.dungeonMap.indices, id: \.self) { row in
 
-				HStack {
+				HStack(spacing: 20) {
 
 					ForEach(viewModel.gameState.dungeonMap[row].indices, id: \.self) { col in
 
 						let tile = viewModel.gameState.dungeonMap[row][col]
 
 						getTileButton(tile: tile) {
+							
+							// Junk code to be sure that you handle tapped tile and remove it from the grid to avoid tapping tiles too far from the hero
 
 							viewModel.handleTappedDirection(row, col)
+							viewModel.gameState.tappedTile = tile
+							
+							DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+								self.viewModel.gameState.tappedTile = Tile(coordinate: Coordinate(row: 998, col: 998), type: .empty, isExplored: false, events: [.empty])
+								self.viewModel.gameState.tappedTilePosition = Coordinate(row: 999, col: 999)
+							}
 
 						}
 					}
@@ -246,6 +255,7 @@ extension MainView {
 
 		if isHeroPosition == false && tile.isExplored == false  { opacityRatio = 0.01 }
 		
+		
 		// 2. Hero can see through a single tile around him
 		
 		if neighbours.contains(tile) {
@@ -258,35 +268,47 @@ extension MainView {
 			
 			switch tile.type {
 			case .room: title = "R"
-			case .corridor: title = "C"
+			case .corridor: title = ""
 			case .chest: title = "L"
 			case .trap: title = "T"
 			case .restoration: title = "H"
 			case .empty: title = "E"
 			case .disenchant: title = "D"
-			default: title = "C"
+			default: title = ""
 			}
 			
-		// Otherwise keep it hidden
+			// Otherwise keep it hidden
 			
 		} else {
-			wasTapped ? (title = "") : (title = "?")
+			title = "?"
 		}
 		
 		// 4. For empty tiles provide full opacity but if player encounter secret by tapping on non explored empty tile highlight it a little
 		
 		if tile.type == .empty && !tile.events.contains(.secret) {
 			opacityRatio = 0.01
+			
 		} else if tile.type == .empty && tile.events.contains(.secret) {
 			opacityRatio = 0.5
 			title = "S"
 		}
+		
 
-		return Button(title, action: action)
-			.frame(width: 50, height: 50)
-			.buttonStyle(.bordered)
-			.font(wasTapped ? .none : .title2)
-			.foregroundColor(tileColor)
-			.opacity(wasTapped ? 0.5 : opacityRatio)
+//		return Button(title == "C" ? "" : (isHeroPosition == true ? "M" : title), action: action)
+//			.frame(width: 50, height: 50)
+//			.buttonStyle(.bordered)
+//			.font(wasTapped ? .none : .title2)
+//			.foregroundColor(tileColor)
+//			.opacity(viewModel.gameState.tappedTile == tile && neighbours.contains(tile) ? 0.5 : opacityRatio)
+		
+		return Button(action: action) {
+			Text(title == "" ? (isHeroPosition ? "M" : "") : title)
+				.frame(width: 15, height: 25) // Fixes internal content size
+				.font(wasTapped ? .none : .title2)
+		}
+		.buttonStyle(.bordered)
+		.font(wasTapped ? .none : .title2)
+		.foregroundColor(tileColor)
+		.opacity(viewModel.gameState.tappedTile == tile && neighbours.contains(tile) ? 0.5 : opacityRatio)
 	}
 }

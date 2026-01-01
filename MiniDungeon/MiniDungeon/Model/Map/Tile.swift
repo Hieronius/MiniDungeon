@@ -1,13 +1,9 @@
 import Foundation
 
 /// Single Game Tile of the DungeonMap
-struct Tile {
+struct Tile: Codable {
 
-	/// Row position on the map
-	var row: Int
-
-	/// Column position on the map
-	var col: Int
+	var coordinate: Coordinate
 
 	/// Corridor or Room or any other types we create in the future
 	var type: TileType
@@ -35,15 +31,27 @@ extension Tile {
 
 extension Tile {
 	
-	func isHeroPosition(_ heroPosition: (Int, Int)) -> Bool {
-		return (self.row, self.col) == heroPosition
+	func isHeroPosition(_ heroPosition: Coordinate) -> Bool {
+		return (self.coordinate.row == heroPosition.row) &&
+		self.coordinate.col == heroPosition.col
+	}
+}
+
+// MARK: isUnknownTilePosition
+
+extension Tile {
+	
+	func isUnknownTilePosition(_ tilePosition: Coordinate) -> Bool {
+		return (self.coordinate.row == tilePosition.row) &&
+		self.coordinate.col == tilePosition.col
 	}
 }
 
 extension Tile: Equatable {
 	
 	static func ==(lhs: Tile, rhs: Tile) -> Bool {
-		return lhs.row == rhs.row && lhs.col == rhs.col
+		return lhs.coordinate.row == rhs.coordinate.row &&
+		lhs.coordinate.col == rhs.coordinate.col
 		
 	}
 }

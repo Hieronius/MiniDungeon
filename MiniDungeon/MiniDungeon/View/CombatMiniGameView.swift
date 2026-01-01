@@ -50,11 +50,23 @@ struct CombatMiniGameView: View {
 						.frame(width: UIScreen.main.bounds.width - 20)
 						.tint(progressBarColor)
 				}
-				Text("Tap inside when the line will meet with the circle")
+				Button {
+					hitBonusArea()
+				} label: {
+					Text("Hit!")
+					
+						.frame(width: 100, height: 50)
+						.foregroundStyle(.white)
+						.background(.black)
+						.clipShape(.capsule)
+						.overlay {
+							Capsule()
+								.stroke(.white, lineWidth: 3)
+						}
+				}
+				
+				
 			}
-		}
-		.onTapGesture {
-			hitBonusArea()
 		}
 		
 		// Handicaped condition to make view untappable after first touch action

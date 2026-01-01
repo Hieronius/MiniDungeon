@@ -12,14 +12,11 @@ extension MainView {
 			List {
 				
 				Section(header: Text("Level Bonus")) {
-					Button("\(viewModel.gameState.levelBonusesToChoose[0]?.name ?? "Empty")") {
-						viewModel.gameState.levelBonusToDisplay = viewModel.gameState.levelBonusesToChoose[0]
-					}
-					Button("\(viewModel.gameState.levelBonusesToChoose[1]?.name ?? "Empty")") {
-						viewModel.gameState.levelBonusToDisplay = viewModel.gameState.levelBonusesToChoose[1]
-					}
-					Button("\(viewModel.gameState.levelBonusesToChoose[2]?.name ?? "Empty")") {
-						viewModel.gameState.levelBonusToDisplay = viewModel.gameState.levelBonusesToChoose[2]
+					
+					ForEach(viewModel.gameState.levelBonusesToChoose.compactMap { $0 }) { bonus in
+						Button(bonus.name) {
+							viewModel.gameState.levelBonusToDisplay = bonus
+						}
 					}
 				}
 				
@@ -27,7 +24,7 @@ extension MainView {
 					Section(header: Text("Description")) {
 						Text("Name - \(viewModel.gameState.levelBonusToDisplay?.name ?? "")")
 							.bold()
-						Text("Description:  \(viewModel.gameState.levelBonusToDisplay?.description ?? "")")
+						Text("Description:  \(viewModel.gameState.levelBonusToDisplay?.bonusDescription ?? "")")
 						Button("Choose") {
 							viewModel.applyLevelBonus(viewModel.gameState.levelBonusToDisplay)
 						}

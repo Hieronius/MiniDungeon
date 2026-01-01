@@ -45,6 +45,7 @@ extension MainView {
 			
 			Button("Got it") {
 				viewModel.getRewardsAndCleanTheScreen()
+				itemToDisplay = nil
 			}
 		}
 	}

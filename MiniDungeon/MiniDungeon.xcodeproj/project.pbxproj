@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		DD12B63D2EF65724004B4036 /* Coordinate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD12B63C2EF65724004B4036 /* Coordinate.swift */; };
+		DD12B6432EF65C13004B4036 /* SwiftDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD12B6412EF65C13004B4036 /* SwiftDataManager.swift */; };
 		DD50E9722EA57D900072CCC4 /* Shrines.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD50E9712EA57D900072CCC4 /* Shrines.swift */; };
 		DD5833A22EE01FE000DC4371 /* ChestLockPickingMiniGameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD5833A12EE01FE000DC4371 /* ChestLockPickingMiniGameView.swift */; };
 		DD585ABC2EADDF4C00C5446B /* Bugs in Resources */ = {isa = PBXBuildFile; fileRef = DD585AB42EADDF4C00C5446B /* Bugs */; };
@@ -47,7 +49,6 @@
 		DD915CFF2E66D65600EDCC91 /* GameState.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD915CFE2E66D65600EDCC91 /* GameState.swift */; };
 		DD915D012E66D6BC00EDCC91 /* GameScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD915D002E66D6BC00EDCC91 /* GameScreen.swift */; };
 		DD915D052E672F2C00EDCC91 /* DungeonGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD915D042E672F2C00EDCC91 /* DungeonGenerator.swift */; };
-		DD915D072E672F5500EDCC91 /* DungeonScheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD915D062E672F5500EDCC91 /* DungeonScheme.swift */; };
 		DD915D092E672FB400EDCC91 /* Tile.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD915D082E672FB400EDCC91 /* Tile.swift */; };
 		DD915D0B2E672FE000EDCC91 /* TileType.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD915D0A2E672FE000EDCC91 /* TileType.swift */; };
 		DD915D0D2E672FF900EDCC91 /* EventType.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD915D0C2E672FF900EDCC91 /* EventType.swift */; };
@@ -65,6 +66,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		DD12B63C2EF65724004B4036 /* Coordinate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinate.swift; sourceTree = "<group>"; };
+		DD12B6412EF65C13004B4036 /* SwiftDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftDataManager.swift; sourceTree = "<group>"; };
 		DD50E9712EA57D900072CCC4 /* Shrines.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shrines.swift; sourceTree = "<group>"; };
 		DD5833A12EE01FE000DC4371 /* ChestLockPickingMiniGameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChestLockPickingMiniGameView.swift; sourceTree = "<group>"; };
 		DD585AB42EADDF4C00C5446B /* Bugs */ = {isa = PBXFileReference; lastKnownFileType = text; path = Bugs; sourceTree = "<group>"; };
@@ -108,7 +111,6 @@
 		DD915CFE2E66D65600EDCC91 /* GameState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameState.swift; sourceTree = "<group>"; };
 		DD915D002E66D6BC00EDCC91 /* GameScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScreen.swift; sourceTree = "<group>"; };
 		DD915D042E672F2C00EDCC91 /* DungeonGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DungeonGenerator.swift; sourceTree = "<group>"; };
-		DD915D062E672F5500EDCC91 /* DungeonScheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DungeonScheme.swift; sourceTree = "<group>"; };
 		DD915D082E672FB400EDCC91 /* Tile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tile.swift; sourceTree = "<group>"; };
 		DD915D0A2E672FE000EDCC91 /* TileType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TileType.swift; sourceTree = "<group>"; };
 		DD915D0C2E672FF900EDCC91 /* EventType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventType.swift; sourceTree = "<group>"; };
@@ -136,6 +138,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		DD12B6422EF65C13004B4036 /* Persistence */ = {
+			isa = PBXGroup;
+			children = (
+				DD12B6412EF65C13004B4036 /* SwiftDataManager.swift */,
+			);
+			path = Persistence;
+			sourceTree = "<group>";
+		};
 		DD585ABB2EADDF4C00C5446B /* Documentation */ = {
 			isa = PBXGroup;
 			children = (
@@ -223,6 +233,7 @@
 		DD915CF82E66D5E400EDCC91 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				DD12B6422EF65C13004B4036 /* Persistence */,
 				DD585ACB2EADDF6300C5446B /* Town */,
 				DD585AC62EADDF5F00C5446B /* Talants */,
 				DD7EC0CA2E78A0D100849B0B /* Items */,
@@ -294,11 +305,11 @@
 		DDB869C92E68B20D0042CF9F /* Map */ = {
 			isa = PBXGroup;
 			children = (
-				DD915D062E672F5500EDCC91 /* DungeonScheme.swift */,
 				DD915D082E672FB400EDCC91 /* Tile.swift */,
 				DD915D0A2E672FE000EDCC91 /* TileType.swift */,
 				DD915D0C2E672FF900EDCC91 /* EventType.swift */,
 				DD915D042E672F2C00EDCC91 /* DungeonGenerator.swift */,
+				DD12B63C2EF65724004B4036 /* Coordinate.swift */,
 			);
 			path = Map;
 			sourceTree = "<group>";
@@ -405,16 +416,17 @@
 				DD50E9722EA57D900072CCC4 /* Shrines.swift in Sources */,
 				DD7641E52E8A4FDA00359C52 /* SpecialisationView.swift in Sources */,
 				DDE6A01F2E6E977D00BEA51F /* DungeonHeroMovement.swift in Sources */,
+				DD12B63D2EF65724004B4036 /* Coordinate.swift in Sources */,
 				DD915D0B2E672FE000EDCC91 /* TileType.swift in Sources */,
 				DD915CEB2E66CD8900EDCC91 /* MiniDungeonApp.swift in Sources */,
 				DD7641DF2E88F90E00359C52 /* Specialisations.swift in Sources */,
 				DD7641F62E8FA45D00359C52 /* LevelBonuses.swift in Sources */,
 				DD597D1C2EDCB24B00CB9D7E /* Actions.swift in Sources */,
 				DDEE6C772E6D4C3500BD2E3C /* MapView.swift in Sources */,
+				DD12B6432EF65C13004B4036 /* SwiftDataManager.swift in Sources */,
 				DD7EC0D72E83B13000849B0B /* CombatMiniGameView.swift in Sources */,
 				DD915D092E672FB400EDCC91 /* Tile.swift in Sources */,
 				DD7641EF2E8B9E1300359C52 /* MerchantView.swift in Sources */,
-				DD915D072E672F5500EDCC91 /* DungeonScheme.swift in Sources */,
 				DD7641DD2E88F77400359C52 /* InventoryView.swift in Sources */,
 				DD7641F12E8F9ED300359C52 /* LevelBonusView.swift in Sources */,
 				DD7641EB2E8B9DC900359C52 /* OptionsView.swift in Sources */,

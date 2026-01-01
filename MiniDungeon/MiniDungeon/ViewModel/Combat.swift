@@ -44,7 +44,7 @@ extension MainViewModel {
 				return
 			}
 			
-			// damage
+			// damage - enemy defence
 			
 			var damage = Int.random(in: gameState.hero.minDamage...gameState.hero.maxDamage) - gameState.enemy.defence
 			
@@ -52,7 +52,7 @@ extension MainViewModel {
 			
 			if gameState.isCombatMiniGameSuccessful  {
 				damage = Int(Double(damage) * 1.25)
-				gameState.logMessage += " Nice Hit!"
+				gameState.logMessage += "Nice Hit!"
 			}
 			
 			// crit chance
@@ -140,7 +140,7 @@ extension MainViewModel {
 			
 		case 3:
 			
-			// With 3 combo points it will be a normal attack with 50% bonus damage
+			// With 3 combo points it will be an attack of 150% of damage
 			
 			let baseDamage = Int(Double(Int.random(in: gameState.hero.minDamage...gameState.hero.maxDamage) - gameState.enemy.defence) * 1.5)
 			
@@ -161,7 +161,7 @@ extension MainViewModel {
 			
 		case 4:
 			
-			// With 4 Combo Points you ignore target armor + 75% damage bonus
+			// With 4 Combo Points - 175% of damage + ignore target armor
 			
 			let baseDamage = Int(Double(Int.random(in: gameState.hero.minDamage...gameState.hero.maxDamage)) * 1.75)
 			
@@ -182,11 +182,12 @@ extension MainViewModel {
 			
 		case 5:
 			
-			// With 5 Combo Points you deal a critical strike + 100% extra damage
+			// With 5 Combo Points you deal 300% damage
 			
-			let baseDamage = Int(Double(Int.random(in: gameState.hero.minDamage...gameState.hero.maxDamage)) * 2.0)
+			let baseDamage = Int.random(in: gameState.hero.minDamage...gameState.hero.maxDamage)
+			let damage = Double(baseDamage - gameState.enemy.defence) * 2.0
 			
-			let criticalDamage = Int(Double(baseDamage) * 1.5)
+			let criticalDamage = Int(damage * 1.5)
 			gameState.enemy.enemyCurrentHP -= criticalDamage
 			gameState.logMessage = "Critical Combo hit! - \(criticalDamage) has been done!"
 			// if critical strike successful get 1 extra dark energy

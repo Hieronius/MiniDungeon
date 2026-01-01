@@ -1,7 +1,14 @@
-import SwiftUI
+import SwiftData
 
 /// Data type to define all possible state conditions of the game
-struct GameState {
+@Model
+class GameState {
+	
+	// MARK: - Navigation & Session
+	
+	var gameScreen: GameScreen = GameScreen.menu
+	
+	var isFreshSession =  true
 	
 	// MARK: - Properties to move
 	
@@ -25,7 +32,7 @@ struct GameState {
 	
 	var isCombatMiniGameSuccessful = false
 	
-	var hero = Hero()
+	var hero: Hero
 	
 	var enemy = Enemy()
 	
@@ -55,15 +62,30 @@ struct GameState {
 	// MARK: - Dungeon
 	
 	var currentDungeonLevel = 0
-	var dungeonMap: [[Tile]] = []
 	
-	var heroPosition = (row: 0, col: 0)
+	// TODO: Test property to store dungeon map in memory only when app being killed/relaunched
+	var dungeonMapInMemory: [[Tile]] = []
+	
+	// TODO: This property causes an emence CPU overload
+	// Set it as @Transient for testing
+	@Transient var dungeonMap: [[Tile]] = []
+	
+	var heroPosition = Coordinate(row: 0, col: 0)
+	
+	// property to select default tile outside the grid to avoid undefined behaviour
+	var tappedTilePosition = Coordinate(row: 999, col: 999)
+	
+	// set default tile outside the grid to avoid undefined behaviour
+	var tappedTile: Tile = Tile(coordinate: Coordinate(row: 998, col: 998), type: .empty, isExplored: false, events: [.empty])
 	
 	var isHeroAppeared = false
 	var didEncounterEnemy = false
 	var didEncounteredBoss = false
 	var dungeonLevelBeenExplored = false
 	var didFindLootAfterFight = false
+	
+	/// Property to track that a User did tapped and unknown or empty tile to trigger a little animation of attempt to explore
+	var didTappedUnknownTile = false
 	
 	/// When player tapps on empty tile and there is an enemy or loot -> change this value to true 
 	var didEncounterSecretRoom = false
@@ -110,7 +132,7 @@ struct GameState {
 	var heroGold = 0
 	
 	/// Resource to boost abilities/explore dungeon/rebuild the town
-	var heroDarkEnergy = 10
+	var heroDarkEnergy = 0
 	
 	var battlesWon = 0
 	
@@ -130,12 +152,9 @@ struct GameState {
 	var merchantArmorsLoot: [Armor: Int] = [:]
 	var merchantInventoryLoot: [Item: Int] = [:]
 	
-	var lootToDisplay: [String] = []
-	var itemToDisplay: (any ItemProtocol)?
+	// TODO: SECOND POTENTIAL PROBLEM WITH SWIFT DATA
+	@Transient var lootToDisplay: [String] = []
 	
-	var wasItemSelected: Bool {
-		itemToDisplay != nil
-	}
 	var isItemOnSale = false
 	var expLootToDisplay = 0
 	var goldLootToDisplay = 0
@@ -144,6 +163,6 @@ struct GameState {
 	var manaPointsLootToDisplay = 0
 	
 	init() {
-		
+		self.hero = Hero()
 	}
 }

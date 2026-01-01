@@ -118,6 +118,8 @@ struct ChestLockPickingMiniGameView: View {
 		
 		ZStack {
 			
+			// MARK: - Header
+			
 			VStack {
 				
 					Text(gameResult)

@@ -36,9 +36,13 @@ extension MainViewModel {
 				}
 				
 				restoreAllEnergy()
-				gameState.logMessage = "Now is Hero Turn"
+				DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+					self.gameState.logMessage = "Now is Hero Turn"
+				}
 				return
 			}
+			
+			// A delay to create feeling the enemy does attacks with a little delays and not instant
 			
 			let extraActionDelay = 0.5 + Double(gameState.enemy.currentEnergy) / 5.0
 			
@@ -195,49 +199,53 @@ extension MainViewModel {
 		
 		if  gameState.hero.currentXP >= gameState.hero.maxXP {
 			
-			getRewardAfterLevel()
+			getRewardAfterHeroLevelUP()
 			gameState.hero.currentXP = 0
 			gameState.hero.maxXP += 50
 			
 		}
 	}
 	
-	// MARK: getRewardAfterLevel
+	// MARK: getRewardAfterHeroLevelUP
 	
-	func getRewardAfterLevel() {
+	func getRewardAfterHeroLevelUP() {
 		
 		// This line cleans previous bonuses to generate
 		gameState.levelBonusesToChoose = []
 		
+		var levelBonusesSet: Set<LevelBonus> = []
+		
 		// Generate level of raririty -> ask LevelBonusManager to provide a random bonus accordingly to the rarity
 		// Add this bonus to levelBonusesToChoose
-		for _ in 1...3 {
-
+		while levelBonusesSet.count < 3 {
+			
+			var counter = 0
 			let rarity = generateRewardRarity()
-			guard let bonus = LevelBonusManager.generateLevelBonus(of: rarity) else {
-				return
-			}
-			gameState.levelBonusesToChoose.append(bonus)
+			guard let bonus = LevelBonusManager.generateLevelBonus(of: rarity) else { return }
+			levelBonusesSet.insert(bonus)
+			counter += 1
+			
 		}
-		
+		gameState.levelBonusesToChoose = Array(levelBonusesSet)
 		goToLevelBonus()
 	}
 	
 	// MARK: - Buy/Sell Item
 	
-	func buyOrSellItem(onSale: Bool) {
+	/// If we did buy or sell successfully -> return true to make itemToDisplay property empty
+	func buyOrSellItem(onSale: Bool, item: (any ItemProtocol)?) -> Bool {
 		
-		guard let itemToDisplay = gameState.itemToDisplay else { return }
+		guard let itemToDisplay = item else { return false }
 		
 		switch itemToDisplay.itemType {
 			
 		case .weapon:
 			
-			guard let weapon = itemToDisplay as? Weapon else { return }
+			guard let weapon = itemToDisplay as? Weapon else { return false }
 			
 			if onSale {
 				
-				if gameState.hero.weapons[weapon] ?? 0 >= 1 {
+				if gameState.hero.weapons[weapon] ?? 0 > 0 {
 					gameState.hero.weapons[weapon]! -= 1
 					// When you sell an item you get only 25% of it's value
 					gameState.heroGold += weapon.price / 4
@@ -251,7 +259,7 @@ extension MainViewModel {
 			} else {
 				
 				if weapon.price <= gameState.heroGold &&
-					gameState.merchantWeaponsLoot[weapon] ?? 0 >= 1 {
+					gameState.merchantWeaponsLoot[weapon] ?? 0 > 0 {
 					
 					gameState.merchantWeaponsLoot[weapon]! -= 1
 					gameState.hero.weapons[weapon, default: 0] += 1
@@ -262,15 +270,15 @@ extension MainViewModel {
 					}
 				}
 			}
-			gameState.itemToDisplay = nil
+			return true
 			
 		case .armor:
 			
-			guard let armor = itemToDisplay as? Armor else { return }
+			guard let armor = itemToDisplay as? Armor else { return false }
 			
 			if onSale {
 				
-				if gameState.hero.armors[armor] ?? 0 >= 1 {
+				if gameState.hero.armors[armor] ?? 0 > 0 {
 					gameState.hero.armors[armor]! -= 1
 					// When you sell an item you get only 25% of it's value
 					gameState.heroGold += armor.price / 4
@@ -284,7 +292,7 @@ extension MainViewModel {
 			} else {
 				
 				if armor.price <= gameState.heroGold &&
-					gameState.merchantArmorsLoot[armor] ?? 0 >= 1  {
+					gameState.merchantArmorsLoot[armor] ?? 0 > 0  {
 					
 					gameState.merchantArmorsLoot[armor]! -= 1
 					gameState.hero.armors[armor, default: 0] += 1
@@ -296,15 +304,15 @@ extension MainViewModel {
 				}
 			}
 			
-			gameState.itemToDisplay = nil
+			return true
 			
 		case .potion:
 			
-			guard let potion = itemToDisplay as? Item else { return }
+			guard let potion = itemToDisplay as? Item else { return false }
 			
 			if onSale {
 				
-				if gameState.hero.inventory[potion] ?? 0 >= 1 {
+				if gameState.hero.inventory[potion] ?? 0 > 0 {
 					gameState.hero.inventory[potion]! -= 1
 					// When you sell an item you get only 25% of it's value
 					gameState.heroGold += potion.price / 4
@@ -313,12 +321,13 @@ extension MainViewModel {
 					if gameState.hero.inventory[potion]! == 0 {
 						gameState.hero.inventory[potion] = nil
 					}
+					print(gameState.hero.inventory[potion] ?? 0)
 				}
 				
 			} else {
 				
 				if potion.price <= gameState.heroGold &&
-					gameState.merchantInventoryLoot[potion] ?? 0 >= 1 {
+					gameState.merchantInventoryLoot[potion] ?? 0 > 0 {
 					
 					gameState.merchantInventoryLoot[potion]! -= 1
 					gameState.hero.inventory[potion, default: 0] += 1
@@ -330,15 +339,15 @@ extension MainViewModel {
 				}
 			}
 			
-			gameState.itemToDisplay = nil
+			return true
 			
 		case .loot:
 			
-			guard let loot = itemToDisplay as? Item else { return }
+			guard let loot = itemToDisplay as? Item else { return false }
 			
 			if onSale {
 				
-				if gameState.hero.inventory[loot] ?? 0 >= 1 {
+				if gameState.hero.inventory[loot] ?? 0 > 0 {
 					gameState.hero.inventory[loot]! -= 1
 					// When you sell an item you get only 25% of it's value
 					gameState.heroGold += loot.price / 4
@@ -352,7 +361,7 @@ extension MainViewModel {
 			} else {
 				
 				if loot.price <= gameState.heroGold &&
-					gameState.merchantInventoryLoot[loot] ?? 0 >= 1 {
+					gameState.merchantInventoryLoot[loot] ?? 0 > 0 {
 					
 					gameState.merchantInventoryLoot[loot]! -= 1
 					gameState.hero.inventory[loot, default: 0] += 1
@@ -364,42 +373,42 @@ extension MainViewModel {
 				}
 			}
 			
-			gameState.itemToDisplay = nil
+			return true
 		}
 	}
 	
 	// MARK: - EquipOrUseItem
 	
 	/// If it's a weapon or armor - equip it, otherwise use the item if possible
-	func equipOrUseItem() {
+	func equipOrUseItem(_ item: (any ItemProtocol)?) -> Bool {
 		
-		guard let itemToDisplay = gameState.itemToDisplay else { return }
+		guard let itemToDisplay = item else { return false }
 		
 		switch itemToDisplay.itemType {
 			
 		case .weapon:
 			
-			guard let weapon = itemToDisplay as? Weapon else { return }
+			guard let weapon = itemToDisplay as? Weapon else { return false }
 			
 			equipWeapon(weapon)
-			gameState.itemToDisplay = nil
+			return true
 			
 		case .armor:
 			
-			guard let armor = itemToDisplay as? Armor else { return }
+			guard let armor = itemToDisplay as? Armor else { return false }
 			
 			equipArmor(armor)
-			gameState.itemToDisplay = nil
+			return true
 			
 		case .potion:
 			
-			guard let potion = itemToDisplay as? Item else { return }
+			guard let potion = itemToDisplay as? Item else { return false }
 			
 			usePotion(potion)
-			gameState.itemToDisplay = nil
+			return true
 			
 		case .loot:
-			print("it's a loot")
+			return false
 		}
 	}
 	
@@ -423,6 +432,7 @@ extension MainViewModel {
 				gameState.hero.weapons[weapon] = nil
 			}
 		}
+		print(gameState.hero.weapons.count)
 	}
 	
 	// MARK: - equipArmor
@@ -445,6 +455,7 @@ extension MainViewModel {
 				gameState.hero.armors[armor] = nil
 			}
 		}
+		print(gameState.hero.armors.count)
 	}
 	
 	// MARK: - displayKeys
@@ -470,6 +481,7 @@ extension MainViewModel {
 					gameState.hero.inventory[potion] = nil
 				}
 			}
+			print(gameState.hero.inventory[potion])
 		}
 		
 		switch potion.label {
@@ -485,6 +497,7 @@ extension MainViewModel {
 			} else {
 				gameState.hero.currentHP = gameState.hero.maxHP
 			}
+			print("Got heal from health potion")
 			
 		case "Small Mana Restoration Potion":
 			

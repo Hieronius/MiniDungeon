@@ -1,7 +1,7 @@
 import Foundation
 
 /// Entity to define all possible screens in the game
-enum GameScreen {
+enum GameScreen: Codable {
 	
 	case menu
 	case battle

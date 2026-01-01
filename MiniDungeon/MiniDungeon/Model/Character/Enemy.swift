@@ -1,7 +1,7 @@
 import Foundation
 
 /// Entity to store Enemy information and it's stats
-struct Enemy {
+struct Enemy: Codable {
 	
 	var name = "Enemy"
 	

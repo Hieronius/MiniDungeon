@@ -399,21 +399,23 @@ struct ArmorManager {
 	}
 }
 
-struct Armor: ItemProtocol, Hashable {
+struct Armor: ItemProtocol, Hashable, Codable, Identifiable {
 	
-	let id = UUID()
-	let label: String
-	let itemType: ItemType
-	let itemLevel: Int
-	let description: String
-	let defence: Int
-	let healthBonus: Int
-	let manaBonus: Int
-	let energyBonus: Int
-	let spellPowerBonus: Int
-	let critChanceBonus: Int
-	let hitChanceBonus: Int
-	let price: Int
+//	let id: UUID
+//	let id = UUID()
+	let id: String
+	var label: String
+	var itemType: ItemType
+	var itemLevel: Int
+	var itemDescription: String
+	var defence: Int
+	var healthBonus: Int
+	var manaBonus: Int
+	var energyBonus: Int
+	var spellPowerBonus: Int
+	var critChanceBonus: Int
+	var hitChanceBonus: Int
+	var price: Int
 	
 	init(label: String,
 		 itemLevel: Int,
@@ -428,10 +430,12 @@ struct Armor: ItemProtocol, Hashable {
 		 hitChanceBonus: Int,
 		 price: Int) {
 		
+//		self.id = UUID()
+		self.id = "\(label)"
 		self.label = label
 		self.itemLevel = itemLevel
 		self.itemType = itemType
-		self.description = description
+		self.itemDescription = description
 		self.defence = defence
 		self.healthBonus = healthBonus
 		self.manaBonus = manaBonus

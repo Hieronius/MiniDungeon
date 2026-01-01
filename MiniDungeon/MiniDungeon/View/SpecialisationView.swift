@@ -30,7 +30,7 @@ extension MainView {
 					Section(header: Text("Description")) {
 						Text("Name: \(viewModel.gameState.specToDisplay?.name ?? "")")
 							.bold()
-						Text("Description: \(viewModel.gameState.specToDisplay?.description ?? "")")
+						Text("Description: \(viewModel.gameState.specToDisplay?.specDescription ?? "")")
 						Button("Choose") {
 							viewModel.applySpecialisation(viewModel.gameState.specToDisplay)
 						}

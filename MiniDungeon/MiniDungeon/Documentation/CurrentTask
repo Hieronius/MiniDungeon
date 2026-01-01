@@ -1,20 +1,10 @@
-FILE HAS BEEN INSPECTED 17.12.25
+FILE HAS BEEN INSPECTED 31.12.25
 
-- IMPLEMENT SAVE FEATURE 💾
+CURRENT PRODUCTIVITY:
+[31.12.25 - 5/10, 01.01.26 - 7/10, ]
 
-NOTES:
-- I already can make GameState as class but without @Model macro
-- I also was able to make Tile as class @Model with EventType and TileType being conformed to Codable Protocol
-- As result i was able to see changes on the dungeonMap when i explore it but very clanky. I was able to rerender different tiles but because GameState wasn't persistant entirely flags like "isExplored" or "isHeroPosition" weren't rerender correctly
-
-- Making a class as @Model already makes it's observable so it will track it changes and it will save it's updates automatically
-
-- GoogleAI mode can be useful for such research
-
-- Try to find examples of integration SwiftData with MVVM architecture
-
-Plan:
-- Send an entire version to git hub to preserve my current state of the game and get it back if SwiftData update fail
-- Try to make all types in GameState to conform or to Codable or to @Model macro so the whole GameState can be marked as @Model
+---------------------------------------------------------------
+THIS IS YOUR THOUGHTS FROM LAST SESSION ->
 
 
+----------------------------------------------------------------

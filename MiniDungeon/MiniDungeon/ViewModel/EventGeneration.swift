@@ -14,7 +14,7 @@ extension MainViewModel {
 		gameState.didEncounteredBoss = false
 		gameState.currentDungeonLevel += 1
 		gameState.isHeroAppeared = false
-		gameState.itemToDisplay = nil
+//		gameState.itemToDisplay = nil
 		gameState.dungeonLevelBeenExplored = false
 		
 		generateMap()
@@ -50,7 +50,7 @@ extension MainViewModel {
 			for col in (0..<m).reversed() {
 				let tile = map[row][col]
 				if tile.type == .room && !gameState.isHeroAppeared {
-					gameState.heroPosition = (row, col)
+					gameState.heroPosition = Coordinate(row: row, col: col)
 					gameState.isHeroAppeared = true
 				}
 			}
@@ -88,7 +88,7 @@ extension MainViewModel {
 		
 		gameState.didFindLootAfterFight = false
 		gameState.lootToDisplay = []
-		gameState.itemToDisplay = nil
+//		gameState.itemToDisplay = nil
 		
 		gameState.goldLootToDisplay = 0
 		gameState.expLootToDisplay = 0
@@ -123,6 +123,7 @@ extension MainViewModel {
 		
 		if let loot = generateSaleableLoot(
 			didFinalBossSummoned: gameState.didEncounteredBoss
+			
 		) {
 			gameState.hero.inventory[loot, default: 0] += 1
 			gameState.lootToDisplay.append(loot.label)
@@ -169,7 +170,7 @@ extension MainViewModel {
 		
 		// experience loot (ignore if it's a chest loot)
 		if !gameState.dealthWithChest && !gameState.didEncounterSecretRoom {
-			print("No EXP loot")
+			print("Get EXP loot")
 			print(gameState.dealthWithChest)
 			print(gameState.didEncounterSecretRoom)
 			
@@ -382,7 +383,7 @@ extension MainViewModel {
 		
 		if didFinalBossSummoned { dropRoll /= 2 }
 		
-		guard dropRoll <= 20 else { return nil }
+		guard dropRoll <= 15 else { return nil }
 		
 		return ItemManager.commonLoot[0]
 	}
@@ -529,10 +530,18 @@ extension MainViewModel {
 		
 		// React on user action by changing the flag
 		gameState.dungeonMap[row][col].wasTapped = true
+		gameState.didTappedUnknownTile = true
+		gameState.tappedTilePosition = Coordinate(row: row, col: col)
+		print("tapped on unknown room -\(gameState.dungeonMap[row][col].wasTapped)")
+		print("didTappedUnknownTile from GameState - \(gameState.didTappedUnknownTile)")
+		print(gameState.tappedTilePosition)
 		
 		// change flag back to stop tile tap animation
 		DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
 			self.gameState.dungeonMap[row][col].wasTapped = false
+			self.gameState.didTappedUnknownTile = false
+			print("change tile property wasTapped back -  \(self.gameState.dungeonMap[row][col].wasTapped)")
+			print("didTappedUnknownTile from GameState - \(self.gameState.didTappedUnknownTile)")
 		}
 		
 		let room = gameState.dungeonMap[row][col]

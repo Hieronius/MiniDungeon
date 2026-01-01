@@ -98,38 +98,41 @@ extension MainView {
 				
 				Section(header: Text("Actions")) {
 					
-					Button("Attack (Hit Chance \(viewModel.gameState.hero.hitChance)%)") {
+					Button("Attack (Hit \(viewModel.gameState.hero.hitChance)%, Crit \(viewModel.gameState.hero.critChance)%)") {
 						viewModel.startMiniGame()
 					}
+					.foregroundStyle(viewModel.gameState.hero.currentEnergy > 0 ? .blue : .gray)
 					
 					if viewModel.gameState.comboPoints == 3 {
-						Button("Combo (+50% extra damage)") {
+						Button("Combo (150% damage)") {
 							viewModel.comboAttack()
 						}
-						.foregroundStyle(.orange)
+						.foregroundStyle(viewModel.gameState.hero.currentEnergy > 0 ? .orange : .gray)
 					}
 					
 					if viewModel.gameState.comboPoints == 4 {
-						Button("Combo (Ignore armor + 75% damage)") {
+						Button("Combo (175% damage + Ignoring armor)") {
 							viewModel.comboAttack()
 						}
-						.foregroundStyle(.purple)
+						.foregroundStyle(viewModel.gameState.hero.currentEnergy > 0 ? .purple : .gray)
 					}
 					
 					if viewModel.gameState.comboPoints == 5 {
-						Button("Combo (100% crit + 100% damage)") {
+						Button("Combo (300% damage)") {
 							viewModel.comboAttack()
 						}
-						.foregroundStyle(.red)
+						.foregroundStyle(viewModel.gameState.hero.currentEnergy > 0 ? .red : .gray)
 					}
 					
-					Button("Block (Adds \(viewModel.gameState.blockValue) Armor for the turn)") {
+					Button("Block (+\(viewModel.gameState.blockValue) Armor for turn)") {
 						viewModel.block()
 					}
+					.foregroundStyle(viewModel.gameState.hero.currentEnergy > 0 ? .blue : .gray)
 					
-					Button("Heal (Restores \(viewModel.gameState.hero.spellPower) Heath Points)") {
+					Button("Heal (+\(viewModel.gameState.hero.spellPower) HP)") {
 						viewModel.heal()
 					}
+					.foregroundStyle(viewModel.gameState.hero.currentEnergy > 0 ? .blue : .gray)
 					
 					Button("End Turn") {
 						viewModel.endHeroTurn()

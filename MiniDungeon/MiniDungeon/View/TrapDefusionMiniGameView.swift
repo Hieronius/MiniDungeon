@@ -17,7 +17,6 @@ extension MainView {
 		VStack {
 			TrapDefusionMiniGameView()
 		}
-//		.frame(width: 400, height: 400)
 	}
 }
 

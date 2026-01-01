@@ -1,7 +1,8 @@
-import Foundation
+import SwiftData
 
 /// Entity to store stats and inventory of the hero in the game
-struct Hero {
+@Model
+class Hero {
 	
 	// MARK: Base Stats
 	
@@ -59,18 +60,31 @@ struct Hero {
 	
 	// MARK: Inventory
 	
-	var weapons: [Weapon: Int] = [:]
-
-	var armors: [Armor: Int] = [:]
+//	var weapons: [Weapon: Int] = [:]
 	
-	var inventory: [Item: Int] = [:]
+	var weapons = [WeaponManager.commonWeapons[0]: 1,
+				   WeaponManager.rareWeapons[0]: 1,
+				   WeaponManager.epicWeapons[0]: 1,
+				   WeaponManager.legendaryWeapons[0]: 1]
+
+//	var armors: [Armor: Int] = [:]
+	
+	var armors = [ArmorManager.commonArmors[0]: 1,
+				  ArmorManager.rareArmors[0]: 1,
+				  ArmorManager.epicArmors[0]: 1,
+				  ArmorManager.legendaryArmors[0]: 1]
+	
+//	var inventory: [Item: Int] = [:]
+	var inventory = [ItemManager.commonPotions[0]: 5,
+					 ItemManager.commonPotions[1]: 5,
+					 ItemManager.commonPotions[2]: 5]
 	
 //  test keys
-//	var inventory: [Item: Int] = [ItemManager.returnKeyItem(): 10]
+//	var inventory: [Item: Int] = [ItemManager.returnKeyItem(): 1]
 	
 	// MARK: Increase/Decrease Stats
 	
-	mutating func levelUP() {
+	func levelUP() {
 		
 		self.currentHP = self.maxHP
 		self.currentMana = self.maxMana
@@ -78,22 +92,40 @@ struct Hero {
 		self.heroLevel += 1
 	}
 	
-	mutating func upgradeDamage() {
+	func upgradeDamage() {
 		
 		self.baseMinDamage += 1
 		self.baseMaxDamage += 1
 	}
 	
-	mutating func upgradeHP() {
+	func upgradeHP() {
 		self.baseMaxHP += 1
 		self.currentHP = self.maxHP
 	}
 	
-	mutating func upgradeDefence() {
+	func upgradeDefence() {
 		self.baseDefence += 1
 	}
 	
-	mutating func upgradeSpellPower() {
+	func upgradeSpellPower() {
 		self.baseSpellPower += 1
+	}
+	
+	/// Method to use each time when player dies to avoid getting stats bonuses from previous run
+	func restoreStatsToDefault() {
+		
+		self.baseMaxHP = 75
+		self.baseMaxMP = 50
+		self.baseMaxEP = 3
+		self.baseMinDamage = 5
+		self.baseMaxDamage = 10
+		self.baseDefence = 0
+		self.baseSpellPower = 10
+		self.baseCritChance = 5
+		self.baseHitChance = 85
+	}
+	
+	init() {
+		
 	}
 }

@@ -20,6 +20,14 @@ extension MainView {
 				Button("Inventory") {
 					viewModel.goToInventory()
 				}
+				// MARK: Uncomment to Erase and Insert a new Game State
+//				Button("Erase Game State") {
+//					let newState = GameState()
+//					viewModel.gameState = newState
+//					viewModel.swiftDataManager.saveGameState(newState)
+//					viewModel.generateMap()
+//					viewModel.spawnHero()
+//				}
 			}
 		}
 	}

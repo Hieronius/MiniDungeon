@@ -5,40 +5,49 @@ class MainViewModel: ObservableObject {
 	
 	// MARK: - Dependencies
 	
+	var swiftDataManager: SwiftDataManager
 	var dungeonGenerator: DungeonGenerator
-	var dungeonScheme: DungeonScheme
 	
 	// MARK: - Properties
 	
 	@Published var gameState: GameState
-	@Published var gameScreen: GameScreen
 	
 	// MARK: - Initialization
 	
-	init(dungeonGenerator: DungeonGenerator,
-		 dungeonScheme: DungeonScheme,
+	init(swiftDataManager: SwiftDataManager,
+		 dungeonGenerator: DungeonGenerator,
 		 gameState: GameState,
 		 gameScreen: GameScreen) {
 		
+		self.swiftDataManager = swiftDataManager
 		self.dungeonGenerator = dungeonGenerator
-		self.dungeonScheme = dungeonScheme
 		self.gameState = gameState
-		self.gameScreen = gameScreen
 		
-		// Start with predefined "WARRIOR SPECIALISATION"
-//		self.applySpecialisation(SpecialisationManager.specialisations[0])
+		// if there an old GameState -> Load it and go to menu
+		if gameState.isFreshSession {
+			
+			// Create new map
+			generateMap()
+			
+			// Prepare hero
+			spawnHero()
+			
+			// If fresh session -> go to menu
+			goToMenu()
 		
-		// Activate shrines and upgrades from previous runs if there are any
-		applyActiveShrineEffects()
+		} else {
+			
+			// Otherwise get the last screen user was on
+			
+			print("We load game state and populate dungeonMap with properties from dungeonMapInMemory")
+			gameState.dungeonMap = gameState.dungeonMapInMemory
+		}
 		
-		// Create new map
-		generateMap()
-		
-		// Prepare hero
-		spawnHero()
-		
-		goToMenu()
 	}
+}
+
+
+extension MainViewModel {
 	
 	// MARK: SetupNewGame
 	
@@ -54,32 +63,25 @@ class MainViewModel: ObservableObject {
 		gameState.hero.currentXP = 0
 		gameState.hero.maxXP = 100
 		gameState.heroGold = 0
-		gameState.itemToDisplay = nil
 		gameState.lootToDisplay = []
 		gameState.specToDisplay = nil
 		gameState.levelBonusToDisplay = nil
 		gameState.comboPoints = 0
 		
-		// If there is less than 10 dark energy refill it, otherwise do nothing
-		if gameState.heroDarkEnergy < 10 {
-			let difference = 10 - gameState.heroDarkEnergy
-			gameState.heroDarkEnergy += difference
-		}
 		gameState.currentDungeonLevel = 0
 		gameState.isHeroAppeared = false
-		gameState.heroPosition = (0,0)
+		gameState.heroPosition = Coordinate(row: 0, col: 0)
 		gameState.battlesWon = 0
 		
-		// TODO: There we should go to TownView -> SpecView -> Dungeon
-		
 		// Start from the beginning
-		//		gameState.specsToChooseAtStart = SpecialisationManager.getThreeRandomSpecialisations()
+
 		goToTown()
 		generateMap()
 		spawnHero()
 		
 		// Apply all previous upgrades on the camp
-		
+		gameState.hero.restoreStatsToDefault()
+		applyActiveShrinesEffects()
 	}
 	
 }

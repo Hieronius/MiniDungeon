@@ -9,7 +9,7 @@ struct WeaponManager {
 		Weapon(label: "Knife",
 			   itemLevel: 1,
 			   itemType: .weapon,
-			   description: "+1 min damage, +2 max damage",
+			   itemDescription: "+1 min damage, +2 max damage",
 			   minDamage: 0,
 			   maxDamage: 1,
 			   hitChance: 0,
@@ -20,7 +20,7 @@ struct WeaponManager {
 			label: "Wooden Sword",
 			itemLevel: 1,
 			itemType: .weapon,
-			description: "+1 max damage",
+			itemDescription: "+1 max damage",
 			minDamage: 0,
 			maxDamage: 1,
 			hitChance: 0,
@@ -32,7 +32,7 @@ struct WeaponManager {
 			label: "Broken Spear",
 			itemLevel: 1,
 			itemType: .weapon,
-			description: "+1 min damage",
+			itemDescription: "+1 min damage",
 			minDamage: 1,
 			maxDamage: 0,
 			hitChance: 0,
@@ -44,7 +44,7 @@ struct WeaponManager {
 			label: "Blunted Axe",
 			itemLevel: 1,
 			itemType: .weapon,
-			description: "+1 min damage, +1 max damage",
+			itemDescription: "+1 min damage, +1 max damage",
 			minDamage: 1,
 			maxDamage: 1,
 			hitChance: 0,
@@ -56,7 +56,7 @@ struct WeaponManager {
 			label: "Damaged Mace",
 			itemLevel: 1,
 			itemType: .weapon,
-			description: "+1 max damage, +1 hit chance",
+			itemDescription: "+1 max damage, +1 hit chance",
 			minDamage: 0,
 			maxDamage: 1,
 			hitChance: 1,
@@ -68,7 +68,7 @@ struct WeaponManager {
 			label: "Old two-handed sword",
 			itemLevel: 1,
 			itemType: .weapon,
-			description: "+2 max damage",
+			itemDescription: "+2 max damage",
 			minDamage: 0,
 			maxDamage: 2,
 			hitChance: 0,
@@ -84,7 +84,7 @@ struct WeaponManager {
 		Weapon(label: "Bronze Axe",
 			   itemLevel: 2,
 			   itemType: .weapon,
-			   description: "+2 min damage, +4 max damage, +1% hit chance, +1% crit chance",
+			   itemDescription: "+2 min damage, +4 max damage, +1% hit chance, +1% crit chance",
 			   minDamage: 2,
 			   maxDamage: 4,
 			   hitChance: 1,
@@ -95,7 +95,7 @@ struct WeaponManager {
 			label: "Sword",
 			itemLevel: 2,
 			itemType: .weapon,
-			description: "+2 min damage, +3 max damage",
+			itemDescription: "+2 min damage, +3 max damage",
 			minDamage: 2,
 			maxDamage: 3,
 			hitChance: 0,
@@ -107,7 +107,7 @@ struct WeaponManager {
 			label: "Spear",
 			itemLevel: 2,
 			itemType: .weapon,
-			description: "+2 min damage, +1 max damage",
+			itemDescription: "+2 min damage, +1 max damage",
 			minDamage: 2,
 			maxDamage: 1,
 			hitChance: 0,
@@ -119,7 +119,7 @@ struct WeaponManager {
 			label: "Mace",
 			itemLevel: 2,
 			itemType: .weapon,
-			description: "+2 min damage, +2 max damage",
+			itemDescription: "+2 min damage, +2 max damage",
 			minDamage: 2,
 			maxDamage: 2,
 			hitChance: 0,
@@ -131,7 +131,7 @@ struct WeaponManager {
 			label: "Dagger",
 			itemLevel: 2,
 			itemType: .weapon,
-			description: "+1 min damage, +3 max damage, +1 crit chance",
+			itemDescription: "+1 min damage, +3 max damage, +1 crit chance",
 			minDamage: 1,
 			maxDamage: 3,
 			hitChance: 0,
@@ -143,7 +143,7 @@ struct WeaponManager {
 			label: "Two Handed Sword",
 			itemLevel: 2,
 			itemType: .weapon,
-			description: "+4 max damage",
+			itemDescription: "+4 max damage",
 			minDamage: 0,
 			maxDamage: 4,
 			hitChance: 0,
@@ -160,7 +160,7 @@ struct WeaponManager {
 			label: "Corrupted Two-Hand Sword",
 			itemLevel: 3,
 			itemType: .weapon,
-			description: "+10 max damage, -2 min damage, -1% crit chance, -5% hit chance",
+			itemDescription: "+10 max damage, -2 min damage, -1% crit chance, -5% hit chance",
 			minDamage: -2,
 			maxDamage: 10,
 			hitChance: -5,
@@ -172,7 +172,7 @@ struct WeaponManager {
 			label: "Corrupted Sword",
 			itemLevel: 3,
 			itemType: .weapon,
-			description: "+5 min damage, +5 max damage, -1% crit chance, -2% hit chance",
+			itemDescription: "+5 min damage, +5 max damage, -1% crit chance, -2% hit chance",
 			minDamage: 5,
 			maxDamage: 5,
 			hitChance: -2,
@@ -184,7 +184,7 @@ struct WeaponManager {
 			label: "Great Spear",
 			itemLevel: 3,
 			itemType: .weapon,
-			description: "+1 min damage, + 6 max damage, + 1% crit chance",
+			itemDescription: "+1 min damage, + 6 max damage, + 1% crit chance",
 			minDamage: 1,
 			maxDamage: 6,
 			hitChance: 0,
@@ -196,7 +196,7 @@ struct WeaponManager {
 			label: "Great Axe",
 			itemLevel: 3,
 			itemType: .weapon,
-			description: "+3 min damage, +5 max damage",
+			itemDescription: "+3 min damage, +5 max damage",
 			minDamage: 3,
 			maxDamage: 5,
 			hitChance: 0,
@@ -208,7 +208,7 @@ struct WeaponManager {
 			label: "Morning Star",
 			itemLevel: 3,
 			itemType: .weapon,
-			description: "+3 min damage, +6 max damage, +2% hit chance, +2% crit chance",
+			itemDescription: "+3 min damage, +6 max damage, +2% hit chance, +2% crit chance",
 			minDamage: 3,
 			maxDamage: 6,
 			hitChance: 2,
@@ -220,7 +220,7 @@ struct WeaponManager {
 			label: "Steel Sword",
 			itemLevel: 3,
 			itemType: .weapon,
-			description: "+5 minDamage, +10 maxDamage, +3% hitChance, +3% critChance",
+			itemDescription: "+5 minDamage, +10 maxDamage, +3% hitChance, +3% critChance",
 			minDamage: 5,
 			maxDamage: 10,
 			hitChance: 3,
@@ -237,7 +237,7 @@ struct WeaponManager {
 			label: "Silver Spear",
 			itemLevel: 4,
 			itemType: .weapon,
-			description: "+5 min damage, +6 max damage, +10% hit chance, -2% crit chance. An incrediably light spear left by someone with very good taste and agile fighting style",
+			itemDescription: "+5 min damage, +6 max damage, +10% hit chance, -2% crit chance. An incrediably light spear left by someone with very good taste and agile fighting style",
 			minDamage: 5,
 			maxDamage: 6,
 			hitChance: 10,
@@ -249,7 +249,7 @@ struct WeaponManager {
 			label: "Bloody Axe",
 			itemLevel: 4,
 			itemType: .weapon,
-			description: "+6 min damage, +10 max damage, +5% crit chance, -2% hit chance. Very sharp axe with blood marks on it's edge and halt. Are they only from it's target or from the owner it's self?",
+			itemDescription: "+6 min damage, +10 max damage, +5% crit chance, -2% hit chance. Very sharp axe with blood marks on it's edge and halt. Are they only from it's target or from the owner it's self?",
 			minDamage: 6,
 			maxDamage: 10,
 			hitChance: -2,
@@ -261,7 +261,7 @@ struct WeaponManager {
 			label: "Giant Mace",
 			itemLevel: 4,
 			itemType: .weapon,
-			description: "+15 max damage, -2 min damage, -5% hit chance, -5% crit chance. Someone with a powerful grip fall in battle and left this huge mace being unmovable for years",
+			itemDescription: "+15 max damage, -2 min damage, -5% hit chance, -5% crit chance. Someone with a powerful grip fall in battle and left this huge mace being unmovable for years",
 			minDamage: -2,
 			maxDamage: 15,
 			hitChance: -5,
@@ -272,7 +272,7 @@ struct WeaponManager {
 		Weapon(label: "Frostmourne",
 			   itemLevel: 4,
 			   itemType: .weapon,
-			   description: "+8 minDamage, +16 maxDamage, +5% hit chance, +5% crit chance. I will be twice the king my father was!",
+			   itemDescription: "+8 minDamage, +16 maxDamage, +5% hit chance, +5% crit chance. I will be twice the king my father was!",
 			   minDamage: 8,
 			   maxDamage: 16,
 			   hitChance: 5,
@@ -297,33 +297,37 @@ struct WeaponManager {
 
 // MARK: - Weapon
 
-struct Weapon: ItemProtocol, Hashable {
+struct Weapon: ItemProtocol, Hashable, Codable, Identifiable {
 	
-	let id = UUID()
-	let label: String
-	let itemType: ItemType
-	let itemLevel: Int
-	let description: String
-	let minDamageBonus: Int
-	let maxDamage: Int
-	let hitChance: Int
-	let critChance: Int
-	let price: Int
+//	let id: UUID
+//	let id = UUID()
+	let id: String
+	var label: String
+	var itemType: ItemType
+	var itemLevel: Int
+	var itemDescription: String
+	var minDamageBonus: Int
+	var maxDamage: Int
+	var hitChance: Int
+	var critChance: Int
+	var price: Int
 	
 	init(label: String,
 		 itemLevel: Int,
 		 itemType: ItemType,
-		 description: String,
+		 itemDescription: String,
 		 minDamage: Int,
 		 maxDamage: Int,
 		 hitChance: Int,
 		 critChance: Int,
 		 price: Int)
 	{
+//		self.id = UUID()
+		self.id = "\(label)"
 		self.label = label
 		self.itemLevel = itemLevel
 		self.itemType = itemType
-		self.description = description
+		self.itemDescription = itemDescription
 		self.minDamageBonus = minDamage
 		self.maxDamage = maxDamage
 		self.hitChance = hitChance
