@@ -1,62 +1,31 @@
-FILE HAS BEEN INSPECTED 29.12.25
+FILE HAS BEEN INSPECTED 01.01.26
 
 FEATURES PIPELINE:
-CHEST - SHADOW FLASK - 5 STAGE FINAL BOSS - GAME DEMO OR TUTORIAL
+SHADOW FLASK - 5 STAGE FINAL BOSS - GAME DEMO OR TUTORIAL
+-----------------------------------------------------------------
 
-CURRENT SPRINT 25.11.25 - ???:
-- Implement Secret Rooms (taps on empty tiles to get extra loot) ✅
-- Implement Save Feature: ✅
-	- Fix SwiftData related bugs ✅
-	- Think about adding a property to game state to define what screen user was last one. So if he kills an app during the fight it will go back to the same screen with enemy ✅
-	
-- Fix accordingly to player feedback ✅
-- Implement Chest Lock-Picking ✅
-- Implement Traps ✅
-- Implement Health Shrines ✅
-- Implement Disenchant ✅
-- Make normal tiles as "" characters to create more atmosphere ✅
-- Make level bonuses unique to avoid triple "common spell power" ✅
-- Refactor method for chest loot generate to remove xp for the loot ✅
-- Create a little guide in App TestFlight app for the game and explain it's basics
-- Hide button "Get Shadow Flask charge" until you invent the flask ✅
---------------------------------------------------------------
-
-NEXT SPRINT ??? - ???:
-- Add Shadow Flask
-- Add mini game to level boss (check apple notes for info)
+SPRINT 02.01.26 - 01.02.26:
+- Add Shadow Flask ❌ 👈
+	Plan:
+	- A Tutor or A Guide
+	- As entity and energy collector (to fill with mini boss traits)
+	- As a Narrator
+	- Has it's own level system across different runs
+	- Pinned on all screens
+- Force Dark theme into the app to avoid color conflicts ❌
+- Add mini game to level boss (check apple notes for info) ❌
 - Add final boss at each 5/10/15 levels with extra mini game
-- Add a reward after each level (Abilities Perk)
-- Add a unique trait you will be able to collect from killing mini boss
-- Add Localisation
-- Add potions/items bonus to Stats screen to reflect
-- Add LevelBonuses and Perks info to Stats Screen (like shrines)
-- Implement Demo level
+- Add a reward after each level (Abilities Perk) ❌
+- Add a unique trait to collect from killing mini boss ❌
+- Add potions/items/levelBonus/Perks bonus to Stats screen to reflect ❌
 
-- Implement Estus (shadow flask) or potions/items slots in inventory so you can use it in battle without going to inventory page
 
-- Implement inventory slots for flasks. Like 3 of them so you can use it in fight. All other you can use outside of it.
-
-- Implement condition to upgrade shrines in order accordingly to it's rarity. It's mean you can't upgrade legendary ones before common, rare and epic ones being upgraded
-
-- Implement the menu of all selected level bonuses at the hero's Stats screen
-
-- Tapping on the map of the dungeon is not simple or easy for iphone users. Should implement a single gamepad at the right side of the phone for "UP-DOWN-RIGHT-LEFT" Direction
-
-- Equiped items should be as buttons so you can check it's content
-
+SPRINT 02.02.26 - 01.03.26:
 - Create a demo tutorial to grasp all dungeon functionalities such as dungeon exploration, grinding, boss, death, revival with upgrade WITH INTEREST CURVE INCLUDED
-
-- Or create a special file with localisation or just translate the whole thing into russian because you don't have a god damn testers. But may be use reddit?
-
-- Create a detailed guide info for TestFlight "Description" area with tutorials and images from the game to explain common issues and mechanics
-
-- Force Dark theme into the app to avoid color conflicts
-
-- You can use Shadow Flask not only for healing with extra buffs but also as an offensive weapon to cause damage and debuffs for enemy
-
-- You should get 3 random level bonuses each time and not duplicate ones
-
+- Implement inventory slots for items. Like 3 of them so you can use it in fight. All other you can use outside of it.
+- Implement condition to upgrade shrines in order accordingly to it's rarity. It's mean you can't upgrade legendary ones before common, rare and epic ones being upgraded
+- Tapping on the map of the dungeon is not simple or easy for iphone users. Should implement a single gamepad at the right side of the phone for "UP-DOWN-RIGHT-LEFT" Direction
+- Equiped items should be as buttons so you can check it's content
 - A need an access to stats menu from the combat because user should have an ability to calculate his chances for the kill or survival
 
-- Make a shadow flask companion also as a tutor to walk through buttons, actions, tile types and so on.
-- Make it clickable right at the map view. So you can drag and drop it to any elements to get an advice
+- Add Localisation
