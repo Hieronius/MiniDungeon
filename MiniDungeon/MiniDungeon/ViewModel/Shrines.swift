@@ -9,7 +9,7 @@ extension MainViewModel {
 		
 		guard let shrine else { return }
 		
-		guard (gameState.heroDarkEnergy - 10) >= shrine.darkEnergyCost && !gameState.upgradedShrines.contains(shrine)
+		guard gameState.heroDarkEnergy >= shrine.darkEnergyCost && !gameState.upgradedShrines.contains(shrine)
 		else { return }
 		
 		gameState.heroDarkEnergy -= shrine.darkEnergyCost
