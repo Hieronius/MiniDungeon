@@ -2,10 +2,10 @@ import Foundation
 
 extension MainViewModel {
 	
-	// MARK: - applyLevelBonus
+	// MARK: - applyHeroLevelBonus
 	
 	/// Method to apply bonus of choice when hero get a new level
-	func applyLevelBonus(_ bonus: LevelBonus?) {
+	func applyHeroLevelBonus(_ bonus: HeroLevelBonus?) {
 		
 		guard let bonus = bonus else { return }
 		
@@ -59,8 +59,8 @@ extension MainViewModel {
 		default: fatalError("Something went wrong")
 			
 		}
-		gameState.levelBonusToDisplay = nil
-		gameState.levelBonusesToChoose = []
+		gameState.heroLevelBonusToDisplay = nil
+		gameState.heroLevelBonusesToChoose = []
 		gameState.hero.levelUP()
 		goToDungeon()
 	}
