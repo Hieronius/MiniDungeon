@@ -70,7 +70,19 @@ extension MainViewModel {
 		gameState.gameScreen = .merchant
 	}
 	
-	func goToLevelBonus() {
-		gameState.gameScreen = .levelBonus
+	func goToHeroLevelBonus() {
+		gameState.gameScreen = .heroLevelBonus
+	}
+	
+	func goToFlask() {
+		gameState.gameScreen = .flask
+	}
+	
+	func goToFlaskLevelBonus() {
+		gameState.gameScreen = .flaskLevelBonus
+	}
+	
+	func goToFlaskTalants() {
+		gameState.gameScreen = .flaskTalants
 	}
 }
