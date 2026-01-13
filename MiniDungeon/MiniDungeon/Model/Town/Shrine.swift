@@ -157,10 +157,10 @@ struct ShrineManager {
 	
 	static let legendaryShrines: [Shrine] = [
 		
-		Shrine(
-			name: "Shrine of Mystery",
-			shrineDescription: "Removes Dark Energy Cost from any movements", darkEnergyCost: 100
-		),
+//		Shrine(
+//			name: "Shrine of Mystery",
+//			shrineDescription: "Removes Dark Energy Cost from any movements", darkEnergyCost: 100
+//		),
 		
 		Shrine(
 			name: "Shrine of Shadow Greed",
