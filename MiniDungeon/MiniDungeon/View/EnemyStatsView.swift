@@ -4,7 +4,7 @@ import SwiftUI
 
 extension MainView {
 	
-	func buildEnemyStats() -> some View {
+	func buildEnemyStatsView() -> some View {
 		
 		List {
 			
