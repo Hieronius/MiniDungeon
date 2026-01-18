@@ -61,9 +61,14 @@ extension MainViewModel {
 		gameState.gameScreen = .specialisation
 	}
 	
-	func applyActiveShrineEffectsAndGoToSpecialisation() {
-		gameState.gameScreen = .menu
+	func applyActiveShrineEffectsAndGoToFlaskTalants() {
 		applyActiveShrinesEffects()
+		gameState.gameScreen = .flaskTalants
+	}
+	
+	func applyActivateFlaskTalantsAndGoToMenu() {
+		applyActiveFlaskTalantEffects()
+		gameState.gameScreen = .menu
 	}
 	
 	func goToMerchant() {
