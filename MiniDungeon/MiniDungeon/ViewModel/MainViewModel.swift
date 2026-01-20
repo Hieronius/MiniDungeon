@@ -23,7 +23,7 @@ class MainViewModel: ObservableObject {
 		self.dungeonGenerator = dungeonGenerator
 		self.gameState = gameState
 		
-		// if there an old GameState -> Load it and go to menu
+		// IF IT'S A NEW SESSION -> CREATE A NEW SESSION
 		if gameState.isFreshSession {
 			
 			// Create new map
@@ -34,13 +34,15 @@ class MainViewModel: ObservableObject {
 			
 			// If fresh session -> go to menu
 			goToMenu()
-		
+			
+		// AND IF IT'S AN OLD SESSION -> LOAD IT
 		} else {
 			
 			// Otherwise get the last screen user was on
-			
+			// We use this duplicate property because otherwise we get artifacts while dungeon exploration probably due to SwiftUI performance bottle neck
 			print("We load game state and populate dungeonMap with properties from dungeonMapInMemory")
 			gameState.dungeonMap = gameState.dungeonMapInMemory
+			print(gameState.upgradedFlaskTalants)
 		}
 		
 	}
@@ -58,12 +60,12 @@ extension MainViewModel {
 		gameState.didApplySpec = false
 		
 		// Reset all hero progress to 0
-		gameState.hero = Hero()
-		gameState.flask = Flask()
+		let flask = Flask()
+		gameState.hero = Hero(flask: flask)
 		gameState.enemy = Enemy()
 		gameState.lootToDisplay = []
 		gameState.specToDisplay = nil
-		gameState.levelBonusToDisplay = nil
+		gameState.heroLevelBonusToDisplay = nil
 		gameState.comboPoints = 0
 		
 		gameState.currentDungeonLevel = 0
@@ -78,8 +80,14 @@ extension MainViewModel {
 		spawnHero()
 		
 		// Apply all previous upgrades on the camp
+		// TODO: Check are you really need this method?
 		gameState.hero.restoreStatsToDefault()
 		applyActiveShrinesEffects()
+		
+		// Restore Flask stats to basic
+		// Activate Flask Talants
+		gameState.hero.flask.setFlaskStatsToDefault()
+		applyActiveFlaskTalantEffects()
 	}
 	
 }
