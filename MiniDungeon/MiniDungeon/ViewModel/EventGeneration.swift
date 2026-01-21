@@ -32,7 +32,7 @@ extension MainViewModel {
 		goToBattle()
 	}
 
-	// MARK: SpawnHero
+	// MARK: spawnHero
 
 	/// Method should traverse dungeon map in reversed order and put hero at the first non empty tile
 	func spawnHero() {
@@ -88,7 +88,6 @@ extension MainViewModel {
 		
 		gameState.didFindLootAfterFight = false
 		gameState.lootToDisplay = []
-//		gameState.itemToDisplay = nil
 		
 		gameState.goldLootToDisplay = 0
 		gameState.expLootToDisplay = 0
@@ -96,12 +95,17 @@ extension MainViewModel {
 		gameState.healthPointsLootToDisplay = 0
 		gameState.manaPointsLootToDisplay = 0
 		
+		// If there a new level do not intervene with Merchant View
+		
 		if gameState.didEncounteredBoss {
 			endLevelAndGenerateNewOne()
 		} else {
 			goToDungeon()
 			checkForLevelUP()
 		}
+		
+		// In both cases check if there is enough dark energy to level up the flask and animate it to reflect to user
+		checkForFlaskLevelUP()
 	}
 	
 	// MARK: - Generate Loot
@@ -170,9 +174,6 @@ extension MainViewModel {
 		
 		// experience loot (ignore if it's a chest loot)
 		if !gameState.dealthWithChest && !gameState.didEncounterSecretRoom {
-			print("Get EXP loot")
-			print(gameState.dealthWithChest)
-			print(gameState.didEncounterSecretRoom)
 			
 			let exp = generateExperienceLoot(
 				didFinalBossSummoned: gameState.didEncounteredBoss
@@ -187,7 +188,9 @@ extension MainViewModel {
 		let energy = generateDarkEnergyLoot(
 			didFinalBossSummoned: gameState.didEncounteredBoss
 		)
+		gameState.hero.flask.currentXP += energy
 		gameState.heroDarkEnergy += energy
+		gameState.heroMaxDarkEnergyOverall += energy
 		gameState.darkEnergyLootToDisplay = energy
 		
 	}
@@ -512,6 +515,7 @@ extension MainViewModel {
 	func generateDarkEnergyLoot(didFinalBossSummoned: Bool) -> Int {
 		
 		var energyRoll = Int.random(in: 3...8)
+//		var energyRoll = 10000
 		
 		if didFinalBossSummoned { energyRoll *= 2 }
 		
@@ -523,7 +527,7 @@ extension MainViewModel {
 		}
 	}
 	
-	// MARK: handleSecretRoomOutcome()
+	// MARK: - handleSecretRoomOutcome
 	
 	/// Method to define was a room really secret, was there a loot or an enemy
 	func handleSecretRoomOutcome(row: Int, col: Int) {
@@ -584,6 +588,54 @@ extension MainViewModel {
 		}
 	}
 	
+	// MARK: getLevelBonusesAfterHeroLevelUpAndGoToLevelBonusScreen
+	
+	func generateLevelBonusesAfterHeroLevelUpAndGoToLevelBonusScreen() {
+		
+		// This line cleans previous bonuses to generate
+		gameState.heroLevelBonusesToChoose = []
+		
+		var levelBonusesSet: Set<HeroLevelBonus> = []
+		
+		// Generate level of raririty -> ask LevelBonusManager to provide a random bonus accordingly to the rarity
+		// Add this bonus to levelBonusesToChoose
+		while levelBonusesSet.count < 3 {
+			
+			var counter = 0
+			let rarity = generateRewardRarity()
+			guard let bonus = HeroLevelBonusManager.generateLevelBonus(of: rarity) else { return }
+			levelBonusesSet.insert(bonus)
+			counter += 1
+			
+		}
+		gameState.heroLevelBonusesToChoose = Array(levelBonusesSet)
+		goToHeroLevelBonus()
+	}
+	
+	// MARK: generateLevelBonusesAfterFlaskLevelUpAndGoToLevelBonusScreen()
+	
+	func generateLevelBonusesAfterFlaskLevelUpAndGoToLevelBonusScreen() {
+		
+		// This line cleans previous bonuses to generate
+		gameState.flaskLevelBonusesToChoose = []
+		
+		var levelBonusesSet: Set<FlaskLevelBonus> = []
+		
+		// Generate level of raririty -> ask LevelBonusManager to provide a random bonus accordingly to the rarity
+		// Add this bonus to levelBonusesToChoose
+		while levelBonusesSet.count < 3 {
+			
+			var counter = 0
+			let rarity = generateRewardRarity()
+			guard let bonus = FlaskLevelBonusManager.generateLevelBonus(of: rarity) else { return }
+			levelBonusesSet.insert(bonus)
+			counter += 1
+			
+		}
+		gameState.flaskLevelBonusesToChoose = Array(levelBonusesSet)
+		goToFlaskLevelBonus()
+	}
+	
 	// MARK: - Generate Trap Defusion Result
 	
 	func calculateTrapDefusionResult(_ forSuccess: Bool) {
@@ -600,6 +652,7 @@ extension MainViewModel {
 			gameState.expLootToDisplay = expLoot
 			
 			gameState.heroDarkEnergy += darkEnergyLoot
+			gameState.hero.flask.currentXP += darkEnergyLoot
 			gameState.darkEnergyLootToDisplay = darkEnergyLoot
 			print("Gain some rewards")
 			
