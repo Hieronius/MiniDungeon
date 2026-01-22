@@ -5,7 +5,7 @@ import SwiftUI
 extension MainView {
 	
 	@ViewBuilder
-	func buildRewards() -> some View {
+	func buildRewardsView() -> some View {
 		
 		List {
 			
