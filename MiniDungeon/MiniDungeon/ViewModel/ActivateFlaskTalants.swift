@@ -86,7 +86,7 @@ extension MainViewModel {
 			
 		case "Soul Extractor":
 			
-			gameState.hero.flask.baseCombatImpactCapacity = 100
+			gameState.hero.flask.baseCombatImpactCapacity += 50
 			/* other logic accordingly to talant description
 			 
 			 description: "Flask gains ability to collect damage done, damage received, healing done, block value after skill use. When it reach 100, gain some dark energy or 1 extra EP + 10% healing of max HP/10% damage of target max HP"
@@ -108,7 +108,7 @@ extension MainViewModel {
 			
 		case "Soul Eater":
 			
-			gameState.hero.flask.baseCombatImpactCapacity = 150
+			gameState.hero.flask.baseCombatImpactCapacity += 50
 			
 			/*
 			 description: "Flask gains ability to collect damage done, damage received, healing done, block value after skill use. When it reach 100, gain some dark energy or 1 extra EP + 10% healing of max HP/10% damage of target max HP + to empower next ability",
