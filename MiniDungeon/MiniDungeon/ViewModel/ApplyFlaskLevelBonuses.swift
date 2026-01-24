@@ -108,6 +108,7 @@ extension MainViewModel {
 			
 		case "Epic Flask Charge Bonus":
 			gameState.hero.flask.baseMaxCharges += 1
+			gameState.hero.flask.currentCharges += 1
 		
 		// Legendary
 			
@@ -148,6 +149,7 @@ extension MainViewModel {
 			
 		case "Legendary Flask Charge Bonus":
 			gameState.hero.flask.baseMaxCharges += 2
+			gameState.hero.flask.currentCharges += 2
 			
 		default: fatalError("Something went wrong with Flask Level Bonus")
 			
