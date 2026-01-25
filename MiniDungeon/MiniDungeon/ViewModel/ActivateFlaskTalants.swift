@@ -56,6 +56,7 @@ extension MainViewModel {
 			
 		case "Soul Collector":
 			
+			gameState.hero.flask.currentSoulCollectionStatus = .soulCollector
 			gameState.hero.flask.baseCombatImpactCapacity = 50
 			// gameState.hero.flask.soulCollector.activated = true
 			// or gameState.soulCollector.activated = true
@@ -86,6 +87,7 @@ extension MainViewModel {
 			
 		case "Soul Extractor":
 			
+			gameState.hero.flask.currentSoulCollectionStatus = .soulExtractor
 			gameState.hero.flask.baseCombatImpactCapacity += 50
 			/* other logic accordingly to talant description
 			 
@@ -108,6 +110,7 @@ extension MainViewModel {
 			
 		case "Soul Eater":
 			
+			gameState.hero.flask.currentSoulCollectionStatus = .soulEater
 			gameState.hero.flask.baseCombatImpactCapacity += 50
 			
 			/*
