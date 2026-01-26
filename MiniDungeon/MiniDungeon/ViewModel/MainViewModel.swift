@@ -79,6 +79,10 @@ extension MainViewModel {
 		generateMap()
 		spawnHero()
 		
+		// Clean Flask Level Bonuses each new run
+		gameState.selectedFlaskLevelBonuses = []
+		gameState.selectedHeroLevelBonuses = []
+		
 		// Apply all previous upgrades on the camp
 		// TODO: Check are you really need this method?
 		gameState.hero.restoreStatsToDefault()
