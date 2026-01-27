@@ -28,9 +28,7 @@ extension MainViewModel {
 			
 		case .getFlaskCharge:
 			
-			print("got a new charge of flask")
-			// 100% chance to get one charge of shadow flask
-			gameState.dealtWithRestorationShrine = true
+			getShadowFlaskCharge()
 			
 		case .disenchantItem:
 			
@@ -187,6 +185,19 @@ extension MainViewModel {
 		gameState.dealtWithRestorationShrine = true
 		goToRewards()
 		
+	}
+	
+	func getShadowFlaskCharge() {
+		
+		let currentCharges = gameState.hero.flask.currentCharges
+		let maxCharges = gameState.hero.flask.currentMaxCharges
+		
+		print("attempt to restore flask charge")
+		
+		guard currentCharges < maxCharges else { return }
+		gameState.hero.flask.currentCharges += 1
+		gameState.dealtWithRestorationShrine = true
+		print("got a charge for the flask")
 	}
 	
 	// MARK: - startTrapDefusionMiniGame
