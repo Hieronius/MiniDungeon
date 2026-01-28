@@ -79,6 +79,9 @@ extension MainViewModel {
 		generateMap()
 		spawnHero()
 		
+		// Clean all Potion Effects from previous run
+		gameState.usedPotionsWithPermanentEffects = []
+		
 		// Clean Flask Level Bonuses each new run
 		gameState.selectedFlaskLevelBonuses = []
 		gameState.selectedHeroLevelBonuses = []
