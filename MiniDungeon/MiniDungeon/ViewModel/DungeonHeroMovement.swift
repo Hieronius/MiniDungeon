@@ -144,7 +144,7 @@ extension MainViewModel {
 			// Check was this tile with secret founded before
 			// TODO: Test didEncounterTrap check -> you should not be able to move
 			
-		} else  if !checkIfDirectionValid(row, col) &&
+		} else if !checkIfDirectionValid(row, col) &&
 					gameState.hero.currentHP > 0 &&
 					!gameState.didEncounterTrap &&
 					!gameState.dungeonMap[row][col].isExplored &&
