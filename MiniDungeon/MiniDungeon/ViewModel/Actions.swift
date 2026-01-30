@@ -5,7 +5,7 @@ import Foundation
 /// Type of action you can take inside the dungeon when encounter different types of events
 enum ActionType {
 	
-	case restoreHealthMana
+	case restoreHealthManaWithSmallChanceToGetDamage
 	case getFlaskCharge
 	case disenchantItem
 	case defuseTrap
@@ -22,7 +22,7 @@ extension MainViewModel {
 		
 		switch action {
 			
-		case .restoreHealthMana:
+		case .restoreHealthManaWithSmallChanceToGetDamage:
 			
 			getHealManaOrDamageFromShrine()
 			
@@ -104,25 +104,43 @@ extension MainViewModel {
 		
 		if item is Armor {
 			
-			gameState.hero.armors[item as! Armor]! -= 1
-			
-			if gameState.hero.armors[item as! Armor]! <= 0 {
-				gameState.hero.armors[item as! Armor] = nil
+			if !(gameState.hero.armorSlot == item as? Armor) {
+				gameState.hero.armors[item as! Armor]! -= 1
 				
+				if gameState.hero.armors[item as! Armor]! <= 0 {
+					gameState.hero.armors[item as! Armor] = nil
+					
+				}
+				
+			} else {
+				gameState.hero.armorSlot = nil
 			}
 			
 		} else if item is Weapon {
 			
-			gameState.hero.weapons[item as! Weapon]! -= 1
-			
-			if gameState.hero.weapons[item as! Weapon]! <= 0 {
-				gameState.hero.weapons[item as! Weapon] = nil
+			if !(gameState.hero.weaponSlot == item as? Weapon) {
+				gameState.hero.weapons[item as! Weapon]! -= 1
 				
+				if gameState.hero.weapons[item as! Weapon]! <= 0 {
+					gameState.hero.weapons[item as! Weapon] = nil
+					
+				}
+				
+			} else {
+				gameState.hero.weaponSlot = nil
 			}
+			
 		}
 		
 		gameState.heroDarkEnergy += gameState.darkEnergyLootToDisplay
+		gameState.heroMaxDarkEnergyOverall += gameState.darkEnergyLootToDisplay
+		gameState.hero.flask.currentXP += gameState.darkEnergyLootToDisplay
 		gameState.dealtWithDisenchantShrine = true
+		
+		// place to erase tile character to "" to reflect that an event has been completed
+		let position = gameState.heroPosition
+//
+		gameState.dungeonMap[position.row][position.col].type = .corridor
 		goToRewards()
 	}
 	
@@ -182,10 +200,14 @@ extension MainViewModel {
 			}
 			gameState.manaPointsLootToDisplay = manaPoints
 		}
+		let position = gameState.heroPosition
+		gameState.dungeonMap[position.row][position.col].type = .corridor
 		gameState.dealtWithRestorationShrine = true
 		goToRewards()
 		
 	}
+	
+	// MARK: getShadowFlaskCharge
 	
 	func getShadowFlaskCharge() {
 		
