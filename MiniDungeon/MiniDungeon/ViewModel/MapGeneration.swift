@@ -48,6 +48,10 @@ extension MainViewModel {
 		// "R" - Room with enemy - 20%
 		// "C" - Corridor - 40%
 		// "T" - Trap - 10%
+		// "D" - Disenchant - ?%
+		// "H" - Shrine of Restoration - ?%
+		// "S" - Secret Rooms - ?%
+		// "L" - Chest Tile - ?%
 		
 		/* Example of dungeon scheme 7x7 (average working size)
 		 let dungeonLevel11: [[String]] = [
