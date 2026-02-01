@@ -268,13 +268,13 @@ struct ItemManager {
 			price: 150
 		),
 		
-		Item(
-			label: "Small Energy Restoration Potion",
-			itemType: .potion,
-			itemLevel: 1,
-			itemDescription: "Restores ENERGY by 1",
-			price: 200
-		)
+//		Item(
+//			label: "Small Energy Restoration Potion",
+//			itemType: .potion,
+//			itemLevel: 1,
+//			itemDescription: "Restores ENERGY by 1",
+//			price: 200
+//		)
 	]
 	
 	// MARK: - Rare Potions
