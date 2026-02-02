@@ -62,7 +62,10 @@ extension MainViewModel {
 		// Reset all hero progress to 0
 		let flask = Flask()
 		gameState.hero = Hero(flask: flask)
+		gameState.didFlaskGetLevelUP = false
+		gameState.didUserPressedEndTurnButton = false
 		gameState.enemy = Enemy()
+		gameState.heroGold = 0
 		gameState.lootToDisplay = []
 		gameState.specToDisplay = nil
 		gameState.heroLevelBonusToDisplay = nil
