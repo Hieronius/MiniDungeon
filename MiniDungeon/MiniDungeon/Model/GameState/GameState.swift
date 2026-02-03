@@ -1,3 +1,4 @@
+import SwiftUI
 import SwiftData
 
 /// Data type to define all possible state conditions of the game
@@ -6,11 +7,20 @@ class GameState {
 	
 	// MARK: - Navigation & Session
 	
-	var gameScreen: GameScreen = GameScreen.menu
+	var currentGameScreen: GameScreen = GameScreen.menu
+	var previousGameScreen: GameScreen = GameScreen.menu
+	
+	/// Property to define X offset of the FlaskView during drag operation
+	/// Should be combined with @State property dragFlaskTemporaryTranslationPositionOnScreen in  MainView
+	var flaskViewXOffset: CGFloat = 0
+	
+	/// Property to define Y offset of the FlaskView during drag operation
+	/// Should be combined with @State property dragFlaskTemporaryTranslationPositionOnScreen in  MainView
+	var flaskViewYOffset: CGFloat = 0
 	
 	var isFreshSession =  true
 	
-	// MARK: - Properties to move
+	// MARK: - Mini Games Properties
 	
 	/// When you hit the enemy this mini game appears
 	var isCombatMiniGameIsOn = false
@@ -20,10 +30,11 @@ class GameState {
 	
 	/// When you press "Lock-Pick the chest" button this game appears
 	var isLockPickingMiniGameIsOn = false
-
+	
 	// MARK: - Combat
 	
 	var isHeroTurn = true
+	var didUserPressedEndTurnButton = false
 	var comboPoints = 0
 	
 	var didHeroUseBlock = false
@@ -32,19 +43,29 @@ class GameState {
 	
 	var isCombatMiniGameSuccessful = false
 	
+	// MARK: - Flask, Hero, Enemy Objects
+	
 	var hero: Hero
 	
 	var enemy = Enemy()
 	
 	// MARK: - Upgrades
 	
+	/// Use this property as a flag if flask get it's level up during the fight or after getting some dark energy from the loot
+	/// If this flag is true -> make Shadow Flask icon animate a little bit to reflect that user can click it to get flask level bonus from MapView or other non-action screens
+	var didFlaskGetLevelUP = false
+	
 	var didApplySpec = false
+	
+	// Spec
 	
 	var specToDisplay: Specialisation?
 	var specsToChooseAtStart: [Specialisation] = []
 	var specWasSelected: Bool {
 		specToDisplay != nil
 	}
+	
+	// Shrines
 	
 	var shrineUpgradeToDisplay: Shrine?
 	var upgradedShrines: [Shrine] = []
@@ -54,21 +75,39 @@ class GameState {
 	var shadowGreedShrineBeenActivated = false
 	var mysteryShrineBeenActivated = false
 	
-	var levelBonusToDisplay: LevelBonus?
-	var levelBonusesToChoose: [LevelBonus?] = []
+	// Hero Level Bonuses
 	
-	var levelBonusesRarities: [Rarity] = []
+	var heroLevelBonusToDisplay: HeroLevelBonus?
+	var heroLevelBonusesToChoose: [HeroLevelBonus?] = []
+	var selectedHeroLevelBonuses: [HeroLevelBonus] = []
+	
+	// Flask Level Bonuses
+	
+	var flaskLevelBonusToDisplay: FlaskLevelBonus?
+	var flaskLevelBonusesToChoose: [FlaskLevelBonus?] = []
+	var selectedFlaskLevelBonuses: [FlaskLevelBonus] = []
+	
+	// Flask Talants
+	
+	/// Upgraded Talants of the flask should contain the talant to collect combat impact during the fight by default
+	/// FlaskTalantManager.minorTalants[0] - it's a Soul Collector talant
+	var upgradedFlaskTalants: [FlaskTalant] = [FlaskTalantManager.minorTalants[0]]
+	var flaskTalantToDisplay: FlaskTalant?
+	var flaskTalantWasSelected: Bool {
+		flaskTalantToDisplay != nil
+	}
+	
+	// Used Potions
+	var usedPotionsWithPermanentEffects: [Item] = []
 	
 	// MARK: - Dungeon
 	
 	var currentDungeonLevel = 0
 	
-	// TODO: Test property to store dungeon map in memory only when app being killed/relaunched
 	var dungeonMapInMemory: [[Tile]] = []
 	
-	// TODO: This property causes an emence CPU overload
-	// Set it as @Transient for testing
 	@Transient var dungeonMap: [[Tile]] = []
+//	var dungeonMap: [[Tile]] = []
 	
 	var heroPosition = Coordinate(row: 0, col: 0)
 	
@@ -132,15 +171,51 @@ class GameState {
 	var heroGold = 0
 	
 	/// Resource to boost abilities/explore dungeon/rebuild the town
-	var heroDarkEnergy = 0
+	var heroDarkEnergy = 10000
+	
+	/// Track how much hero did gain during all game sessions to get a new talant for the Flask after each new run
+	var heroMaxDarkEnergyOverall = 10000
 	
 	var battlesWon = 0
 	
 	// MARK: - Abilities
 	
+	var didUseFlaskEmpowerForOffensive = false
+	var didUseFlaskEmpowerForDefensive = false
 	var skillEnergyCost = 1
 	var spellManaCost = 10
-	var blockValue = 5
+	var healMinValue = 3
+	var healMaxValue = 6
+	var minBlockValue = 3
+	var maxBlockValue = 5
+	
+	/// Value to track how much defence value enemy got from his block so you can clean it when block ends
+	var enemyBlockValueBuffer = 0
+	
+	/// Value to track how much defence value enemy got from his block so you can clean it when block ends
+	var heroBlockValueBuffer = 0
+	
+	// MARK: - View Action Animations
+	
+	enum ActionAnimation: Codable {
+		
+		case gotDamage
+		case gotHealing
+		case usedBlock
+		case none
+		
+		var color: Color {
+			switch self {
+			case .gotDamage: return .red
+			case .gotHealing: return .green
+			case .usedBlock: return .blue
+			case .none: return .black
+			}
+		}
+	}
+	
+	var currentHeroAnimation = ActionAnimation.none
+	var currentEnemyAnimation = ActionAnimation.none
 	
 	// MARK: - Log
 	
@@ -152,7 +227,6 @@ class GameState {
 	var merchantArmorsLoot: [Armor: Int] = [:]
 	var merchantInventoryLoot: [Item: Int] = [:]
 	
-	// TODO: SECOND POTENTIAL PROBLEM WITH SWIFT DATA
 	@Transient var lootToDisplay: [String] = []
 	
 	var isItemOnSale = false
@@ -162,7 +236,8 @@ class GameState {
 	var healthPointsLootToDisplay = 0
 	var manaPointsLootToDisplay = 0
 	
-	init() {
-		self.hero = Hero()
+	init(hero: Hero) {
+		self.hero = hero
+//		self.flask = Flask()
 	}
 }
