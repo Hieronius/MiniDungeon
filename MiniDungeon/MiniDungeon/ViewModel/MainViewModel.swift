@@ -92,12 +92,16 @@ extension MainViewModel {
 		// Apply all previous upgrades on the camp
 		// TODO: Check are you really need this method?
 		gameState.hero.restoreStatsToDefault()
-		applyActiveShrinesEffects()
+		
+		// TODO: Commented this method 04.02.26 because it has duplicate effect
+//		applyActiveShrinesEffects()
 		
 		// Restore Flask stats to basic
 		// Activate Flask Talants
 		gameState.hero.flask.setFlaskStatsToDefault()
-		applyActiveFlaskTalantEffects()
+		
+		// TODO: Commented this method 04.02.26 because it has duplicate effect
+//		applyActiveFlaskTalantEffects()
 	}
 	
 }
