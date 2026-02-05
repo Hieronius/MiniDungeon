@@ -5,7 +5,7 @@ import SwiftUI
 extension MainView {
 	
 	@ViewBuilder
-	func buildMenu() -> some View {
+	func buildMenuView() -> some View {
 		
 		List {
 			
@@ -14,20 +14,17 @@ extension MainView {
 				Button("Dungeon") {
 					viewModel.goToDungeon()
 				}
-				Button("Stats") {
-					viewModel.goToHeroStats()
-				}
-				Button("Inventory") {
-					viewModel.goToInventory()
-				}
 				// MARK: Uncomment to Erase and Insert a new Game State
 //				Button("Erase Game State") {
-//					let newState = GameState()
+//					let flask = Flask()
+//					let hero = Hero(flask: flask)
+//					let newState = GameState(hero: hero)
 //					viewModel.gameState = newState
 //					viewModel.swiftDataManager.saveGameState(newState)
 //					viewModel.generateMap()
 //					viewModel.spawnHero()
 //				}
+				
 			}
 		}
 	}

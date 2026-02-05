@@ -1,15 +1,50 @@
 FILE HAS BEEN INSPECTED 07.12.25
 
-Games for inspiration:
+
+-----------------GAMES FOR INSPIRATION--------------------
 - Darkest Dungeon (random buffs/debuffs/classes + town upgrades)
 - Diablo 2 (random dungeon generation and loot system with classes)
 - Dark Souls (high level of difficulty, estus, avoidance/parry skills, unique set of enemy attacks)
+-----------------------------------------------------------
 
-5. Estus or shadow flask can be upgraded across multiple runs (saved progress)
+-----------------FLASK FEATURES NOTES-----------------------
+
+Shadow Flask features and detailes:
+	
+	- Has default ability to heal by 25% of max hp and 3 charges from the start. You can upgrade to keep more or to refill during dungeon exploration. For example by encountering Shrine of Restoration
+	
+	- Shadow Flask might have battle mode like "defensive/offensive". You can shake the phone to change it. In Defensive mode you can heal yourself or get buffs, in offensive mode you can deal damage to target like 25% of your max health or enemy's or afflict debuff
+	
+	- Also it can store some capacity like 100 or 200 units and collect all damage numbers in the battle. Dealt both to the hero and enemy. So it will be something like Enrage after which you can use more powerfull version of flask actions or to add new ones
+	
+	- Shadow flask should have it's own levels and it's levels should be gained by collecting more dark energy. May be i should even rename Dark Energy to Shadow Energy
+	
+	- I should think about adding a specific shrines for Flask or different kind of mechanics in the town to distribute. It even might be something like just a talant to choose. Like you spend dark energy for shrines and these talants just by deciding what to add
+
+	- flask in her different modes should help solve some events during Map Exploration. For example you can try to open chest with it or go through the trap by using flask charge or a trait
+	
+	- Flask also can collect a trait of specific minion during the battle. Just fill the bar by dealing damage or receiving one and from the goblin you will get a double attack for one turn, from rat - restoring some hp after attack for a turn and so on. It's important because we want to collect a trait for each mini boss
+
+	- Flask probably should have the same progress system as Hero. Each run it's starts to grow from level 1 and gaining experience per dark energy you get. But at the end of the run you can upgrade flask by choosing the talant
+	- Each talant should not cost an actual dark energy but be available via max amount of collected energy. Like for this talant you need to collect 100 energy, for this 500 and so on. So just unlock one after another
+	
+	- Add a different View extension for Flask Talants which you can get to from TownScreen
+
+	- Each Enum can be used with CaseIterable to provide a set of values to fill the View. For example FlaskTalants to fill FlaskTalantsView
+
+	- When you change flask battle mode you also can see the changes on the map screen so flask will be usefull everywhere:
+	if it's an offensive mode make user action red or orange and add options like "destroy the chest lock", or "mess with trap mechanism" with the cost of the shard
+	If it's a defensive mode add a feature to heal hero or do any positive actions
+	
+	Possible actions of the flask:
+	1. tap - ask for comment
+	2. shaking - change it's mode from Defensive/Offensive
+	3. double tap - for advice or secret words
+	4. long tap - tutor or guide mode
+	
+-------------------NOTES OVERALL-----------------------------
 
 5.1. After multiple runs when main hero's stats absolutely exceeds the enemy's at first levels there should be the "execute" button for instant win on the opponent to get loot and exp and avoid redundant battles
-
-7. Add not only hit chance label on the attack button but also it's crit chance
 
 8. Create random generation for weapons and armors
 
@@ -64,3 +99,56 @@ if i implement a special player controller with only top/bottom/left/right direc
 27. Too little things you can do with Gold in the game
 
 28. When you encounter an event in the dungeon map Flask should speak. Like if you get damage from the Restoration Shrine it should tell something like "Oh no it was a poison" and so on
+
+29. Think about adding an upgrade each level or each 5 levels after level boss with the cost of gold. Like block upgrade or heal upgrade.
+
+30. May be i should put damage and armor as HP/MP/EP to the main Battle screen so when i get a buff or debuff this value being highlighter in Hero and Enemy bars
+
+31. May be i should rework Flask to be a part of the UI in next iterations so i can cut GPU and CPU overuse and poor animation
+
+32. Add to a few more perks to flask such as: +max hp/mana/spell power/crit/hit stats while on cd or after use for a few turns
+
+33. In my current game state it's not clear how many damage output you will get with just an improved attacks and plus with combo. Example: enemy has 1 armor, you have 5-12 attack and 300% damage combo, but there is only 9-12 damage. How is it possible?
+
+34. Try to add different actions for Flask in the way like:
+
+"if on BattleScreen -> tap action should change battle mode"
+"if on StatsScreen -> tap action should get info from flask"
+"if on MiniGame -> tap action should display info how to approach it"
+and so on. Use GameScreen.currentScreenName as a condition
+
+35. Think about adding armor pen property to 300% damage combo attack. Seems sometimes it's causes less damage than 175% + armor pen
+
+36. Remove Dark Energy label from the top of combat view and implement it as a part of Empower (dark energy 25/125) to track the cost and current capacity
+
+37. I probably should also put Gold as temporary currency and of course rework the whole merchant idea
+
+38. If you find yourself in condition when toogling different properties won't affect UI Rerendering, try to add more changable properties into UI. For example dynamic label of current Soul Collection Status will help to update UI if internal flask.soulCollectionStatus enum property will change
+
+39. When you unleash the effect of the flask make it reset 1 turn of CD for Stage 1 talant, 2 turns for Stage 2 and 3 turns for Stage 3
+
+40. Think about adding shadow flask charge to loot generation. may be specifically from enemies or from any sources
+
+41. Level of difficulty should grow with the rate dark energy overall or current amount
+
+42. Should think about erasing mana stat for good because it's very rare to use. Just a few heals per level and it's becomes useless'
+
+43. Add a feature to actually display only nerby tiles from the hero. And each new tile hero moves he has a chance to encounter enemy. So than longer in the dungeon than higher the chance to encounter enemy and lose everything
+
+44. Because i have a single GameState and lots of screens i probably should create different navigation schemes such as:
+	- goToDungeonFromInventory() {
+		goToDungeon()
+		cleanItemInfo()
+	}
+	
+	- goToDungeonFromCombat() {
+		goToDungeon()
+		cleanRewards()
+	}
+
+45. Gold probably should become a run-dependent currency. Collect and spend during the run and lose it all with items when you die
+
+46. May be i should make block ability to add defence for an exact amount of enemy attacks. Use onces and you block only a single one. Use two and you will block 2 attacks. Use 3 but receive only a single attack and you will waste resources for nothing
+
+47. Add a level of difficulty by adjusting a special progress view on Dungeon Map. It should display Current Dark Energy level in the same way as a level of light in Darkest Dungeon. So you can adjust at any time manually.
+		- For example we have 200 dark energy, so you can adjust difficulty to 25/50/75/100% higher and with each level you get more experience, gold, dark energy and loot

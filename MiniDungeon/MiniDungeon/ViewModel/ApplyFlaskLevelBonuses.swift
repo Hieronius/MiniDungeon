@@ -156,6 +156,7 @@ extension MainViewModel {
 		}
 		
 		// This block should be modified accordingly to Flask
+		gameState.selectedFlaskLevelBonuses.append(bonus)
 		gameState.flaskLevelBonusToDisplay = nil
 		gameState.flaskLevelBonusesToChoose = []
 		gameState.hero.flask.levelUP()

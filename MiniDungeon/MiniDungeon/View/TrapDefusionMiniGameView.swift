@@ -304,6 +304,8 @@ extension TrapDefusionMiniGameView {
 		
 	}
 	
+	// MARK: - setButtonsPositionsToDefault
+	
 	/// Set all buttons to "Arrow.up" position
 	func setButtonsPositionsToDefault() {
 		button1Index = 0
@@ -316,6 +318,8 @@ extension TrapDefusionMiniGameView {
 		button8Index = 0
 		button9Index = 0
 	}
+	
+	// MARK: - defuseTrap
 	
 	/// Method to detect if user's tapped buttons are equal to pattern ones and if yes -> send Success to MapView, otherwise send False
 	func defuseTrap() {

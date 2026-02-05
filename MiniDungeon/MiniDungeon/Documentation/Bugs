@@ -1,20 +1,12 @@
 FILE HAS BEEN INSPECTED 29.12.25
 
 ----------------------------------------------
-// BUGS TO CHECK AND FIX AFTER PLAYER FEEDBACK:
+BUGS TO CHECK AND FIX AFTER PLAYER FEEDBACK:
 
-- Small BUG 01.01.26 - when you click items in the inventory or in merchant view it causes rerendering of the items each time which leads to reordering it on the list. But no problems with functionality.
+- BUG 04.02.26 - you should learn how to handle app killing during the fight because if it's an enemy turn it will be blocked in the middle of it
 
-- BUG 01.01.26 - when you sell stuff after killing the boss it's appear that energy potions for example won't be sold properly'' Also as health and mana potions
 
-- Small BUG 01.01.26 - When you choose Level Bonus it will change an order of bonuses each time when you click without actually ruining a set of bonuses. Just might be a little bit annoying for the user
+OPTIONAL TO SOLVE:
 
-- Small BUG 25.12.25 - on Iphone 13 mini Dungeon Map won't scale correctly accordingly to the screen size. It's not flexible
+- Small BUG 29.01.26 - on Iphone 13 mini Dungeon Map won't scale correctly accordingly to the screen size. It's not flexible
 
-- BUG - When you play chest lock-picking mini game and have 3 buttons to move, you can open the chest even by catching only 2 of them
-13.12. FEEDBACK - when you start the mini game you get "true" at the array of motions from the start. Something wrong with population of this array. Or it might get an old data from previous game during the session
-
-- BUG 21.12 - you still can check and enter secret rooms while staying on the trap tile
-
-Possible BUG - Potential problem with:
-	@Transient var lootToDisplay: [String] = [] in GameState

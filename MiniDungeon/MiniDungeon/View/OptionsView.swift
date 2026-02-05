@@ -5,7 +5,7 @@ import SwiftUI
 extension MainView {
 	
 	@ViewBuilder
-	func buildOptions() -> some View {
+	func buildOptionsView() -> some View {
 		
 		List {
 			

@@ -5,17 +5,30 @@ import SwiftUI
 extension MainView {
 	
 	@ViewBuilder
-	func buildInventory() -> some View {
+	func buildInventoryView() -> some View {
+		
+		// MARK: - Equiped Items
 		
 		List {
 			
 			Section(header: Text("Weapon Slot")) {
-				Text("\(viewModel.gameState.hero.weaponSlot?.label ?? "Empty")")
+				Button {
+					itemToDisplay = viewModel.gameState.hero.weaponSlot
+				} label: {
+					Text("\(viewModel.gameState.hero.weaponSlot?.label ?? "Empty")")
+				}
 			}
 			
 			Section(header: Text("Armor Slot")) {
-				Text("\(viewModel.gameState.hero.armorSlot?.label ?? "Empty")")
+				
+				Button {
+					itemToDisplay = viewModel.gameState.hero.armorSlot
+				} label: {
+					Text("\(viewModel.gameState.hero.armorSlot?.label ?? "Empty")")
+				}
 			}
+			
+			// MARK: - Selected Item Info
 			
 			if itemToDisplay != nil  {
 				Section(header: Text("Item Info")) {
@@ -26,17 +39,37 @@ extension MainView {
 					Text("Description: \(itemToDisplay?.itemDescription ?? "")")
 					Text("Price: \(itemToDisplay?.price ?? 0) gold")
 					
-					if viewModel.gameState.didEncounterDisenchantShrine && !viewModel.gameState.dealtWithDisenchantShrine {
+					if viewModel.gameState.didEncounterDisenchantShrine && !viewModel.gameState.dealtWithDisenchantShrine &&
+						!(itemToDisplay is Item) {
 						
 						Button("Disenchant") {
 							viewModel.applyEffect(for: .disenchantItem, item: itemToDisplay)
 						}
-							
+						
 					} else {
 						
-						Button("Equip/Use") {
-							if viewModel.equipOrUseItem(itemToDisplay) {
-								itemToDisplay = nil
+						if itemToDisplay as? Weapon != viewModel.gameState.hero.weaponSlot && ((itemToDisplay as? Weapon) != nil) {
+							
+							Button("Equip") {
+								if viewModel.equipOrUseItem(itemToDisplay) {
+									itemToDisplay = nil
+								}
+							}
+						}
+						
+						if itemToDisplay as? Armor != viewModel.gameState.hero.armorSlot && ((itemToDisplay as? Armor) != nil) {
+							Button("Equip") {
+								if viewModel.equipOrUseItem(itemToDisplay) {
+									itemToDisplay = nil
+								}
+							}
+						}
+						
+						if itemToDisplay as? Item != nil {
+							Button("Use") {
+								if viewModel.equipOrUseItem(itemToDisplay) {
+									itemToDisplay = nil
+								}
 							}
 						}
 					}
@@ -46,8 +79,9 @@ extension MainView {
 		}
 		.frame(height: 450)
 		
-		
 		List {
+			
+			// MARK: - Weapons
 			
 			if !viewModel.gameState.hero.weapons.isEmpty {
 				Section(header: Text("Weapons")) {
@@ -60,6 +94,8 @@ extension MainView {
 				}
 			}
 			
+			// MARK: - Armors
+			
 			if !viewModel.gameState.hero.armors.isEmpty {
 				Section(header: Text("Armors")) {
 					
@@ -70,6 +106,8 @@ extension MainView {
 					}
 				}
 			}
+			
+			// MARK: - Other Items
 			
 			if !viewModel.gameState.hero.inventory.isEmpty {
 				Section(header: Text("Items")) {
@@ -82,14 +120,22 @@ extension MainView {
 				}
 			}
 			
+		}
+		.frame(height: 250)
+		
+		List {
+			// MARK: - Navigation
+			
 			Section(header: Text("Navigation")) {
 				
 				Button("Dungeon") {
+					itemToDisplay = nil
 					viewModel.goToDungeon()
 				}
-				Button("Stats") {
-					viewModel.goToHeroStats()
-				}
+				//				Button("Stats") {
+				//					itemToDisplay = nil
+				//					viewModel.goToHeroStats()
+				//				}
 			}
 		}
 	}

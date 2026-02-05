@@ -59,6 +59,7 @@ extension MainViewModel {
 		default: fatalError("Something went wrong")
 			
 		}
+		gameState.selectedHeroLevelBonuses.append(bonus)
 		gameState.heroLevelBonusToDisplay = nil
 		gameState.heroLevelBonusesToChoose = []
 		gameState.hero.levelUP()

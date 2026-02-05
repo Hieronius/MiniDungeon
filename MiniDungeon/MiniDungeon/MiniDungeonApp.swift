@@ -15,7 +15,8 @@ struct MiniDungeonApp: App {
 		
 		do {
 			let container = try ModelContainer(for: GameState.self,
-													 Hero.self)
+													 Hero.self,
+											   Flask.self)
 			
 			self.modelContainer = container
 			
@@ -31,7 +32,10 @@ struct MiniDungeonApp: App {
 				
 			} else {
 				
-				let freshGameState = GameState()
+				let flask = Flask()
+				let hero = Hero(flask: flask)
+				
+				let freshGameState = GameState(hero: hero)
 				gameState = freshGameState
 				gameState.isFreshSession = true
 				swiftDataManager.saveGameState(gameState)
@@ -67,6 +71,7 @@ struct MiniDungeonApp: App {
 						print("SchenePhase: Background from \(oldPhase)")
 						
 						// This code store current DungeonMap State (which is @Transient) to duplicate property in GameState which is being totally tracked and saved
+						// TODO: Probably should be duplicated in .inactive state
 						viewModel.gameState.dungeonMapInMemory = viewModel.gameState.dungeonMap
 						swiftDataManager.saveGameState(viewModel.gameState)
 						print("YES WE DID SAVE DUNGEON MAP TO DUPLICATE PROPERTY")

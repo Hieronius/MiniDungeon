@@ -9,14 +9,25 @@
 /* Begin PBXBuildFile section */
 		DD12B63D2EF65724004B4036 /* Coordinate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD12B63C2EF65724004B4036 /* Coordinate.swift */; };
 		DD12B6432EF65C13004B4036 /* SwiftDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD12B6412EF65C13004B4036 /* SwiftDataManager.swift */; };
-		DD50E9722EA57D900072CCC4 /* Shrines.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD50E9712EA57D900072CCC4 /* Shrines.swift */; };
+		DD12B6702F08C910004B4036 /* Flask.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD12B66F2F08C910004B4036 /* Flask.swift */; };
+		DD12B6722F0A286D004B4036 /* FlaskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD12B6712F0A286D004B4036 /* FlaskView.swift */; };
+		DD12B6742F0B74D2004B4036 /* BeforeRelease in Resources */ = {isa = PBXBuildFile; fileRef = DD12B6732F0B74D2004B4036 /* BeforeRelease */; };
+		DD12B6762F0CC0E1004B4036 /* DiaryOfProductivity in Resources */ = {isa = PBXBuildFile; fileRef = DD12B6752F0CC0E1004B4036 /* DiaryOfProductivity */; };
+		DD12B6782F0E81F8004B4036 /* FlaskLevelBonusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD12B6772F0E81F8004B4036 /* FlaskLevelBonusView.swift */; };
+		DD12B67A2F0E8290004B4036 /* FlaskTalantsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD12B6792F0E8290004B4036 /* FlaskTalantsView.swift */; };
+		DD12B67C2F0E831D004B4036 /* ApplyFlaskLevelBonuses.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD12B67B2F0E831D004B4036 /* ApplyFlaskLevelBonuses.swift */; };
+		DD12B67E2F0E8448004B4036 /* FlaskTalant.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD12B67D2F0E8448004B4036 /* FlaskTalant.swift */; };
+		DD12B6842F0E84D0004B4036 /* GameScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD12B6832F0E84D0004B4036 /* GameScreen.swift */; };
+		DD12B6882F0E89C3004B4036 /* FlaskLevelBonus.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD12B6872F0E89C3004B4036 /* FlaskLevelBonus.swift */; };
+		DD12B68A2F161E42004B4036 /* ActivateFlaskTalants.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD12B6892F161E42004B4036 /* ActivateFlaskTalants.swift */; };
+		DD50E9722EA57D900072CCC4 /* ActivateShrines.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD50E9712EA57D900072CCC4 /* ActivateShrines.swift */; };
 		DD5833A22EE01FE000DC4371 /* ChestLockPickingMiniGameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD5833A12EE01FE000DC4371 /* ChestLockPickingMiniGameView.swift */; };
 		DD585ABC2EADDF4C00C5446B /* Bugs in Resources */ = {isa = PBXBuildFile; fileRef = DD585AB42EADDF4C00C5446B /* Bugs */; };
 		DD585ABD2EADDF4C00C5446B /* CurrentTask in Resources */ = {isa = PBXBuildFile; fileRef = DD585AB52EADDF4C00C5446B /* CurrentTask */; };
 		DD585ABE2EADDF4C00C5446B /* FeaturesToAdd in Resources */ = {isa = PBXBuildFile; fileRef = DD585AB62EADDF4C00C5446B /* FeaturesToAdd */; };
 		DD585ABF2EADDF4C00C5446B /* GameLoop in Resources */ = {isa = PBXBuildFile; fileRef = DD585AB72EADDF4C00C5446B /* GameLoop */; };
 		DD585AC22EADDF4C00C5446B /* Refactoring in Resources */ = {isa = PBXBuildFile; fileRef = DD585ABA2EADDF4C00C5446B /* Refactoring */; };
-		DD585AC72EADDF5F00C5446B /* LevelBonus.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD585AC32EADDF5F00C5446B /* LevelBonus.swift */; };
+		DD585AC72EADDF5F00C5446B /* HeroLevelBonus.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD585AC32EADDF5F00C5446B /* HeroLevelBonus.swift */; };
 		DD585AC82EADDF5F00C5446B /* Rarity.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD585AC42EADDF5F00C5446B /* Rarity.swift */; };
 		DD585AC92EADDF5F00C5446B /* Specialisation.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD585AC52EADDF5F00C5446B /* Specialisation.swift */; };
 		DD585ACC2EADDF6300C5446B /* Shrine.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD585ACA2EADDF6300C5446B /* Shrine.swift */; };
@@ -25,6 +36,7 @@
 		DD597D1C2EDCB24B00CB9D7E /* Actions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD597D1B2EDCB24B00CB9D7E /* Actions.swift */; };
 		DD597D1E2EDD80EA00CB9D7E /* GameFeatures in Resources */ = {isa = PBXBuildFile; fileRef = DD597D1D2EDD80EA00CB9D7E /* GameFeatures */; };
 		DD5C56562EEA6D09002EA3F6 /* PlayersFeedback in Resources */ = {isa = PBXBuildFile; fileRef = DD5C56552EEA6D09002EA3F6 /* PlayersFeedback */; };
+		DD679CE92F30725D00CA66C8 /* NavigationStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD679CE82F30725D00CA66C8 /* NavigationStack.swift */; };
 		DD7641DD2E88F77400359C52 /* InventoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD7641DC2E88F77400359C52 /* InventoryView.swift */; };
 		DD7641DF2E88F90E00359C52 /* Specialisations.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD7641DE2E88F90E00359C52 /* Specialisations.swift */; };
 		DD7641E32E8A4EF200359C52 /* HeroStatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD7641E22E8A4EF200359C52 /* HeroStatsView.swift */; };
@@ -34,8 +46,8 @@
 		DD7641EB2E8B9DC900359C52 /* OptionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD7641EA2E8B9DC900359C52 /* OptionsView.swift */; };
 		DD7641ED2E8B9DE000359C52 /* MenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD7641EC2E8B9DE000359C52 /* MenuView.swift */; };
 		DD7641EF2E8B9E1300359C52 /* MerchantView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD7641EE2E8B9E1300359C52 /* MerchantView.swift */; };
-		DD7641F12E8F9ED300359C52 /* LevelBonusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD7641F02E8F9ED300359C52 /* LevelBonusView.swift */; };
-		DD7641F62E8FA45D00359C52 /* LevelBonuses.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD7641F52E8FA45D00359C52 /* LevelBonuses.swift */; };
+		DD7641F12E8F9ED300359C52 /* HeroLevelBonusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD7641F02E8F9ED300359C52 /* HeroLevelBonusView.swift */; };
+		DD7641F62E8FA45D00359C52 /* ApplyHeroLevelBonus.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD7641F52E8FA45D00359C52 /* ApplyHeroLevelBonus.swift */; };
 		DD7641FC2E9398B000359C52 /* Navigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD7641FB2E9398B000359C52 /* Navigation.swift */; };
 		DD7EC0C72E78A0BA00849B0B /* Weapon.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD7EC0C62E78A0BA00849B0B /* Weapon.swift */; };
 		DD7EC0CC2E78A45C00849B0B /* Armor.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD7EC0CB2E78A45C00849B0B /* Armor.swift */; };
@@ -47,7 +59,6 @@
 		DD915CF22E66CD9000EDCC91 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DD915CF12E66CD9000EDCC91 /* Preview Assets.xcassets */; };
 		DD915CFD2E66D61D00EDCC91 /* MainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD915CFC2E66D61D00EDCC91 /* MainViewModel.swift */; };
 		DD915CFF2E66D65600EDCC91 /* GameState.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD915CFE2E66D65600EDCC91 /* GameState.swift */; };
-		DD915D012E66D6BC00EDCC91 /* GameScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD915D002E66D6BC00EDCC91 /* GameScreen.swift */; };
 		DD915D052E672F2C00EDCC91 /* DungeonGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD915D042E672F2C00EDCC91 /* DungeonGenerator.swift */; };
 		DD915D092E672FB400EDCC91 /* Tile.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD915D082E672FB400EDCC91 /* Tile.swift */; };
 		DD915D0B2E672FE000EDCC91 /* TileType.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD915D0A2E672FE000EDCC91 /* TileType.swift */; };
@@ -68,7 +79,18 @@
 /* Begin PBXFileReference section */
 		DD12B63C2EF65724004B4036 /* Coordinate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinate.swift; sourceTree = "<group>"; };
 		DD12B6412EF65C13004B4036 /* SwiftDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftDataManager.swift; sourceTree = "<group>"; };
-		DD50E9712EA57D900072CCC4 /* Shrines.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shrines.swift; sourceTree = "<group>"; };
+		DD12B66F2F08C910004B4036 /* Flask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Flask.swift; sourceTree = "<group>"; };
+		DD12B6712F0A286D004B4036 /* FlaskView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlaskView.swift; sourceTree = "<group>"; };
+		DD12B6732F0B74D2004B4036 /* BeforeRelease */ = {isa = PBXFileReference; lastKnownFileType = text; path = BeforeRelease; sourceTree = "<group>"; };
+		DD12B6752F0CC0E1004B4036 /* DiaryOfProductivity */ = {isa = PBXFileReference; lastKnownFileType = text; path = DiaryOfProductivity; sourceTree = "<group>"; };
+		DD12B6772F0E81F8004B4036 /* FlaskLevelBonusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlaskLevelBonusView.swift; sourceTree = "<group>"; };
+		DD12B6792F0E8290004B4036 /* FlaskTalantsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlaskTalantsView.swift; sourceTree = "<group>"; };
+		DD12B67B2F0E831D004B4036 /* ApplyFlaskLevelBonuses.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplyFlaskLevelBonuses.swift; sourceTree = "<group>"; };
+		DD12B67D2F0E8448004B4036 /* FlaskTalant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlaskTalant.swift; sourceTree = "<group>"; };
+		DD12B6832F0E84D0004B4036 /* GameScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScreen.swift; sourceTree = "<group>"; };
+		DD12B6872F0E89C3004B4036 /* FlaskLevelBonus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlaskLevelBonus.swift; sourceTree = "<group>"; };
+		DD12B6892F161E42004B4036 /* ActivateFlaskTalants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivateFlaskTalants.swift; sourceTree = "<group>"; };
+		DD50E9712EA57D900072CCC4 /* ActivateShrines.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivateShrines.swift; sourceTree = "<group>"; };
 		DD5833A12EE01FE000DC4371 /* ChestLockPickingMiniGameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChestLockPickingMiniGameView.swift; sourceTree = "<group>"; };
 		DD585AB42EADDF4C00C5446B /* Bugs */ = {isa = PBXFileReference; lastKnownFileType = text; path = Bugs; sourceTree = "<group>"; };
 		DD585AB52EADDF4C00C5446B /* CurrentTask */ = {isa = PBXFileReference; lastKnownFileType = text; path = CurrentTask; sourceTree = "<group>"; };
@@ -77,7 +99,7 @@
 		DD585AB82EADDF4C00C5446B /* Notes */ = {isa = PBXFileReference; lastKnownFileType = text; path = Notes; sourceTree = "<group>"; };
 		DD585AB92EADDF4C00C5446B /* SetOfTasks */ = {isa = PBXFileReference; lastKnownFileType = text; path = SetOfTasks; sourceTree = "<group>"; };
 		DD585ABA2EADDF4C00C5446B /* Refactoring */ = {isa = PBXFileReference; lastKnownFileType = text; path = Refactoring; sourceTree = "<group>"; };
-		DD585AC32EADDF5F00C5446B /* LevelBonus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelBonus.swift; sourceTree = "<group>"; };
+		DD585AC32EADDF5F00C5446B /* HeroLevelBonus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeroLevelBonus.swift; sourceTree = "<group>"; };
 		DD585AC42EADDF5F00C5446B /* Rarity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Rarity.swift; sourceTree = "<group>"; };
 		DD585AC52EADDF5F00C5446B /* Specialisation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Specialisation.swift; sourceTree = "<group>"; };
 		DD585ACA2EADDF6300C5446B /* Shrine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shrine.swift; sourceTree = "<group>"; };
@@ -86,6 +108,7 @@
 		DD597D1B2EDCB24B00CB9D7E /* Actions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Actions.swift; sourceTree = "<group>"; };
 		DD597D1D2EDD80EA00CB9D7E /* GameFeatures */ = {isa = PBXFileReference; lastKnownFileType = text; path = GameFeatures; sourceTree = "<group>"; };
 		DD5C56552EEA6D09002EA3F6 /* PlayersFeedback */ = {isa = PBXFileReference; lastKnownFileType = text; path = PlayersFeedback; sourceTree = "<group>"; };
+		DD679CE82F30725D00CA66C8 /* NavigationStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationStack.swift; sourceTree = "<group>"; };
 		DD7641DC2E88F77400359C52 /* InventoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InventoryView.swift; sourceTree = "<group>"; };
 		DD7641DE2E88F90E00359C52 /* Specialisations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Specialisations.swift; sourceTree = "<group>"; };
 		DD7641E22E8A4EF200359C52 /* HeroStatsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeroStatsView.swift; sourceTree = "<group>"; };
@@ -95,8 +118,8 @@
 		DD7641EA2E8B9DC900359C52 /* OptionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionsView.swift; sourceTree = "<group>"; };
 		DD7641EC2E8B9DE000359C52 /* MenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuView.swift; sourceTree = "<group>"; };
 		DD7641EE2E8B9E1300359C52 /* MerchantView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MerchantView.swift; sourceTree = "<group>"; };
-		DD7641F02E8F9ED300359C52 /* LevelBonusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelBonusView.swift; sourceTree = "<group>"; };
-		DD7641F52E8FA45D00359C52 /* LevelBonuses.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelBonuses.swift; sourceTree = "<group>"; };
+		DD7641F02E8F9ED300359C52 /* HeroLevelBonusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeroLevelBonusView.swift; sourceTree = "<group>"; };
+		DD7641F52E8FA45D00359C52 /* ApplyHeroLevelBonus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplyHeroLevelBonus.swift; sourceTree = "<group>"; };
 		DD7641FB2E9398B000359C52 /* Navigation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Navigation.swift; sourceTree = "<group>"; };
 		DD7EC0C62E78A0BA00849B0B /* Weapon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Weapon.swift; sourceTree = "<group>"; };
 		DD7EC0CB2E78A45C00849B0B /* Armor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Armor.swift; sourceTree = "<group>"; };
@@ -109,7 +132,6 @@
 		DD915CF12E66CD9000EDCC91 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		DD915CFC2E66D61D00EDCC91 /* MainViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewModel.swift; sourceTree = "<group>"; };
 		DD915CFE2E66D65600EDCC91 /* GameState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameState.swift; sourceTree = "<group>"; };
-		DD915D002E66D6BC00EDCC91 /* GameScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScreen.swift; sourceTree = "<group>"; };
 		DD915D042E672F2C00EDCC91 /* DungeonGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DungeonGenerator.swift; sourceTree = "<group>"; };
 		DD915D082E672FB400EDCC91 /* Tile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tile.swift; sourceTree = "<group>"; };
 		DD915D0A2E672FE000EDCC91 /* TileType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TileType.swift; sourceTree = "<group>"; };
@@ -149,8 +171,10 @@
 		DD585ABB2EADDF4C00C5446B /* Documentation */ = {
 			isa = PBXGroup;
 			children = (
+				DD12B6752F0CC0E1004B4036 /* DiaryOfProductivity */,
 				DD585AB52EADDF4C00C5446B /* CurrentTask */,
 				DD585AB42EADDF4C00C5446B /* Bugs */,
+				DD12B6732F0B74D2004B4036 /* BeforeRelease */,
 				DD585AB92EADDF4C00C5446B /* SetOfTasks */,
 				DD585AB62EADDF4C00C5446B /* FeaturesToAdd */,
 				DDD0237D2EB07C0400E7C9CE /* ImplementedFeatures */,
@@ -167,9 +191,11 @@
 		DD585AC62EADDF5F00C5446B /* Talants */ = {
 			isa = PBXGroup;
 			children = (
-				DD585AC32EADDF5F00C5446B /* LevelBonus.swift */,
-				DD585AC42EADDF5F00C5446B /* Rarity.swift */,
+				DD12B6872F0E89C3004B4036 /* FlaskLevelBonus.swift */,
+				DD12B67D2F0E8448004B4036 /* FlaskTalant.swift */,
+				DD585AC32EADDF5F00C5446B /* HeroLevelBonus.swift */,
 				DD585AC52EADDF5F00C5446B /* Specialisation.swift */,
+				DD585AC42EADDF5F00C5446B /* Rarity.swift */,
 			);
 			path = Talants;
 			sourceTree = "<group>";
@@ -263,7 +289,10 @@
 				DD7641E82E8B9DB200359C52 /* RewardsView.swift */,
 				DD7641EA2E8B9DC900359C52 /* OptionsView.swift */,
 				DD7641EE2E8B9E1300359C52 /* MerchantView.swift */,
-				DD7641F02E8F9ED300359C52 /* LevelBonusView.swift */,
+				DD7641F02E8F9ED300359C52 /* HeroLevelBonusView.swift */,
+				DD12B6772F0E81F8004B4036 /* FlaskLevelBonusView.swift */,
+				DD12B6712F0A286D004B4036 /* FlaskView.swift */,
+				DD12B6792F0E8290004B4036 /* FlaskTalantsView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -278,10 +307,12 @@
 				DDB29BD52E6BF53B007BB7DC /* EventGeneration.swift */,
 				DDB869CB2E68BC200042CF9F /* MapGeneration.swift */,
 				DDE6A01E2E6E977D00BEA51F /* DungeonHeroMovement.swift */,
-				DD7641DE2E88F90E00359C52 /* Specialisations.swift */,
-				DD7641F52E8FA45D00359C52 /* LevelBonuses.swift */,
-				DD50E9712EA57D900072CCC4 /* Shrines.swift */,
+				DD7641F52E8FA45D00359C52 /* ApplyHeroLevelBonus.swift */,
 				DD597D1B2EDCB24B00CB9D7E /* Actions.swift */,
+				DD12B67B2F0E831D004B4036 /* ApplyFlaskLevelBonuses.swift */,
+				DD7641DE2E88F90E00359C52 /* Specialisations.swift */,
+				DD50E9712EA57D900072CCC4 /* ActivateShrines.swift */,
+				DD12B6892F161E42004B4036 /* ActivateFlaskTalants.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -289,7 +320,8 @@
 		DDB869C72E68B1F90042CF9F /* Navigation */ = {
 			isa = PBXGroup;
 			children = (
-				DD915D002E66D6BC00EDCC91 /* GameScreen.swift */,
+				DD12B6832F0E84D0004B4036 /* GameScreen.swift */,
+				DD679CE82F30725D00CA66C8 /* NavigationStack.swift */,
 			);
 			path = Navigation;
 			sourceTree = "<group>";
@@ -319,6 +351,7 @@
 			children = (
 				DD915D122E6741F700EDCC91 /* Hero.swift */,
 				DD915D142E67436600EDCC91 /* Enemy.swift */,
+				DD12B66F2F08C910004B4036 /* Flask.swift */,
 			);
 			path = Character;
 			sourceTree = "<group>";
@@ -389,7 +422,9 @@
 				DD585ABD2EADDF4C00C5446B /* CurrentTask in Resources */,
 				DD585ABE2EADDF4C00C5446B /* FeaturesToAdd in Resources */,
 				DD585ABF2EADDF4C00C5446B /* GameLoop in Resources */,
+				DD12B6762F0CC0E1004B4036 /* DiaryOfProductivity in Resources */,
 				DD597D1A2EDCAC5A00CB9D7E /* Story in Resources */,
+				DD12B6742F0B74D2004B4036 /* BeforeRelease in Resources */,
 				DDD0237E2EB07C0400E7C9CE /* ImplementedFeatures in Resources */,
 				DD585AC22EADDF4C00C5446B /* Refactoring in Resources */,
 			);
@@ -405,6 +440,7 @@
 				DDF7EAC72E713F8D00EC6AF2 /* TownView.swift in Sources */,
 				DDB29BD22E6BF47A007BB7DC /* Utility.swift in Sources */,
 				DD915CED2E66CD8900EDCC91 /* MainView.swift in Sources */,
+				DD12B68A2F161E42004B4036 /* ActivateFlaskTalants.swift in Sources */,
 				DD7EC0CC2E78A45C00849B0B /* Armor.swift in Sources */,
 				DD915D152E67436600EDCC91 /* Enemy.swift in Sources */,
 				DD7641E92E8B9DB200359C52 /* RewardsView.swift in Sources */,
@@ -413,39 +449,47 @@
 				DD5833A22EE01FE000DC4371 /* ChestLockPickingMiniGameView.swift in Sources */,
 				DD7EC0CE2E7C47E800849B0B /* Item.swift in Sources */,
 				DDEE6C752E6D4C0E00BD2E3C /* BattleView.swift in Sources */,
-				DD50E9722EA57D900072CCC4 /* Shrines.swift in Sources */,
+				DD50E9722EA57D900072CCC4 /* ActivateShrines.swift in Sources */,
 				DD7641E52E8A4FDA00359C52 /* SpecialisationView.swift in Sources */,
 				DDE6A01F2E6E977D00BEA51F /* DungeonHeroMovement.swift in Sources */,
 				DD12B63D2EF65724004B4036 /* Coordinate.swift in Sources */,
+				DD12B6782F0E81F8004B4036 /* FlaskLevelBonusView.swift in Sources */,
 				DD915D0B2E672FE000EDCC91 /* TileType.swift in Sources */,
+				DD12B67E2F0E8448004B4036 /* FlaskTalant.swift in Sources */,
 				DD915CEB2E66CD8900EDCC91 /* MiniDungeonApp.swift in Sources */,
 				DD7641DF2E88F90E00359C52 /* Specialisations.swift in Sources */,
-				DD7641F62E8FA45D00359C52 /* LevelBonuses.swift in Sources */,
+				DD7641F62E8FA45D00359C52 /* ApplyHeroLevelBonus.swift in Sources */,
+				DD12B6702F08C910004B4036 /* Flask.swift in Sources */,
 				DD597D1C2EDCB24B00CB9D7E /* Actions.swift in Sources */,
 				DDEE6C772E6D4C3500BD2E3C /* MapView.swift in Sources */,
+				DD12B6882F0E89C3004B4036 /* FlaskLevelBonus.swift in Sources */,
+				DD12B6722F0A286D004B4036 /* FlaskView.swift in Sources */,
 				DD12B6432EF65C13004B4036 /* SwiftDataManager.swift in Sources */,
 				DD7EC0D72E83B13000849B0B /* CombatMiniGameView.swift in Sources */,
 				DD915D092E672FB400EDCC91 /* Tile.swift in Sources */,
 				DD7641EF2E8B9E1300359C52 /* MerchantView.swift in Sources */,
 				DD7641DD2E88F77400359C52 /* InventoryView.swift in Sources */,
-				DD7641F12E8F9ED300359C52 /* LevelBonusView.swift in Sources */,
+				DD7641F12E8F9ED300359C52 /* HeroLevelBonusView.swift in Sources */,
+				DD12B6842F0E84D0004B4036 /* GameScreen.swift in Sources */,
 				DD7641EB2E8B9DC900359C52 /* OptionsView.swift in Sources */,
 				DD915D0D2E672FF900EDCC91 /* EventType.swift in Sources */,
 				DD915D052E672F2C00EDCC91 /* DungeonGenerator.swift in Sources */,
 				DD7641FC2E9398B000359C52 /* Navigation.swift in Sources */,
 				DD915CFD2E66D61D00EDCC91 /* MainViewModel.swift in Sources */,
-				DD915D012E66D6BC00EDCC91 /* GameScreen.swift in Sources */,
 				DDB869CC2E68BC200042CF9F /* MapGeneration.swift in Sources */,
 				DD7641E72E8A504B00359C52 /* EnemyStatsView.swift in Sources */,
 				DD7641E32E8A4EF200359C52 /* HeroStatsView.swift in Sources */,
 				DD7EC0C72E78A0BA00849B0B /* Weapon.swift in Sources */,
+				DD12B67C2F0E831D004B4036 /* ApplyFlaskLevelBonuses.swift in Sources */,
 				DD597D182EDA076300CB9D7E /* TrapDefusionMiniGameView.swift in Sources */,
 				DDB29BD62E6BF53B007BB7DC /* EventGeneration.swift in Sources */,
 				DDB29BD42E6BF508007BB7DC /* Combat.swift in Sources */,
-				DD585AC72EADDF5F00C5446B /* LevelBonus.swift in Sources */,
+				DD12B67A2F0E8290004B4036 /* FlaskTalantsView.swift in Sources */,
+				DD585AC72EADDF5F00C5446B /* HeroLevelBonus.swift in Sources */,
 				DD585AC82EADDF5F00C5446B /* Rarity.swift in Sources */,
 				DD585ACC2EADDF6300C5446B /* Shrine.swift in Sources */,
 				DD585AC92EADDF5F00C5446B /* Specialisation.swift in Sources */,
+				DD679CE92F30725D00CA66C8 /* NavigationStack.swift in Sources */,
 				DD915D132E6741F700EDCC91 /* Hero.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

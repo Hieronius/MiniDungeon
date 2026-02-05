@@ -78,6 +78,9 @@ struct ChestLockPickingMiniGameView: View {
 	
 	// MARK: - State properties
 	
+	/// Property to detect was game started or not to prevent clicking bottom buttons before game start
+	@State var gameWasStarted = false
+	
 	@State var gameResult = "             "
 	@State var isSuccess = false
 	
@@ -99,7 +102,7 @@ struct ChestLockPickingMiniGameView: View {
 	@State var motionObjectsInMove = 0
 	
 	/// Property to define the level of chest lock-picking difficulty on the fly
-	@State var attempts = Int.random(in: 1...5)
+	@State var attempts = Int.random(in: 1...3)
 	
 	// MARK: - Public Properties
 	
@@ -323,6 +326,9 @@ extension ChestLockPickingMiniGameView {
 	/// Generate and apply schemes for all motions of the view
 	func startGame() {
 		
+		// critical flag to avoid solving chest puzzle before starting a game
+		self.gameWasStarted = true
+		
 		// generate and apply movements scheme until there 3 and more movements
 		
 		while motionObjectsInMove <= 2 {
@@ -408,7 +414,7 @@ extension ChestLockPickingMiniGameView {
 	func applyMovementScheme(_ scheme: MovementScheme, for motion: Int) {
 		
 		guard scheme.isMoving else {
-			motionsToCatch[motion-1] = nil
+			motionsToCatch[motion-1] = true
 			return
 		}
 		motionObjectsInMove += 1
@@ -488,6 +494,8 @@ extension ChestLockPickingMiniGameView {
 	/// Method to check an actual position of the test object to be in a range of winning condition
 	func checkMotionObjectPositon(_ motion: inout MotionController) {
 		
+		guard gameWasStarted else { return }
+		
 		if motion.coordinateY <= 10.0 {
 			
 			motion.isMoving = false
@@ -503,7 +511,6 @@ extension ChestLockPickingMiniGameView {
 			gameResult = "Failure"
 			boardColor = .red
 		}
-		
 		DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
 			boardColor = .white
 			gameResult = "             "

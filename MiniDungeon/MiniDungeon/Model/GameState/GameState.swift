@@ -10,6 +10,12 @@ class GameState {
 	var currentGameScreen: GameScreen = GameScreen.menu
 	var previousGameScreen: GameScreen = GameScreen.menu
 	
+	// MARK: 3 test properties to replace gameState.currentScreen = screenName with overlay properties like "if isHeroStatsScreenOpen { buildStats() }
+	
+	var isHeroStatsScreenOpen = false
+	var isInventoryScreenOpen = false
+	var isEnemyStatsScreenOpen = false
+	
 	/// Property to define X offset of the FlaskView during drag operation
 	/// Should be combined with @State property dragFlaskTemporaryTranslationPositionOnScreen in  MainView
 	var flaskViewXOffset: CGFloat = 0
@@ -171,10 +177,10 @@ class GameState {
 	var heroGold = 0
 	
 	/// Resource to boost abilities/explore dungeon/rebuild the town
-	var heroDarkEnergy = 10000
+	var heroDarkEnergy = 0
 	
 	/// Track how much hero did gain during all game sessions to get a new talant for the Flask after each new run
-	var heroMaxDarkEnergyOverall = 10000
+	var heroMaxDarkEnergyOverall = 0
 	
 	var battlesWon = 0
 	

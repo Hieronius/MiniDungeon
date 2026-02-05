@@ -1,5 +1,13 @@
 import Foundation
 
+/*
+ MARK: Bonuses to add
+ - spell power while on cd or for a few turns
+ - max hp/mana while on cd or for a few turns
+ - crit/hit chance while on cd or for a few turns
+ 
+ */
+
 // MARK: - FlaskLevelBonus
 
 struct FlaskLevelBonus: Identifiable, Hashable, Codable {

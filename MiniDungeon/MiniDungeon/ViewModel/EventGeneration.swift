@@ -66,13 +66,13 @@ extension MainViewModel {
 		
 		switch roll {
 			
-		case 1...5: return Rarity.legendary
+		case 1: return Rarity.legendary
 			
-		case 6...15: return Rarity.epic
+		case 2...5: return Rarity.epic
 			
-		case 16...30: return Rarity.rare
+		case 6...15: return Rarity.rare
 			
-		case 31...100: return Rarity.common
+		case 16...100: return Rarity.common
 			
 		default: return Rarity.common
 			
@@ -502,7 +502,7 @@ extension MainViewModel {
 	/// Method to generate random amount of experience based on enemy level
 	func generateExperienceLoot(didFinalBossSummoned: Bool) -> Int {
 		
-		// put values back to 25...35
+//		 put values back to 25...35
 		var expRoll = Int.random(in: 25...35)
 		
 		if didFinalBossSummoned { expRoll *= 2 }
@@ -652,6 +652,7 @@ extension MainViewModel {
 			gameState.expLootToDisplay = expLoot
 			
 			gameState.heroDarkEnergy += darkEnergyLoot
+			gameState.heroMaxDarkEnergyOverall += darkEnergyLoot
 			gameState.hero.flask.currentXP += darkEnergyLoot
 			gameState.darkEnergyLootToDisplay = darkEnergyLoot
 			print("Gain some rewards")
@@ -676,7 +677,7 @@ extension MainViewModel {
 		}
 	}
 	
-	// MARK: - Generate Enemy
+	// MARK: - Generate Enemy (03.02.26 did increased all stats by 2 except energy count for the boss)
 	
 	func generateEnemy(didFinalBossSummoned: Bool) -> Enemy {
 		
@@ -703,25 +704,31 @@ extension MainViewModel {
 		// dividing 0 by 100 is totally fine
 		let difficultyLevel = Double(gameState.currentDungeonLevel * 10) / 100.0
 		
-		let baseHP = Int(Double.random(in: 25...50))
+		// base was 25...50
+		let baseHP = Int(Double.random(in: 35...65))
 		let finalHP = baseHP + Int(Double(baseHP) * difficultyLevel)
 		
-		let mp = Int.random(in: 10...50)
+		// base was 10...50
+		let mp = Int.random(in: 15...75)
 		let finalMP = mp + Int(Double(mp) * difficultyLevel)
 		
-		let minDamage = Int.random(in: 6...8)
+		// base was 6...8
+		let minDamage = Int.random(in: 8...10)
 		let finalMinDamage = minDamage + Int(Double(minDamage) * difficultyLevel)
 		
-		let maxDamage = Int.random(in: 10...12)
+		// base was 10...12
+		let maxDamage = Int.random(in: 15...16)
 		let finalMaxDamage = maxDamage + Int(Double(maxDamage) * difficultyLevel)
 		
 		let energy = 3
 		let maxEnergy = 3
 		
-		let spellPower = Int.random(in: 5...10)
+		// base was 5...10
+		let spellPower = Int.random(in: 7...15)
 		let finalSpellPower = spellPower + Int(Double(spellPower) * difficultyLevel)
 		
-		let defence = Int.random(in: 0...2)
+		// base as 0...2
+		let defence = Int.random(in: 1...3)
 		let finalDefence = defence + Int(Double(defence) * difficultyLevel)
 		
 		if !didFinalBossSummoned {

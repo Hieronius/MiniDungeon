@@ -4,11 +4,27 @@ import SwiftUI
 
 extension MainViewModel {
 	
-	// MARK: endHeroTurn
+	// flaskBeingTapped.toggle()
+	
+	// MARK: - endHeroAndEnemyAnimation
+	
+	func endHeroAndEnemyAnimation() {
+		
+		DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+			self.gameState.currentHeroAnimation = .none
+			self.gameState.currentEnemyAnimation = .none
+		}
+	}
+	
+	// MARK: - endHeroTurn
 	
 	func endHeroTurn() {
 		
+		guard gameState.enemy.enemyCurrentHP > 0 else { return }
+		
 		if gameState.isHeroTurn {
+			
+			gameState.didUserPressedEndTurnButton = true
 			gameState.isHeroTurn = false
 			restoreAllEnergy()
 			
@@ -18,18 +34,29 @@ extension MainViewModel {
 			gameState.logMessage = "Now is Enemy Turn"
 			
 		}
-		
 		enemyTurn()
 	}
 	
-	// MARK: enemyTurn
+	// MARK: - enemyTurn
 	
 	func enemyTurn() {
 		
 		if !gameState.isHeroTurn {
 			
 			guard gameState.enemy.currentEnergy > 0 else {
+				
+				// tell to the game that user again can press the button endTurn
+				gameState.didUserPressedEndTurnButton = false
+				
+				// If enemy spent all his energy -> pass turn to hero
 				gameState.isHeroTurn = true
+				
+				// If flask on CD deduct it by 1
+				// put here so when flask is 1 turn until cd hero still will be able to get bonuses such as armor or damage
+				
+				if gameState.hero.flask.actionsToResetCD > 0 {
+					gameState.hero.flask.actionsToResetCD -= 1
+				}
 				
 				if gameState.didHeroUseBlock {
 					endHeroBlockEffect()
@@ -44,7 +71,7 @@ extension MainViewModel {
 			
 			// A delay to create feeling the enemy does attacks with a little delays and not instant
 			
-			let extraActionDelay = 0.5 + Double(gameState.enemy.currentEnergy) / 5.0
+			let extraActionDelay = 1.0 + Double(gameState.enemy.currentEnergy) / 5.0
 			
 			DispatchQueue.main.asyncAfter(deadline: .now() + extraActionDelay) {
 				
@@ -85,21 +112,29 @@ extension MainViewModel {
 		}
 	}
 	
-	// MARK: endHeroBlockEffects
+	// MARK: endHeroBlockEffect
 	
 	/// Method to deactivate hero's block effect
 	func endHeroBlockEffect() {
 		
 		gameState.didHeroUseBlock = false
-		gameState.hero.baseDefence -= gameState.blockValue
+		gameState.hero.baseDefence -= gameState.heroBlockValueBuffer
+		
+		// May be i don't need to set this value to 0 because it will be replaced anyway
+		gameState.heroBlockValueBuffer = 0
 		gameState.logMessage = "Hero Block Ability has been removed"
 	}
+	
+	// MARK: endEnemyBlockEffect
 	
 	/// Method to deactivate enemy's block effect
 	func endEnemyBlockEffect() {
 		
 		gameState.didEnemyUseBlock = false
-		gameState.enemy.defence -= gameState.blockValue
+		gameState.enemy.defence -= gameState.enemyBlockValueBuffer
+		
+		// May be i don't need to set this value to 0 because it will be replaced anyway
+		gameState.enemyBlockValueBuffer = 0
 		gameState.logMessage = "Enemy Block Ability has been removed"
 	}
 	
@@ -149,6 +184,39 @@ extension MainViewModel {
 		restoreAllEnergy()
 	}
 	
+	// MARK: toggleCurrentSoulCollectionStatus
+	
+	func toggleCurrentSoulCollectionStatus() {
+		
+		if gameState.hero.flask.currentSoulCollectionStatus == .soulCollector {
+			
+			gameState.hero.flask.currentSoulCollectionStatus = .soulExtractor
+			gameState.hero.flask.baseCombatImpactCapacity = 100
+			
+		} else if gameState.hero.flask.currentSoulCollectionStatus == .soulExtractor {
+			
+			gameState.hero.flask.currentSoulCollectionStatus = .soulEater
+			gameState.hero.flask.baseCombatImpactCapacity = 150
+			
+		} else if gameState.hero.flask.currentSoulCollectionStatus == .soulEater {
+			
+			gameState.hero.flask.currentSoulCollectionStatus = .soulCollector
+			gameState.hero.flask.baseCombatImpactCapacity = 50
+		}
+		
+		print("current soul collection status - \(gameState.hero.flask.currentSoulCollectionStatus)")
+	}
+	
+	// MARK: refillSoulCollection
+	
+	func refillSoulCollection() {
+		
+		gameState.hero.flask.flaskIsReadyToUnleashImpact = true
+		
+		gameState.hero.flask.currentCombatImpactValue = gameState.hero.flask.currentCombatImpactCapacity
+		print("Soul Collection has been refilled with \(gameState.hero.flask.currentCombatImpactValue)")
+	}
+	
 	// MARK: winLoseCondition
 	
 	/// If enemy is dead -> collect rewards and move on
@@ -163,25 +231,45 @@ extension MainViewModel {
 					!gameState.didEncounteredBoss {
 			print("Average Enemy has been defeated!")
 			
+			gameState.didUserPressedEndTurnButton = false
 			gameState.didEncounterEnemy = false
 			gameState.didEnemyUseBlock = false
 			
 			if gameState.didHeroUseBlock {
 				endHeroBlockEffect()
 			}
+			// TODO: Put to a single method
 			generateLoot()
 			getRewardAfterFight()
 			goToRewards()
 			gameState.comboPoints = 0
+			gameState.hero.flask.flaskIsReadyToUnleashImpact = false
+			gameState.hero.flask.currentCombatImpactValue = 0
+			gameState.didUseFlaskEmpowerForDefensive = false
+			gameState.didUseFlaskEmpowerForOffensive = false
+			
+			if gameState.hero.flask.actionsToResetCD > 0 {
+				gameState.hero.flask.actionsToResetCD -= 1
+			}
+			
 			
 		} else if gameState.enemy.enemyCurrentHP <= 0 &&
 					gameState.didEncounteredBoss {
 			
-			print("Boss bug 1")
+			// TODO: Put to a single method
 			generateLoot()
 			getRewardAfterFight()
 			goToRewards()
 			gameState.comboPoints = 0
+			gameState.hero.flask.currentCombatImpactValue = 0
+			gameState.hero.flask.flaskIsReadyToUnleashImpact = false
+			gameState.didUseFlaskEmpowerForDefensive = false
+			gameState.didUseFlaskEmpowerForOffensive = false
+			gameState.didUserPressedEndTurnButton = false
+			
+			if gameState.hero.flask.actionsToResetCD > 0 {
+				gameState.hero.flask.actionsToResetCD -= 1
+			}
 		}
 		gameState.isCombatMiniGameIsOn = false
 	}
@@ -193,41 +281,29 @@ extension MainViewModel {
 		gameState.battlesWon += 1
 	}
 	
-	// MARK: checkForLevelUP
+	// MARK: - checkForFlaskLevelUP
+	
+	func checkForFlaskLevelUP() {
+		
+		if gameState.hero.flask.currentXP >= gameState.hero.flask.expToLevelUP {
+			
+			gameState.hero.flask.currentComment = .readyForLevelUP
+			gameState.didFlaskGetLevelUP = true
+			gameState.hero.flask.cleanFlaskComment()
+		}
+	}
+	
+	// MARK: - checkForLevelUP
 	
 	func checkForLevelUP() {
 		
 		if  gameState.hero.currentXP >= gameState.hero.maxXP {
 			
-			getRewardAfterHeroLevelUP()
+			generateLevelBonusesAfterHeroLevelUpAndGoToLevelBonusScreen()
 			gameState.hero.currentXP = 0
 			gameState.hero.maxXP += 50
 			
 		}
-	}
-	
-	// MARK: getRewardAfterHeroLevelUP
-	
-	func getRewardAfterHeroLevelUP() {
-		
-		// This line cleans previous bonuses to generate
-		gameState.levelBonusesToChoose = []
-		
-		var levelBonusesSet: Set<LevelBonus> = []
-		
-		// Generate level of raririty -> ask LevelBonusManager to provide a random bonus accordingly to the rarity
-		// Add this bonus to levelBonusesToChoose
-		while levelBonusesSet.count < 3 {
-			
-			var counter = 0
-			let rarity = generateRewardRarity()
-			guard let bonus = LevelBonusManager.generateLevelBonus(of: rarity) else { return }
-			levelBonusesSet.insert(bonus)
-			counter += 1
-			
-		}
-		gameState.levelBonusesToChoose = Array(levelBonusesSet)
-		goToLevelBonus()
 	}
 	
 	// MARK: - Buy/Sell Item
@@ -245,15 +321,23 @@ extension MainViewModel {
 			
 			if onSale {
 				
-				if gameState.hero.weapons[weapon] ?? 0 > 0 {
-					gameState.hero.weapons[weapon]! -= 1
-					// When you sell an item you get only 25% of it's value
+				if weapon != gameState.hero.weaponSlot {
+					
+					if gameState.hero.weapons[weapon] ?? 0 > 0 {
+						gameState.hero.weapons[weapon]! -= 1
+						// When you sell an item you get only 25% of it's value
+						gameState.heroGold += weapon.price / 4
+						gameState.merchantWeaponsLoot[weapon, default: 0] += 1
+						
+						if gameState.hero.weapons[weapon]! == 0 {
+							gameState.hero.weapons[weapon] = nil
+						}
+					}
+				} else {
+					
 					gameState.heroGold += weapon.price / 4
 					gameState.merchantWeaponsLoot[weapon, default: 0] += 1
-					
-					if gameState.hero.weapons[weapon]! == 0 {
-						gameState.hero.weapons[weapon] = nil
-					}
+					gameState.hero.weaponSlot = nil
 				}
 				
 			} else {
@@ -278,15 +362,24 @@ extension MainViewModel {
 			
 			if onSale {
 				
-				if gameState.hero.armors[armor] ?? 0 > 0 {
-					gameState.hero.armors[armor]! -= 1
-					// When you sell an item you get only 25% of it's value
-					gameState.heroGold += armor.price / 4
-					gameState.merchantArmorsLoot[armor, default: 0] += 1
+				if gameState.hero.armorSlot != armor {
 					
-					if gameState.hero.armors[armor]! == 0 {
-						gameState.hero.armors[armor] = nil
+					if gameState.hero.armors[armor] ?? 0 > 0 {
+						gameState.hero.armors[armor]! -= 1
+						// When you sell an item you get only 25% of it's value
+						gameState.heroGold += armor.price / 4
+						gameState.merchantArmorsLoot[armor, default: 0] += 1
+						
+						if gameState.hero.armors[armor]! == 0 {
+							gameState.hero.armors[armor] = nil
+						}
 					}
+					
+				} else {
+					
+					gameState.merchantArmorsLoot[armor, default: 0] += 1
+					gameState.heroGold += armor.price / 4
+					gameState.hero.armorSlot = nil
 				}
 				
 			} else {
@@ -422,7 +515,8 @@ extension MainViewModel {
 		}
 
 		// Equip the new weapon
-		gameState.hero.weaponSlot = weapon
+//		gameState.hero.weaponSlot = weapon
+		gameState.hero.equipWeapon(weapon)
 
 		// Decrement the count of the new weapon in inventory if present and count > 0
 		if let currentCount = gameState.hero.weapons[weapon], currentCount > 0 {
@@ -432,7 +526,6 @@ extension MainViewModel {
 				gameState.hero.weapons[weapon] = nil
 			}
 		}
-		print(gameState.hero.weapons.count)
 	}
 	
 	// MARK: - equipArmor
@@ -445,7 +538,8 @@ extension MainViewModel {
 		}
 
 		// Equip the new armor
-		gameState.hero.armorSlot = armor
+//		gameState.hero.armorSlot = armor
+		gameState.hero.equipArmor(armor)
 
 		// Decrement the count of the new armor in inventory if present and count > 0
 		if let currentCount = gameState.hero.armors[armor], currentCount > 0 {
@@ -481,7 +575,6 @@ extension MainViewModel {
 					gameState.hero.inventory[potion] = nil
 				}
 			}
-			print(gameState.hero.inventory[potion])
 		}
 		
 		switch potion.label {
@@ -497,7 +590,6 @@ extension MainViewModel {
 			} else {
 				gameState.hero.currentHP = gameState.hero.maxHP
 			}
-			print("Got heal from health potion")
 			
 		case "Small Mana Restoration Potion":
 			
@@ -547,6 +639,7 @@ extension MainViewModel {
 			let effect = 5
 			gameState.hero.baseMaxHP += effect
 			gameState.hero.currentHP += effect
+			gameState.usedPotionsWithPermanentEffects.append(potion)
 			
 		case "Small Mana Pool Elixir":
 			
@@ -554,18 +647,21 @@ extension MainViewModel {
 			let effect = 5
 			gameState.hero.baseMaxMP += effect
 			gameState.hero.currentMana += effect
+			gameState.usedPotionsWithPermanentEffects.append(potion)
 			
 		case "Small Wolf Tonic":
 			
 			// +1 min damage
 			let effect = 1
 			gameState.hero.baseMinDamage += effect
+			gameState.usedPotionsWithPermanentEffects.append(potion)
 			
 		case "Small Bear Tonic":
 			
 			// +1 max damage
 			let effect = 1
 			gameState.hero.baseMaxDamage += effect
+			gameState.usedPotionsWithPermanentEffects.append(potion)
 			
 			
 		case "Small Fox Tonic":
@@ -573,18 +669,21 @@ extension MainViewModel {
 			// +1% crit chance
 			let effect = 1
 			gameState.hero.baseCritChance += effect
+			gameState.usedPotionsWithPermanentEffects.append(potion)
 			
 		case "Small Owl Tonic":
 			
 			// +1 spell power
 			let effect = 1
 			gameState.hero.baseSpellPower += effect
+			gameState.usedPotionsWithPermanentEffects.append(potion)
 			
 		case "Small Iguana Tonic":
 			
 			// +1% hit chance
 			let effect = 1
 			gameState.hero.baseHitChance += effect
+			gameState.usedPotionsWithPermanentEffects.append(potion)
 			
 			// MARK: Epic Potions
 			
@@ -615,6 +714,7 @@ extension MainViewModel {
 			let maxDamageEffect = 1
 			gameState.hero.baseMinDamage += minDamageEffect
 			gameState.hero.baseMaxDamage += maxDamageEffect
+			gameState.usedPotionsWithPermanentEffects.append(potion)
 			
 		case "Huge Elixir of Tortoise":
 			
@@ -623,6 +723,7 @@ extension MainViewModel {
 			let hitChanceBonusEffect = -1
 			gameState.hero.baseMaxHP += healthBonusEffect
 			gameState.hero.baseHitChance += hitChanceBonusEffect
+			gameState.usedPotionsWithPermanentEffects.append(potion)
 			
 		case "Huge Elixir of Wisdom":
 			
@@ -631,6 +732,7 @@ extension MainViewModel {
 			let maxDamageBonusEffect = 1
 			gameState.hero.baseSpellPower += spellPowerBonusEffect
 			gameState.hero.baseMaxDamage += maxDamageBonusEffect
+			gameState.usedPotionsWithPermanentEffects.append(potion)
 			
 		case "Huge Elixir of Boldness":
 			
@@ -641,6 +743,7 @@ extension MainViewModel {
 			gameState.hero.baseCritChance += critChanceBonusEffect
 			gameState.hero.baseMaxHP += healthBonusEffect
 			gameState.hero.baseMaxMP += manaBonusEffect
+			gameState.usedPotionsWithPermanentEffects.append(potion)
 			
 		case "Huge Elixir of Accuracy":
 			
@@ -651,6 +754,7 @@ extension MainViewModel {
 			gameState.hero.baseHitChance += hitChanceBonusEffect
 			gameState.hero.baseDefence += armorBonusEffect
 			gameState.hero.baseSpellPower += spellPowerBonusEffect
+			gameState.usedPotionsWithPermanentEffects.append(potion)
 			
 		case "Legendary Potion of Energy":
 			
@@ -658,6 +762,7 @@ extension MainViewModel {
 			let energyBonus = 1
 			gameState.hero.baseMaxEP += energyBonus
 			gameState.hero.currentEnergy = gameState.hero.baseMaxEP
+			gameState.usedPotionsWithPermanentEffects.append(potion)
 			
 		case "Legendary Potion of Strength":
 			
@@ -670,6 +775,7 @@ extension MainViewModel {
 			gameState.hero.baseMaxDamage += maxDamageBonusEffect
 			gameState.hero.baseHitChance += hitChanceBonusEffect
 			gameState.hero.baseCritChance += critChanceBonusEffect
+			gameState.usedPotionsWithPermanentEffects.append(potion)
 			
 		case "Corrupted Elixir of Agility":
 			
@@ -682,6 +788,7 @@ extension MainViewModel {
 			gameState.hero.baseHitChance += hitChanceBonusEffect
 			gameState.hero.baseMaxHP += healthBonusEffect
 			gameState.hero.baseMaxMP += manaBonusEffect
+			gameState.usedPotionsWithPermanentEffects.append(potion)
 			
 		case "Corrupted Elixir of Wisdom":
 			
@@ -694,6 +801,7 @@ extension MainViewModel {
 			gameState.hero.baseMaxMP += manaBonusEffect
 			gameState.hero.baseCritChance += critChanceBonusEffect
 			gameState.hero.baseMaxHP += healthBonusEffect
+			gameState.usedPotionsWithPermanentEffects.append(potion)
 			
 		case "Corrupted Elixir of Behemoth":
 			
@@ -708,6 +816,7 @@ extension MainViewModel {
 			gameState.hero.baseCritChance += critChanceBonusEffect
 			gameState.hero.baseMaxMP += manaBonusEffect
 			gameState.hero.baseSpellPower += spellPowerBonusEffect
+			gameState.usedPotionsWithPermanentEffects.append(potion)
 			
 		case "Corrupted Elixir of Focus":
 			
@@ -724,6 +833,7 @@ extension MainViewModel {
 			gameState.hero.baseDefence += defenceBonusEffect
 			gameState.hero.baseMaxMP += manaBonusEffect
 			gameState.hero.baseSpellPower += spellPowerEffect
+			gameState.usedPotionsWithPermanentEffects.append(potion)
 			
 		default: return
 		}

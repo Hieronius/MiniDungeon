@@ -10,8 +10,8 @@ struct WeaponManager {
 			   itemLevel: 1,
 			   itemType: .weapon,
 			   itemDescription: "+1 min damage, +2 max damage",
-			   minDamage: 0,
-			   maxDamage: 1,
+			   minDamage: 1,
+			   maxDamage: 2,
 			   hitChance: 0,
 			   critChance: 0,
 			   price: 100),
@@ -272,7 +272,7 @@ struct WeaponManager {
 		Weapon(label: "Frostmourne",
 			   itemLevel: 4,
 			   itemType: .weapon,
-			   itemDescription: "+8 minDamage, +16 maxDamage, +5% hit chance, +5% crit chance. I will be twice the king my father was!",
+			   itemDescription: "+8 minDamage, +16 maxDamage, +5% hit chance, +5% crit chance. At last! Power my father never dreamed of!",
 			   minDamage: 8,
 			   maxDamage: 16,
 			   hitChance: 5,
@@ -280,7 +280,7 @@ struct WeaponManager {
 			   price: 500)
 	]
 	
-	// MARK: GenerateWeapon()
+	// MARK: generateWeapon
 	
 	/// Method gets rarity of the weapon and generates one accordingly
 	static func generateWeapon(of rarity: Rarity) -> Weapon? {

@@ -1,5 +1,21 @@
 import SwiftUI
 
+//struct TouchDownButtonStyle: ButtonStyle {
+//	let action: () -> Void
+//
+//	func makeBody(configuration: Configuration) -> some View {
+//		configuration.label
+//			.onChange(of: configuration.isPressed) { newValue in
+//				if newValue { // Triggered immediately on touch down
+//					action()
+//				}
+//			}
+//			.scaleEffect(configuration.isPressed ? 0.96 : 1.0)
+//			.opacity(configuration.isPressed ? 0.8 : 1.0)
+//			.animation(.easeInOut(duration: 0.1), value: configuration.isPressed)
+//	}
+//}
+
 struct CombatMiniGameView: View {
 	
 	@State var timeRemaining = 0.0
@@ -9,6 +25,7 @@ struct CombatMiniGameView: View {
 	@State var isSuccess = false
 	@State var progressBarColor: Color = .blue
 	@State var boardColor: Color = .white
+	@State var beenTapped: Bool = false
 	
 	// Probably should be replaced by button "HIT"
 	let label = "Tap inside when the line will meet with the circle"
@@ -46,24 +63,34 @@ struct CombatMiniGameView: View {
 					Slider(value: $bonusArea)
 						.frame(width: UIScreen.main.bounds.width - 20)
 						.tint(.gray)
-					ProgressView(value: timeRemaining)
+					ProgressView(value: timeRemaining, )
 						.frame(width: UIScreen.main.bounds.width - 20)
 						.tint(progressBarColor)
-				}
-				Button {
-					hitBonusArea()
-				} label: {
-					Text("Hit!")
 					
+				}
+				
+				ZStack {
+					Rectangle()
 						.frame(width: 100, height: 50)
-						.foregroundStyle(.white)
-						.background(.black)
+						.foregroundStyle(.black)
 						.clipShape(.capsule)
 						.overlay {
 							Capsule()
 								.stroke(.white, lineWidth: 3)
 						}
+					Text("Tap it!")
+						.foregroundStyle(.white)
 				}
+				.scaleEffect(beenTapped ? 0.96 : 1.0)
+				.opacity(beenTapped ? 0.8 : 1.0)
+				.animation(.easeInOut(duration: 0.1), value: beenTapped)
+				.gesture(
+					DragGesture(minimumDistance: 0)
+						.onChanged { _ in
+							beenTapped = true
+							hitBonusArea()
+						}
+				)
 				
 				
 			}

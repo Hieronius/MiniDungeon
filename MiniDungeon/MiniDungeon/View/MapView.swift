@@ -5,7 +5,7 @@ import SwiftUI
 extension MainView {
 	
 	@ViewBuilder
-	func buildDungeon() -> some View {
+	func buildDungeonView() -> some View {
 		
 		Spacer()
 		
@@ -31,9 +31,9 @@ extension MainView {
 			HStack {
 				
 				Spacer()
-				Text("Hero's lvl: \(viewModel.gameState.hero.heroLevel)")
+				Text("Hero lvl: \(viewModel.gameState.hero.heroLevel)")
 				Spacer()
-				Text("XP: \(viewModel.gameState.hero.currentXP) / \(viewModel.gameState.hero.maxXP)")
+				Text("Hero XP: \(viewModel.gameState.hero.currentXP)/\(viewModel.gameState.hero.maxXP)")
 				Spacer()
 			}
 			
@@ -49,6 +49,7 @@ extension MainView {
 				Spacer()
 				Text("Rooms explored: \(viewModel.countMapRooms().0)/\(viewModel.countMapRooms().1)")
 				Spacer()
+				Text("Flask XP: \(viewModel.gameState.hero.flask.currentXP)/\(viewModel.gameState.hero.flask.expToLevelUP)")
 				Spacer()
 			}
 			
@@ -58,7 +59,7 @@ extension MainView {
 		
 		Spacer()
 		
-		// MARK: Trap Defusion Mini Game
+		// MARK: Trap Defusion Mini Game With Outcome
 		
 		if viewModel.gameState.isTrapDefusionMiniGameIsOn {
 			
@@ -71,9 +72,16 @@ extension MainView {
 					viewModel.gameState.isTrapDefusionMiniGameIsOn = false
 					viewModel.calculateTrapDefusionResult(success)
 					viewModel.gameState.didEncounterTrap = false
+					
+					// place to erase tile character to "" to reflect that an event has been completed
+					let position = viewModel.gameState.heroPosition
+//					viewModel.gameState.dungeonMap[position.row][position.col].events = []
+					viewModel.gameState.dungeonMap[position.row][position.col].type = .corridor
+					
 					// with this one
 					viewModel.gameState.didTrapDefusionIsSuccess = success
 					viewModel.goToRewards()
+					
 					
 				}
 			}
@@ -94,15 +102,23 @@ extension MainView {
 					// with this one
 					viewModel.gameState.didChestLockPickingIsSuccess = success
 					
+					// place to erase tile character to "" to reflect that an event has been completed
+					let position = viewModel.gameState.heroPosition
+//					viewModel.gameState.dungeonMap[position.row][position.col].events = []
+					viewModel.gameState.dungeonMap[position.row][position.col].type = .corridor
+					
 				}
 			}
 			
 			 
 		// MARK: Dungeon Map
 			 
-		} else if !(viewModel.gameState.isTrapDefusionMiniGameIsOn || viewModel.gameState.isLockPickingMiniGameIsOn) {
+		} else if !(viewModel.gameState.isTrapDefusionMiniGameIsOn || viewModel.gameState.isLockPickingMiniGameIsOn ||
+					viewModel.gameState.isHeroStatsScreenOpen ||
+					viewModel.gameState.isInventoryScreenOpen) {
 		 	getDungeonMap()
-		 }
+			
+		}
 		
 		Spacer()
 		
@@ -130,15 +146,14 @@ extension MainView {
 					} else if viewModel.gameState.didEncounterRestorationShrine &&  !viewModel.gameState.dealtWithRestorationShrine {
 						
 						Button("Get Health and Mana Restoration") {
-							viewModel.applyEffect(for: .restoreHealthMana, item: nil)
+							viewModel.applyEffect(for: .restoreHealthManaWithSmallChanceToGetDamage, item: nil)
 						}
 						.foregroundStyle(.orange)
 						
-						// TODO: Uncomment this code when Shadow Flask will be here
-//						Button("Get Shadow Flask Charge") {
-//							viewModel.applyEffect(for: .getFlaskCharge, item: nil)
-//						}
-//						.foregroundStyle(.orange)
+						Button("Get Shadow Flask Charge") {
+							viewModel.applyEffect(for: .getFlaskCharge, item: nil)
+						}
+						.foregroundStyle(.orange)
 						
 					// MARK: Disenchant Shrine Actions
 						
@@ -292,14 +307,6 @@ extension MainView {
 			opacityRatio = 0.5
 			title = "S"
 		}
-		
-
-//		return Button(title == "C" ? "" : (isHeroPosition == true ? "M" : title), action: action)
-//			.frame(width: 50, height: 50)
-//			.buttonStyle(.bordered)
-//			.font(wasTapped ? .none : .title2)
-//			.foregroundColor(tileColor)
-//			.opacity(viewModel.gameState.tappedTile == tile && neighbours.contains(tile) ? 0.5 : opacityRatio)
 		
 		return Button(action: action) {
 			Text(title == "" ? (isHeroPosition ? "M" : "") : title)

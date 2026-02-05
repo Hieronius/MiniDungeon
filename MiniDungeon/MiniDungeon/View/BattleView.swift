@@ -5,20 +5,27 @@ import SwiftUI
 extension MainView {
 	
 	@ViewBuilder
-	func buildBattle() -> some View {
+	func buildBattleView() -> some View {
 		
-		// MARK: UI
+		// MARK: - UI
 		
-		Spacer()
-		
-		Text("Dark Energy: \(viewModel.gameState.heroDarkEnergy)")
-		Text(viewModel.gameState.isHeroTurn ? "Hero Turn" : "Enemy Turn")
-		
-		Spacer()
+			VStack {
+				Text("\(viewModel.gameState.hero.flask.currentSoulCollectionStatus.rawValue): \(viewModel.gameState.hero.flask.currentCombatImpactValue)/\(viewModel.gameState.hero.flask.currentCombatImpactCapacity)")
+				ProgressView(
+					value: Double(viewModel.gameState.hero.flask.currentCombatImpactValue),
+					total: Double(viewModel.gameState.hero.flask.currentCombatImpactCapacity)
+				)
+				.frame(width: 200)
+				.tint(viewModel.gameState.hero.flask.flaskIsCollectingCombatImpact ? .white : .yellow)
+				Text(viewModel.gameState.hero.flask.flaskIsReadyToUnleashImpact ? "Flask is ready to unleash!" : "                 ")
+				buildShadowFlaskView()
+			}
 		
 		HStack {
 			
 			Spacer()
+			
+			// MARK: - HERO UI
 			
 			VStack {
 				
@@ -30,7 +37,7 @@ extension MainView {
 					
 					Rectangle()
 						.frame(width: 80, height: 80)
-						.foregroundColor(Color.black)
+						.foregroundColor(viewModel.gameState.currentHeroAnimation.color)
 						.border(Color.white, width: 5)
 					Text("Hero")
 						.frame(width: 80)
@@ -40,6 +47,8 @@ extension MainView {
 			}
 			
 			Spacer()
+			
+			// MARK: - ENEMY UI
 			
 			VStack {
 				
@@ -52,7 +61,7 @@ extension MainView {
 					
 					Rectangle()
 						.frame(width: 80, height: 80)
-						.foregroundColor(Color.black)
+						.foregroundColor(viewModel.gameState.currentEnemyAnimation.color)
 						.border(Color.white, width: 5)
 						.offset(y: viewModel.gameState.didEnemyReceivedComboAttack ? 10 : 0)
 						.animation(
@@ -98,47 +107,96 @@ extension MainView {
 				
 				Section(header: Text("Actions")) {
 					
-					Button("Attack (Hit \(viewModel.gameState.hero.hitChance)%, Crit \(viewModel.gameState.hero.critChance)%)") {
+					Button(viewModel.gameState.didUseFlaskEmpowerForOffensive ? "Attack (Damage \(viewModel.gameState.hero.minDamage)-\(viewModel.gameState.hero.maxDamage), Hit \(viewModel.gameState.hero.hitChance)%, Crit \(viewModel.gameState.hero.critChance)%) Empowered" : "Attack (Damage \(viewModel.gameState.hero.minDamage)-\(viewModel.gameState.hero.maxDamage), Hit \(viewModel.gameState.hero.hitChance)%, Crit \(viewModel.gameState.hero.critChance)%)") {
 						viewModel.startMiniGame()
 					}
-					.foregroundStyle(viewModel.gameState.hero.currentEnergy > 0 ? .blue : .gray)
+					.foregroundStyle(
+						viewModel.gameState.hero.currentEnergy > 0 && viewModel.gameState.isHeroTurn ? (viewModel.gameState.didUseFlaskEmpowerForOffensive ? .purple : .blue) : (.gray))
+					
+					// MARK: - Combo Section Starts Here
 					
 					if viewModel.gameState.comboPoints == 3 {
 						Button("Combo (150% damage)") {
 							viewModel.comboAttack()
 						}
-						.foregroundStyle(viewModel.gameState.hero.currentEnergy > 0 ? .orange : .gray)
+						.foregroundStyle(viewModel.gameState.hero.currentEnergy > 0 && viewModel.gameState.isHeroTurn ? .orange : .gray)
 					}
 					
 					if viewModel.gameState.comboPoints == 4 {
-						Button("Combo (175% damage + Ignoring armor)") {
+						Button("Combo (175% damage + Armor Penetration)") {
 							viewModel.comboAttack()
 						}
-						.foregroundStyle(viewModel.gameState.hero.currentEnergy > 0 ? .purple : .gray)
+						.foregroundStyle(viewModel.gameState.hero.currentEnergy > 0 && viewModel.gameState.isHeroTurn ? .purple : .gray)
 					}
 					
 					if viewModel.gameState.comboPoints == 5 {
-						Button("Combo (300% damage)") {
+						Button("Combo (300% damage + Armor Penetration)") {
 							viewModel.comboAttack()
 						}
-						.foregroundStyle(viewModel.gameState.hero.currentEnergy > 0 ? .red : .gray)
+						.foregroundStyle(viewModel.gameState.hero.currentEnergy > 0 && viewModel.gameState.isHeroTurn ? .red : .gray)
 					}
 					
-					Button("Block (+\(viewModel.gameState.blockValue) Armor for turn)") {
+					// MARK: Combo Section End Here
+					
+					Button(viewModel.gameState.didUseFlaskEmpowerForDefensive ? "Block (\(viewModel.gameState.minBlockValue)-\(viewModel.gameState.maxBlockValue) defence for turn) Empowered" : "Block (\(viewModel.gameState.minBlockValue)-\(viewModel.gameState.maxBlockValue) defence for turn)") {
 						viewModel.block()
 					}
-					.foregroundStyle(viewModel.gameState.hero.currentEnergy > 0 ? .blue : .gray)
+					.foregroundStyle(
+						viewModel.gameState.hero.currentEnergy > 0 && viewModel.gameState.isHeroTurn ? (viewModel.gameState.didUseFlaskEmpowerForDefensive ? .orange : .blue) : (.gray))
 					
-					Button("Heal (+\(viewModel.gameState.hero.spellPower) HP)") {
+					Button(viewModel.gameState.didUseFlaskEmpowerForDefensive ? "Heal (\(viewModel.gameState.healMinValue + viewModel.gameState.hero.spellPower)-\(viewModel.gameState.healMaxValue + viewModel.gameState.hero.spellPower) HP) Empowered" : "Heal (\(viewModel.gameState.healMinValue + viewModel.gameState.hero.spellPower)-\(viewModel.gameState.healMaxValue + viewModel.gameState.hero.spellPower) HP)") {
 						viewModel.heal()
 					}
-					.foregroundStyle(viewModel.gameState.hero.currentEnergy > 0 ? .blue : .gray)
+					.foregroundStyle(
+						viewModel.gameState.hero.currentEnergy > 0 && viewModel.gameState.isHeroTurn ? (viewModel.gameState.didUseFlaskEmpowerForDefensive ? .orange : .blue) : (.gray))
 					
+					// MARK: Flask
+					
+					if viewModel.gameState.hero.flask.actionsToResetCD == 0 {
+						
+						Button(viewModel.gameState.hero.flask.battleMode == .defensive ? "Heal yourself by \(viewModel.gameState.hero.flask.currentHealingValueInPercent)% of max HP.   Charges (\(viewModel.gameState.hero.flask.currentCharges)/\(viewModel.gameState.hero.flask.currentMaxCharges))" : "Damage by \(viewModel.gameState.hero.flask.currentDamageValueInPercent)% of enemy max HP. Charges (\(viewModel.gameState.hero.flask.currentCharges)/\(viewModel.gameState.hero.flask.currentMaxCharges))") {
+							
+							viewModel.useFlaskInBattlePipeline()
+						}
+						.foregroundColor(viewModel.gameState.hero.flask.currentCharges > 0 && viewModel.gameState.isHeroTurn && viewModel.gameState.hero.flask.actionsToResetCD == 0 ? (viewModel.gameState.hero.flask.battleMode == .defensive ? .green : .red) : .gray)
+						.opacity(0.75)
+						
+					} else {
+						
+						Text("Turns to reset Flask CD: \(viewModel.gameState.hero.flask.actionsToResetCD)/\(viewModel.gameState.hero.flask.currentCooldown)")
+							.foregroundColor(.gray)
+					}
+					
+					if viewModel.gameState.isHeroTurn && viewModel.gameState.hero.flask.flaskIsReadyToUnleashImpact {
+						
+						Button(viewModel.gameState.hero.flask.battleMode == .offensive ? "Unleash Offensively (gain 1 EP)" : "Unleash Defensively (gain dark energy)") {
+							
+							viewModel.unleashFlaskImpactEffect()
+						}
+						.foregroundStyle(viewModel.gameState.hero.flask.battleMode == .offensive ? .red : .green)
+						.opacity(0.75)
+					}
+					
+					// MARK: End Turn
+					
+			
 					Button("End Turn") {
 						viewModel.endHeroTurn()
 					}
-					
+					.foregroundStyle(viewModel.gameState.isHeroTurn ? .blue : .gray)
+					.disabled(viewModel.gameState.didUserPressedEndTurnButton)
 				}
+				
+				// MARK: Navigation
+				
+				Section(header: Text("Navigation")) {
+					
+					Button("Enemy Stats") {
+						viewModel.goToEnemyStats()
+					}
+				}
+				
+				// MARK: - Testability
 				
 				Section(header: Text("Testability")) {
 					
@@ -154,16 +212,22 @@ extension MainView {
 						viewModel.restoreStats()
 					}
 					
-				}
-				
-				// MARK: Navigation
-				
-				Section(header: Text("Navigation")) {
-					
-					Button("Enemy Stats") {
-						viewModel.goToEnemyStats()
+					Button("Reset Flask CD") {
+						viewModel.testFlaskCDreset()
 					}
+					
+					Button {
+						viewModel.toggleCurrentSoulCollectionStatus()
+					} label: {
+						Text("Toggle current Soul Collection Status (\(viewModel.gameState.hero.flask.currentSoulCollectionStatus.rawValue))")
+					}
+					
+					Button("Refill Soul Collection") {
+						viewModel.refillSoulCollection()
+					}
+					
 				}
+				
 			}
 		}
 	}

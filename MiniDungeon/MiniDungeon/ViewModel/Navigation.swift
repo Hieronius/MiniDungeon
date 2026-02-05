@@ -9,85 +9,100 @@ extension MainViewModel {
 	// MARK: - Navigation
 	
 	func goToMenu() {
-		gameState.gameScreen = .menu
+		gameState.currentGameScreen = .menu
 	}
 	
 	func goToBattle() {
 		gameState.logMessage = "Battle Begins!"
-		gameState.gameScreen = .battle
+		gameState.currentGameScreen = .battle
 	}
 	
 	func goToDungeon() {
-		gameState.gameScreen = .dungeon
+		gameState.currentGameScreen = .dungeon
 	}
 	
 	func goToTown() {
-		gameState.gameScreen = .town
+		gameState.currentGameScreen = .town
 	}
+	
+	// Hero Stats Screen in and out methods
 	
 	func goToHeroStats() {
-		gameState.gameScreen = .heroStats
+		gameState.currentGameScreen = .heroStats
+//		gameState.isHeroStatsScreenOpen = true
+//		print(gameState.isHeroStatsScreenOpen)
 	}
 	
+	func goBackFromHeroStatsScreen() {
+		gameState.isHeroStatsScreenOpen = false
+	}
+	
+	// Enemy Stats Screen in and out methods
+	
 	func goToEnemyStats() {
-		gameState.gameScreen = .enemyStats
+		gameState.currentGameScreen = .enemyStats
+//		gameState.isEnemyStatsScreenOpen = true
+	}
+	
+	func goBackFromEnemyStatsScreen() {
+		gameState.isEnemyStatsScreenOpen = false
 	}
 	
 	func goToInventory() {
-		gameState.gameScreen = .inventory
+		gameState.currentGameScreen = .inventory
 	}
 	
 	func goToOptions() {
-		gameState.gameScreen = .options
+		gameState.currentGameScreen = .options
 	}
 	
 	func goToRewards() {
-		gameState.gameScreen = .rewards
+		gameState.currentGameScreen = .rewards
 	}
 	
 	func goToCombatMiniGame() {
-		gameState.gameScreen = .combatMiniGame
+		gameState.currentGameScreen = .combatMiniGame
 	}
 	
 	func goToTrapDefusionMiniGame() {
-		gameState.gameScreen = .trapDefusionMiniGame
+		gameState.currentGameScreen = .trapDefusionMiniGame
 	}
 	
 	func goToChestLockPickingMiniGame() {
-		gameState.gameScreen = .chestLockPickingMiniGame
+		gameState.currentGameScreen = .chestLockPickingMiniGame
 	}
 	
 	func goToSpecialisation() {
-		gameState.gameScreen = .specialisation
+		gameState.currentGameScreen = .specialisation
 	}
 	
 	func applyActiveShrineEffectsAndGoToFlaskTalants() {
 		applyActiveShrinesEffects()
-		gameState.gameScreen = .flaskTalants
+		gameState.currentGameScreen = .flaskTalants
 	}
 	
 	func applyActivateFlaskTalantsAndGoToMenu() {
 		applyActiveFlaskTalantEffects()
-		gameState.gameScreen = .menu
+		gameState.currentGameScreen = .menu
 	}
 	
 	func goToMerchant() {
-		gameState.gameScreen = .merchant
+		gameState.currentGameScreen = .merchant
 	}
 	
 	func goToHeroLevelBonus() {
-		gameState.gameScreen = .heroLevelBonus
+		gameState.currentGameScreen = .heroLevelBonus
 	}
 	
 	func goToFlask() {
-		gameState.gameScreen = .flask
+		gameState.currentGameScreen = .flask
 	}
 	
 	func goToFlaskLevelBonus() {
-		gameState.gameScreen = .flaskLevelBonus
+		gameState.currentGameScreen = .flaskLevelBonus
 	}
 	
 	func goToFlaskTalants() {
-		gameState.gameScreen = .flaskTalants
+		gameState.currentGameScreen = .flaskTalants
 	}
 }

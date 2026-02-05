@@ -1,14 +1,75 @@
-FILE HAS BEEN INSPECTED 31.12.25
-
-CURRENT PRODUCTIVITY:
-[31.12.25 - 5/10, 01.01.26 - 7/10, ]
-
-IMPLEMENT SHADOW FLASK
+FILE HAS BEEN INSPECTED 05.02.26
 
 ---------------------------------------------------------------
 THIS IS YOUR THOUGHTS FROM LAST SESSION ->
 
-Read setOfTasks, Brainstorm the feature and create a detailed Plan for all details
 
-Find and read the guide how to upload the app to AppStoreConnect as public Beta with link
+
 ----------------------------------------------------------------
+Plan:
+
+- Check Bugs and Feedback ❌
+
+- Publish a new verison ❌
+
+DONE:
+
+04.02.26
+- BUG 03.02.26 - if you use flask damage on the target during animation from the combo and if enemy dies after that, you will get double loot again ✅
+- Remove flask from DungeonView and probably pin into Combat View. If you ask Danil to test where it belongs more it's mean it's a final stage of the game which is not true' ✅
+- Items which will decrease max HP or Mana won't give back current amount when you unequip it. In some of the games i played there was the same behavior. Consult with Danil and Kostyan ✅
+1. BACK BUTTON IS ABSOLUTELY NECESSARY IN NAVIGATION MENU ✅
+2. Hit and Bonus effect is not obvious at all ✅
+- Decrease the chance of getting rare items and effects ✅
+- Especially decrease the chance to get an extra EP from items and effects ✅
+- Install a new version to Iphone 11 ✅
+- Make Shrines upgrades twice as expensive ✅
+- TEST ON REAL DEVICE ARE HERO AND FLASK TALANTS UNIQUE AFTER DEATH AND CHOOSING? ✅
+- BUG of duplicating Shrines and Flask effects after each new rerun of the app ✅
+
+03.02.26
+- Shift navigation block to the top and add button ("back to "previousLocationName") by adding a property to game state like "previous screen" ✅
+
+31.01.
+
+- HUGE BUG 17.01.26 - you can have flask level bonus and due so when you start a new session level bonus button is still here ✅
+- BUG 31.01.26 - If you get a flask level Bonus during the fight or right before it you won't come back to the same screen ✅
+- MAJOR BUG 30.01.26 - After upgrading to SoulExtractor we lost an ability to unleash flask effect on 50/100 of impact collected ✅
+- Remove Flask from FlaskLevelBonus Screen ✅
+- BUG 07.01.26 - If you press "end turn" multiple times it will damage an enemy too and boost the animation. Broken combat. ✅
+	- Add condition to stop detecting taps after first tap
+	
+- BUG 31.01.26 - If you have 3 motion objects in Chest Lock Picking view you can open it just by solving 2/3. Should be fixed. ✅
+
+30.01
+- Solve problem with lagging during map exploration on real device ✅
+
+29.01
+
+- Make Gold as temporary currency
+- Fix Danila user feedback ✅
+- ItemInfo should be pined to the screen in MerchantView at the same way as it behave in Inventory View ✅
+ - In some of the items like "Corrupted Tunic" you can see description in a single line hense you can't check it's full content and instead something like - "+1 def..." DIDN'T FIND THE BUG ❌/✅
+- Check Shrines/Talants you didn't implement but user still able to see/click/upgrade ✅
+- If you have "ItemToDisplay != nil" before user dies you can see it's info and equip it in next run. Check all related properties and erase them each run ✅ (set itemToDisplay to nil in all navigation methods of inventory and merchant view)
+
+28.01
+- Chest Mini Game can be complete even without starting it by clicking all bottom buttons ✅
+ - Add an opportunity to sell equiped items on Merchant View ✅
+- When you select an item being in Disenchant tile you should block "Disenchant" button ✅
+- All Map Characters like "H, T, L, etc" should be erased after a specific event being completed to reduce visual clutter ✅
+	- Trap ✅
+	- Disenchant ✅
+	- Chest ✅
+	- Shrine ✅
+- Equiped Slots of Armor and Weapon should be clickable to check it's stats ✅
+- Rename buttons "Unleash flask defensively" to "Gain extra EP/energy" and so on accordingly to current impact collected ✅
+- Change an animation of HIT button in Combat View to mimic an original button behaviour because the current one is a little bit stupid ✅
+
+27.01.
+- When you deal damage like 13-15 you get 25-30 flask combat impact which is not correct ✅
+- strange spell power bonus without equiped items) ✅
+- Change the way combat mini game works - only first tap should be detected, not pressing until you stop ✅
+- Solve problem with unstaible rerendering of the flask state (when you toggle battle mode) ✅
+- In Town Screen also clean "ShrineInfo" each time when you activate something ✅
+-------------------------------------------------------------------

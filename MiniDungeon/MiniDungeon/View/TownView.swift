@@ -5,14 +5,14 @@ import SwiftUI
 extension MainView {
 	
 	@ViewBuilder
-	func buildTown() -> some View {
+	func buildTownView() -> some View {
 		
 		List {
 			
 			// MARK: - Header
 			
 			Section(header: Text("Town")) {
-				Text("Dark Energy: \(viewModel.gameState.heroDarkEnergy)")
+				Text("Current Dark Energy: \(viewModel.gameState.heroDarkEnergy)")
 			}
 			
 			// MARK: - Shrine Info
@@ -24,6 +24,7 @@ extension MainView {
 					Text("Cost: \(viewModel.gameState.shrineUpgradeToDisplay?.darkEnergyCost ?? 0) dark energy")
 					Button("Activate") {
 						viewModel.activateShrine(viewModel.gameState.shrineUpgradeToDisplay)
+						viewModel.gameState.shrineUpgradeToDisplay = nil
 					}
 				}
 			}
@@ -34,7 +35,7 @@ extension MainView {
 			
 			// MARK: - Minor Shrines
 			
-			// Implement a method to check all mintor shrines not being upgraded to display this list
+			// Implement a method to check all minor shrines not being upgraded to display this list
 			
 			if !viewModel.checkIsThereShrinesToUpgrade(ShrineManager.commonShrines) {
 				
@@ -130,8 +131,9 @@ extension MainView {
 					}
 				}
 				
-				Button("Go to Menu") {
-					viewModel.applyActiveShrineEffectsAndGoToSpecialisation()
+				// TODO: Make it to -> FlaskTalantsView
+				Button("Go to Flask Talants") {
+					viewModel.applyActiveShrineEffectsAndGoToFlaskTalants()
 				}
 			}
 		}

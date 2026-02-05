@@ -5,27 +5,70 @@ SHADOW FLASK - 5 STAGE FINAL BOSS - GAME DEMO OR TUTORIAL
 -----------------------------------------------------------------
 
 SPRINT 02.01.26 - 01.02.26:
-- Add Shadow Flask ❌ 👈
-	Plan:
-	- A Tutor or A Guide
-	- As entity and energy collector (to fill with mini boss traits)
-	- As a Narrator
-	- Has it's own level system across different runs
-	- Pinned on all screens
-- Force Dark theme into the app to avoid color conflicts ❌
-- Add mini game to level boss (check apple notes for info) ❌
-- Add final boss at each 5/10/15 levels with extra mini game
-- Add a reward after each level (Abilities Perk) ❌
-- Add a unique trait to collect from killing mini boss ❌
-- Add potions/items/levelBonus/Perks bonus to Stats screen to reflect ❌
+- Add Shadow Flask ✅
+- Force Dark theme into the app to avoid color conflicts ✅
+- Fix -Value of FlaskCD (it can't be -2 or -10) ✅
+- Add potions/items/levelBonus/Perks bonus to Stats screen to reflect ✅
+- Add min-max damage to BattleView in attack button label ✅
+- Add animation of hit (red background color) when you use combo ✅
+- Add current flask charges count to the Stats Screen ✅
+- Cut Dark Enegry generation to Soul Collector Defensive Action ✅
+- Add crit chance to heal ability ✅
+- Make heal and block value dynamic like (3-7 and 3-6) ✅
+- Remove "Empower Talant" of the Flask or rename it until it's effect being implemented ✅
+- Equiped items should be as buttons so you can check it's content ✅
+- Fix Danila user feedback ✅
+- TEST ON REAL DEVICE ARE HERO AND FLASK TALANTS UNIQUE AFTER DEATH AND CHOOSING? ❌
+
+-------------------------BACKLOG------------------------------
+
+- PRIORITY 1 Add a button to get all possible perks/items/talants to the hero so the tester can try and use it to find any bugs
+
+- PRIORITY 5. Create a temporary property (Or the whole navigation Stack, so you can add and remove screens on top of it) like "previouslyVisitedScreen" to save from what place user did transition to the current one, so for example if you go to Stats screen from the Menu you can go back to Menu. And if you go from Battle, you can go back. It will allow to check your stats right from the battle screen and inventory as well
+
+- PRIORITY 1. Create a demo tutorial to grasp all dungeon functionalities such as dungeon exploration, grinding, boss, death, revival with upgrade WITH INTEREST CURVE INCLUDED
+
+- PRIORITY 10. May be make log messages to disappear after a second to remove text clutter from battle view
+
+- PRIORITY 10. Add mini game to level boss (check apple notes for info)
+
+- PRIORITY 10. Add final boss at each 5/10/15 levels with extra mini game
+
+- PRIORITY 10. Add a reward after each level (Abilities Perk)
+
+- PRIORITY 10. Add a unique trait to collect from killing mini boss
+
+- PRIORITY 5.- Implement inventory slots for items. Like 3 of them so you can use it in fight. All other you can use outside of it.
+
+- PRIORITY 10. - Implement condition to upgrade shrines in order accordingly to it's rarity. It's mean you can't upgrade legendary ones before common, rare and epic ones being upgraded
+
+- PRIORITY 10. - Tapping on the map of the dungeon is not simple or easy for iphone users. Should implement a single gamepad at the right side of the phone for "UP-DOWN-RIGHT-LEFT" Direction
+
+- Pin Flask To Middle of the BattleView (if too complicated, abandon)
+
+- Pin Flask To Middle of Dungeon Map (if too complicated, abandon)
 
 
-SPRINT 02.02.26 - 01.03.26:
-- Create a demo tutorial to grasp all dungeon functionalities such as dungeon exploration, grinding, boss, death, revival with upgrade WITH INTEREST CURVE INCLUDED
-- Implement inventory slots for items. Like 3 of them so you can use it in fight. All other you can use outside of it.
-- Implement condition to upgrade shrines in order accordingly to it's rarity. It's mean you can't upgrade legendary ones before common, rare and epic ones being upgraded
-- Tapping on the map of the dungeon is not simple or easy for iphone users. Should implement a single gamepad at the right side of the phone for "UP-DOWN-RIGHT-LEFT" Direction
-- Equiped items should be as buttons so you can check it's content
 - A need an access to stats menu from the combat because user should have an ability to calculate his chances for the kill or survival
 
 - Add Localisation
+
+- Make 0-50, 50-100, 100-150 scale for Flask Impact Collection in BattleView
+
+- Create different colors for each scale of FlaskImpactCollection in BattleVIew
+
+- Pin Flask also in Combat Screen ??? Use middle of the battle View. Right between Enemy and Hero UI
+
+- Pin Flask into DungeonMap Screen to avoid undefined behavior (ability to move is nice and fun but completely useless until game somehow works correctly and nice to play)
+
+- Make Different levels of items/talants/bonuses highlighted accordingly to it's level of rarity. Common - white, rare - blue, epic - purple, legendary - yellow
+
+- Create a system to automatically check selected weapon/armor to compare it's stats to current one:
++1 damage (-1 to current)
++5 armor (+4 to current)
+
+- Item/Perk/Talant info Tab should be pinned to the screen when you scroll it, so if you have 300 items and search for the bottom one, you don't need to go back after clicking it
+
+- Add Log Console to the Reward Screen to display a few words about the outcome. For example if you failed in trap defusion, say so. If you got a damage from healing shrine - say so
+
+- PRIORITY 1 (IF FOUND THIS BUG IS STILL VALID)- Find the way to insure correct UI rerendering. Example -> toggleBattleMode actually does the job under the hood but ignores UI updates sometimes. Possible Solution - dummy Flask/Hero/Enemy right in the View as @State property to track and toggle ✅

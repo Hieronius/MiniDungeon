@@ -5,7 +5,7 @@ import SwiftUI
 extension MainView {
 	
 	@ViewBuilder
-	func buildMerchant() -> some View {
+	func buildMerchantView() -> some View {
 		
 		List {
 			
@@ -19,7 +19,8 @@ extension MainView {
 					Text("Item Name: \(itemToDisplay?.label ?? "")")
 						.bold()
 					Text("Item Level: \(itemToDisplay?.itemLevel ?? 0)")
-					Text("Price: \(itemToDisplay?.price ?? 0)")
+					Text(viewModel.gameState.isItemOnSale ? "Price to Sell: \((itemToDisplay?.price ?? 0) / 4)" : "Price to Buy: \(itemToDisplay?.price ?? 0)")
+					//					Text("Price to Sell: \((itemToDisplay?.price ?? 0) / 4)")
 					Text("Description:  \(itemToDisplay?.itemDescription ?? "")")
 					Button(viewModel.gameState.isItemOnSale ? "Sell" : "Buy") {
 						
@@ -34,8 +35,33 @@ extension MainView {
 					}
 				}
 			}
+		}
+		.frame(height: 350)
 			
 			// MARK: - Items to Sell
+			
+		List {
+			
+			Section(header: Text("Weapon Slot")) {
+				//				Text("\(viewModel.gameState.hero.weaponSlot?.label ?? "Empty")")
+				Button {
+					itemToDisplay = viewModel.gameState.hero.weaponSlot
+					viewModel.gameState.isItemOnSale = true
+				} label: {
+					Text("\(viewModel.gameState.hero.weaponSlot?.label ?? "Empty")")
+				}
+			}
+			
+			Section(header: Text("Armor Slot")) {
+				//				Text("\(viewModel.gameState.hero.armorSlot?.label ?? "Empty")")
+				
+				Button {
+					itemToDisplay = viewModel.gameState.hero.armorSlot
+					viewModel.gameState.isItemOnSale = true
+				} label: {
+					Text("\(viewModel.gameState.hero.armorSlot?.label ?? "Empty")")
+				}
+			}
 			
 			Section(header: Text("Items to Sell")) {
 				
@@ -87,6 +113,9 @@ extension MainView {
 				}
 				
 			}
+		}
+		.frame(height: 250)
+		List {
 			
 			Section(header: Text("Navigation")) {
 				Button("Go To Dungeon") {
