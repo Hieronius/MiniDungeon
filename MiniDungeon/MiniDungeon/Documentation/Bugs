@@ -3,6 +3,8 @@ FILE HAS BEEN INSPECTED 29.12.25
 ----------------------------------------------
 BUGS TO CHECK AND FIX AFTER PLAYER FEEDBACK:
 
+- BUG 05.02.26 - still can open the chest with moving objects in it. Example: you have 3/3 motions but chest is free at 2/3 motions
+
 - BUG 04.02.26 - you should learn how to handle app killing during the fight because if it's an enemy turn it will be blocked in the middle of it
 
 
