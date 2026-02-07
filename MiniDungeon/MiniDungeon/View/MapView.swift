@@ -52,6 +52,7 @@ extension MainView {
 				Text("Flask XP: \(viewModel.gameState.hero.flask.currentXP)/\(viewModel.gameState.hero.flask.expToLevelUP)")
 				Spacer()
 			}
+			buildShadowFlaskView()
 			
 		}
 		
