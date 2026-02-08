@@ -470,7 +470,160 @@ extension MainViewModel {
 		}
 	}
 	
-	// MARK: - EquipOrUseItem
+	// MARK: - compareSelectedItemWithEquipedOne
+	
+	func compareSelectedItemWithEquipedOne(_ selectedItem: (any ItemProtocol)?) -> [(String, Color)] {
+		
+		 var statsResult: [(String, Color)] = []
+
+		// MARK: Weapon Stats Comparison
+		
+		if selectedItem is Weapon {
+			
+			let selectedWeapon = selectedItem as! Weapon
+			
+			// If there is a weapon equiped do your comparison, otherwise end this
+			
+			let equipedWeapon = gameState.hero.weaponSlot
+			
+			// min damage
+			
+			let minDamageDif = selectedWeapon.minDamage - (equipedWeapon?.minDamage ?? 0)
+			
+			let minDamageDifString = "min damage: "
+			let minDamageStatsDifference = checkStatDifferenceAndCompileAsString(minDamageDifString, minDamageDif)
+			
+			statsResult.append(minDamageStatsDifference)
+			
+			// max damage
+			
+			let maxDamageDif = selectedWeapon.maxDamage - (equipedWeapon?.maxDamage ?? 0)
+			
+			let maxDamageDifString = "max damage: "
+			let maxDamageStatsDifference =  checkStatDifferenceAndCompileAsString(maxDamageDifString, maxDamageDif)
+			statsResult.append(maxDamageStatsDifference)
+			
+			// crit ratio
+			
+			let critRatioDif = selectedWeapon.critChance - (equipedWeapon?.critChance ?? 0)
+			
+			let critRatioDifString = "crit chance %: "
+			let critRatioStatsDifference =  checkStatDifferenceAndCompileAsString(critRatioDifString, critRatioDif)
+			statsResult.append(critRatioStatsDifference)
+			
+			// hit ratio
+			
+			let hitRatioDif = selectedWeapon.hitChance - (equipedWeapon?.hitChance ?? 0)
+			
+			let hitRatioDifString = "hit chance %: "
+			let hitRatioStatsDifference = checkStatDifferenceAndCompileAsString(hitRatioDifString, hitRatioDif)
+			statsResult.append(hitRatioStatsDifference)
+			
+		// MARK: Armor Stats Comparison
+			
+		} else if selectedItem is Armor {
+			
+			let selectedArmor = selectedItem as! Armor
+			
+			// if there is an armor equiped do your comparison, otherwise end this
+			
+//			guard let equipedArmor = gameState.hero.armorSlot else { return [] }
+			let equipedArmor = gameState.hero.armorSlot
+			
+			// hp bonus
+			
+			let hpBonusDif = selectedArmor.healthBonus - (equipedArmor?.healthBonus ?? 0)
+			
+			let hpDifString = "health: "
+			let hpStatsDifference =  checkStatDifferenceAndCompileAsString(hpDifString, hpBonusDif)
+			statsResult.append(hpStatsDifference)
+			
+			// mp bonus
+			
+			let mpBonusDif = selectedArmor.manaBonus - (equipedArmor?.manaBonus ?? 0)
+			
+			let mpBonusDifString = "mana: "
+			let mpBonusStatsDifference = checkStatDifferenceAndCompileAsString(mpBonusDifString, mpBonusDif)
+			statsResult.append(mpBonusStatsDifference)
+			
+			// energy bonus
+			
+			let energyDif = selectedArmor.energyBonus - (equipedArmor?.energyBonus ?? 0)
+			
+			let energyDifString = "energy: "
+			let energyStatsDifference = checkStatDifferenceAndCompileAsString(energyDifString, energyDif)
+			statsResult.append(energyStatsDifference)
+			
+			// defence bonus
+			
+			let defenceDif = selectedArmor.defence - (equipedArmor?.defence ?? 0)
+			
+			let defenceDifString = "defence: "
+			let defenceStatsDifference = checkStatDifferenceAndCompileAsString(defenceDifString, defenceDif)
+			statsResult.append(defenceStatsDifference)
+			
+			// crit bonus
+			
+			let critRatioDif = selectedArmor.critChanceBonus - (equipedArmor?.critChanceBonus ?? 0)
+			
+			let critRatioDifString = "crit chance %: "
+			let critRatioStatsDifference = checkStatDifferenceAndCompileAsString(critRatioDifString, critRatioDif)
+			statsResult.append(critRatioStatsDifference)
+			
+			// hit bonus
+			
+			let hitBonusDif = selectedArmor.hitChanceBonus - (equipedArmor?.hitChanceBonus ?? 0)
+			
+			let hitBonusDifString = "hit chance %: "
+			let hitBonusStatsDifference = checkStatDifferenceAndCompileAsString(hitBonusDifString, hitBonusDif)
+			statsResult.append(hitBonusStatsDifference)
+			
+			// spellpower bonus
+			
+			let spellPowerDif = selectedArmor.spellPowerBonus - (equipedArmor?.spellPowerBonus ?? 0)
+			
+			let spellPowerDifString = "spell power: "
+			let spellPowerStatsDifference = checkStatDifferenceAndCompileAsString(spellPowerDifString, spellPowerDif)
+			statsResult.append(spellPowerStatsDifference)
+			
+		} else if selectedItem is Item { return [] }
+		
+		return statsResult
+	}
+	
+	// MARK: - checkStatDifferenceAndCompileAsStringColorTuple
+	
+	func checkStatDifferenceAndCompileAsString(_ string: String, _ impact: Int) -> (String, Color) {
+		
+		var stringResult = string
+		var colorResult = Color.white
+		
+		switch impact {
+			
+			// if == 0 it's mean we have no diff in items -> just ignore or print empty or gray color
+			
+		case 0:
+			stringResult += "0"
+			
+			// if we have negative difference it's mean we lost some of stats -> deduct impact and try to make it as red color
+			
+		case ..<0:
+			stringResult += "\(impact)"
+			colorResult = .red
+			
+			// if we have position difference it's mean we get some bonus -> add impact and try to make it of green color
+			
+		case 1...:
+			stringResult += "+\(impact)"
+			colorResult = .green
+			
+		default:
+			fatalError("Critical Error with calculation of items difference")
+		}
+		return (stringResult, colorResult)
+	}
+	
+	// MARK: - cquipOrUseItem
 	
 	/// If it's a weapon or armor - equip it, otherwise use the item if possible
 	func equipOrUseItem(_ item: (any ItemProtocol)?) -> Bool {
