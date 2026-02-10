@@ -33,10 +33,39 @@ extension MainView {
 							itemToDisplay = nil
 						}
 					}
+					if itemToDisplay as? Weapon != viewModel.gameState.hero.weaponSlot && ((itemToDisplay as? Weapon) != nil) {
+						
+						Button("Compare") {
+							// viewModel.compareWeapons()
+							viewModel.gameState.isArmorsStatsDifferenceOpen = false
+							viewModel.gameState.isWeaponsStatsDifferenceOpen = true
+						}
+					}
+					
+					if itemToDisplay as? Armor != viewModel.gameState.hero.armorSlot && ((itemToDisplay as? Armor) != nil) {
+						
+						Button("Compare") {
+							// viewModel.compareArmors
+							viewModel.gameState.isWeaponsStatsDifferenceOpen = false
+							viewModel.gameState.isArmorsStatsDifferenceOpen = true
+							
+						}
+					}
 				}
 			}
 		}
 		.frame(height: 350)
+		
+		.overlay() {
+			if viewModel.gameState.isWeaponsStatsDifferenceOpen {
+				buildItemsStatsDifferenceTable(forStats: viewModel.compareSelectedItemWithEquipedOne(itemToDisplay))
+					.frame(height: 350)
+			} else if
+				viewModel.gameState.isArmorsStatsDifferenceOpen {
+				buildItemsStatsDifferenceTable(forStats: viewModel.compareSelectedItemWithEquipedOne(itemToDisplay))
+					.frame(height: 350)
+			}
+		}
 			
 			// MARK: - Items to Sell
 			
