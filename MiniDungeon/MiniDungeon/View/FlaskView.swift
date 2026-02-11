@@ -60,21 +60,5 @@ extension MainView {
 				Text(viewModel.gameState.hero.flask.currentComment.rawValue)
 					.frame(width: 150)
 			}
-//			.offset(
-//				x: viewModel.gameState.flaskViewXOffset + dragFlaskTemporaryTranslationPositionOnScreen.width,
-//				y: viewModel.gameState.flaskViewYOffset + dragFlaskTemporaryTranslationPositionOnScreen.height
-//			)
-		
-//			.simultaneousGesture(
-//				DragGesture(minimumDistance: 10)
-//					.onChanged { value in
-//						dragFlaskTemporaryTranslationPositionOnScreen = value.translation
-//					}
-//					.onEnded { value in
-//						viewModel.gameState.flaskViewXOffset += value.translation.width
-//						viewModel.gameState.flaskViewYOffset += value.translation.height
-//						dragFlaskTemporaryTranslationPositionOnScreen = .zero
-//					}
-//			)
 	}
 }
