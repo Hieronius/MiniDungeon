@@ -751,6 +751,7 @@ extension MainViewModel {
 			
 			return Enemy(
 				name: enemyName,
+				isBoss: true,
 				enemyCurrentHP: Int(Double(finalHP) * bossModifier),
 				enemyMaxHP: Int(Double(finalHP) * bossModifier),
 				currentMana: Int(Double(finalMP) * bossModifier),
