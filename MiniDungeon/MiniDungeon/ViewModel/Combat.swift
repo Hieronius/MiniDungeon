@@ -3,14 +3,44 @@ import SwiftUI
 
 extension MainViewModel {
 	
-	// MARK: Start Mini Game
+	// MARK: - startCombatMiniGame
 	
 	/// Check energy for action and start a miniGame
-	func startMiniGame() {
+	func startCombatMiniGame() {
 		
 		if gameState.isHeroTurn && gameState.hero.currentEnergy >= gameState.skillEnergyCost {
-			gameState.isCombatMiniGameIsOn = true
+			gameState.isCombatMiniGameOn = true
 		}
+	}
+	
+	// MARK: - handleCombatMiniGameResult
+	
+	func handleCombatMiniGameResult(for result: Bool) {
+		DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+			self.gameState.isCombatMiniGameOn = false
+			self.continueAttackAfterMiniGame(success: result)
+		}
+	}
+	
+	// MARK: - handleShadowMiniGameImpact
+	
+	func handleShadowMiniGameImpact(for result: Bool) {
+		
+		if result {
+			
+			// some kind of positive buff, word or rewards
+		} else {
+			
+			// negative impact of each ball which hits the edge of the screen
+			// current plan is to damage hero by 50% for 10 missed balls which
+			// gives us around 5% for each ball
+			
+			let damageImpact = Int(Double(gameState.hero.maxHP) * 0.05)
+			gameState.hero.currentHP -= damageImpact
+			gameState.currentHeroAnimation = .gotDamage
+			
+		}
+		endHeroAndEnemyAnimation()
 	}
 	
 	// MARK: startBattleWithRandomNonEliteEnemy
@@ -30,7 +60,7 @@ extension MainViewModel {
 	
 	func continueAttackAfterMiniGame(success: Bool) {
 		
-		gameState.isCombatMiniGameIsOn = false
+		gameState.isCombatMiniGameOn = false
 		gameState.isCombatMiniGameSuccessful = success
 		
 		if gameState.isHeroTurn && gameState.hero.currentEnergy >= gameState.skillEnergyCost {
@@ -710,7 +740,6 @@ extension MainViewModel {
 			print("got cd reset")
 		}
 		
-		
 		// Apply effect accordingly to battle mode
 		
 		// Defencive Mode
@@ -784,8 +813,8 @@ extension MainViewModel {
 		
 		// Check hero/enemy state
 		
-		winLoseCondition()
-		
 		endHeroAndEnemyAnimation()
+		
+		winLoseCondition()
 	}
 }
