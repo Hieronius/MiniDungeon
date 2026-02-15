@@ -105,4 +105,12 @@ extension MainViewModel {
 	func goToFlaskTalants() {
 		gameState.currentGameScreen = .flaskTalants
 	}
+	
+	func goToShadowBallMiniGame() {
+		gameState.currentGameScreen = .shadowBallMiniGame
+	}
+	
+	func goToTestTimelineView() {
+		gameState.currentGameScreen = .testTimelineView
+	}
 }
