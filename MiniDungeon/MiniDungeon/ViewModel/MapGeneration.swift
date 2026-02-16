@@ -14,6 +14,14 @@ extension MainViewModel {
 		gameState.dungeonMap = level
 	}
 	
+	/// Generate Demo or Tutorial Level
+	func generateDemoLevelMap() {
+		
+		 let scheme = self.generateDemoDungeonLevel()
+		 let level = self.dungeonGenerator.parseDungeonLevel(scheme)
+		 gameState.dungeonMap = level
+	}
+	
 	// MARK: countMapEvents
 	
 	/// Method to check how many events 
@@ -38,7 +46,36 @@ extension MainViewModel {
 		return (exploredEvents, eventsToExplore)
 	}
 	
-	// MARK: generateRandomDungeonLevel
+	// MARK: - generateDemoDungeonLevel
+	
+	func generateDemoDungeonLevel() -> [[String]] {
+		
+		/*
+		Current Demo Level Composition
+		 
+		[".", ".", ".", ".", ".", "C", "R"],
+		[".", "T", "C", "R", ".", "D", "."],
+		[".", "C", ".", "C", ".", "C", "."],
+		["M", "R", ".", "H", "C", "R", "."],
+		[".", "C", ".", "C", ".", "S", "."],
+		[".", "L", "C", "R", ".", ".", "."],
+		[".", ".", ".", ".", ".", ".", "."]
+		 */
+		
+		let dungeonLevelScheme = [
+			["E", "E", "E", "E", "E", "C", "R"],
+			["E", "T", "C", "R", "E", "D", "E"],
+			["E", "C", "E", "C", "E", "C", "E"],
+			["C", "R", "E", "H", "C", "R", "E"],
+			["E", "C", "E", "C", "E", "S", "E"],
+			["E", "L", "C", "R", "E", "E", "E"],
+			["E", "E", "E", "E", "E", "E", "E"]
+		]
+		
+		return dungeonLevelScheme
+	}
+	
+	// MARK: - generateRandomDungeonLevel
 	
 	/// Use random generation to create random levels
 	/// Basic size of 7x7 and can be twicked accordinly to the depth of the dungeon
