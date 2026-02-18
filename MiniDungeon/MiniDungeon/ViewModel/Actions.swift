@@ -154,14 +154,18 @@ extension MainViewModel {
 		let chance = Int.random(in: 1...10)
 		print(chance)
 		
-		if chance == 1 {
+		// Seems like having a 10% chance to get damage is not fun especially for newbyes.
+		// Set this condition to 0 so it won't be triggered for the time being
+		if chance == 0 {
 			
 			print("YOU RECEIVE DAMAGE FROM RESTORATION SHRINE")
 			
 			let healthPoints = Int(Double(gameState.hero.maxHP) * 0.10)
 			
 			if (gameState.hero.currentHP - healthPoints) <= 0 {
-				setupNewGame()
+				// TODO: setupNewGame at this stage will ignore TownScreen, fix it
+//				setupNewGame()
+//				winLoseCondition()
 			} else {
 				gameState.hero.currentHP -= healthPoints
 			}
@@ -229,5 +233,50 @@ extension MainViewModel {
 		gameState.dealtWithTrap = true
 		gameState.isTrapDefusionMiniGameIsOn = true
 		print("Defused")
+	}
+	
+	// MARK: - handleTrapDefusionMiniGameResult
+	
+	func handleTrapDefusionMiniGameResult(_ result: Bool) {
+		
+		// this property seems to be duplicated
+		gameState.isTrapDefusionMiniGameSuccessful = result
+		DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+			self.gameState.isTrapDefusionMiniGameIsOn = false
+			self.calculateTrapDefusionResult(result)
+			self.gameState.didEncounterTrap = false
+			
+			// place to erase tile character to "" to reflect that an event has been completed
+			let position = self.gameState.heroPosition
+//					viewModel.gameState.dungeonMap[position.row][position.col].events = []
+			self.gameState.dungeonMap[position.row][position.col].type = .corridor
+			
+			// with this one
+			self.gameState.didTrapDefusionIsSuccess = result
+			self.goToRewards()
+			
+			
+		}
+	}
+	
+	// MARK: - handleChestLockPickingMiniGameResult
+	
+	func handleChestLockPickingMiniGameResult(_ result: Bool) {
+		
+		gameState.isLockPickingMiniGameIsSuccess = result
+		
+		DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+			self.gameState.isLockPickingMiniGameIsOn = false
+			self.calculateChestLockPickingResult(result)
+			self.gameState.didEncounterChest = false
+			// with this one
+			self.gameState.didChestLockPickingIsSuccess = result
+			
+			// place to erase tile character to "" to reflect that an event has been completed
+			let position = self.gameState.heroPosition
+			
+			self.gameState.dungeonMap[position.row][position.col].type = .corridor
+			
+		}
 	}
 }
