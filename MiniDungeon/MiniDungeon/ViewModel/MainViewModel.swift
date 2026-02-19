@@ -27,10 +27,13 @@ class MainViewModel: ObservableObject {
 		if gameState.isFreshSession {
 			
 			// Create new map
-			generateMap()
+//			generateMap()
+			
+			generateDemoLevelMap()
 			
 			// Prepare hero
-			spawnHero()
+//			spawnHero()
+			 spawnHeroAtDemoLevel()
 			
 			// If fresh session -> go to menu
 			goToMenu()
@@ -72,15 +75,24 @@ extension MainViewModel {
 		gameState.comboPoints = 0
 		
 		gameState.currentDungeonLevel = 0
-		gameState.isHeroAppeared = false
+		gameState.didHeroAppear = false
 		gameState.heroPosition = Coordinate(row: 0, col: 0)
 		gameState.battlesWon = 0
 		
 		// Start from the beginning
-
+		
 		goToTown()
-		generateMap()
-		spawnHero()
+		
+		if gameState.didEndDemoLevel {
+			
+			generateMap()
+			spawnHero()
+			
+		} else {
+			
+			generateDemoLevelMap()
+			spawnHeroAtDemoLevel()
+		}
 		
 		// Clean all Potion Effects from previous run
 		gameState.usedPotionsWithPermanentEffects = []
@@ -93,15 +105,11 @@ extension MainViewModel {
 		// TODO: Check are you really need this method?
 		gameState.hero.restoreStatsToDefault()
 		
-		// TODO: Commented this method 04.02.26 because it has duplicate effect
-//		applyActiveShrinesEffects()
-		
 		// Restore Flask stats to basic
 		// Activate Flask Talants
 		gameState.hero.flask.setFlaskStatsToDefault()
 		
-		// TODO: Commented this method 04.02.26 because it has duplicate effect
-//		applyActiveFlaskTalantEffects()
+		
 	}
 	
 }
