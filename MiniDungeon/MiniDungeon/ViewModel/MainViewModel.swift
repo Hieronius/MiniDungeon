@@ -58,6 +58,8 @@ extension MainViewModel {
 	
 	func setupNewGame() {
 		
+		gameState.runs += 1
+		
 		gameState.didEncounteredBoss = false
 		gameState.isHeroTurn = true
 		gameState.didApplySpec = false
@@ -92,6 +94,7 @@ extension MainViewModel {
 			
 			generateDemoLevelMap()
 			spawnHeroAtDemoLevel()
+			gameState.shouldMeetPredefinedSecretRoom = true
 		}
 		
 		// Clean all Potion Effects from previous run
