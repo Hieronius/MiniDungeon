@@ -27,15 +27,13 @@ class MainViewModel: ObservableObject {
 		if gameState.isFreshSession {
 			
 			// Create new map
-//			generateMap()
 			
 			generateDemoLevelMap()
 			
 			// Prepare hero
-//			spawnHero()
-			 spawnHeroAtDemoLevel()
 			
-			// If fresh session -> go to menu
+			spawnHeroAtDemoLevel()
+			
 			goToMenu()
 			
 		// AND IF IT'S AN OLD SESSION -> LOAD IT
