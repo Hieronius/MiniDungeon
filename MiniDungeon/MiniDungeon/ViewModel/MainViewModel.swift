@@ -74,7 +74,7 @@ extension MainViewModel {
 		gameState.heroLevelBonusToDisplay = nil
 		gameState.comboPoints = 0
 		
-		gameState.currentDungeonLevel = 0
+		gameState.currentDungeonLevel = 1
 		gameState.didHeroAppear = false
 		gameState.heroPosition = Coordinate(row: 0, col: 0)
 		gameState.battlesWon = 0
