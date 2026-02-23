@@ -14,9 +14,19 @@ extension MainViewModel {
 		gameState.didEncounteredBoss = false
 		gameState.currentDungeonLevel += 1
 		
-		if gameState.currentDungeonLevel > 0 {
+		// this condition should run only once after demo level
+		if gameState.currentDungeonLevel > 1 {
+			
+			if !gameState.didEndDemoLevel {
+				
+				gameState.hero.flask.baseMaxCharges += 1
+				gameState.hero.flask.currentCharges += 1
+				print("add 1 charge after ending demo level once")
+			}
 			gameState.didEndDemoLevel = true
+			
 		}
+		
 		gameState.didHeroAppear = false
 		gameState.dungeonLevelBeenExplored = false
 		
@@ -41,11 +51,11 @@ extension MainViewModel {
 		
 		print("START")
 		// Predefined coordinates of farest left R tile of the demo level
-		let map = gameState.dungeonMap
+//		let map = gameState.dungeonMap
 		let row = 3
 		let col = 0
 		
-		let tile = map[row][col]
+//		let tile = map[row][col]
 //		if tile.type == .room && !gameState.didHeroAppear {
 //			gameState.heroPosition = Coordinate(row: row, col: col)
 //			print(tile.type)
@@ -53,12 +63,9 @@ extension MainViewModel {
 ////			gameState.didHeroAppear = true
 //		}
 		gameState.heroPosition = Coordinate(row: row, col: col)
-		print(tile.type)
-		print(tile.events)
 		gameState.didHeroAppear = true
 		
 		gameState.dungeonMap[gameState.heroPosition.row][gameState.heroPosition.col].isExplored = true
-		print("END")
 	}
 
 	// MARK: - spawnHero
@@ -192,6 +199,23 @@ extension MainViewModel {
 			gameState.lootToDisplay.append(armor.label)
 		}
 		
+		// 100% Demo Loot Drop
+		
+		if gameState.battlesWon == 1 && !gameState.didEndDemoLevel {
+			
+			let armor = ArmorManager.commonArmors[0]
+			gameState.hero.armors[armor, default: 0] += 1
+			gameState.lootToDisplay.append(armor.label)
+			print("Demo Armor has been droped")
+			
+		} else if gameState.battlesWon == 2 && !gameState.didEndDemoLevel {
+			
+			let weapon = WeaponManager.commonWeapons[1]
+			gameState.hero.weapons[weapon, default: 0] += 1
+			gameState.lootToDisplay.append(weapon.label)
+			print("Demo Weapon has been droped")
+		}
+		
 		// gold loot
 		
 		let gold = generateGoldLoot(
@@ -247,15 +271,15 @@ extension MainViewModel {
 		
 		switch gameState.currentDungeonLevel {
 			
-			// In level 0,1 we can drop common weapons
-		case 0,1:
+			// In level 1,2 we can drop common weapons
+		case 1,2:
 			
 			if rarity == .common {
 				weaponLoot = WeaponManager.generateWeapon(of: .common)
 			}
 			
-			// In level 2 we can drop rare weapons + common weapons
-		case 2:
+			// In level 3 we can drop rare weapons + common weapons
+		case 3:
 			
 			if rarity == .common {
 				weaponLoot = WeaponManager.generateWeapon(of: .common)
@@ -264,8 +288,8 @@ extension MainViewModel {
 				weaponLoot = WeaponManager.generateWeapon(of: .rare)
 			}
 			
-			// In level 3 we can drop epic weapons + rare weapons + common weapons
-		case 3:
+			// In level 4 we can drop epic weapons + rare weapons + common weapons
+		case 4:
 			
 			if rarity == .common {
 				weaponLoot = WeaponManager.generateWeapon(of: .common)
@@ -277,9 +301,9 @@ extension MainViewModel {
 				weaponLoot = WeaponManager.generateWeapon(of: .epic)
 			}
 			
-			// In level 4+ we can drop legendary + epic + rare + common weapons
+			// In level 5+ we can drop legendary + epic + rare + common weapons
 			
-		case 4: weaponLoot = WeaponManager.generateWeapon(of: rarity)
+		case 5: weaponLoot = WeaponManager.generateWeapon(of: rarity)
 			
 			// In level 3+ we can drop legendary + epic + rare + common weapons
 		default: weaponLoot = WeaponManager.generateWeapon(of: rarity)
@@ -309,15 +333,15 @@ extension MainViewModel {
 		
 		switch gameState.currentDungeonLevel {
 			
-			// In level 0-1 we can drop common armors
-		case 0,1:
+			// In level 1,2 we can drop common armors
+		case 1,2:
 			
 			if rarity == .common {
 				armorLoot = ArmorManager.generateArmor(of: .common)
 			}
 			
-			// In level 2 we can drop rare armors + common armors
-		case 2:
+			// In level 3 we can drop rare armors + common armors
+		case 3:
 			
 			if rarity == .common {
 				armorLoot = ArmorManager.generateArmor(of: .common)
@@ -326,8 +350,8 @@ extension MainViewModel {
 				armorLoot = ArmorManager.generateArmor(of: .rare)
 			}
 			
-			// In level 3 we can drop epic armors + rare armors + common armors
-		case 3:
+			// In level 4 we can drop epic armors + rare armors + common armors
+		case 4:
 			
 			if rarity == .common {
 				armorLoot = ArmorManager.generateArmor(of: .common)
@@ -339,8 +363,8 @@ extension MainViewModel {
 				armorLoot = ArmorManager.generateArmor(of: .epic)
 			}
 			
-			// In level 4+ we can drop legendary + epic + rare + common weapons
-		case 4...: armorLoot = ArmorManager.generateArmor(of: rarity)
+			// In level 5+ we can drop legendary + epic + rare + common weapons
+		case 5...: armorLoot = ArmorManager.generateArmor(of: rarity)
 			
 			
 		default: armorLoot = ArmorManager.generateArmor(of: rarity)
@@ -369,20 +393,10 @@ extension MainViewModel {
 		
 		switch gameState.currentDungeonLevel {
 			
-		case 0,1:
+		case 1,2:
 			
 			if rarity == .common {
 				potionLoot = ItemManager.generatePotion(of: .common)
-				
-			}
-			
-		case 2:
-			
-			if rarity == .common {
-				potionLoot = ItemManager.generatePotion(of: .common)
-				
-			} else if rarity == .rare {
-				potionLoot = ItemManager.generatePotion(of: .rare)
 				
 			}
 			
@@ -394,11 +408,21 @@ extension MainViewModel {
 			} else if rarity == .rare {
 				potionLoot = ItemManager.generatePotion(of: .rare)
 				
+			}
+			
+		case 4:
+			
+			if rarity == .common {
+				potionLoot = ItemManager.generatePotion(of: .common)
+				
+			} else if rarity == .rare {
+				potionLoot = ItemManager.generatePotion(of: .rare)
+				
 			} else if rarity == .epic {
 				potionLoot = ItemManager.generatePotion(of: .epic)
 			}
 			
-		case 4...: potionLoot = ItemManager.generatePotion(of: rarity)
+		case 5...: potionLoot = ItemManager.generatePotion(of: rarity)
 			
 			
 			// In level 3+ we can drop legendary + epic + rare + common potions
@@ -445,14 +469,14 @@ extension MainViewModel {
 		
 		switch gameState.currentDungeonLevel {
 			
-		case 0,1:
+		case 1,2:
 			
 			if rarity == .common {
 				loot = ItemManager.generateLoot(of: .common)
 				
 			}
 			
-		case 2:
+		case 3:
 			
 			if rarity == .common {
 				loot = ItemManager.generateLoot(of: .common)
@@ -462,7 +486,7 @@ extension MainViewModel {
 				
 			}
 			
-		case 3:
+		case 4:
 			
 			if rarity == .common {
 				loot = ItemManager.generateLoot(of: .common)
@@ -476,7 +500,7 @@ extension MainViewModel {
 			
 			// In level 3+ we can drop legendary + epic + rare + common loot
 			
-		case 4...: loot = ItemManager.generateLoot(of: rarity)
+		case 5...: loot = ItemManager.generateLoot(of: rarity)
 			
 		default: loot = ItemManager.generateLoot(of: rarity)
 		}
@@ -533,7 +557,6 @@ extension MainViewModel {
 	/// Method to generate random amount of experience based on enemy level
 	func generateExperienceLoot(didFinalBossSummoned: Bool) -> Int {
 		
-//		 put values back to 25...35
 		var expRoll = Int.random(in: 30...40)
 		
 		if didFinalBossSummoned { expRoll *= 2 }
@@ -546,7 +569,6 @@ extension MainViewModel {
 	func generateDarkEnergyLoot(didFinalBossSummoned: Bool) -> Int {
 		
 		var energyRoll = Int.random(in: 5...10)
-//		var energyRoll = 10000
 		
 		if didFinalBossSummoned { energyRoll *= 2 }
 		
@@ -570,16 +592,11 @@ extension MainViewModel {
 		gameState.dungeonMap[row][col].wasTapped = true
 		gameState.didTappedUnknownTile = true
 		gameState.tappedTilePosition = Coordinate(row: row, col: col)
-		print("tapped on unknown room -\(gameState.dungeonMap[row][col].wasTapped)")
-		print("didTappedUnknownTile from GameState - \(gameState.didTappedUnknownTile)")
-		print(gameState.tappedTilePosition)
 		
 		// change flag back to stop tile tap animation
 		DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
 			self.gameState.dungeonMap[row][col].wasTapped = false
 			self.gameState.didTappedUnknownTile = false
-			print("change tile property wasTapped back -  \(self.gameState.dungeonMap[row][col].wasTapped)")
-			print("didTappedUnknownTile from GameState - \(self.gameState.didTappedUnknownTile)")
 		}
 		
 		let room = gameState.dungeonMap[row][col]
@@ -747,7 +764,7 @@ extension MainViewModel {
 		// dividing 0 by 100 is totally fine
 		let difficultyLevel = Double(gameState.currentDungeonLevel * 10) / 100.0
 		
-		// MARK: if Demo Level cut all stats by 2
+		// MARK: if Demo Level cut all stats by gameState.demoLevelEnemyPowerRatio
 		
 		// base was 25...50
 		let baseHP = Int(Double.random(in: 35...65))
@@ -757,7 +774,7 @@ extension MainViewModel {
 		if gameState.didEndDemoLevel {
 			finalHP = baseHP + Int(Double(baseHP) * difficultyLevel)
 		} else {
-			finalHP = baseHP + Int(Double(baseHP) * difficultyLevel * 0.75)
+			finalHP = Int((Double(baseHP) + Double(baseHP) * difficultyLevel) * gameState.demoLevelEnemyPowerRatio)
 		}
 			
 		
@@ -770,7 +787,7 @@ extension MainViewModel {
 		if gameState.didEndDemoLevel {
 			finalMP = baseMP + Int(Double(baseMP) * difficultyLevel)
 		} else {
-			finalMP = Int(Double(baseMP) + Double(baseMP) * difficultyLevel * 0.75)
+			finalMP = Int((Double(baseMP) + Double(baseMP) * difficultyLevel) * gameState.demoLevelEnemyPowerRatio)
 		}
 		
 		// base was 6...8
@@ -781,7 +798,7 @@ extension MainViewModel {
 		if gameState.didEndDemoLevel {
 			finalMinDamage = minDamage + Int(Double(minDamage) * difficultyLevel)
 		} else {
-			finalMinDamage = Int(Double(minDamage) + Double(minDamage) * difficultyLevel * 0.75)
+			finalMinDamage = Int((Double(minDamage) + Double(minDamage) * difficultyLevel) * gameState.demoLevelEnemyPowerRatio)
 		}
 		
 		// base was 10...12
@@ -792,7 +809,7 @@ extension MainViewModel {
 		if gameState.didEndDemoLevel {
 			finalMaxDamage = maxDamage + Int(Double(maxDamage) * difficultyLevel)
 		} else {
-			finalMaxDamage = Int(Double(maxDamage) + Double(maxDamage) * difficultyLevel * 0.75)
+			finalMaxDamage = Int((Double(maxDamage) + Double(maxDamage) * difficultyLevel) * gameState.demoLevelEnemyPowerRatio)
 		}
 		
 		let energy = 3
@@ -806,7 +823,7 @@ extension MainViewModel {
 		if gameState.didEndDemoLevel {
 			finalSpellPower = spellPower + Int(Double(spellPower) * difficultyLevel)
 		} else {
-			finalSpellPower = Int(Double(spellPower) + Double(spellPower) * difficultyLevel * 0.75)
+			finalSpellPower = Int((Double(spellPower) + Double(spellPower) * difficultyLevel) * gameState.demoLevelEnemyPowerRatio)
 		}
 		
 		// base as 0...2
@@ -817,7 +834,7 @@ extension MainViewModel {
 		if gameState.didEndDemoLevel {
 			finalDefence = defence + Int(Double(defence) * difficultyLevel)
 		} else {
-			finalDefence = Int(Double(defence) + Double(defence) * difficultyLevel * 0.75)
+			finalDefence = Int((Double(defence) + Double(defence) * difficultyLevel) * gameState.demoLevelEnemyPowerRatio)
 		}
 		
 		if !didFinalBossSummoned {
