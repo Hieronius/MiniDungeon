@@ -4,8 +4,6 @@ import SwiftUI
 
 extension MainViewModel {
 	
-	// flaskBeingTapped.toggle()
-	
 	// MARK: - endHeroAndEnemyAnimation
 	
 	func endHeroAndEnemyAnimation() {
@@ -37,79 +35,131 @@ extension MainViewModel {
 		enemyTurn()
 	}
 	
+	// MARK: - passTurnToHero
+	
+	func passTurnToHero() {
+		print("Did pass turn to hero, god dammit")
+		// tell to the game that user again can press the button endTurn
+		gameState.didUserPressedEndTurnButton = false
+		
+		// If enemy spent all his energy -> pass turn to hero
+		gameState.isHeroTurn = true
+		
+		// If flask on CD deduct it by 1
+		// put here so when flask is 1 turn until cd hero still will be able to get bonuses such as armor or damage
+		
+		if gameState.hero.flask.actionsToResetCD > 0 {
+			gameState.hero.flask.actionsToResetCD -= 1
+		}
+		
+		if gameState.didHeroUseBlock {
+			endHeroBlockEffect()
+		}
+		
+		restoreAllEnergy()
+		DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+			self.gameState.logMessage = "Now is Hero Turn"
+		}
+	}
+	
+	
+	
 	// MARK: - enemyTurn
 	
 	func enemyTurn() {
 		
-		if !gameState.isHeroTurn {
+		if !gameState.isHeroTurn && !gameState.isShadowBallMiniGameOn {
 			
+			print("EnemyTurn && no mini game")
+			
+			// ORIGINAL: Zero energy check (unchanged)
 			guard gameState.enemy.currentEnergy > 0 else {
-				
-				// tell to the game that user again can press the button endTurn
-				gameState.didUserPressedEndTurnButton = false
-				
-				// If enemy spent all his energy -> pass turn to hero
-				gameState.isHeroTurn = true
-				
-				// If flask on CD deduct it by 1
-				// put here so when flask is 1 turn until cd hero still will be able to get bonuses such as armor or damage
-				
-				if gameState.hero.flask.actionsToResetCD > 0 {
-					gameState.hero.flask.actionsToResetCD -= 1
-				}
-				
-				if gameState.didHeroUseBlock {
-					endHeroBlockEffect()
-				}
-				
-				restoreAllEnergy()
-				DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-					self.gameState.logMessage = "Now is Hero Turn"
-				}
+				passTurnToHero()
 				return
 			}
 			
+			
 			// A delay to create feeling the enemy does attacks with a little delays and not instant
-			
-			let extraActionDelay = 1.0 + Double(gameState.enemy.currentEnergy) / 5.0
-			
-			DispatchQueue.main.asyncAfter(deadline: .now() + extraActionDelay) {
+				let extraActionDelay = 1.0 + Double(gameState.enemy.currentEnergy) / 5.0
 				
-				// Calculate current enemy hp in %
-				let enemyMaxHealthInPercent = Double(self.gameState.enemy.enemyMaxHP) / 100.0
-				let currentHealthInPercent = Double(self.gameState.enemy.enemyCurrentHP) / enemyMaxHealthInPercent
-				
-				// if enemy has less than 30% hp add heal/block as actions to choose between
-				if currentHealthInPercent <= 30.0 {
+				DispatchQueue.main.asyncAfter(deadline: .now() + extraActionDelay) {
 					
-					// 1 - 100 equal to part of 100% of the chance to get a specific action
-					let chance = Int.random(in: 1...100)
+					// Calculate current enemy hp in %
+					let enemyMaxHealthInPercent = Double(self.gameState.enemy.enemyMaxHP) / 100.0
+					let currentHealthInPercent = Double(self.gameState.enemy.enemyCurrentHP) / enemyMaxHealthInPercent
 					
-					switch chance {
+					// if enemy has less than 30% hp add heal/block as actions to choose between
+					if currentHealthInPercent <= 30.0 {
 						
-						// 15% for healing ability
-					case 1...15:
-						self.heal()
+						print("Decide Defensive Action")
+						// 1 - 100 equal to part of 100% of the chance to get a specific action
+						let chance = Int.random(in: 1...100)
 						
-						// 15% for block ability
-					case 16...30:
-						self.block()
+						switch chance {
+							
+							// 15% for healing ability
+						case 1...15:
+							self.heal()
+							
+							// 15% for block ability
+						case 16...30:
+							self.block()
+							
+							// 70% for attack ability
+						default:
+							self.continueAttackAfterMiniGame(success: false)
+						}
+						self.enemyTurn()
 						
-						// 70% for attack ability
-					default:
-						self.continueAttackAfterMiniGame(success: false)
+					} else {
+						
+						print("Decide an Offensive Action")
+						
+						// if enemy has energy for ultimate throw a roll for it
+						
+						if self.gameState.enemy.currentEnergy >= 2 && self.gameState.enemy.isBoss {
+							
+							print("enemy.energy > 2 -> special attack roll")
+							
+							let ultimateRoll = Int.random(in: 1...10)
+							
+							if ultimateRoll <= 4 {
+								
+								print("specialRoll successful -> perform")
+								
+								self.gameState.enemy.currentEnergy -= self.gameState.specialSkillEnergyCost
+								self.gameState.logMessage = "Enemy Special Attack!"
+								self.gameState.isShadowBallMiniGameOn = true
+								
+								DispatchQueue.main.asyncAfter(deadline: .now() + 9.0) {
+									print("After 9 seconds enemy performs action again")
+									self.enemyTurn()
+								}
+								
+							// if energy < 2 -> perform a normal attack
+								
+							} else {
+								
+								print("special roll failed -> perform a normal attack -> start new enemy turn")
+								
+								self.continueAttackAfterMiniGame(success: false)
+								self.enemyTurn()
+							}
+							
+							// otherwise use an normal attack
+							
+						} else {
+							
+							print("enemy.energy < 2 -> perform a normal attack -> start a new enemy turn")
+							self.continueAttackAfterMiniGame(success: false)
+							self.enemyTurn()
+						}
+						
 					}
-					self.enemyTurn()
 					
-				} else {
-					
-					self.continueAttackAfterMiniGame(success: false)
-					self.enemyTurn()
 				}
 				
 			}
-			
-		}
 	}
 	
 	// MARK: endHeroBlockEffect
@@ -271,7 +321,7 @@ extension MainViewModel {
 				gameState.hero.flask.actionsToResetCD -= 1
 			}
 		}
-		gameState.isCombatMiniGameIsOn = false
+		gameState.isCombatMiniGameOn = false
 	}
 	
 	// MARK: getRewardAfterFight
@@ -279,6 +329,9 @@ extension MainViewModel {
 	func getRewardAfterFight() {
 		
 		gameState.battlesWon += 1
+		if gameState.battlesWon > 0 {
+			gameState.didFindFlask = true
+		}
 	}
 	
 	// MARK: - checkForFlaskLevelUP
@@ -491,7 +544,13 @@ extension MainViewModel {
 			let minDamageDif = selectedWeapon.minDamage - (equipedWeapon?.minDamage ?? 0)
 			
 			let minDamageDifString = "min damage: "
-			let minDamageStatsDifference = checkStatDifferenceAndCompileAsString(minDamageDifString, minDamageDif)
+			let selectedItemMinDamageValue = selectedWeapon.minDamage
+			
+			let minDamageStatsDifference = checkStatDifferenceAndCompileAsString(
+				minDamageDifString,
+				selectedItemMinDamageValue,
+				minDamageDif
+			)
 			
 			statsResult.append(minDamageStatsDifference)
 			
@@ -500,7 +559,13 @@ extension MainViewModel {
 			let maxDamageDif = selectedWeapon.maxDamage - (equipedWeapon?.maxDamage ?? 0)
 			
 			let maxDamageDifString = "max damage: "
-			let maxDamageStatsDifference =  checkStatDifferenceAndCompileAsString(maxDamageDifString, maxDamageDif)
+			let selectedItemMaxDamageValue = selectedWeapon.maxDamage
+			
+			let maxDamageStatsDifference =  checkStatDifferenceAndCompileAsString(
+				maxDamageDifString,
+				selectedItemMaxDamageValue,
+				maxDamageDif
+			)
 			statsResult.append(maxDamageStatsDifference)
 			
 			// crit ratio
@@ -508,7 +573,13 @@ extension MainViewModel {
 			let critRatioDif = selectedWeapon.critChance - (equipedWeapon?.critChance ?? 0)
 			
 			let critRatioDifString = "crit chance %: "
-			let critRatioStatsDifference =  checkStatDifferenceAndCompileAsString(critRatioDifString, critRatioDif)
+			let selectedItemCritRatio = selectedWeapon.critChance
+			
+			let critRatioStatsDifference =  checkStatDifferenceAndCompileAsString(
+				critRatioDifString,
+				selectedItemCritRatio,
+				critRatioDif
+			)
 			statsResult.append(critRatioStatsDifference)
 			
 			// hit ratio
@@ -516,7 +587,13 @@ extension MainViewModel {
 			let hitRatioDif = selectedWeapon.hitChance - (equipedWeapon?.hitChance ?? 0)
 			
 			let hitRatioDifString = "hit chance %: "
-			let hitRatioStatsDifference = checkStatDifferenceAndCompileAsString(hitRatioDifString, hitRatioDif)
+			let selectedItemHitRatioValue = selectedWeapon.hitChance
+			
+			let hitRatioStatsDifference = checkStatDifferenceAndCompileAsString(
+				hitRatioDifString,
+				selectedItemHitRatioValue,
+				hitRatioDif
+			)
 			statsResult.append(hitRatioStatsDifference)
 			
 		// MARK: Armor Stats Comparison
@@ -535,7 +612,13 @@ extension MainViewModel {
 			let hpBonusDif = selectedArmor.healthBonus - (equipedArmor?.healthBonus ?? 0)
 			
 			let hpDifString = "health: "
-			let hpStatsDifference =  checkStatDifferenceAndCompileAsString(hpDifString, hpBonusDif)
+			let selectedItemHPValue = selectedArmor.healthBonus
+			
+			let hpStatsDifference =  checkStatDifferenceAndCompileAsString(
+				hpDifString,
+				selectedItemHPValue,
+				hpBonusDif
+			)
 			statsResult.append(hpStatsDifference)
 			
 			// mp bonus
@@ -543,7 +626,13 @@ extension MainViewModel {
 			let mpBonusDif = selectedArmor.manaBonus - (equipedArmor?.manaBonus ?? 0)
 			
 			let mpBonusDifString = "mana: "
-			let mpBonusStatsDifference = checkStatDifferenceAndCompileAsString(mpBonusDifString, mpBonusDif)
+			let selectedItemMPValue = selectedArmor.manaBonus
+			
+			let mpBonusStatsDifference = checkStatDifferenceAndCompileAsString(
+				mpBonusDifString,
+				selectedItemMPValue,
+				mpBonusDif
+			)
 			statsResult.append(mpBonusStatsDifference)
 			
 			// energy bonus
@@ -551,7 +640,12 @@ extension MainViewModel {
 			let energyDif = selectedArmor.energyBonus - (equipedArmor?.energyBonus ?? 0)
 			
 			let energyDifString = "energy: "
-			let energyStatsDifference = checkStatDifferenceAndCompileAsString(energyDifString, energyDif)
+			let selectedArmorEnergyValue = selectedArmor.energyBonus
+			
+			let energyStatsDifference = checkStatDifferenceAndCompileAsString(
+				energyDifString,
+				selectedArmorEnergyValue,
+				energyDif)
 			statsResult.append(energyStatsDifference)
 			
 			// defence bonus
@@ -559,7 +653,13 @@ extension MainViewModel {
 			let defenceDif = selectedArmor.defence - (equipedArmor?.defence ?? 0)
 			
 			let defenceDifString = "defence: "
-			let defenceStatsDifference = checkStatDifferenceAndCompileAsString(defenceDifString, defenceDif)
+			let selectedArmorDefenceValue = selectedArmor.defence
+			
+			let defenceStatsDifference = checkStatDifferenceAndCompileAsString(
+				defenceDifString,
+				selectedArmorDefenceValue,
+				defenceDif
+			)
 			statsResult.append(defenceStatsDifference)
 			
 			// crit bonus
@@ -567,7 +667,13 @@ extension MainViewModel {
 			let critRatioDif = selectedArmor.critChanceBonus - (equipedArmor?.critChanceBonus ?? 0)
 			
 			let critRatioDifString = "crit chance %: "
-			let critRatioStatsDifference = checkStatDifferenceAndCompileAsString(critRatioDifString, critRatioDif)
+			let selectedArmorCritValue = selectedArmor.critChanceBonus
+			
+			let critRatioStatsDifference = checkStatDifferenceAndCompileAsString(
+				critRatioDifString,
+				selectedArmorCritValue,
+				critRatioDif
+			)
 			statsResult.append(critRatioStatsDifference)
 			
 			// hit bonus
@@ -575,7 +681,13 @@ extension MainViewModel {
 			let hitBonusDif = selectedArmor.hitChanceBonus - (equipedArmor?.hitChanceBonus ?? 0)
 			
 			let hitBonusDifString = "hit chance %: "
-			let hitBonusStatsDifference = checkStatDifferenceAndCompileAsString(hitBonusDifString, hitBonusDif)
+			let selectedArmorHitValue = selectedArmor.hitChanceBonus
+			
+			let hitBonusStatsDifference = checkStatDifferenceAndCompileAsString(
+				hitBonusDifString,
+				selectedArmorHitValue,
+				hitBonusDif
+			)
 			statsResult.append(hitBonusStatsDifference)
 			
 			// spellpower bonus
@@ -583,7 +695,13 @@ extension MainViewModel {
 			let spellPowerDif = selectedArmor.spellPowerBonus - (equipedArmor?.spellPowerBonus ?? 0)
 			
 			let spellPowerDifString = "spell power: "
-			let spellPowerStatsDifference = checkStatDifferenceAndCompileAsString(spellPowerDifString, spellPowerDif)
+			let selectedArmorSpellPowerValue = selectedArmor.spellPowerBonus
+			
+			let spellPowerStatsDifference = checkStatDifferenceAndCompileAsString(
+				spellPowerDifString,
+				selectedArmorSpellPowerValue,
+				spellPowerDif
+			)
 			statsResult.append(spellPowerStatsDifference)
 			
 		} else if selectedItem is Item { return [] }
@@ -593,7 +711,7 @@ extension MainViewModel {
 	
 	// MARK: - checkStatDifferenceAndCompileAsStringColorTuple
 	
-	func checkStatDifferenceAndCompileAsString(_ string: String, _ impact: Int) -> (String, Color) {
+	func checkStatDifferenceAndCompileAsString(_ string: String, _ baseValue: Int, _ impact: Int) -> (String, Color) {
 		
 		var stringResult = string
 		var colorResult = Color.white
@@ -603,18 +721,18 @@ extension MainViewModel {
 			// if == 0 it's mean we have no diff in items -> just ignore or print empty or gray color
 			
 		case 0:
-			stringResult += "0"
+			stringResult += "\(baseValue) (0)"
 			
 			// if we have negative difference it's mean we lost some of stats -> deduct impact and try to make it as red color
 			
 		case ..<0:
-			stringResult += "\(impact)"
+			stringResult += "\(baseValue) (\(impact))"
 			colorResult = .red
 			
 			// if we have position difference it's mean we get some bonus -> add impact and try to make it of green color
 			
 		case 1...:
-			stringResult += "+\(impact)"
+			stringResult += "\(baseValue) (+\(impact))"
 			colorResult = .green
 			
 		default:
@@ -902,8 +1020,8 @@ extension MainViewModel {
 			
 			// +3% hit chance, -1 armor, -1 spell power
 			let hitChanceBonusEffect = 3
-			let armorBonusEffect = 1
-			let spellPowerBonusEffect = 1
+			let armorBonusEffect = -1
+			let spellPowerBonusEffect = -1
 			gameState.hero.baseHitChance += hitChanceBonusEffect
 			gameState.hero.baseDefence += armorBonusEffect
 			gameState.hero.baseSpellPower += spellPowerBonusEffect
