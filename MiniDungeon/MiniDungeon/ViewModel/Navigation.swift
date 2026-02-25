@@ -83,6 +83,13 @@ extension MainViewModel {
 	
 	func applyActivateFlaskTalantsAndGoToMenu() {
 		applyActiveFlaskTalantEffects()
+		
+		// Probalby should be put on separate method
+		if gameState.didEndDemoLevel {
+			gameState.hero.flask.baseMaxCharges += 1
+			gameState.hero.flask.currentCharges += 1
+			print("add a flask charge after Demo completion")
+		}
 		gameState.currentGameScreen = .menu
 	}
 	
