@@ -86,23 +86,24 @@ extension MainViewModel {
 			// Clear the state of encountering Chest Tile
 			gameState.didEncounterChest = false
 			gameState.dealthWithChest = false
-
+			
 			// move hero to the new position
 			
 			gameState.heroPosition = Coordinate(row: row, col: col)
 			
 			let heroPosition = gameState.heroPosition
+			print(heroPosition)
 			
 			// MARK: Transition to Combat Screen
 			
-
+			
 			if gameState.dungeonMap[heroPosition.row][heroPosition.col].events.contains(.enemy) &&
 				!gameState.dungeonMap[heroPosition.row][heroPosition.col].isExplored {
-
+				
 				startBattleWithRandomNonEliteEnemy()
 				
-			// MARK: Encounter Trap
-
+				// MARK: Encounter Trap
+				
 			} else if
 				
 				gameState.dungeonMap[heroPosition.row][heroPosition.col].events.contains(.trap) &&
@@ -110,15 +111,15 @@ extension MainViewModel {
 				
 				gameState.didEncounterTrap = true
 				
-			// MARK: Encounter Shrine of Restoration
+				// MARK: Encounter Shrine of Restoration
 				
 			} else if
 				
 				gameState.dungeonMap[heroPosition.row][heroPosition.col].events.contains(.restoration) {
 				
 				gameState.didEncounterRestorationShrine = true
-			
-			// MARK: Encounter Disenchant Shrine
+				
+				// MARK: Encounter Disenchant Shrine
 				
 			} else if
 				
@@ -144,6 +145,19 @@ extension MainViewModel {
 			// Check was this tile with secret founded before
 			// TODO: Test didEncounterTrap check -> you should not be able to move
 			
+			// custom and clanky condition to detect predefined SecretRoom during Demo(tutorial level) at the specific place at the map
+			
+		} else if !checkIfDirectionValid(row, col) &&
+					gameState.dungeonMap[row][col].type == .empty &&
+					gameState.dungeonMap[row][col].events == [.secret] {
+			
+			// If met during tutorial level -> set flag to false so in other cases secretRoom will be handled in traditional way
+			handleSecretRoomOutcome(
+				row: row,
+				col: col,
+				predefinedSecret: gameState.shouldMeetPredefinedSecretRoom
+			)
+			
 		} else if !checkIfDirectionValid(row, col) &&
 					gameState.hero.currentHP > 0 &&
 					!gameState.didEncounterTrap &&
@@ -151,10 +165,15 @@ extension MainViewModel {
 					!gameState.dungeonMap[row][col].events.contains(.secret) &&
 					checkForHeroTileNeighbours(includeDiagonals: false).contains(targetTile) {
 			
-			handleSecretRoomOutcome(row: row, col: col)
+			handleSecretRoomOutcome(
+				row: row,
+				col: col,
+				predefinedSecret: false
+			)
+			
+			}
 			
 		}
-	}
 
 	// MARK: Check If Direction Valid
 
