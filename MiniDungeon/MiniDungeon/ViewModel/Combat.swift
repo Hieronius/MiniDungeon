@@ -72,6 +72,7 @@ extension MainViewModel {
 			let hitRoll = Int.random(in: 1...100)
 			if hitRoll > gameState.hero.hitChance {
 				gameState.logMessage = "Hero's Attack has been missed!"
+				playAttackSound(didMissHit: true)
 				return
 			}
 			
@@ -120,6 +121,7 @@ extension MainViewModel {
 				}
 				
 				gameState.currentEnemyAnimation = .gotDamage
+				playAttackSound(didMissHit: false)
 				
 			}
 			
