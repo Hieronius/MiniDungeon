@@ -108,6 +108,7 @@ extension MainViewModel {
 							// 70% for attack ability
 						default:
 							self.continueAttackAfterMiniGame(success: false)
+							self.playAttackSound(didMissHit: false)
 						}
 						self.enemyTurn()
 						
@@ -143,6 +144,7 @@ extension MainViewModel {
 								print("special roll failed -> perform a normal attack -> start new enemy turn")
 								
 								self.continueAttackAfterMiniGame(success: false)
+								self.playAttackSound(didMissHit: false)
 								self.enemyTurn()
 							}
 							
@@ -152,6 +154,7 @@ extension MainViewModel {
 							
 							print("enemy.energy < 2 -> perform a normal attack -> start a new enemy turn")
 							self.continueAttackAfterMiniGame(success: false)
+							self.playAttackSound(didMissHit: false)
 							self.enemyTurn()
 						}
 						
@@ -755,6 +758,7 @@ extension MainViewModel {
 			guard let weapon = itemToDisplay as? Weapon else { return false }
 			
 			equipWeapon(weapon)
+			audioManager.playSound(fileName: "equip", extensionName: "mp3")
 			return true
 			
 		case .armor:
@@ -762,6 +766,7 @@ extension MainViewModel {
 			guard let armor = itemToDisplay as? Armor else { return false }
 			
 			equipArmor(armor)
+			audioManager.playSound(fileName: "equip", extensionName: "mp3")
 			return true
 			
 		case .potion:
@@ -769,6 +774,7 @@ extension MainViewModel {
 			guard let potion = itemToDisplay as? Item else { return false }
 			
 			usePotion(potion)
+			audioManager.playSound(fileName: "useItem", extensionName: "mp3")
 			return true
 			
 		case .loot:
