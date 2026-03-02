@@ -343,6 +343,8 @@ extension MainViewModel {
 		
 		if gameState.hero.flask.currentXP >= gameState.hero.flask.expToLevelUP {
 			
+			audioManager.playSound(fileName: "flaskLevelUP", extensionName: "mp3")
+			
 			gameState.hero.flask.currentComment = .readyForLevelUP
 			gameState.didFlaskGetLevelUP = true
 			gameState.hero.flask.cleanFlaskComment()
@@ -351,7 +353,7 @@ extension MainViewModel {
 	
 	// MARK: - checkForLevelUP
 	
-	func checkForLevelUP() {
+	func checkForHeroLevelUP() {
 		
 		if  gameState.hero.currentXP >= gameState.hero.maxXP {
 			
@@ -368,6 +370,9 @@ extension MainViewModel {
 	func buyOrSellItem(onSale: Bool, item: (any ItemProtocol)?) -> Bool {
 		
 		guard let itemToDisplay = item else { return false }
+		
+		// TODO: Should be put to separate method or to be called separately
+		audioManager.playSound(fileName: "buySell", extensionName: "mp3")
 		
 		switch itemToDisplay.itemType {
 			
@@ -774,7 +779,7 @@ extension MainViewModel {
 			guard let potion = itemToDisplay as? Item else { return false }
 			
 			usePotion(potion)
-			audioManager.playSound(fileName: "useItem", extensionName: "mp3")
+			audioManager.playSound(fileName: "potionUse", extensionName: "mp3")
 			return true
 			
 		case .loot:
