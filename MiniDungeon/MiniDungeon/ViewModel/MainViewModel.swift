@@ -1,4 +1,5 @@
 import SwiftUI
+import AVFoundation
 
 /// An entity to connect Model with View
 class MainViewModel: ObservableObject {
@@ -8,6 +9,9 @@ class MainViewModel: ObservableObject {
 	var swiftDataManager: SwiftDataManager
 	var dungeonGenerator: DungeonGenerator
 	
+	// MARK: TestAudioPlayer
+	var audioManager: AudioManager
+	
 	// MARK: - Properties
 	
 	@Published var gameState: GameState
@@ -16,11 +20,12 @@ class MainViewModel: ObservableObject {
 	
 	init(swiftDataManager: SwiftDataManager,
 		 dungeonGenerator: DungeonGenerator,
-		 gameState: GameState,
-		 gameScreen: GameScreen) {
+		 audioManager: AudioManager,
+		 gameState: GameState) {
 		
 		self.swiftDataManager = swiftDataManager
 		self.dungeonGenerator = dungeonGenerator
+		self.audioManager = audioManager
 		self.gameState = gameState
 		
 		// IF IT'S A NEW SESSION -> CREATE A NEW SESSION
