@@ -1,0 +1,17 @@
+================================
+FILE HAS BEEN INSPECTED 03.03.26
+================================
+
+Create 3 mini games to combine for normal enemies and bosses
+
+May be for normal/fast/slow attacks of the enemy
+
+Note: All Mini games (boss mini game included) should probably use a special bar - stamina like in dark souls. Any defensive actions such as swiping or moving the platform during shadow mini game should cost stamina. Success or do nothing or restores some, failures just damage the hero.
+
+1. MiniGame to prevent enemy from hitting
+	The idea if to create a board with dotted line or lines to determine where enemy is planning to hit. User should swipe a line to cut this attack. Each swipe cost stamina
+	
+2. Enemy telegraphes a pattern to match: "<-, ->, <-" in quick sequence. You should match it fast to avoid damage
+
+
+3. Use ActiveReload but with random direction you should swipe to

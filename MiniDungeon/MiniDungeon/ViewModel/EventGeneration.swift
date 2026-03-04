@@ -39,6 +39,7 @@ extension MainViewModel {
 	/// If level been completed -> summon the boss and start the fight
 	func summonBoss() {
 		
+		audioManager.playSound(fileName: "summonBoss", extensionName: "mp3")
 		gameState.didEncounteredBoss = true
 		gameState.enemy = generateEnemy(didFinalBossSummoned: gameState.didEncounteredBoss)
 		restoreAllEnergy()
@@ -137,7 +138,7 @@ extension MainViewModel {
 			endLevelAndGenerateNewOne()
 		} else {
 			goToDungeon()
-			checkForLevelUP()
+			checkForHeroLevelUP()
 		}
 		
 		// In both cases check if there is enough dark energy to level up the flask and animate it to reflect to user
@@ -615,6 +616,8 @@ extension MainViewModel {
 			return
 		}
 		
+		audioManager.playSound(fileName: "secretDoor", extensionName: "mp3")
+		
 //		gameState.dungeonMap[row][col].events = [.secret]
 		gameState.dungeonMap[row][col].events.append(.secret)
 		
@@ -651,6 +654,8 @@ extension MainViewModel {
 	// MARK: getLevelBonusesAfterHeroLevelUpAndGoToLevelBonusScreen
 	
 	func generateLevelBonusesAfterHeroLevelUpAndGoToLevelBonusScreen() {
+		
+		audioManager.playSound(fileName: "heroLevelUP", extensionName: "mp3")
 		
 		// This line cleans previous bonuses to generate
 		gameState.heroLevelBonusesToChoose = []
