@@ -141,6 +141,8 @@ extension MainViewModel {
 		let position = gameState.heroPosition
 //
 		gameState.dungeonMap[position.row][position.col].type = .corridor
+		
+		audioManager.playSound(fileName: "disenchant", extensionName: "mp3")
 		goToRewards()
 	}
 	
@@ -207,6 +209,8 @@ extension MainViewModel {
 		let position = gameState.heroPosition
 		gameState.dungeonMap[position.row][position.col].type = .corridor
 		gameState.dealtWithRestorationShrine = true
+		
+		audioManager.playSound(fileName: "restorationShrineEffect", extensionName: "mp3")
 		goToRewards()
 		
 	}
@@ -223,6 +227,8 @@ extension MainViewModel {
 		guard currentCharges < maxCharges else { return }
 		gameState.hero.flask.currentCharges += 1
 		gameState.dealtWithRestorationShrine = true
+		
+		audioManager.playSound(fileName: "restorationShrineEffect", extensionName: "mp3")
 		print("got a charge for the flask")
 	}
 	
@@ -232,12 +238,17 @@ extension MainViewModel {
 		
 		gameState.dealtWithTrap = true
 		gameState.isTrapDefusionMiniGameIsOn = true
-		print("Defused")
 	}
 	
 	// MARK: - handleTrapDefusionMiniGameResult
 	
 	func handleTrapDefusionMiniGameResult(_ result: Bool) {
+		
+		if result {
+			audioManager.playSound(fileName: "lockUnlock", extensionName: "mp3")
+		} else {
+			audioManager.playSound(fileName: "denied", extensionName: "mp3")
+		}
 		
 		// this property seems to be duplicated
 		gameState.isTrapDefusionMiniGameSuccessful = result
@@ -264,6 +275,12 @@ extension MainViewModel {
 	func handleChestLockPickingMiniGameResult(_ result: Bool) {
 		
 		gameState.isLockPickingMiniGameIsSuccess = result
+		
+		if result {
+			audioManager.playSound(fileName: "openChest", extensionName: "mp3")
+		} else {
+			audioManager.playSound(fileName: "denied", extensionName: "mp3")
+		}
 		
 		DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
 			self.gameState.isLockPickingMiniGameIsOn = false
