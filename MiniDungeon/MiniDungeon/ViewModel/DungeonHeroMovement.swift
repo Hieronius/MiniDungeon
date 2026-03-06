@@ -72,6 +72,8 @@ extension MainViewModel {
 			gameState.hero.currentHP > 0 &&
 			!gameState.didEncounterTrap {
 			
+			audioManager.playSound(fileName: "heroStep", extensionName: "mp3")
+			
 			// Clear the state of encountering Secret Rooms for correct work
 			gameState.didEncounterSecretRoom = false
 			
@@ -164,6 +166,8 @@ extension MainViewModel {
 					!gameState.dungeonMap[row][col].isExplored &&
 					!gameState.dungeonMap[row][col].events.contains(.secret) &&
 					checkForHeroTileNeighbours(includeDiagonals: false).contains(targetTile) {
+			
+			audioManager.playSound(fileName: "heroFailedStep", extensionName: "mp3")
 			
 			handleSecretRoomOutcome(
 				row: row,
