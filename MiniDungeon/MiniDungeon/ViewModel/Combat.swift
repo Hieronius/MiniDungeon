@@ -10,6 +10,8 @@ extension MainViewModel {
 		
 		if gameState.isHeroTurn && gameState.hero.currentEnergy >= gameState.skillEnergyCost {
 			gameState.isCombatMiniGameOn = true
+		} else {
+			audioManager.playSound(fileName: "denied", extensionName: "mp3")
 		}
 	}
 	
@@ -190,13 +192,17 @@ extension MainViewModel {
 	/// 5 points -> 100% crit
 	func comboAttack() {
 		
-		guard gameState.hero.currentEnergy >= 1 else { return }
+		guard gameState.hero.currentEnergy >= 1 else {
+			audioManager.playSound(fileName: "denied", extensionName: "mp3")
+			return }
 		guard gameState.comboPoints >= 3 else { return }
 		
 
 		switch gameState.comboPoints {
 			
 		case 3:
+			
+			audioManager.playSound(fileName: "comboHit1", extensionName: "mp3")
 			
 			// With 3 combo points it will be an attack of 150% of damage
 			
@@ -225,6 +231,8 @@ extension MainViewModel {
 			
 			// With 4 Combo Points - 175% of damage + ignore target armor
 			
+			audioManager.playSound(fileName: "comboHit3", extensionName: "mp3")
+			
 			let baseDamage = Int(Double(Int.random(in: gameState.hero.minDamage...gameState.hero.maxDamage)) * 1.75)
 			
 			let critRoll = Int.random(in: 1...100)
@@ -251,6 +259,8 @@ extension MainViewModel {
 			// With 5 Combo Points you deal 300% damage + ignore armor
 			
 			// This attack deduct base damage by enemy armor and only after apply it's modifiers. It's mean if base damage will be 1 it can inflict 0 damage if enemy armor is 1
+			
+			audioManager.playSound(fileName: "comboHit2", extensionName: "mp3")
 			
 			let baseDamage = Int.random(in: gameState.hero.minDamage...gameState.hero.maxDamage)
 			let damage = Double(baseDamage) * 2.0
@@ -339,8 +349,13 @@ extension MainViewModel {
 				gameState.didHeroUseBlock = true
 				gameState.logMessage = "\(blockConsoleMessage) \(blockValue) has been added to the Hero Defence!"
 				
+				audioManager.playSound(fileName: "shieldBlock", extensionName: "mp3")
 				gameState.currentHeroAnimation = .usedBlock
 			}
+			
+		} else if gameState.isHeroTurn && !(gameState.hero.currentEnergy >= gameState.skillEnergyCost) {
+			
+			audioManager.playSound(fileName: "denied", extensionName: "mp3")
 			
 		} else if !gameState.isHeroTurn &&
 					gameState.enemy.currentEnergy >= gameState.skillEnergyCost {
@@ -432,13 +447,21 @@ extension MainViewModel {
 				gameState.hero.currentHP = gameState.hero.maxHP
 			}
 			
+			audioManager.playSound(fileName: "healSpell1", extensionName: "mp3")
 			gameState.currentHeroAnimation = .gotHealing
 			
 			gameState.logMessage = "\(critConsoleMessage) \(healingValue) amount of health has been recovered by hero"
 			
+		} else if gameState.isHeroTurn &&
+					!(gameState.hero.currentEnergy >= gameState.skillEnergyCost) ||
+					!(gameState.hero.currentMana >= gameState.spellManaCost) {
+			
+			audioManager.playSound(fileName: "denied", extensionName: "mp3")
+			
 		} else if gameState.isHeroTurn && gameState.hero.currentEnergy >= gameState.skillEnergyCost &&
 			gameState.hero.currentMana < gameState.spellManaCost {
 			gameState.logMessage = "Not enough mana to cast"
+			audioManager.playSound(fileName: "denied", extensionName: "mp3")
 			
 			
 			// Enemy Turn
@@ -472,6 +495,7 @@ extension MainViewModel {
 				gameState.enemy.enemyCurrentHP = gameState.enemy.enemyMaxHP
 			}
 			
+			audioManager.playSound(fileName: "healSpell1", extensionName: "mp3")
 			gameState.currentEnemyAnimation = .gotHealing
 			
 		}
