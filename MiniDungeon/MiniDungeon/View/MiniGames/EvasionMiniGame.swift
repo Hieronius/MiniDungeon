@@ -54,6 +54,7 @@ struct EvasionMiniGame: View {
 	
 	// MARK: - State Properties
 	
+	@State var isGameOn: Bool = false
 	@State var result: Bool = false
 	@State var boardColor: Color = .white
 	@State var cursorColor: Color = .purple
@@ -62,6 +63,7 @@ struct EvasionMiniGame: View {
 	@State var swipeDirectionLabel = "             "
 	@State var swipeDirection: Direction = .bottom
 	
+	/// user cursor width should be always less than sweet spot width or it will break condition to check collision
 	@State var userCursor = MotionController(
 		id: 1,
 		coordinateX: -((UIScreen.main.bounds.width / 2) - 40),
@@ -71,10 +73,11 @@ struct EvasionMiniGame: View {
 		color: .black
 	)
 	
+	/// sweet spot width should be always wider than user cursor width or it will break condition to check collision
 	@State var sweetSpot = MotionController(
 		id: 2,
-		width: 20,
-		height: 50,
+		width: 30,
+		height: 20,
 		color: .green
 	)
 	
@@ -179,11 +182,23 @@ struct EvasionMiniGame: View {
 				.onEnded { value in
 					// put methods to check collision here
 					
-					handleSwipe()
 					if value.translation.width > 50 {
 						swipeDirectionLabel = "Did Swipe Right"
+						// if predefined direction == .right -> send true to process
+						if swipeDirection == .right {
+							handleSwipe(isSwipeCorrect: true)
+						} else {
+							handleSwipe(isSwipeCorrect: false)
+						}
+						// otherwise -> send false
 					} else if value.translation.width < -50 {
 						swipeDirectionLabel = "Did Swipe Left"
+						// if predefined diretion ==.left -> send true to process
+						if swipeDirection == .left {
+							handleSwipe(isSwipeCorrect: true)
+						} else {
+							handleSwipe(isSwipeCorrect: false)
+						}
 					}
 				}
 			)
@@ -197,9 +212,27 @@ extension EvasionMiniGame {
 	
 	func startGame() {
 		
-		// set cursor.isMoving to true
+//		isGameOn = true
 		userCursor.isMoving = true
+		swipeDirection = generateSwipeDirection()
+		if swipeDirection == .right {
+			swipeDirectionLabel = "-> Right ->"
+		} else if swipeDirection == .left {
+			swipeDirectionLabel = "<- Left <-"
+		}
 		
+	}
+	
+	func gameOver() {
+		
+		userCursor.didCollide = true
+		boardColor = .red
+		resultLabelColor = .red
+		resultLabel = "Failure!"
+		userCursor.color = .red
+		cursorColor = .red
+		onGameEnd?(false)
+		print("YOU ARE FUCKING DEAD")
 	}
 	
 	func endGame() {
@@ -211,44 +244,33 @@ extension EvasionMiniGame {
 	}
 	
 	func moveCursor(_ object: inout MotionController, delta: TimeInterval) {
+			
+			let userCursorRightEdge = userCursor.coordinateX + userCursor.width
+			let hitAreaLeftEdge = hitArea.coordinateX
 		
-		let userCursorRightEdge = userCursor.coordinateX + userCursor.width
-		let hitAreaLeftEdge = hitArea.coordinateX
-		
-		if object.isMoving && userCursorRightEdge < hitAreaLeftEdge {
+		if object.isMoving {
 			
-			object.coordinateX += object.velocity
-
-			
-			
-			// if user did try to swipe on sweet spot -> check direction for evasion * stop cursor
-			
-			
-			// if user did swipe on hit area after sweet spot -> fail evasion & stop cursor
-			
-			// if user did reach a board edge -> fail evasion & stop cursor
-			
-			
-		} else {
-			
-			// TODO: This block won't stop to execute when condition met
-			handleSwipe()
-//			userCursor.didCollide = true
-//			userCursor.isMoving = false
-//			boardColor = .red
-//			resultLabelColor = .red
-//			resultLabel = "Failure!"
-//			userCursor.color = .red
-//			cursorColor = .red
-//			onGameEnd?(false)
-//			print("Still Running")
+			if userCursorRightEdge < hitAreaLeftEdge {
+				
+				object.coordinateX += object.velocity
+				
+			} else if userCursorRightEdge >= hitAreaLeftEdge {
+				object.isMoving = false
+				gameOver()
+				print(object.isMoving)
+				print("you are dead")
+			}
 		}
-		// cursor.offSet(x: += velocity)
 	}
 	
-	func generateSwipeDirection() {
+	func generateSwipeDirection() -> Direction {
 		
-		// let roll
+		let roll = Int.random(in: 1...100)
+		if roll > 50 {
+			return .right
+		} else {
+			return .left
+		}
 	}
 	
 	func generateSweetSpot() {
@@ -256,7 +278,7 @@ extension EvasionMiniGame {
 		// let roll
 	}
 	
-	func handleSwipe() {
+	func handleSwipe(isSwipeCorrect: Bool) {
 		
 		let userCursorLeftEdge = userCursor.coordinateX
 		let userCursorRightEdge = userCursor.coordinateX + userCursor.width
@@ -264,11 +286,14 @@ extension EvasionMiniGame {
 		let sweetSpotLeftEdge = sweetSpot.coordinateX
 		let sweetSpotRightEdge = sweetSpot.coordinateX + sweetSpot.width
 		
-		// if user failed to swipe in sweet spot area
+		// user cursor is partially in the sweet spot by it's right side
+		let isCursorRightEdgeAtSweetSpot = userCursorRightEdge >= sweetSpotLeftEdge && userCursorRightEdge < sweetSpotRightEdge
 		
-		// TODO: Wrong Win condition. Write it down on the tablet
-		if userCursorLeftEdge < sweetSpotLeftEdge &&
-		userCursorRightEdge > sweetSpotRightEdge {
+		// user cursor is partially in the sweet spot by it's left side
+		let isCursorLeftEdgeAtSweetSpot = userCursorLeftEdge >= sweetSpotLeftEdge && userCursorLeftEdge < sweetSpotRightEdge + 1
+		
+		// if cursor is at the sweet spot by any of it's sides and swipe direction is correct -> successfully dodge the attack
+		if (isCursorRightEdgeAtSweetSpot || isCursorLeftEdgeAtSweetSpot) && isSwipeCorrect {
 			
 			userCursor.didCollide = true
 			userCursor.isMoving = false
@@ -279,7 +304,7 @@ extension EvasionMiniGame {
 			cursorColor = .red
 			onGameEnd?(false)
 			
-			// TODO: Wrong lose condition. Write it down on the tablet
+		// in any other cases get hit
 		} else {
 			
 			// if user was correct on swiping on the right place
@@ -298,9 +323,17 @@ extension EvasionMiniGame {
 	
 	func checkIfEvasionWasSuccess() -> Bool {
 		
-		// handleSwipeDirection
-		// if true -> check coordinates, else -> return hit on the hero
-		// cursor.xOffSet +/- 10 == sweetSpot.xOffSet
+		// if onSweetSpot && isSwipeCorrect -> send True to dodge
+		
+		// if onSweetSpot && !isSwipeCorrect -> send False to get hit
+		
+		// if onWhiteSpot && isSwipeCorrect -> send False to get hit
+		
+		// if onWhiteSpot && !isSwipeCorrect -> send False to get hit
+		
+		// if onHitArea && isSwipeCorrect -> send False to get hit
+		
+		// if onHitArea && !isSwipeCorrect -> send False to get hit
 		
 		return false
 	}

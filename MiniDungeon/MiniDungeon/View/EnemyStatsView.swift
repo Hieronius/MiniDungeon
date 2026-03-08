@@ -20,9 +20,12 @@ extension MainView {
 				Text("Defence: \(viewModel.gameState.enemy.defence)")
 			}
 			
+			// MARK: - Navigation
+			
 			Section(header: Text("Navigation")) {
 
 				Button("Go To Battle") {
+					viewModel.audioManager.playSound(fileName: "click", extensionName: "mp3")
 					viewModel.goToBattle()
 				}
 			}
