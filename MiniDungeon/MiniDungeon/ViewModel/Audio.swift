@@ -1,5 +1,13 @@
 import Foundation
 
+enum GameMusic: Codable, CaseIterable {
+	
+	case none
+	case dungeon
+	case battle
+	case town
+}
+
 extension MainViewModel {
 	
 	func playAttackSound(didMissHit: Bool) {
