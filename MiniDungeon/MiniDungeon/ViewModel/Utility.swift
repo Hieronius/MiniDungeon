@@ -72,17 +72,17 @@ extension MainViewModel {
 			
 			print("EnemyTurn && no mini game")
 			
-			// ORIGINAL: Zero energy check (unchanged)
-			guard gameState.enemy.currentEnergy > 0 else {
-				passTurnToHero()
-				return
-			}
-			
 			
 			// A delay to create feeling the enemy does attacks with a little delays and not instant
-				let extraActionDelay = 1.0 + Double(gameState.enemy.currentEnergy) / 5.0
+				let extraActionDelay = 2.0 + Double(gameState.enemy.currentEnergy) / 5.0
 				
 				DispatchQueue.main.asyncAfter(deadline: .now() + extraActionDelay) {
+					
+					guard self.gameState.enemy.currentEnergy > 0 else {
+						self.passTurnToHero()
+						print("->>>>>>FOUND LACK OF ENERGY WHILE ON DISPATCH<<<<<<-")
+						return
+					}
 					
 					// Calculate current enemy hp in %
 					let enemyMaxHealthInPercent = Double(self.gameState.enemy.enemyMaxHP) / 100.0
@@ -107,7 +107,8 @@ extension MainViewModel {
 							
 							// 70% for attack ability
 						default:
-							self.continueAttackAfterMiniGame(success: false)
+//							self.continueAttackAfterMiniGame(success: false)
+							self.gameState.isEvasionMiniGameOn = true
 							self.playAttackSound(didMissHit: false)
 						}
 						self.enemyTurn()
@@ -143,7 +144,7 @@ extension MainViewModel {
 								
 								print("special roll failed -> perform a normal attack -> start new enemy turn")
 								
-								self.continueAttackAfterMiniGame(success: false)
+								self.gameState.isEvasionMiniGameOn = true
 								self.playAttackSound(didMissHit: false)
 								self.enemyTurn()
 							}
@@ -153,7 +154,8 @@ extension MainViewModel {
 						} else {
 							
 							print("enemy.energy < 2 -> perform a normal attack -> start a new enemy turn")
-							self.continueAttackAfterMiniGame(success: false)
+//							self.continueAttackAfterMiniGame(success: false)
+							self.gameState.isEvasionMiniGameOn = true
 							self.playAttackSound(didMissHit: false)
 							self.enemyTurn()
 						}
