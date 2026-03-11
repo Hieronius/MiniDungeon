@@ -10,7 +10,12 @@ extension MainViewModel {
 		guard let shrine else { return }
 		
 		guard gameState.heroDarkEnergy >= shrine.darkEnergyCost && !gameState.upgradedShrines.contains(shrine)
-		else { return }
+		else {
+			audioManager.playSound(fileName: "denied", extensionName: "mp3")
+			return
+		}
+		
+		audioManager.playSound(fileName: "confirm", extensionName: "mp3")
 		
 		gameState.heroDarkEnergy -= shrine.darkEnergyCost
 		print("dark energy deducted")
