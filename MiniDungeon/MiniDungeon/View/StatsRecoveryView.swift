@@ -1,50 +1,8 @@
 import SwiftUI
 
-/*
- 
- TODO: 👇
- - ZStack
- - Board
- - Text(HP)
- - SliderView (0...100)
- - Button (restore \(hp) for \(hp * hpCost)
- - viewModel.restoreStat(_ stat: HP, _ forGold: Int) -> hero.currentHP += hpRecoveryValue
- - button "close" -> isStatsRecoveryViewOpen = false
- 
- 
- 
- 
- 
- */
-
 extension MainView {
 	
-	@ViewBuilder
-	func buildStatsRecoveryView(
-		
-		currentHPValue: Int,
-		maxHPValue: Int,
-		currentMPValue: Int,
-		maxMPValue: Int,
-		gold: Int
-		
-	) -> some View {
-		
-		VStack {
-			StatsRecoveryView(
-				
-				currentHPValue: currentHPValue,
-				maxHPValue: maxHPValue,
-				currentMPValue: currentMPValue,
-				maxMPValue: maxMPValue,
-				gold: gold
-			)
-		}
-	}
-}
-
-extension MainView {
-	
+	/// View with Sliders to recover HP/MP for gold. It's changes values locally and passes it to the GameState via viewModel when you press button "Confirm"
 	struct StatsRecoveryView: View {
 		
 		@State var currentHPValue: Int
@@ -54,9 +12,11 @@ extension MainView {
 		@State var currentMPValue: Int
 		@State var mpToRestore = 1
 		@State var maxMPValue: Int
-		@State var gold: Int
+		@State var currentGoldValue: Int
 		
-		var statsRecoveryResult: ((Int, Int, Int) -> ())?
+		var unitCostInGold = 5
+		
+		var statsRecoveryResult: ((StatsRecoveryResult) -> Void)?
 		
 		
 		var body: some View {
@@ -66,7 +26,7 @@ extension MainView {
 				// Board
 				
 				Rectangle()
-					.frame(width: UIScreen.main.bounds.width - 30, height: 250)
+					.frame(width: UIScreen.main.bounds.width - 30, height: 350)
 					.foregroundStyle(.black)
 					.border(.white, width: 5)
 				
@@ -75,7 +35,9 @@ extension MainView {
 				VStack {
 					Spacer()
 					
-					Text("Current HP: \(currentHPValue)/\(maxHPValue) Current MP: \(currentMPValue)/\(maxMPValue) Gold: \(gold)")
+					Text("HP: \(currentHPValue)/\(maxHPValue)")
+					Text("MP: \(currentMPValue)/\(maxMPValue)")
+					Text("Gold: \(currentGoldValue)")
 					
 					// VStack for HP
 					
@@ -85,16 +47,19 @@ extension MainView {
 						
 						VStack {
 							HStack {
-								Text("HP: \(hpToRestore)")
+								Text("HP")
 								Slider(
 									value: .convert($hpToRestore),
 									in: 1...100
 								)
 								.frame(width: UIScreen.main.bounds.width - 150)
 							}
-							Button("Restore for \(hpToRestore * 5) Gold") {
-//								 restore locally
+							Button("Restore \(hpToRestore) hp for \(hpToRestore * unitCostInGold) gold") {
+								
+								recoverHPLocally(by: hpToRestore)
+						
 							}
+							.buttonStyle(.bordered)
 						}
 						
 						// VStack for MP
@@ -102,7 +67,6 @@ extension MainView {
 						VStack {
 							
 						HStack {
-							Text("MP: \(mpToRestore)")
 							
 							Slider(
 								value: .convert($mpToRestore),
@@ -110,13 +74,23 @@ extension MainView {
 							)
 							.frame(width: UIScreen.main.bounds.width - 150)
 						}
-							Button("Restore MP") {
-								// restore locally
+							Button("Restore \(mpToRestore) mp for \(mpToRestore * unitCostInGold) gold") {
+								
+								recoverMPLocally(by: mpToRestore)
 							}
+							.buttonStyle(.bordered)
 						}
 						Spacer()
-						Button("Close Window") {
-							// send result closure to mainView and update current HP, MP and Gold
+						Button("Confirm") {
+							
+							statsRecoveryResult?(
+								
+								StatsRecoveryResult(
+									newCurrentHPValue: currentHPValue,
+									newCurrentMPValue: currentMPValue,
+									newCurrentGoldValue: currentGoldValue
+								)
+							)
 						}
 						Spacer()
 					}
@@ -125,5 +99,59 @@ extension MainView {
 				}
 			}
 		}
+	}
+	
+}
+
+extension MainView.StatsRecoveryView {
+	
+	func recoverHPLocally(by value: Int) {
+		
+		if (hpToRestore + currentHPValue) <= maxHPValue {
+			
+			if value * unitCostInGold <= currentGoldValue {
+				
+				print("old local hp value: \(currentHPValue)")
+				print("old local gold value: \(currentGoldValue)")
+				currentHPValue += value
+				currentGoldValue -= (value * unitCostInGold)
+				hpToRestore = 1
+				print("new local hp value: \(currentHPValue)")
+				print("new local gold value: \(currentGoldValue)")
+				
+			} else {
+				print("Not Enough Gold")
+				return
+			}
+			
+		} else {
+			print("Too Many HP points to recover!")
+			return
+		}
+	}
+	
+	func recoverMPLocally(by value: Int) {
+		
+		if (mpToRestore + currentMPValue) <= maxMPValue {
+			
+			if value * unitCostInGold <= currentGoldValue {
+				
+				print("old local mp value: \(currentMPValue)")
+				print("old local gold value: \(currentGoldValue)")
+				currentMPValue += value
+				currentGoldValue -= (value * unitCostInGold)
+				mpToRestore = 1
+				print("new local mp value: \(currentMPValue)")
+				print("new local gold value: \(currentGoldValue)")
+				
+			} else {
+				print("Not Enough Gold")
+				return
+			}
+		} else {
+			print("Too Many MP points to recover!")
+			return
+		}
+		
 	}
 }

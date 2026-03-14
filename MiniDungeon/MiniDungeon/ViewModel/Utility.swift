@@ -719,6 +719,21 @@ extension MainViewModel {
 		return statsResult
 	}
 	
+	// MARK: - handleStatsRecoveryUpdate
+	
+	func handleStatsRecoveryUpdate(from result: StatsRecoveryResult?) {
+		
+		gameState.isStatsRecoveryViewOpen = false
+		print("Ready to perform a stats update")
+		guard let result = result else { return }
+		
+		gameState.hero.currentHP = result.newCurrentHPValue
+		gameState.hero.currentMana = result.newCurrentMPValue
+		gameState.heroGold = result.newCurrentGoldValue
+		
+		// work with result here by assigning properties to hero current stats
+	}
+	
 	// MARK: - checkStatDifferenceAndCompileAsStringColorTuple
 	
 	func checkStatDifferenceAndCompileAsString(_ string: String, _ baseValue: Int, _ impact: Int) -> (String, Color) {
