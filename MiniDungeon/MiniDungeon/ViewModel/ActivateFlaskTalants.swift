@@ -14,7 +14,11 @@ extension MainViewModel {
 		guard let talant else { return }
 		
 		guard gameState.heroMaxDarkEnergyOverall >= talant.darkEnergyLevelToUpgrade && !gameState.upgradedFlaskTalants.contains(talant)
-		else { return }
+		else {
+			audioManager.playSound(fileName: "denied", extensionName: "mp3")
+			return
+		}
+		audioManager.playSound(fileName: "confirm", extensionName: "mp3")
 		
 		gameState.upgradedFlaskTalants.append(talant)
 		gameState.flaskTalantToDisplay = nil
