@@ -22,7 +22,7 @@ extension MainView {
 	func buildCoinFlipMiniGame() -> some View {
 		
 		VStack {
-			CoinFlipMiniGameView()
+			CoinFlipMiniGameView(heroChanceForFirstTurn: 50)
 		}
 	}
 }
@@ -32,30 +32,121 @@ struct CoinFlipMiniGameView: View {
 	@State var isRotating = false
 	@State var rotatingAngle: Double = 0.0
 	@State var isSpinning = false
+	@State var coinColor: Color = .white
+	@State var yOffSet: CGFloat = 0
+	@State var direction: Direction = .top
+	@State var isHeroCoinInFront = true
+	@State var coinFlipEnd = false
+	
+	var heroChanceForFirstTurn: Int
+	
+	var onGameEnd: ((Bool) -> Void)?
 	
 	var body: some View {
 		
-		Spacer()
-		Image(systemName: "h.circle")
-			.font(.largeTitle)
-			.scaleEffect(1.8)
-			.rotation3DEffect(.degrees(rotatingAngle), axis: (x: 1, y: 0, z: 0))
+		ZStack {
 			
+			Rectangle()
+				.frame(width: UIScreen.main.bounds.width / 2, height: 300)
+				.foregroundStyle(.black)
+				.border(coinColor, width: 5)
+				.offset(y: -50)
+			VStack {
+				Image(systemName: isHeroCoinInFront ? "h.circle" : "e.circle")
+					.font(.largeTitle)
+					.foregroundStyle(coinColor)
+					.scaleEffect(1.8)
+					.rotation3DEffect(.degrees(rotatingAngle), axis: (x: 1, y: 0, z: 0))
+					.offset(y: yOffSet)
+				
+				Text(isHeroCoinInFront ? "Hero Turn First!" : "Enemy Turn First!")
+					.foregroundStyle(coinColor)
+					.opacity(coinFlipEnd ? 1.0 : 0.0)
+					.offset(y: 30)
+				
+			}
+		}
+		.onAppear { startMiniGame() }
+	}
+}
+
+extension CoinFlipMiniGameView {
+	
+	/// Method generates coin flipping outcome, throws and rotates the coin for visual effect
+	func startMiniGame() {
+		generateCoinFlippingOutcomeWithDelay()
+		throwCoin()
+		rotateCoin()
+	}
+	
+	/// Rotates 7 times in 360 degree cycle each time to match throwing speed
+	/// delay is equal an amount of degree rotation per each for in cycle
+	/// if you want to speed up -> increase the delay in forIn/delay property in Dispatch
+	/// if you want to slow down -> decrease the delay in forIn/delay property
+	func rotateCoin() {
 		
-		Spacer()
-		
-		Button("toggle rotating") {
+		for flip in 1...7 {
 			
-			for _ in 1...10 {
+			for delay in 1...24 {
 				if rotatingAngle == 360 {
 					rotatingAngle = 0
 				}
-				DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-					self.rotatingAngle += 15.0
+				DispatchQueue.main.asyncAfter(deadline: .now() + Double(delay)/24) {
+					rotatingAngle += 15.0
+					isHeroCoinInFront.toggle()
 				}
 			}
+			
 		}
-		Spacer()
+	}
+	
+	/// Method changes Coin Y offSet for an amount to simulate throwing.
+	/// to speed up -> increase delay in forIn and dispatch
+	/// to slow down -> decrease delay in forIn and dispatch
+	func throwCoin() {
 		
+		for delay in 1...200 {
+			
+			DispatchQueue.main.asyncAfter(deadline: .now() + Double(delay)/200) {
+				if yOffSet <= -100 {
+					direction = .bottom
+					
+				} else if yOffSet >= 0 {
+					direction = .top
+				}
+				
+				if direction == .top {
+					print("we move top")
+					yOffSet -= 1
+				} else if direction == .bottom {
+					print("we move bottom")
+					yOffSet += 1
+				}
+				print(yOffSet)
+				print(direction)
+			}
+		}
+	}
+	
+	func generateCoinFlippingOutcomeWithDelay() {
+		
+		DispatchQueue.main.asyncAfter(deadline: .now() + 1.01) {
+			let roll = Int.random(in: 1...100)
+			
+			if roll <= heroChanceForFirstTurn {
+				
+				coinColor = .green
+				isHeroCoinInFront = true
+				onGameEnd?(true)
+				print("HERO START FIRST")
+			} else if roll > heroChanceForFirstTurn {
+				
+				coinColor = .red
+				isHeroCoinInFront = false
+				onGameEnd?(false)
+				print("ENEMY START FIRST")
+			}
+			coinFlipEnd = true
+		}
 	}
 }
