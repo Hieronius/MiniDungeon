@@ -2,6 +2,7 @@ import Foundation
 
 // MARK: - HeroLevelBonus
 
+/// Entity to describe a bonus hero can choose after each level up
 struct HeroLevelBonus: Identifiable, Hashable, Codable {
 	
 	var id: UUID
