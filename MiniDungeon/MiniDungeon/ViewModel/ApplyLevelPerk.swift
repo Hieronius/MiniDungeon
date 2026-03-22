@@ -41,19 +41,41 @@ extension MainViewModel {
 			gameState.hero.baseAttackDamageModifier += 0.1
 			gameState.hero.baseComboDamageModifier += 0.1
 			
+			
+		case "Common Perk of Protection":
+			
+			gameState.minBlockValue += 2
+			gameState.maxBlockValue += 2
+			
+			
+		case "Common Perk of Wisdom":
+			
+			gameState.hero.baseSpellPower += 3
+			
+		case "Common Perk of Critical Hit":
+			
+			gameState.hero.baseCritEffectModifier += 0.1
+			
+		case "Common Perk of Preparation":
+			
+			gameState.isPrepPerkActive = true
+			gameState.prepPerkEffectModifier += 0.5
+			
+		case "Common Perk of Ill Word":
+			
+			gameState.isIllWordPerkActive = true
+			gameState.illWordPerkEffectModifier += 0.25
+			
+		case "Common Perk of Reflection":
+			
+			gameState.isReflectionPerkActive = true
+			gameState.reflectionPerkEffectModifier += 0.1
+			
+		case "Common Perk of Vampirism":
+			
+			// MARK: YOU ARE HERE TO IMPLEMENT
+			
 			/*
-			 
-			 LevelPerk(name: "Common Perk of Protection", perkDescription: "+2 block value"),
-			 
-			 LevelPerk(name: "Common Perk of Wisdom", perkDescription: "+3 spell power"),
-			 
-			 LevelPerk(name: "Common Perk of Critical Hit", perkDescription: "+10% critical effect of attack/heal/block abilities"),
-			 
-			 LevelPerk(name: "Common Perk of Preparation", perkDescription: "Adds 50% of current block value as damage to next attack after using block ability"),
-			 
-			 LevelPerk(name: "Common Perk of Ill Word", perkDescription: "Adds 25% of heal value to next attack after using heal ability"),
-			 
-			 LevelPerk(name: "Common Perk of Retaliation", perkDescription: "Reflect 10% of enemy damage while under block ability"),
 			 
 			 LevelPerk(name: "Common Perk of Vampirism", perkDescription: "Normal attacks can heal by 5% of damage done"),
 			 
