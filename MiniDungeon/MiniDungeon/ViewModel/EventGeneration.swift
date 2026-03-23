@@ -40,6 +40,10 @@ extension MainViewModel {
 	func summonBoss() {
 		
 		audioManager.playSound(fileName: "summonBoss", extensionName: "mp3")
+		DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+			self.gameState.isCoinFlipMiniGameOn = true
+			self.audioManager.playSound(fileName: "coinFlip", extensionName: "mp3")
+		}
 		gameState.didEncounteredBoss = true
 		gameState.enemy = generateEnemy(didFinalBossSummoned: gameState.didEncounteredBoss)
 		restoreAllEnergy()
@@ -219,9 +223,15 @@ extension MainViewModel {
 		
 		// gold loot
 		
-		let gold = generateGoldLoot(
+		var gold = generateGoldLoot(
 			didFinalBossSummoned: gameState.didEncounteredBoss
 		)
+		
+		// Greed Perk Check
+		
+		if gameState.isGreedPerkActive {
+			gold += calculateGreedPerkEffect(for: gold)
+		}
 		gameState.heroGold += gold
 		gameState.goldLootToDisplay = gold
 		
@@ -229,9 +239,15 @@ extension MainViewModel {
 		// experience loot (ignore if it's a chest loot)
 		if !gameState.dealthWithChest && !gameState.didEncounterSecretRoom {
 			
-			let exp = generateExperienceLoot(
+			var exp = generateExperienceLoot(
 				didFinalBossSummoned: gameState.didEncounteredBoss
 			)
+			
+			// Greed Perk Check
+			
+			if gameState.isGreedPerkActive {
+				exp += calculateGreedPerkEffect(for: exp)
+			}
 			
 			gameState.hero.currentXP += exp
 			gameState.expLootToDisplay = exp
@@ -239,14 +255,30 @@ extension MainViewModel {
 		
 		// dark energy loot
 		
-		let energy = generateDarkEnergyLoot(
+		var energy = generateDarkEnergyLoot(
 			didFinalBossSummoned: gameState.didEncounteredBoss
 		)
+		
+		// // Greed Perk Check
+		
+		if gameState.isGreedPerkActive {
+			energy += calculateGreedPerkEffect(for: energy)
+		}
 		gameState.hero.flask.currentXP += energy
 		gameState.heroDarkEnergy += energy
 		gameState.heroMaxDarkEnergyOverall += energy
 		gameState.darkEnergyLootToDisplay = energy
 		
+	}
+	
+	// MARK: - calculateGreedPerkEffect
+	
+	/// Method should calculate extra perk bonus to gold/energy/experience loot
+	func calculateGreedPerkEffect(for loot: Int) -> Int {
+		
+		let bonusLoot = Int(Double(loot) * gameState.greedPerkEffectModifier)
+		print("extra bonus loot \(bonusLoot) due to Greed Perk")
+		return bonusLoot
 	}
 	
 	// MARK: - Generate Weapon Loot
