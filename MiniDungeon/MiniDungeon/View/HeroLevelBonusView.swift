@@ -17,6 +17,7 @@ extension MainView {
 						Button(bonus.name) {
 							viewModel.gameState.heroLevelBonusToDisplay = bonus
 						}
+						.foregroundStyle(bonus.rarity.color)
 					}
 				}
 				

@@ -40,14 +40,14 @@ extension MainViewModel {
 	func summonBoss() {
 		
 		audioManager.playSound(fileName: "summonBoss", extensionName: "mp3")
-		DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-			self.gameState.isCoinFlipMiniGameOn = true
-			self.audioManager.playSound(fileName: "coinFlip", extensionName: "mp3")
-		}
 		gameState.didEncounteredBoss = true
 		gameState.enemy = generateEnemy(didFinalBossSummoned: gameState.didEncounteredBoss)
 		restoreAllEnergy()
 		goToBattle()
+		DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+			self.gameState.isCoinFlipMiniGameOn = true
+			self.audioManager.playSound(fileName: "coinFlip", extensionName: "mp3")
+		}
 	}
 	
 	// MARK: - spawnHeroAtDemoLevel
