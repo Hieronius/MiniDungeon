@@ -7,9 +7,17 @@ extension MainViewModel {
 	/// If Level complete and boss has been defeated go to the next one
 	func endLevelAndGenerateNewOne() {
 		
-		generateMerchantLoot()
-		
-		goToMerchant()
+		if gameState.didEndDemoLevel {
+			
+			generateLevelPerksAfterEndingDungeonLevelAndGoToLevelPerkScreen()
+			
+		} else {
+			
+			generateMerchantLoot()
+			
+			goToMerchant()
+			
+		}
 		
 		gameState.didEncounteredBoss = false
 		gameState.currentDungeonLevel += 1
@@ -44,7 +52,7 @@ extension MainViewModel {
 		gameState.enemy = generateEnemy(didFinalBossSummoned: gameState.didEncounteredBoss)
 		restoreAllEnergy()
 		goToBattle()
-		DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+		DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
 			self.gameState.isCoinFlipMiniGameOn = true
 			self.audioManager.playSound(fileName: "coinFlip", extensionName: "mp3")
 		}
@@ -56,17 +64,9 @@ extension MainViewModel {
 		
 		print("START")
 		// Predefined coordinates of farest left R tile of the demo level
-//		let map = gameState.dungeonMap
 		let row = 3
 		let col = 0
 		
-//		let tile = map[row][col]
-//		if tile.type == .room && !gameState.didHeroAppear {
-//			gameState.heroPosition = Coordinate(row: row, col: col)
-//			print(tile.type)
-//			print(tile.events)
-////			gameState.didHeroAppear = true
-//		}
 		gameState.heroPosition = Coordinate(row: row, col: col)
 		gameState.didHeroAppear = true
 		
@@ -590,7 +590,7 @@ extension MainViewModel {
 	/// Method to generate random amount of experience based on enemy level
 	func generateExperienceLoot(didFinalBossSummoned: Bool) -> Int {
 		
-		var expRoll = Int.random(in: 30...40)
+		var expRoll = Int.random(in: 300000...400000)
 		
 		if didFinalBossSummoned { expRoll *= 2 }
 		
@@ -601,7 +601,7 @@ extension MainViewModel {
 	
 	func generateDarkEnergyLoot(didFinalBossSummoned: Bool) -> Int {
 		
-		var energyRoll = Int.random(in: 5...10)
+		var energyRoll = Int.random(in: 50000...100000)
 		
 		if didFinalBossSummoned { energyRoll *= 2 }
 		
@@ -683,7 +683,7 @@ extension MainViewModel {
 		}
 	}
 	
-	// MARK: getLevelBonusesAfterHeroLevelUpAndGoToLevelBonusScreen
+	// MARK: - getLevelBonusesAfterHeroLevelUpAndGoToLevelBonusScreen
 	
 	func generateLevelBonusesAfterHeroLevelUpAndGoToLevelBonusScreen() {
 		
@@ -709,7 +709,35 @@ extension MainViewModel {
 		goToHeroLevelBonus()
 	}
 	
-	// MARK: generateLevelBonusesAfterFlaskLevelUpAndGoToLevelBonusScreen()
+	// MARK: - generateLevelPerksAfterEndingDungeonLevelAndGoToLevelPerkScreen
+	
+	func generateLevelPerksAfterEndingDungeonLevelAndGoToLevelPerkScreen() {
+		
+		// play audio - "you get a new perk!"
+		
+		// This line cleans previous perks to generate
+		gameState.levelPerksToChoose = []
+		
+		var levelPerksSet: Set<LevelPerk> = []
+		
+		// Generate level of raririty -> ask LevelPerkManager to provide a random bonus accordingly to the rarity
+		// Add this bonus to levelPerksToChoose
+		while levelPerksSet.count < 3 {
+			
+			var counter = 0
+			let rarity = generateRewardRarity()
+			guard let perk = LevelPerkManager.generateLevelPerk(of: rarity) else {
+				return
+			}
+			levelPerksSet.insert(perk)
+			counter += 1
+			
+		}
+		gameState.levelPerksToChoose = Array(levelPerksSet)
+		goToLevelPerk()
+	}
+	
+	// MARK: - generateLevelBonusesAfterFlaskLevelUpAndGoToLevelBonusScreen
 	
 	func generateLevelBonusesAfterFlaskLevelUpAndGoToLevelBonusScreen() {
 		
