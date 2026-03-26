@@ -10,6 +10,7 @@ struct CombatMiniGameView: View {
 	@State var progressBarColor: Color = .blue
 	@State var boardColor: Color = .white
 	@State var beenTapped: Bool = false
+	@State var isHapticOn = false
 	
 	// Probably should be replaced by button "HIT"
 	let label = "Tap inside when the line will meet with the circle"
@@ -81,6 +82,7 @@ struct CombatMiniGameView: View {
 				
 			}
 		}
+		.sensoryFeedback(isSuccess ? .success : .error, trigger: isHapticOn)
 		
 		// Handicaped condition to make view untappable after first touch action
 		// Just copy an antire line of spaces from `gameResult` property
@@ -105,8 +107,10 @@ extension CombatMiniGameView {
 		
 		// Turn it to true from battle screen while doing an attack
 		inProgress = false
+		isHapticOn = true
 		
 		onGameEnd?(isSuccess)
+		
 		
 		// TODO: IF YOU EXPLORE ANY BUGS WITH COMBAT MINI GAME LOOK AT HERE
 //		DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
