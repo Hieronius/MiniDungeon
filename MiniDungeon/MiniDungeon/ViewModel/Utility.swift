@@ -23,6 +23,29 @@ extension MainViewModel {
 		if gameState.isHeroTurn {
 			
 			gameState.didUserPressedEndTurnButton = true
+			
+			// This flag mean we start a new turn so perk can affect attack again
+			gameState.didPrepPerkAffectCurrentTurn = false
+			
+			// This flag mean that we start a new turn so to utilise perk effect we should use block first
+			gameState.shouldPrepPerkAffectNextAttack = false
+			
+			// This flag mean we start a new turn so perk can affect attack again
+			gameState.didIllWordPerkAffectCurrentTurn = false
+			
+			// This flag mean that we start a new turn so to utilise perk effect we should use heal first
+			gameState.shouldIllWordPerkAffectNextAttack = false
+			
+			// This flag mean we start a new turn so to reflect enemy attacks we should use block again
+			gameState.shouldReflectAttacks = false
+			
+			// This flag mean we start a new turn so to empower next block we need to use heal again
+			gameState.shouldEmpowerNextBlock = false
+			
+			// This flag mean that if we did use block with Resilience Perk being active but won't use heal at the same turn, we should remove the effect when the turn was ended
+			gameState.shouldEmpowerNextHeal = false
+			
+			
 			gameState.isHeroTurn = false
 			restoreAllEnergy()
 			
@@ -73,98 +96,139 @@ extension MainViewModel {
 			print("EnemyTurn && no mini game")
 			
 			
-			// A delay to create feeling the enemy does attacks with a little delays and not instant
-				let extraActionDelay = 2.0 + Double(gameState.enemy.currentEnergy) / 5.0
+			// A delay to create feeling the enemy does attacks with a little delay and not instant
+			var extraActionDelay = 2.0 + Double(gameState.enemy.currentEnergy) / 5.0
+			
+			DispatchQueue.main.asyncAfter(deadline: .now() + extraActionDelay) {
 				
-				DispatchQueue.main.asyncAfter(deadline: .now() + extraActionDelay) {
+				guard self.gameState.enemy.currentEnergy > 0 else {
+					self.passTurnToHero()
+					print("->>>>>>FOUND LACK OF ENERGY WHILE ON DISPATCH<<<<<<-")
+					return
+				}
+				
+				// Calculate current enemy hp in %
+				let enemyMaxHealthInPercent = Double(self.gameState.enemy.enemyMaxHP) / 100.0
+				let currentHealthInPercent = Double(self.gameState.enemy.enemyCurrentHP) / enemyMaxHealthInPercent
+				
+				// if enemy has less than 30% hp add heal/block as actions to choose between
+				if currentHealthInPercent <= 30.0 {
 					
-					guard self.gameState.enemy.currentEnergy > 0 else {
-						self.passTurnToHero()
-						print("->>>>>>FOUND LACK OF ENERGY WHILE ON DISPATCH<<<<<<-")
-						return
-					}
+					print("Decide Defensive Action")
+					// 1 - 100 equal to part of 100% of the chance to get a specific action
+					let chance = Int.random(in: 1...100)
 					
-					// Calculate current enemy hp in %
-					let enemyMaxHealthInPercent = Double(self.gameState.enemy.enemyMaxHP) / 100.0
-					let currentHealthInPercent = Double(self.gameState.enemy.enemyCurrentHP) / enemyMaxHealthInPercent
-					
-					// if enemy has less than 30% hp add heal/block as actions to choose between
-					if currentHealthInPercent <= 30.0 {
+					switch chance {
 						
-						print("Decide Defensive Action")
-						// 1 - 100 equal to part of 100% of the chance to get a specific action
-						let chance = Int.random(in: 1...100)
+						// 15% for healing ability
+					case 1...15:
+						self.heal()
 						
-						switch chance {
-							
-							// 15% for healing ability
-						case 1...15:
-							self.heal()
-							
-							// 15% for block ability
-						case 16...30:
-							self.block()
-							
-							// 70% for attack ability
-						default:
-//							self.continueAttackAfterMiniGame(success: false)
+						// 15% for block ability
+					case 16...30:
+						self.block()
+						
+						// 70% for attack ability
+					default:
+						
+						let attackRoll = Int.random(in: 1...100)
+						
+						// 70% for avoidable one
+						
+						if attackRoll <= 70 {
 							self.gameState.isEvasionMiniGameOn = true
-							self.playAttackSound(didMissHit: false)
+							
+							// 30% for unavoidable one
+							// dodge: false mean we don't activate evasion mini game so avoidance is not active
+							
+						} else if attackRoll > 70 {
+							extraActionDelay += 1.5
+							self.continueAttackAfterMiniGame(success: false, dodge: false)
 						}
-						self.enemyTurn()
+						self.playAttackSound(didMissHit: false)
+					}
+					self.enemyTurn()
+					
+				} else {
+					
+					print("Decide an Offensive Action")
+					
+					// if enemy has energy for ultimate throw a roll for it
+					
+					if self.gameState.enemy.currentEnergy >= 2 && self.gameState.enemy.isBoss {
 						
-					} else {
+						print("enemy.energy > 2 -> special attack roll")
 						
-						print("Decide an Offensive Action")
+						let ultimateRoll = Int.random(in: 1...10)
 						
-						// if enemy has energy for ultimate throw a roll for it
-						
-						if self.gameState.enemy.currentEnergy >= 2 && self.gameState.enemy.isBoss {
+						if ultimateRoll <= 4 {
 							
-							print("enemy.energy > 2 -> special attack roll")
+							print("specialRoll successful -> perform")
 							
-							let ultimateRoll = Int.random(in: 1...10)
+							self.gameState.enemy.currentEnergy -= self.gameState.specialSkillEnergyCost
+							self.gameState.logMessage = "Enemy Special Attack!"
+							self.gameState.isShadowBallMiniGameOn = true
 							
-							if ultimateRoll <= 4 {
-								
-								print("specialRoll successful -> perform")
-								
-								self.gameState.enemy.currentEnergy -= self.gameState.specialSkillEnergyCost
-								self.gameState.logMessage = "Enemy Special Attack!"
-								self.gameState.isShadowBallMiniGameOn = true
-								
-								DispatchQueue.main.asyncAfter(deadline: .now() + 9.0) {
-									print("After 9 seconds enemy performs action again")
-									self.enemyTurn()
-								}
-								
-							// if energy < 2 -> perform a normal attack
-								
-							} else {
-								
-								print("special roll failed -> perform a normal attack -> start new enemy turn")
-								
-								self.gameState.isEvasionMiniGameOn = true
-								self.playAttackSound(didMissHit: false)
+							DispatchQueue.main.asyncAfter(deadline: .now() + 9.0) {
+								print("After 9 seconds enemy performs action again")
 								self.enemyTurn()
 							}
 							
-							// otherwise use an normal attack
+							// if energy < 2 -> perform a normal attack
 							
 						} else {
 							
-							print("enemy.energy < 2 -> perform a normal attack -> start a new enemy turn")
-//							self.continueAttackAfterMiniGame(success: false)
-							self.gameState.isEvasionMiniGameOn = true
-							self.playAttackSound(didMissHit: false)
+							print("special roll failed -> perform a normal attack -> start new enemy turn")
+							
+							let attackRoll = Int.random(in: 1...100)
+							
+							// 70% for avoidable one
+							
+							if attackRoll <= 70 {
+								self.gameState.isEvasionMiniGameOn = true
+								
+								// 30% for unavoidable one
+								// dodge: false mean we don't activate evasion mini game so avoidance is not active
+								
+							} else if attackRoll > 70 {
+								extraActionDelay += 1.5
+								
+								self.continueAttackAfterMiniGame(success: false, dodge: false)
+							}
+							
 							self.enemyTurn()
 						}
 						
+						// otherwise use an normal attack
+						
+					} else {
+						
+						print("enemy.energy < 2 -> perform a normal attack -> start a new enemy turn")
+						let attackRoll = Int.random(in: 1...100)
+						
+						// 70% for avoidable one
+						
+						if attackRoll <= 70 {
+							self.gameState.isEvasionMiniGameOn = true
+							
+							// 30% for unavoidable one
+							// dodge: false mean we don't activate evasion mini game so avoidance is not active
+							
+						} else if attackRoll > 70 {
+							
+							self.gameState.logMessage = "FAST ENEMY ATTACK!"
+							
+							self.continueAttackAfterMiniGame(success: false, dodge: false)
+						}
+						self.playAttackSound(didMissHit: false)
+						self.enemyTurn()
 					}
 					
 				}
 				
 			}
+			
+		}
 	}
 	
 	// MARK: endHeroBlockEffect
@@ -303,8 +367,20 @@ extension MainViewModel {
 			gameState.didUseFlaskEmpowerForDefensive = false
 			gameState.didUseFlaskEmpowerForOffensive = false
 			
+			// Health Grow Perk Check
+			gameState.wasHealthGrowPerkEffectUsed = false
+			
+			// Flask CD should be reduced by one for each turn
+			
 			if gameState.hero.flask.actionsToResetCD > 0 {
 				gameState.hero.flask.actionsToResetCD -= 1
+			}
+			
+			
+			// Blood Bath Perk Check
+			
+			if gameState.isBloodBathPerkActive {
+				gameState.hero.baseMaxHP += gameState.bloodBathPerkEffectModifier
 			}
 			
 			
@@ -325,6 +401,22 @@ extension MainViewModel {
 			if gameState.hero.flask.actionsToResetCD > 0 {
 				gameState.hero.flask.actionsToResetCD -= 1
 			}
+			
+			// Health Grow Perk Check
+			gameState.wasHealthGrowPerkEffectUsed = false
+			
+			// Flask CD should be reduced by one for each turn
+			
+			if gameState.hero.flask.actionsToResetCD > 0 {
+				gameState.hero.flask.actionsToResetCD -= 1
+			}
+			
+			// Blood Bath Perk Check
+			
+			if gameState.isBloodBathPerkActive {
+				gameState.hero.baseMaxHP += gameState.bloodBathPerkEffectModifier
+			}
+			
 		}
 		gameState.isCombatMiniGameOn = false
 	}
@@ -360,6 +452,7 @@ extension MainViewModel {
 		if  gameState.hero.currentXP >= gameState.hero.maxXP {
 			
 			generateLevelBonusesAfterHeroLevelUpAndGoToLevelBonusScreen()
+			gameState.hero.baseChanceStartTurnFirst += 5
 			gameState.hero.currentXP = 0
 			gameState.hero.maxXP += 50
 			
@@ -537,8 +630,8 @@ extension MainViewModel {
 	
 	func compareSelectedItemWithEquipedOne(_ selectedItem: (any ItemProtocol)?) -> [(String, Color)] {
 		
-		 var statsResult: [(String, Color)] = []
-
+		var statsResult: [(String, Color)] = []
+		
 		// MARK: Weapon Stats Comparison
 		
 		if selectedItem is Weapon {
@@ -606,7 +699,7 @@ extension MainViewModel {
 			)
 			statsResult.append(hitRatioStatsDifference)
 			
-		// MARK: Armor Stats Comparison
+			// MARK: Armor Stats Comparison
 			
 		} else if selectedItem is Armor {
 			
@@ -614,7 +707,7 @@ extension MainViewModel {
 			
 			// if there is an armor equiped do your comparison, otherwise end this
 			
-//			guard let equipedArmor = gameState.hero.armorSlot else { return [] }
+			//			guard let equipedArmor = gameState.hero.armorSlot else { return [] }
 			let equipedArmor = gameState.hero.armorSlot
 			
 			// hp bonus
@@ -812,11 +905,11 @@ extension MainViewModel {
 		if let currentWeapon = gameState.hero.weaponSlot {
 			gameState.hero.weapons[currentWeapon, default: 0] += 1
 		}
-
+		
 		// Equip the new weapon
-//		gameState.hero.weaponSlot = weapon
+		//		gameState.hero.weaponSlot = weapon
 		gameState.hero.equipWeapon(weapon)
-
+		
 		// Decrement the count of the new weapon in inventory if present and count > 0
 		if let currentCount = gameState.hero.weapons[weapon], currentCount > 0 {
 			gameState.hero.weapons[weapon]! = currentCount - 1
@@ -835,11 +928,11 @@ extension MainViewModel {
 		if let currentArmor = gameState.hero.armorSlot {
 			gameState.hero.armors[currentArmor, default: 0] += 1
 		}
-
+		
 		// Equip the new armor
-//		gameState.hero.armorSlot = armor
+		//		gameState.hero.armorSlot = armor
 		gameState.hero.equipArmor(armor)
-
+		
 		// Decrement the count of the new armor in inventory if present and count > 0
 		if let currentCount = gameState.hero.armors[armor], currentCount > 0 {
 			gameState.hero.armors[armor]! = currentCount - 1
