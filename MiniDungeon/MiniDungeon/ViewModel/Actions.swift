@@ -57,7 +57,6 @@ extension MainViewModel {
 	/// Transition to Lock-Picking View
 	func lockPickChest() {
 		
-		
 		gameState.isLockPickingMiniGameIsOn = true
 		gameState.dealthWithChest = true
 	}
@@ -77,6 +76,12 @@ extension MainViewModel {
 			gameState.hero.inventory[key] = nil
 		}
 		gameState.dealthWithChest = true
+		
+		// place to erase tile character to "" to reflect that an event has been completed
+		let position = self.gameState.heroPosition
+		
+		self.gameState.dungeonMap[position.row][position.col].type = .corridor
+		
 		generateLoot()
 		goToRewards()
 	}

@@ -10,8 +10,8 @@ extension MainView {
 			
 			Section(header: Text("Enemy Stats")) {
 				
-				Text("HP: \(viewModel.gameState.enemy.enemyCurrentHP)/\(viewModel.gameState.enemy.enemyMaxHP)")
-				Text("MP: \(viewModel.gameState.enemy.currentMana)/\(viewModel.gameState.enemy.maxMana)")
+				Text("HP: \(viewModel.gameState.enemy.currentHP)/\(viewModel.gameState.enemy.maxHP)")
+				Text("MP: \(viewModel.gameState.enemy.currentMP)/\(viewModel.gameState.enemy.maxMana)")
 			}
 			
 			Section(header: Text("Combat")) {
