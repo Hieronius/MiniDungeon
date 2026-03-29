@@ -18,7 +18,7 @@ extension MainViewModel {
 	
 	func endHeroTurn() {
 		
-		guard gameState.enemy.enemyCurrentHP > 0 else { return }
+		guard gameState.enemy.currentHP > 0 else { return }
 		
 		if gameState.isHeroTurn {
 			
@@ -108,8 +108,8 @@ extension MainViewModel {
 				}
 				
 				// Calculate current enemy hp in %
-				let enemyMaxHealthInPercent = Double(self.gameState.enemy.enemyMaxHP) / 100.0
-				let currentHealthInPercent = Double(self.gameState.enemy.enemyCurrentHP) / enemyMaxHealthInPercent
+				let enemyMaxHealthInPercent = Double(self.gameState.enemy.maxHP) / 100.0
+				let currentHealthInPercent = Double(self.gameState.enemy.currentHP) / enemyMaxHealthInPercent
 				
 				// if enemy has less than 30% hp add heal/block as actions to choose between
 				if currentHealthInPercent <= 30.0 {
@@ -275,7 +275,7 @@ extension MainViewModel {
 	// MARK: restoreEnemyHP
 	
 	func restoreEnemyHP() {
-		gameState.enemy.enemyCurrentHP = gameState.enemy.enemyMaxHP
+		gameState.enemy.currentHP = gameState.enemy.maxHP
 	}
 	
 	// MARK: restoreHP
@@ -283,7 +283,7 @@ extension MainViewModel {
 	func restoreHP() {
 		
 		gameState.hero.currentHP = gameState.hero.maxHP
-		gameState.enemy.enemyCurrentHP = gameState.enemy.enemyMaxHP
+		gameState.enemy.currentHP = gameState.enemy.maxHP
 	}
 	
 	// MARK: restoreMana
@@ -291,7 +291,7 @@ extension MainViewModel {
 	func restoreMana() {
 		
 		gameState.hero.currentMana = gameState.hero.maxMana
-		gameState.enemy.currentMana = gameState.enemy.maxMana
+		gameState.enemy.currentMP = gameState.enemy.maxMana
 	}
 	
 	// MARK: restoreStats
@@ -346,7 +346,7 @@ extension MainViewModel {
 			print("The End")
 			setupNewGame()
 			
-		} else if gameState.enemy.enemyCurrentHP <= 0 &&
+		} else if gameState.enemy.currentHP <= 0 &&
 					!gameState.didEncounteredBoss {
 			print("Average Enemy has been defeated!")
 			
@@ -384,7 +384,7 @@ extension MainViewModel {
 			}
 			
 			
-		} else if gameState.enemy.enemyCurrentHP <= 0 &&
+		} else if gameState.enemy.currentHP <= 0 &&
 					gameState.didEncounteredBoss {
 			
 			// TODO: Put to a single method
