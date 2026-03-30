@@ -52,6 +52,13 @@ extension MainViewModel {
 		gameState.enemy = generateEnemy(didFinalBossSummoned: gameState.didEncounteredBoss)
 		restoreAllEnergy()
 		goToBattle()
+		
+		// 4 flags set to false to avoid extra event activation button at the next level
+		gameState.dealthWithChest = true
+		gameState.dealtWithTrap = true
+		gameState.dealtWithDisenchantShrine = true
+		gameState.dealtWithRestorationShrine = true
+		
 		DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
 			self.gameState.isCoinFlipMiniGameOn = true
 			self.audioManager.playSound(fileName: "coinFlip", extensionName: "mp3")
@@ -590,7 +597,7 @@ extension MainViewModel {
 	/// Method to generate random amount of experience based on enemy level
 	func generateExperienceLoot(didFinalBossSummoned: Bool) -> Int {
 		
-		var expRoll = Int.random(in: 300000...400000)
+		var expRoll = Int.random(in: 30...40)
 		
 		if didFinalBossSummoned { expRoll *= 2 }
 		
@@ -601,7 +608,7 @@ extension MainViewModel {
 	
 	func generateDarkEnergyLoot(didFinalBossSummoned: Bool) -> Int {
 		
-		var energyRoll = Int.random(in: 50000...100000)
+		var energyRoll = Int.random(in: 5...10)
 		
 		if didFinalBossSummoned { energyRoll *= 2 }
 		
@@ -906,9 +913,9 @@ extension MainViewModel {
 			
 			return Enemy(
 				name: enemyName,
-				enemyCurrentHP: finalHP,
-				enemyMaxHP: finalHP,
-				currentMana: finalMP,
+				currentHP: finalHP,
+				maxHP: finalHP,
+				currentMP: finalMP,
 				maxMana: finalMP,
 				currentEnergy: energy,
 				maxEnergy: maxEnergy,
@@ -923,9 +930,9 @@ extension MainViewModel {
 			return Enemy(
 				name: enemyName,
 				isBoss: true,
-				enemyCurrentHP: Int(Double(finalHP) * bossModifier),
-				enemyMaxHP: Int(Double(finalHP) * bossModifier),
-				currentMana: Int(Double(finalMP) * bossModifier),
+				currentHP: Int(Double(finalHP) * bossModifier),
+				maxHP: Int(Double(finalHP) * bossModifier),
+				currentMP: Int(Double(finalMP) * bossModifier),
 				maxMana: Int(Double(finalMP) * bossModifier),
 				currentEnergy: energy + 1,
 				maxEnergy: maxEnergy + 1,
