@@ -70,6 +70,7 @@ extension MainViewModel {
 		// Reset all hero progress to 0
 		let flask = Flask()
 		gameState.hero = Hero(flask: flask)
+		
 		gameState.didFlaskGetLevelUP = false
 		gameState.didUserPressedEndTurnButton = false
 		gameState.enemy = Enemy()
@@ -77,12 +78,17 @@ extension MainViewModel {
 		gameState.lootToDisplay = []
 		gameState.specToDisplay = nil
 		gameState.heroLevelBonusToDisplay = nil
+		gameState.levelPerkToDisplay = nil
 		gameState.comboPoints = 0
 		
 		gameState.currentDungeonLevel = 1
 		gameState.didHeroAppear = false
 		gameState.heroPosition = Coordinate(row: 0, col: 0)
 		gameState.battlesWon = 0
+		
+		// Health Grow Perk Safe Check
+		
+		gameState.wasHealthGrowPerkEffectUsed = false
 		
 		// Start from the beginning
 		
@@ -106,6 +112,7 @@ extension MainViewModel {
 		// Clean Flask Level Bonuses each new run
 		gameState.selectedFlaskLevelBonuses = []
 		gameState.selectedHeroLevelBonuses = []
+		gameState.selectedLevelPerks = []
 		
 		// Apply all previous upgrades on the camp
 		// TODO: Check are you really need this method?
