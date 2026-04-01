@@ -10,8 +10,23 @@ extension MainViewModel {
 		
 		if gameState.isHeroTurn && gameState.hero.currentEnergy >= gameState.skillEnergyCost {
 			gameState.isCombatMiniGameOn = true
+			playAttackSound(didMissHit: false)
 		} else {
 			audioManager.playSound(fileName: "denied", extensionName: "mp3")
+		}
+	}
+	
+	// MARK: - handleCoinFlipMiniGameResult
+	
+	/// Method to handle CoinFlipMiniGame outcome
+	func handleCoinFlipMiniGameResult(for result: Bool) {
+		DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+			print(result)
+			self.gameState.isCoinFlipMiniGameOn = false
+			if !result {
+				self.gameState.isHeroTurn = false
+				self.enemyTurn()
+			}
 		}
 	}
 	
@@ -20,7 +35,22 @@ extension MainViewModel {
 	func handleCombatMiniGameResult(for result: Bool) {
 		DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
 			self.gameState.isCombatMiniGameOn = false
-			self.continueAttackAfterMiniGame(success: result)
+			self.continueAttackAfterMiniGame(success: result, dodge: false)
+		}
+	}
+	
+	// MARK: - handleEvasionMiniGameResult
+	
+	func handleEvasionMiniGameResult(for result: Bool) {
+		DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+			self.gameState.isEvasionMiniGameOn = false
+			self.continueAttackAfterMiniGame(success: result, dodge: result)
+			
+			if result {
+				self.audioManager.playSound(fileName: "evasionSuccess", extensionName: "mp3")
+			} else {
+//				self.audioManager.playSound(fileName: "denied", extensionName: "mp3")
+			}
 		}
 	}
 	
@@ -31,15 +61,18 @@ extension MainViewModel {
 		if result {
 			
 			// some kind of positive buff, word or rewards
+			audioManager.playSound(fileName: "shadowBallBlock", extensionName: "mp3")
 		} else {
 			
 			// negative impact of each ball which hits the edge of the screen
 			// current plan is to damage hero by 50% for 10 missed balls which
 			// gives us around 5% for each ball
 			
-			let damageImpact = Int(Double(gameState.hero.maxHP) * 0.05)
+			let damageImpact = Int(Double(gameState.hero.maxHP) * 0.1)
 			gameState.hero.currentHP -= damageImpact
 			gameState.currentHeroAnimation = .gotDamage
+			gameState.hero.flask.collectCombatImpactWithAnimation(impact: damageImpact)
+			audioManager.playSound(fileName: "shadowBallHit", extensionName: "mp3")
 			
 		}
 		endHeroAndEnemyAnimation()
@@ -50,6 +83,8 @@ extension MainViewModel {
 	/// Method to prepare game state and both sides for a battle
 	func startBattleWithRandomNonEliteEnemy() {
 		
+		gameState.isCoinFlipMiniGameOn = true
+		audioManager.playSound(fileName: "coinFlip", extensionName: "mp3")
 		gameState.enemy = generateEnemy(didFinalBossSummoned: false)
 		restoreAllEnergy()
 		gameState.didHeroUseBlock = false
@@ -60,70 +95,214 @@ extension MainViewModel {
 	
 	// MARK: - Attack
 	
-	func continueAttackAfterMiniGame(success: Bool) {
+	func continueAttackAfterMiniGame(success: Bool, dodge: Bool) {
 		
-		gameState.isCombatMiniGameOn = false
 		gameState.isCombatMiniGameSuccessful = success
+		
+		// MARK: - HERO ATTACK
 		
 		if gameState.isHeroTurn && gameState.hero.currentEnergy >= gameState.skillEnergyCost {
 			
 			gameState.hero.currentEnergy -= gameState.skillEnergyCost
 			
-			// hit chance
+			// Energy Surge Perk Check
+			
+			if gameState.isEnergySurgePerkActive {
+				
+				let energyBackRoll = Int.random(in: 1...100)
+				
+				if energyBackRoll <= gameState.energySurgeEffectModifier {
+					gameState.hero.currentEnergy += 1
+				}
+			}
 			
 			let hitRoll = Int.random(in: 1...100)
+			
 			if hitRoll > gameState.hero.hitChance {
 				gameState.logMessage = "Hero's Attack has been missed!"
 				playAttackSound(didMissHit: true)
 				return
 			}
 			
-			// damage - enemy defence
+			// Crushing Blow Perk Check
 			
-			var damage = Int.random(in: gameState.hero.minDamage...gameState.hero.maxDamage) - gameState.enemy.defence
+			if gameState.isCrushingBlowPerkActive {
+				
+				// THIS CODE DEDUCT ENEMY ENERGY POINTS INCORRECT
+				
+				let roll = Int.random(in: 1...100)
+				if roll <= gameState.crushingBlowEffectModifier {
+					gameState.enemy.currentEnergy -= 1
+				}
+			}
+			
+			// Armor Destruction Perk Check
+			
+			if gameState.isArmorDestructionPerkActive {
+				
+				gameState.enemy.defence -= gameState.armorDestructionEffectModifier
+				
+				if gameState.enemy.defence < 0 {
+					gameState.enemy.defence = 0
+				}
+			}
+			
+			// damage * attack modifier - enemy defence
+			
+			var baseDamage = Int(Double(Int.random(in: gameState.hero.minDamage...gameState.hero.maxDamage)) * gameState.hero.currentAttackDamageModifier)
+			print("test damage indicator - \(baseDamage)")
+			
+			// Prep Perk Check should verify is perk active, was block used, wasn't perk effect already applied during this turn
+			
+			if gameState.isPrepPerkActive &&
+				!gameState.didPrepPerkAffectCurrentTurn &&
+				gameState.shouldPrepPerkAffectNextAttack {
+				
+				baseDamage += calculateBlockValueBonusDamageForNextAttack()
+				gameState.didPrepPerkAffectCurrentTurn = true
+			}
+			
+			// Ill Word Perk Check should verify is perk active, was heal used, wasn't perk effect already applied during this turn
+			
+			if gameState.isIllWordPerkActive &&
+				!gameState.didIllWordPerkAffectCurrentTurn &&
+				gameState.shouldIllWordPerkAffectNextAttack {
+				
+				baseDamage += calculateHealValueDamageBonusForNextAttack()
+				gameState.didIllWordPerkAffectCurrentTurn = true
+			}
+			
+			// Deduct all talants and abilities from enemy armor before calculation
+			
+			let finalEnemyArmor = (gameState.enemy.defence - gameState.hero.currentArmorPenetration)
+			
+			// this is a final base damage after armor deduction
+			var finalDamage = baseDamage - finalEnemyArmor
 			
 			// EMPOWER FLAG ON (May be should be put to the different place due to huge Defence Ratio Influence. If there 5 enemy defence you can deal 0 damage with CRIT + EMPOWER + 5 EP COMBO which is not fun)
 			
+			
 			if gameState.didUseFlaskEmpowerForOffensive {
-				damage *= 2
+				finalDamage *= 2
 			}
 			
 			// mini game success check
 			
 			if gameState.isCombatMiniGameSuccessful  {
-				damage = Int(Double(damage) * 1.25)
+				finalDamage = Int(Double(finalDamage) * 1.25)
 				gameState.logMessage += "Nice Hit!"
 			}
 			
 			// crit chance
 			
-			if damage > 0 {
+			if finalDamage > 0 {
 				
 				let critRoll = Int.random(in: 1...100)
 				
 				if critRoll <= gameState.hero.critChance {
 					
-					let criticalDamage = Int(Double(damage) * 1.5)
+					let criticalDamage = Int(Double(finalDamage) * gameState.hero.currentCritEffectModifier)
+					
+					// Soul Extraction Perk Check
+					
+					if gameState.isSoulExtractionPerkActive {
+						
+						gameState.heroDarkEnergy += calculateSoulExtractionEffect(from: criticalDamage)
+						gameState.heroMaxDarkEnergyOverall += calculateSoulExtractionEffect(from: criticalDamage)
+					}
+					
+					// Vampirism Perk Check
+					
+					if gameState.isVampirismPerkActive {
+						
+						gameState.hero.currentHP += calculateVampiricEffect(from: criticalDamage)
+						
+						if gameState.hero.currentHP > gameState.hero.maxHP {
+							gameState.hero.currentHP = gameState.hero.maxHP
+						}
+					}
+					
+					// Spell Stealing Perk (MP Vampirism) Check
+					
+					if gameState.isSpellStealingPerkActive {
+						
+						gameState.hero.currentMana += calculateSpellStealingEffect(from: criticalDamage)
+						
+						if gameState.hero.currentMana > gameState.hero.maxMana {
+							gameState.hero.currentMana = gameState.hero.maxMana
+						}
+					}
 					
 					// Collect Damage Done Impact
 					
 					gameState.hero.flask.collectCombatImpactWithAnimation(impact: criticalDamage)
 					
-					gameState.enemy.enemyCurrentHP -= criticalDamage
+					gameState.enemy.currentHP -= criticalDamage
 					gameState.logMessage = "Critical hit - \(criticalDamage) has been done!"
+					
+					// Swiftness Perk Check
+					
+					if gameState.isSwiftnessPerkActive {
+						
+						let roll = Int.random(in: 1...100)
+						if roll <= gameState.swiftnessPerkEffectModifier {
+							
+							gameState.hero.flask.collectCombatImpactWithAnimation(impact: criticalDamage)
+							
+							gameState.enemy.currentHP -= criticalDamage
+							gameState.logMessage = "DOUBLE ATTACK - \(criticalDamage) has been done!"
+						}
+					}
 					
 				} else {
 					
+					// Vampirism Perk
+					
+					if gameState.isVampirismPerkActive {
+						
+						gameState.hero.currentHP += calculateVampiricEffect(from: finalDamage)
+						
+						if gameState.hero.currentHP > gameState.hero.maxHP {
+							gameState.hero.currentHP = gameState.hero.maxHP
+						}
+					}
+					
+					// Spell Stealing Perk (MP Vampirism)
+					
+					if gameState.isSpellStealingPerkActive {
+						
+						gameState.hero.currentMana += calculateSpellStealingEffect(from: finalDamage)
+						
+						if gameState.hero.currentMana > gameState.hero.maxMana {
+							gameState.hero.currentMana = gameState.hero.maxMana
+						}
+					}
+					
 					// Collect Damage Done Impact
 					
-					gameState.hero.flask.collectCombatImpactWithAnimation(impact: damage)
+					gameState.hero.flask.collectCombatImpactWithAnimation(impact: finalDamage)
 					
-					gameState.enemy.enemyCurrentHP -= damage
-					gameState.logMessage = "\(damage) damage has been done."
+					gameState.enemy.currentHP -= finalDamage
+					gameState.logMessage = "\(finalDamage) damage has been done."
+					
+					// Swiftness Perk Check
+					
+					if gameState.isSwiftnessPerkActive {
+						
+						let roll = Int.random(in: 1...100)
+						if roll <= gameState.swiftnessPerkEffectModifier {
+							
+							gameState.hero.flask.collectCombatImpactWithAnimation(impact: finalDamage)
+							
+							gameState.enemy.currentHP -= finalDamage
+							gameState.logMessage = "DOUBLE ATTACK - \(finalDamage) has been done!"
+						}
+					}
 				}
 				
 				gameState.currentEnemyAnimation = .gotDamage
-				playAttackSound(didMissHit: false)
+//				playAttackSound(didMissHit: false)
+				audioManager.playSound(fileName: "comboHit1", extensionName: "mp3")
 				
 			}
 			
@@ -132,14 +311,21 @@ extension MainViewModel {
 				gameState.comboPoints += 1
 			}
 			
+			// MARK: - ENEMY ATTACK
 			
 		} else if !gameState.isHeroTurn && gameState.enemy.currentEnergy >= gameState.skillEnergyCost {
 			
 			gameState.enemy.currentEnergy -= gameState.skillEnergyCost
 			
+			if dodge {
+				gameState.logMessage = "Perfect Evasion!"
+				return
+			}
+			
 			let hitRoll = Int.random(in: 1...100)
 			if hitRoll > gameState.enemy.hitChance {
 				gameState.logMessage = "Enemy Attack has been missed"
+				playAttackSound(didMissHit: true)
 				return
 			}
 			
@@ -152,6 +338,14 @@ extension MainViewModel {
 				if critRoll <= gameState.enemy.critChance {
 					
 					let criticalDamage = Int(Double(damage) * 1.5)
+					
+					// Reflection Flag Check for Critical Hit
+					
+					if gameState.isReflectionPerkActive &&
+						gameState.shouldReflectAttacks {
+						
+						gameState.enemy.currentHP -= calculateReflectionDamage(damage: criticalDamage)
+					}
 					
 					// Collect Critical Damage Received Impact
 					
@@ -166,10 +360,19 @@ extension MainViewModel {
 					
 					gameState.hero.flask.collectCombatImpactWithAnimation(impact: damage)
 					
+					// Reflection Flag Check for Normal Hit
+					
+					if gameState.isReflectionPerkActive &&
+						gameState.shouldReflectAttacks {
+						
+						gameState.enemy.currentHP -= calculateReflectionDamage(damage: damage)
+					}
+					
 					gameState.hero.currentHP -= damage
+					
 					gameState.logMessage = "\(damage) damage has been done by enemy"
 				}
-				
+				audioManager.playSound(fileName: "comboHit1", extensionName: "mp3")
 				gameState.currentHeroAnimation = .gotDamage
 				
 			} else {
@@ -194,7 +397,8 @@ extension MainViewModel {
 		
 		guard gameState.hero.currentEnergy >= 1 else {
 			audioManager.playSound(fileName: "denied", extensionName: "mp3")
-			return }
+			return
+		}
 		guard gameState.comboPoints >= 3 else { return }
 		
 
@@ -206,25 +410,31 @@ extension MainViewModel {
 			
 			// With 3 combo points it will be an attack of 150% of damage
 			
-			let baseDamage = Int(Double(Int.random(in: gameState.hero.minDamage...gameState.hero.maxDamage) - gameState.enemy.defence) * 1.5)
+			let firstStageComboModifier = 0.5 + gameState.hero.currentComboDamageModifier
+			
+			let baseDamage = Int.random(in: gameState.hero.minDamage...gameState.hero.maxDamage)
+			
+			let finalEnemyArmor = gameState.enemy.defence - gameState.hero.currentArmorPenetration
+			
+			let finalDamage = Int(Double(baseDamage - finalEnemyArmor) * firstStageComboModifier)
 			
 			let critRoll = Int.random(in: 1...100)
 			
 			if critRoll <= gameState.hero.critChance {
 				
-				let criticalDamage = Int(Double(baseDamage) * 1.5)
+				let criticalDamage = Int(Double(finalDamage) * gameState.hero.currentCritEffectModifier)
 				
 				gameState.hero.flask.collectCombatImpactWithAnimation(impact: criticalDamage)
 				
-				gameState.enemy.enemyCurrentHP -= criticalDamage
+				gameState.enemy.currentHP -= criticalDamage
 				gameState.logMessage = "Critical Combo hit! - \(criticalDamage) has been done!"
 				
 			} else {
 				
-				gameState.hero.flask.collectCombatImpactWithAnimation(impact: baseDamage)
+				gameState.hero.flask.collectCombatImpactWithAnimation(impact: finalDamage)
 				
-				gameState.enemy.enemyCurrentHP -= baseDamage
-				gameState.logMessage = "\(baseDamage) Combo damage has been done!"
+				gameState.enemy.currentHP -= finalDamage
+				gameState.logMessage = "\(finalDamage) Combo damage has been done!"
 			}
 			
 		case 4:
@@ -233,25 +443,29 @@ extension MainViewModel {
 			
 			audioManager.playSound(fileName: "comboHit3", extensionName: "mp3")
 			
-			let baseDamage = Int(Double(Int.random(in: gameState.hero.minDamage...gameState.hero.maxDamage)) * 1.75)
+			let secondStageComboModifier = 0.75 + gameState.hero.currentComboDamageModifier
+			
+			let baseDamage = Int.random(in: gameState.hero.minDamage...gameState.hero.maxDamage)
+			
+			let finalDamage = Int(Double(baseDamage) * secondStageComboModifier)
 			
 			let critRoll = Int.random(in: 1...100)
 			
 			if critRoll <= gameState.hero.critChance {
 				
-				let criticalDamage = Int(Double(baseDamage) * 1.5)
+				let criticalDamage = Int(Double(finalDamage) * gameState.hero.currentCritEffectModifier)
 				
 				gameState.hero.flask.collectCombatImpactWithAnimation(impact: criticalDamage)
 				
-				gameState.enemy.enemyCurrentHP -= criticalDamage
+				gameState.enemy.currentHP -= criticalDamage
 				gameState.logMessage = "Critical Combo hit! - \(criticalDamage) has been done!"
 				
 			} else {
 				
-				gameState.hero.flask.collectCombatImpactWithAnimation(impact: baseDamage)
+				gameState.hero.flask.collectCombatImpactWithAnimation(impact: finalDamage)
 				
-				gameState.enemy.enemyCurrentHP -= baseDamage
-				gameState.logMessage = "\(baseDamage) Combo damage has been done!"
+				gameState.enemy.currentHP -= finalDamage
+				gameState.logMessage = "\(finalDamage) Combo damage has been done!"
 			}
 			
 		case 5:
@@ -262,14 +476,17 @@ extension MainViewModel {
 			
 			audioManager.playSound(fileName: "comboHit2", extensionName: "mp3")
 			
-			let baseDamage = Int.random(in: gameState.hero.minDamage...gameState.hero.maxDamage)
-			let damage = Double(baseDamage) * 2.0
+			let thirdStageComboModifier = 1.0 + gameState.hero.currentComboDamageModifier
 			
-			let criticalDamage = Int(damage * 1.5)
+			let baseDamage = Int.random(in: gameState.hero.minDamage...gameState.hero.maxDamage)
+			
+			let finalDamage = Double(baseDamage) * thirdStageComboModifier
+			
+			let criticalDamage = Int(finalDamage * gameState.hero.currentCritEffectModifier)
 			
 			gameState.hero.flask.collectCombatImpactWithAnimation(impact: criticalDamage)
 			
-			gameState.enemy.enemyCurrentHP -= criticalDamage
+			gameState.enemy.currentHP -= criticalDamage
 			gameState.logMessage = "Critical Combo hit! - \(criticalDamage) has been done!"
 			
 			
@@ -294,7 +511,7 @@ extension MainViewModel {
 	func testEnemyExecute() {
 		
 		guard gameState.isHeroTurn else { return }
-		gameState.enemy.enemyCurrentHP -= 100
+		gameState.enemy.currentHP -= 100
 		winLoseCondition()
 	}
 	
@@ -314,7 +531,7 @@ extension MainViewModel {
 		gameState.hero.flask.actionsToResetCD = 0
 	}
 	
-	// MARK: - Block
+	// MARK: - block
 	
 	func block() {
 		
@@ -322,18 +539,60 @@ extension MainViewModel {
 			
 			gameState.hero.currentEnergy -= gameState.skillEnergyCost
 			
+			// Energy Surge Perk Check
+			
+			if gameState.isEnergySurgePerkActive {
+				
+				let energyBackRoll = Int.random(in: 1...100)
+				
+				if energyBackRoll <= gameState.energySurgeEffectModifier {
+					gameState.hero.currentEnergy += 1
+				}
+			}
+			
+			// Preparation Perk Activation
+			
+			if gameState.isPrepPerkActive {
+				gameState.shouldPrepPerkAffectNextAttack = true
+			}
+			
+			// Reflection Perk Activation
+			
+			if gameState.isReflectionPerkActive {
+				gameState.shouldReflectAttacks = true
+			}
+			
+			// Resilience Perk Check
+			
+			if gameState.isResiliencePerkActive {
+				gameState.shouldEmpowerNextHeal = true
+			}
+			
+			
 			// Collect Block Ability Impact
 			
 			var blockValue = (gameState.minBlockValue...gameState.maxBlockValue).randomElement() ?? 0
 			var blockConsoleMessage = ""
 			
+			// Fortitude Perk Check
+			
+			if gameState.isFortitudePerkActive && gameState.shouldEmpowerNextBlock {
+				
+				blockValue += gameState.fortitudeEffectModifier
+				
+				// we should empower only a single block after using a single heal, not all of the blocks during the turn. Who know if in the future the block effect will be able to stack up
+				gameState.shouldEmpowerNextBlock = false
+			}
+			
 			let critChance = Int.random(in: 1...100)
 			
 			if critChance <= gameState.hero.critChance {
 				
-				blockValue = Int(Double(blockValue) * 1.5)
+				blockValue = Int(Double(blockValue) * gameState.hero.currentCritEffectModifier)
 				blockConsoleMessage = "Critical Block!"
 			}
+			
+			// Flask Soul Eater Talant Check with 150/150 Combat Impact Collected
 			
 			if gameState.didUseFlaskEmpowerForDefensive {
 				
@@ -351,6 +610,20 @@ extension MainViewModel {
 				
 				audioManager.playSound(fileName: "shieldBlock", extensionName: "mp3")
 				gameState.currentHeroAnimation = .usedBlock
+			}
+			
+			// Swiftness Perk Check
+			
+			if gameState.isSwiftnessPerkActive {
+				
+				let roll = Int.random(in: 1...100)
+				
+				if roll <= gameState.swiftnessPerkEffectModifier {
+					gameState.hero.baseDefence += blockValue
+					gameState.heroBlockValueBuffer = blockValue
+					gameState.didHeroUseBlock = true
+					gameState.logMessage = "DOUBLE BLOCK \(blockConsoleMessage) \(blockValue * 2) has been added to the Hero Defence!"
+				}
 			}
 			
 		} else if gameState.isHeroTurn && !(gameState.hero.currentEnergy >= gameState.skillEnergyCost) {
@@ -387,7 +660,26 @@ extension MainViewModel {
 		endHeroAndEnemyAnimation()
 	}
 	
-	// MARK: - Heal
+	// MARK: - calculateBlockValueBonusDamageForNextAttack
+	
+	/// This method will get average block value to increase the damage of next attack if Common Perk of Preparation is Active
+	func calculateBlockValueBonusDamageForNextAttack() -> Int {
+		
+		let bonusDamage = Int(Double((gameState.minBlockValue + gameState.maxBlockValue) / 2) * gameState.prepPerkEffectModifier)
+		print("Added \(bonusDamage) as PrepPerk bonus block value to next attack")
+		return bonusDamage
+	}
+	
+	// MARK: - calculateReflectionDamage
+	
+	func calculateReflectionDamage(damage: Int) -> Int {
+		
+		let reflectionDamage = Int(Double(damage) * gameState.reflectionPerkEffectModifier)
+		print("Enemy should get back - \(reflectionDamage)")
+		return reflectionDamage
+	}
+	
+	// MARK: - heal
 	
 	func heal() {
 		
@@ -400,10 +692,46 @@ extension MainViewModel {
 			gameState.hero.currentEnergy -= gameState.skillEnergyCost
 			gameState.hero.currentMana -= gameState.spellManaCost
 			
+			// Health Grow Perk Check
+			
+			if gameState.isHealthGrowPerkActive && !gameState.wasHealthGrowPerkEffectUsed {
+				
+				gameState.hero.baseMaxHP += gameState.healthGrowEffectModifier
+				gameState.wasHealthGrowPerkEffectUsed = true
+			}
+			
+			// Energy Surge Perk Check
+			
+			if gameState.isEnergySurgePerkActive {
+				
+				let energyBackRoll = Int.random(in: 1...100)
+				
+				if energyBackRoll <= gameState.energySurgeEffectModifier {
+					gameState.hero.currentEnergy += 1
+				}
+			}
+			
+			if gameState.isIllWordPerkActive {
+				gameState.shouldIllWordPerkAffectNextAttack = true
+			}
+			
+			if gameState.isFortitudePerkActive {
+				gameState.shouldEmpowerNextBlock = true
+			}
+			
 			let minHealValue = gameState.healMinValue + gameState.hero.spellPower
 			let maxHealValue = gameState.healMaxValue + gameState.hero.spellPower
 			
 			var healingValue = (minHealValue...maxHealValue).randomElement() ?? 0
+			
+			// Resilience Perk Check
+			
+			if gameState.isResiliencePerkActive && gameState.shouldEmpowerNextHeal {
+				
+				healingValue += gameState.resilienceEffectModifier
+				
+				gameState.shouldEmpowerNextHeal = false
+			}
 			
 			// apply crit here
 			
@@ -412,7 +740,7 @@ extension MainViewModel {
 			
 			if critRoll <= gameState.hero.critChance {
 				
-				healingValue = Int(Double(healingValue) * 1.5)
+				healingValue = Int(Double(healingValue) * gameState.hero.currentCritEffectModifier)
 				
 				critConsoleMessage = "Critical Heal Effect!"
 				
@@ -443,14 +771,34 @@ extension MainViewModel {
 				)
 			}
 			
-			if gameState.hero.currentHP >= gameState.hero.maxHP {
-				gameState.hero.currentHP = gameState.hero.maxHP
-			}
-			
 			audioManager.playSound(fileName: "healSpell1", extensionName: "mp3")
 			gameState.currentHeroAnimation = .gotHealing
 			
 			gameState.logMessage = "\(critConsoleMessage) \(healingValue) amount of health has been recovered by hero"
+			
+			// Swiftness Perk Check
+			
+			if gameState.isSwiftnessPerkActive {
+				
+				let roll = Int.random(in: 1...100)
+				if roll <= gameState.swiftnessPerkEffectModifier {
+					
+					gameState.hero.currentHP += healingValue
+					
+					// Collect Healing Ability Impact
+					
+					gameState.hero.flask.collectCombatImpactWithAnimation(
+						impact: healingValue
+					)
+					
+					gameState.logMessage = "DOUBLE \(critConsoleMessage) \(healingValue) amount of health has been recovered by hero"
+				}
+			}
+			
+			
+			if gameState.hero.currentHP >= gameState.hero.maxHP {
+				gameState.hero.currentHP = gameState.hero.maxHP
+			}
 			
 		} else if gameState.isHeroTurn &&
 					!(gameState.hero.currentEnergy >= gameState.skillEnergyCost) ||
@@ -468,7 +816,7 @@ extension MainViewModel {
 			
 		} else if !gameState.isHeroTurn &&
 					gameState.enemy.currentEnergy >= gameState.skillEnergyCost &&
-					gameState.enemy.currentMana >= gameState.spellManaCost {
+					gameState.enemy.currentMP >= gameState.spellManaCost {
 			
 			gameState.enemy.currentEnergy -= gameState.skillEnergyCost
 			
@@ -488,11 +836,11 @@ extension MainViewModel {
 				
 			}
 			
-			gameState.enemy.enemyCurrentHP += healingValue
+			gameState.enemy.currentHP += healingValue
 			gameState.logMessage = "\(critConsoleMessage) \(healingValue) amount of health has been recovered by enemy"
 			
-			if gameState.enemy.enemyCurrentHP >= gameState.enemy.enemyMaxHP {
-				gameState.enemy.enemyCurrentHP = gameState.enemy.enemyMaxHP
+			if gameState.enemy.currentHP >= gameState.enemy.maxHP {
+				gameState.enemy.currentHP = gameState.enemy.maxHP
 			}
 			
 			audioManager.playSound(fileName: "healSpell1", extensionName: "mp3")
@@ -504,12 +852,52 @@ extension MainViewModel {
 		endHeroAndEnemyAnimation()
 	}
 	
+	// MARK: - calculateHealValueDamageBonusForNextAttack
+	
+	/// Method to calculate average heal value to empower a next attack accordingly to Ill Word Perk
+	func calculateHealValueDamageBonusForNextAttack() -> Int {
+		
+		let bonusDamage = Int(Double((gameState.healMinValue + gameState.healMaxValue) / 2) * gameState.illWordPerkEffectModifier)
+		print("heal value bonus damage for next ability - \(bonusDamage)")
+		return bonusDamage
+	}
+	
+	// MARK: - calculateVampiricEffect
+	
+	/// Method should calculate how big chunk of hero damage should transform into HP
+	func calculateVampiricEffect(from damage: Int) -> Int {
+		
+		let vampiricEffect = Int(Double(damage) * gameState.vampirismEffectModifier)
+		print("Vampiric effect from this attack is \(vampiricEffect) hp")
+		return vampiricEffect
+	}
+	
+	// MARK: - calculateSpellStealingEffect
+	
+	/// Method should calculate how big chunk of hero damage should transform into MP
+	func calculateSpellStealingEffect(from damage: Int) -> Int {
+		
+		let spellStealingEffect = Int(Double(damage) * gameState.spellStealingEffectModifier)
+		print("Spell Stealing effect from this attack is \(spellStealingEffect) mp")
+		return spellStealingEffect
+	}
+	
+	// MARK: - calculateSoulExtractionEffect
+	
+	/// Method should calculate how much of the critical damage done should be converted to Dark Energy
+	func calculateSoulExtractionEffect(from criticalHit: Int) -> Int {
+		
+		let extractionEffect = Int(Double(criticalHit) * gameState.soulExtractionEffectModifier)
+		print("Extraction effect is \(extractionEffect) dark energy")
+		return extractionEffect
+	}
+	
 	// MARK: - unleashFlaskImpactEffect
 	
 	/// Method to determine what effect flask should use when it collected enough impact and accordingly of it's SoulCollectionTalant status and Battle Mode
 	func unleashFlaskImpactEffect() {
 		
-		guard gameState.enemy.enemyCurrentHP > 0 else { return }
+		guard gameState.enemy.currentHP > 0 else { return }
 		
 		let currentFlaskTalant = gameState.hero.flask.currentSoulCollectionStatus
 		let currentFlaskImpactValue = gameState.hero.flask.currentCombatImpactValue
@@ -538,6 +926,7 @@ extension MainViewModel {
 				
 				gameState.hero.flask.currentCombatImpactValue -= 50
 				gameState.logMessage = "\(energyPoint) Energy Point been generated"
+				audioManager.playSound(fileName: "flaskImpactUnleash", extensionName: "mp3")
 				
 			// Level 2 Talant + not 100% capacity -> Use Stage 1 Effect
 				
@@ -545,29 +934,31 @@ extension MainViewModel {
 				
 				gameState.hero.flask.currentCombatImpactValue -= 50
 				gameState.logMessage = "\(energyPoint) Energy Point been generated"
+				audioManager.playSound(fileName: "flaskImpactUnleash", extensionName: "mp3")
 				
 			// Level 2 Talant + 100% capacity -> Use Stage 2 Effect
 				
 			case (.soulExtractor, 100):
 				
-				guard gameState.enemy.enemyCurrentHP > 0 else { return }
+				guard gameState.enemy.currentHP > 0 else { return }
 				
 				print("Got an extra Energy Point + deal 10% target max hp as a damage")
 				
 				gameState.hero.flask.currentCombatImpactValue -= 100
 				
-				let damageValue = Int(Double(gameState.enemy.enemyMaxHP) * 0.10)
+				let damageValue = Int(Double(gameState.enemy.maxHP) * 0.10)
 				
-				if gameState.enemy.enemyCurrentHP - damageValue <= 0 {
+				if gameState.enemy.currentHP - damageValue <= 0 {
 					
 					winLoseCondition()
 					
 				} else {
 					
-					gameState.enemy.enemyCurrentHP -= damageValue
+					gameState.enemy.currentHP -= damageValue
 					
 					gameState.logMessage = "\(energyPoint) Energy Point been generated + \(damageValue) damage has been dealt"
 				}
+				audioManager.playSound(fileName: "flaskImpactUnleash", extensionName: "mp3")
 				
 			// Level 3 Talant + Level 1 current capacity -> Use Stage 1 Effect
 				
@@ -575,52 +966,55 @@ extension MainViewModel {
 				
 				gameState.hero.flask.currentCombatImpactValue -= 50
 				gameState.logMessage = "\(energyPoint) Energy Point been generated"
+				audioManager.playSound(fileName: "flaskImpactUnleash", extensionName: "mp3")
 				
 			// Level 3 Talant + Level 2 current capacity -> Use Stage 2 Effect
 				
 			case (.soulEater, 100..<150):
 				
-				guard gameState.enemy.enemyCurrentHP > 0 else { return }
+				guard gameState.enemy.currentHP > 0 else { return }
 				
 				print("Got an extra Energy Point + deal 10% target max hp as a damage")
 				
 				gameState.hero.flask.currentCombatImpactValue -= 100
 				
-				let damageValue = Int(Double(gameState.enemy.enemyMaxHP) * 0.10)
+				let damageValue = Int(Double(gameState.enemy.maxHP) * 0.10)
 				
-				if gameState.enemy.enemyCurrentHP - damageValue <= 0 {
+				if gameState.enemy.currentHP - damageValue <= 0 {
 					
 					winLoseCondition()
 					
 				} else {
 					
-					gameState.enemy.enemyCurrentHP -= damageValue
+					gameState.enemy.currentHP -= damageValue
 					
 					gameState.logMessage = "\(energyPoint) Energy Point been generated + \(damageValue) has been dealt"
 				}
+				audioManager.playSound(fileName: "flaskImpactUnleash", extensionName: "mp3")
 				
 			case (.soulEater, 150):
 				
-				guard gameState.enemy.enemyCurrentHP > 0 else { return }
+				guard gameState.enemy.currentHP > 0 else { return }
 				
 				print("Got an extra Energy Point + deal 10% target max hp as a damage and gives Empower Ability")
 				
 				gameState.hero.flask.currentCombatImpactValue -= 150
 				
-				let damageValue = Int(Double(gameState.enemy.enemyMaxHP) * 0.10)
+				let damageValue = Int(Double(gameState.enemy.maxHP) * 0.10)
 				
-				if gameState.enemy.enemyCurrentHP - damageValue <= 0 {
+				if gameState.enemy.currentHP - damageValue <= 0 {
 					
 					winLoseCondition()
 					
 				} else {
 					
-					gameState.enemy.enemyCurrentHP -= damageValue
+					gameState.enemy.currentHP -= damageValue
 				}
 				
 				gameState.didUseFlaskEmpowerForOffensive = true
 				
 				gameState.logMessage = "\(energyPoint) Energy Point been generated + \(damageValue) damage  has been dealt + EMPOWER is ready to use"
+				audioManager.playSound(fileName: "flaskImpactUnleash", extensionName: "mp3")
 				
 			default:
 				print("Not Enough Impact Collected or Something wen't wrong with unleashing flask effect from Offensive Mode")
@@ -649,6 +1043,7 @@ extension MainViewModel {
 				
 				gameState.hero.flask.currentCombatImpactValue -= 50
 				gameState.logMessage = "\(darkEnergyLoot) dark energy has been generated"
+				audioManager.playSound(fileName: "flaskImpactUnleash", extensionName: "mp3")
 				
 			// Level 2 Talant + not 100% capacity -> Use Level 1 Effect
 				
@@ -658,6 +1053,7 @@ extension MainViewModel {
 				
 				gameState.hero.flask.currentCombatImpactValue -= 50
 				gameState.logMessage = "\(darkEnergyLoot) dark energy has been generated"
+				audioManager.playSound(fileName: "flaskImpactUnleash", extensionName: "mp3")
 				
 			// Level 2 Talant + not 100% max capacity -> Use Level 2 Effect
 				
@@ -677,6 +1073,7 @@ extension MainViewModel {
 				}
 				
 				gameState.logMessage = "\(darkEnergyLoot) dark energy has been generated + \(healingValue) health ponts has been healed"
+				audioManager.playSound(fileName: "flaskImpactUnleash", extensionName: "mp3")
 				
 			// Level 3 Talant + Level 1 current capacity -> Use Level 1 Effect
 				
@@ -686,6 +1083,7 @@ extension MainViewModel {
 				
 				gameState.hero.flask.currentCombatImpactValue -= 50
 				gameState.logMessage = "\(darkEnergyLoot) dark energy has been generated"
+				audioManager.playSound(fileName: "flaskImpactUnleash", extensionName: "mp3")
 				
 			// Level 3 Talant + Level 2 current capacity -> Use Level 2 Effect
 				
@@ -705,6 +1103,7 @@ extension MainViewModel {
 				}
 				
 				gameState.logMessage = "\(darkEnergyLoot) dark energy has been generated + \(healingValue) health ponts has been healed"
+				audioManager.playSound(fileName: "flaskImpactUnleash", extensionName: "mp3")
 				
 			case (.soulEater, 150):
 				print("Got some extra dark energy + 10% of max HP and Empower ability")
@@ -723,6 +1122,7 @@ extension MainViewModel {
 				gameState.didUseFlaskEmpowerForDefensive = true
 				
 				gameState.logMessage = "\(darkEnergyLoot) dark energy has been generated + \(healingValue) health ponts has been healed + EMPOWER is ready to use"
+				audioManager.playSound(fileName: "flaskImpactUnleash", extensionName: "mp3")
 				
 			default:
 				print("Not Enough Impact Value or Something went wrong from Defensive Mode")
@@ -751,6 +1151,8 @@ extension MainViewModel {
 		else {
 			return
 		}
+		
+		guard gameState.enemy.currentHP > 0 else { return }
 		
 		// Check for charge back chance
 		
@@ -783,6 +1185,7 @@ extension MainViewModel {
 			gameState.logMessage = "Flask did restore \(healingValue) of health"
 			
 			gameState.currentHeroAnimation = .gotHealing
+			audioManager.playSound(fileName: "flaskEffectUnleash", extensionName: "mp3")
 			
 		// Offesive Mode
 
@@ -828,13 +1231,14 @@ extension MainViewModel {
 				print("Enemy defence has been reduced")
 			}
 			
-			let damageValue = Int(Double(gameState.enemy.enemyMaxHP) * gameState.hero.flask.currentDamageValue)
+			let damageValue = Int(Double(gameState.enemy.maxHP) * gameState.hero.flask.currentDamageValue)
 			
-			gameState.enemy.enemyCurrentHP -= damageValue
+			gameState.enemy.currentHP -= damageValue
 			
 			gameState.logMessage = "Flask dealt \(damageValue) of damage"
 			
 			gameState.currentEnemyAnimation = .gotDamage
+			audioManager.playSound(fileName: "flaskEffectUnleash", extensionName: "mp3")
 		}
 		
 		// Check hero/enemy state
