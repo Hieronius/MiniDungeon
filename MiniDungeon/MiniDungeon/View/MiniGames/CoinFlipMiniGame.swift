@@ -37,9 +37,11 @@ struct CoinFlipMiniGameView: View {
 	@State var direction: Direction = .top
 	@State var isHeroCoinInFront = true
 	@State var coinFlipEnd = false
+	@State var isHapticOn = false
 	
 	var heroChanceForFirstTurn: Int
 	
+	/// This closure will send a game result to parent view (Battle View)
 	var onGameEnd: ((Bool) -> Void)?
 	
 	var body: some View {
@@ -67,6 +69,7 @@ struct CoinFlipMiniGameView: View {
 			}
 		}
 		.onAppear { startMiniGame() }
+		.sensoryFeedback(isHeroCoinInFront ? .success : .error, trigger: isHapticOn)
 	}
 }
 
@@ -147,6 +150,7 @@ extension CoinFlipMiniGameView {
 				print("ENEMY START FIRST")
 			}
 			coinFlipEnd = true
+			isHapticOn = true
 		}
 	}
 }
