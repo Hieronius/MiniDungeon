@@ -20,8 +20,8 @@ struct MiniDungeonApp: App {
 			
 			self.modelContainer = container
 			
-			let manager = SwiftDataManager(context: container.mainContext)
-			self.swiftDataManager = manager
+			let dataManager = SwiftDataManager(context: container.mainContext)
+			self.swiftDataManager = dataManager
 			
 			let gameState: GameState
 			
@@ -43,13 +43,13 @@ struct MiniDungeonApp: App {
 			}
 			
 			let dungeonGenerator = DungeonGenerator()
-			let gameScreen = GameScreen.menu
+			let audioManager = AudioManager()
 			
 			let viewModel = MainViewModel(
-				swiftDataManager: manager,
+				swiftDataManager: dataManager,
 				dungeonGenerator: dungeonGenerator,
-				gameState: gameState,
-				gameScreen: gameScreen
+				audioManager: audioManager,
+				gameState: gameState
 			)
 			
 			_viewModel = State(initialValue: viewModel)
