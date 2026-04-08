@@ -21,7 +21,6 @@ extension MainViewModel {
 	/// Method to handle CoinFlipMiniGame outcome
 	func handleCoinFlipMiniGameResult(for result: Bool) {
 		DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-			print(result)
 			self.gameState.isCoinFlipMiniGameOn = false
 			if !result {
 				self.gameState.isHeroTurn = false
@@ -35,7 +34,7 @@ extension MainViewModel {
 	func handleCombatMiniGameResult(for result: Bool) {
 		DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
 			self.gameState.isCombatMiniGameOn = false
-			self.continueAttackAfterMiniGame(success: result, dodge: false)
+			self.continueAttackAfterMiniGame(combatMiniGameSuccess: result, evasionMiniGameSuccess: false)
 		}
 	}
 	
@@ -44,7 +43,7 @@ extension MainViewModel {
 	func handleEvasionMiniGameResult(for result: Bool) {
 		DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
 			self.gameState.isEvasionMiniGameOn = false
-			self.continueAttackAfterMiniGame(success: result, dodge: result)
+			self.continueAttackAfterMiniGame(combatMiniGameSuccess: result, evasionMiniGameSuccess: result)
 			
 			if result {
 				self.audioManager.playSound(fileName: "evasionSuccess", extensionName: "mp3")
@@ -95,9 +94,15 @@ extension MainViewModel {
 	
 	// MARK: - Attack
 	
-	func continueAttackAfterMiniGame(success: Bool, dodge: Bool) {
+	/// Method react to two properties
+	/// combatMiniGameSuccess mean if user's attack should be improved
+	/// evasionMiniGameSuccess mean if user did dodge an enemy attack
+	func continueAttackAfterMiniGame(
+		combatMiniGameSuccess: Bool,
+		evasionMiniGameSuccess: Bool
+	) {
 		
-		gameState.isCombatMiniGameSuccessful = success
+		gameState.isCombatMiniGameSuccessful = combatMiniGameSuccess
 		
 		// MARK: - HERO ATTACK
 		
@@ -105,7 +110,7 @@ extension MainViewModel {
 			
 			gameState.hero.currentEnergy -= gameState.skillEnergyCost
 			
-			// Energy Surge Perk Check
+			// MARK: Energy Surge Perk Check
 			
 			if gameState.isEnergySurgePerkActive {
 				
@@ -124,7 +129,7 @@ extension MainViewModel {
 				return
 			}
 			
-			// Crushing Blow Perk Check
+			// MARK: Crushing Blow Perk Check
 			
 			if gameState.isCrushingBlowPerkActive {
 				
@@ -132,11 +137,11 @@ extension MainViewModel {
 				
 				let roll = Int.random(in: 1...100)
 				if roll <= gameState.crushingBlowEffectModifier {
-					gameState.enemy.currentEnergy -= 1
+					gameState.enemy.maxEnergy -= 1
 				}
 			}
 			
-			// Armor Destruction Perk Check
+			// MARK: Armor Destruction Perk Check
 			
 			if gameState.isArmorDestructionPerkActive {
 				
@@ -147,11 +152,12 @@ extension MainViewModel {
 				}
 			}
 			
-			// damage * attack modifier - enemy defence
+			// MARK: Base Damage Calculation
 			
 			var baseDamage = Int(Double(Int.random(in: gameState.hero.minDamage...gameState.hero.maxDamage)) * gameState.hero.currentAttackDamageModifier)
 			print("test damage indicator - \(baseDamage)")
 			
+			// MARK: Perk Of Preparation
 			// Prep Perk Check should verify is perk active, was block used, wasn't perk effect already applied during this turn
 			
 			if gameState.isPrepPerkActive &&
@@ -162,6 +168,7 @@ extension MainViewModel {
 				gameState.didPrepPerkAffectCurrentTurn = true
 			}
 			
+			// MARK: Perk Of Ill Word
 			// Ill Word Perk Check should verify is perk active, was heal used, wasn't perk effect already applied during this turn
 			
 			if gameState.isIllWordPerkActive &&
@@ -172,6 +179,7 @@ extension MainViewModel {
 				gameState.didIllWordPerkAffectCurrentTurn = true
 			}
 			
+			// MARK: Enemy Base Armor Calculation
 			// Deduct all talants and abilities from enemy armor before calculation
 			
 			let finalEnemyArmor = (gameState.enemy.defence - gameState.hero.currentArmorPenetration)
@@ -179,6 +187,7 @@ extension MainViewModel {
 			// this is a final base damage after armor deduction
 			var finalDamage = baseDamage - finalEnemyArmor
 			
+			// MARK: Empower
 			// EMPOWER FLAG ON (May be should be put to the different place due to huge Defence Ratio Influence. If there 5 enemy defence you can deal 0 damage with CRIT + EMPOWER + 5 EP COMBO which is not fun)
 			
 			
@@ -186,6 +195,7 @@ extension MainViewModel {
 				finalDamage *= 2
 			}
 			
+			// MARK: CombatMiniGame
 			// mini game success check
 			
 			if gameState.isCombatMiniGameSuccessful  {
@@ -193,6 +203,7 @@ extension MainViewModel {
 				gameState.logMessage += "Nice Hit!"
 			}
 			
+			// MARK: Crit Chance
 			// crit chance
 			
 			if finalDamage > 0 {
@@ -203,6 +214,7 @@ extension MainViewModel {
 					
 					let criticalDamage = Int(Double(finalDamage) * gameState.hero.currentCritEffectModifier)
 					
+					// MARK: Soul Extraction Perk
 					// Soul Extraction Perk Check
 					
 					if gameState.isSoulExtractionPerkActive {
@@ -211,6 +223,7 @@ extension MainViewModel {
 						gameState.heroMaxDarkEnergyOverall += calculateSoulExtractionEffect(from: criticalDamage)
 					}
 					
+					// MARK: Vampirism Perk
 					// Vampirism Perk Check
 					
 					if gameState.isVampirismPerkActive {
@@ -222,6 +235,7 @@ extension MainViewModel {
 						}
 					}
 					
+					// MARK: Spell Stealing Perk
 					// Spell Stealing Perk (MP Vampirism) Check
 					
 					if gameState.isSpellStealingPerkActive {
@@ -233,6 +247,7 @@ extension MainViewModel {
 						}
 					}
 					
+					// MARK: Damage Impact for Flask
 					// Collect Damage Done Impact
 					
 					gameState.hero.flask.collectCombatImpactWithAnimation(impact: criticalDamage)
@@ -240,6 +255,7 @@ extension MainViewModel {
 					gameState.enemy.currentHP -= criticalDamage
 					gameState.logMessage = "Critical hit - \(criticalDamage) has been done!"
 					
+					// MARK: Perk Of Swiftness
 					// Swiftness Perk Check
 					
 					if gameState.isSwiftnessPerkActive {
@@ -317,7 +333,7 @@ extension MainViewModel {
 			
 			gameState.enemy.currentEnergy -= gameState.skillEnergyCost
 			
-			if dodge {
+			if evasionMiniGameSuccess {
 				gameState.logMessage = "Perfect Evasion!"
 				return
 			}
@@ -651,8 +667,12 @@ extension MainViewModel {
 				gameState.enemy.defence += blockValue
 				gameState.enemyBlockValueBuffer = blockValue
 				gameState.didEnemyUseBlock = true
+				
+				gameState.logMessage = "\(blockConsoleMessage) \(blockValue) has been added to the Enemy Defence!"
+				
+				audioManager.playSound(fileName: "shieldBlock", extensionName: "mp3")
+				gameState.currentEnemyAnimation = .usedBlock
 			}
-			gameState.logMessage = "\(blockConsoleMessage) \(blockValue)  has been added to Enemy Defence!"
 		}
 		
 		// Reset Empower Flag after use
@@ -819,6 +839,7 @@ extension MainViewModel {
 					gameState.enemy.currentMP >= gameState.spellManaCost {
 			
 			gameState.enemy.currentEnergy -= gameState.skillEnergyCost
+			gameState.enemy.currentMP -= gameState.spellManaCost
 			
 			let minHealValue = gameState.healMinValue + gameState.enemy.spellPower
 			let maxHealValue = gameState.healMaxValue + gameState.enemy.spellPower
