@@ -14,12 +14,14 @@ class Hero {
 	var currentXP = 0
 	var maxXP = 150
 	
-	var baseMaxHP = 75
+	var baseMaxHP = 50
 	var baseMaxMP = 50
 	var baseMaxEP = 3
 	
 	var baseMinDamage = 5
 	var baseMaxDamage = 10
+	
+	var baseArmorPenetration = 0
 	
 	var baseDefence = 0
 	
@@ -31,9 +33,21 @@ class Hero {
 	
 	var baseSpellPower = 5
 	
+	/// Property defines how often hero will start combat first in %
+	var baseChanceStartTurnFirst = 50
+	
+	/// Property to detect any Attack ability buffs from talants or perks
+	var baseAttackDamageModifier = 1.0
+	
+	/// Property to detect any Combo ability buffs from talants or perks
+	var baseComboDamageModifier = 1.0
+	
+	/// Property which defines how strong the effect of ability will be after critical strike/hit. It's mean if normal one is 1.0 the crit will cause 1.5 of it's effect
+	var baseCritEffectModifier = 1.5
+	
 	// MARK: Current Stats
 	
-	var currentHP = 75
+	var currentHP = 50
 	var maxHP: Int { baseMaxHP + (armorSlot?.healthBonus ?? 0) }
 	
 	var currentMana = 50
@@ -44,14 +58,20 @@ class Hero {
 	
 	/// Adds weapon MinDamage to hero baseMinDamage
 	var minDamage: Int {
-		baseMinDamage + (weaponSlot?.minDamageBonus ?? 0) + flask.currentDamageBonus
+		baseMinDamage + (weaponSlot?.minDamage ?? 0) + flask.currentDamageBonus
 	}
 	
 	/// Adds weapon MaxDamage to hero baseMaxDamage
 	var maxDamage: Int {
 		baseMaxDamage + (weaponSlot?.maxDamage ?? 0) + flask.currentDamageBonus
 	}
+	
+	var currentArmorPenetration: Int {
+		baseArmorPenetration
+	}
+	
 	var hitChance: Int { baseHitChance + (weaponSlot?.hitChance ?? 0) + (armorSlot?.hitChanceBonus ?? 0) }
+	
 	var critChance: Int { baseCritChance + (weaponSlot?.critChance ?? 0) + (armorSlot?.critChanceBonus ?? 0) }
 	
 	var defence: Int {
@@ -59,6 +79,23 @@ class Hero {
 	}
 	
 	var spellPower: Int { baseSpellPower + (armorSlot?.spellPowerBonus ?? 0) }
+	
+	var currentChanceStartTurnFirst: Int { baseChanceStartTurnFirst }
+	
+	/// Use this property to calculate all possible Attack Modifier bonuses and debuffs in final forumalas and to fill the UI with data
+	var currentAttackDamageModifier: Double {
+		baseAttackDamageModifier
+	}
+	
+	/// Use this property to calculate all possible Combo Modifier bonuses and debuffs in final forumalas and to fill the UI with data
+	var currentComboDamageModifier: Double {
+		baseComboDamageModifier
+	}
+	
+	/// Use this property to calculate all possible Crit Effect Modifier bonuses and debuffs in final forumalas and to fill the UI with data
+	var currentCritEffectModifier: Double {
+		baseCritEffectModifier
+	}
 	
 	var skillPoints = 1
 	
@@ -117,7 +154,7 @@ class Hero {
 //				  ArmorManager.legendaryArmors[1]: 1,
 //				  ArmorManager.legendaryArmors[2]: 1,
 //				  ArmorManager.legendaryArmors[3]: 1]
-	
+//	
 	var inventory: [Item: Int] = [:]
 //	var inventory = [ItemManager.commonPotions[0]: 5,
 //					 ItemManager.commonPotions[1]: 5,
