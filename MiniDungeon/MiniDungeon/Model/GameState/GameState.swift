@@ -7,35 +7,61 @@ class GameState {
 	
 	// MARK: - Navigation & Session
 	
+	var isFreshSession =  true
+
 	var currentGameScreen: GameScreen = GameScreen.menu
 	var previousGameScreen: GameScreen = GameScreen.menu
+	
+	var currentMusic: GameMusic = GameMusic.none
 	
 	// MARK: 3 test properties to replace gameState.currentScreen = screenName with overlay properties like "if isHeroStatsScreenOpen { buildStats() }
 	
 	var isHeroStatsScreenOpen = false
 	var isInventoryScreenOpen = false
 	var isEnemyStatsScreenOpen = false
+	var isWeaponsStatsDifferenceOpen = false
+	var isArmorsStatsDifferenceOpen = false
 	
-	/// Property to define X offset of the FlaskView during drag operation
-	/// Should be combined with @State property dragFlaskTemporaryTranslationPositionOnScreen in  MainView
-	var flaskViewXOffset: CGFloat = 0
+	/// Property to open and close HP/MP recovery tab from the MerchantView after killing each boss
+	var isStatsRecoveryViewOpen = false
 	
-	/// Property to define Y offset of the FlaskView during drag operation
-	/// Should be combined with @State property dragFlaskTemporaryTranslationPositionOnScreen in  MainView
-	var flaskViewYOffset: CGFloat = 0
+	// MARK: - Tutorial flags
 	
-	var isFreshSession =  true
+	/// Test property to set a predefined secret room during tutorial so user can't avoid it
+	var shouldMeetPredefinedSecretRoom = true
 	
+	/// When user complete the demo level and kills the boss, throw an alert and set this property to false
+	var shouldThrowDemoCompletionAlert = true
+	
+	/// Property to detect when user did complete demo level so if yes, don't run it again in next runs but run it if user dies while on Demo level
+	var didEndDemoLevel = false
+	
+	/// Custom property for Demo level so first fight user will proceed without flask.
+	var didFindFlask = false
+	
+	/// Test property to apply only for Demo Level enemies to make them a little bit easier
+	var demoLevelEnemyPowerRatio = 0.75
+	
+		
 	// MARK: - Mini Games Properties
 	
 	/// When you hit the enemy this mini game appears
-	var isCombatMiniGameIsOn = false
+	var isCombatMiniGameOn = false
+	
+	/// When enemy use his special attack this mini game appears
+	var isShadowBallMiniGameOn = false
 	
 	/// When you press "defuse the trap" button this game appears
 	var isTrapDefusionMiniGameIsOn = false
 	
 	/// When you press "Lock-Pick the chest" button this game appears
 	var isLockPickingMiniGameIsOn = false
+	
+	/// When enemy try to land an attack this mini game pops up
+	var isEvasionMiniGameOn = false
+	
+	/// Flag to start the combat with coin flip mini game to decide who will get turn first
+	var isCoinFlipMiniGameOn = false
 	
 	// MARK: - Combat
 	
@@ -47,7 +73,128 @@ class GameState {
 	var didEnemyUseBlock = false
 	var didEnemyReceivedComboAttack = false
 	
+	var didBossFightSoundEnd = true
+	
 	var isCombatMiniGameSuccessful = false
+	
+	// MARK: - Level Perks Flags
+	
+	/// This flag we activate when hero get Preparation Perk
+	var isPrepPerkActive = false
+	
+	/// By default you have 0% block value damage modifier.
+	var prepPerkEffectModifier = 0.0
+	
+	/// This flag we put to Block ability to actually say "perk is active, block was used -> please affect next attack"
+	var shouldPrepPerkAffectNextAttack = false
+	
+	/// This flag we use to determine did hero already used block value bonus damage at this turn or still not
+	var didPrepPerkAffectCurrentTurn = false
+	
+	/// This flag we activate when hero get Ill Word Perk
+	var isIllWordPerkActive = false
+	
+	/// By default you have 0% heal value damage modifier
+	var illWordPerkEffectModifier = 0.0
+	
+	/// This flag we put to Heal ability to actually say "perk is active, heal was used -> please affect next attack"
+	var shouldIllWordPerkAffectNextAttack = false
+	
+	/// This flag we use to determine did hero already used heal value bonus damage at this turn or still not
+	var didIllWordPerkAffectCurrentTurn = false
+	
+	/// This flag should be active when hero got Perk of Reflection
+	var isReflectionPerkActive = false
+	
+	/// This flag should be put to block() ability if perk is active to state that enemy should get some of it's attack damage back
+	var shouldReflectAttacks = false
+	
+	/// By default we have 0% reflection modifier
+	var reflectionPerkEffectModifier = 0.0
+	
+	/// This flag should be active when hero get Perk of Vampirism
+	var isVampirismPerkActive = false
+	
+	/// By default we have 0% of vampirism
+	var vampirismEffectModifier = 0.0
+	
+	/// This flag should be active when hero get Perk of Spell Stealing
+	var isSpellStealingPerkActive = false
+	
+	/// By default we have 0% of Mana Vampirism (what is this perk about)
+	var spellStealingEffectModifier = 0.0
+	
+	/// This flag should be active when hero get Perk of Fortitude
+	var isFortitudePerkActive = false
+	
+	/// When perk of Fortitude is active and heal was used -> empower next block only
+	var shouldEmpowerNextBlock = false
+	
+	/// An exact value you should add to a next block after using a heal ability
+	var fortitudeEffectModifier = 0
+	
+	/// This flag should be active when hero get Perk of Resilience
+	var isResiliencePerkActive = false
+	
+	/// An exact value you should add to a next heal ability after using block
+	var resilienceEffectModifier = 0
+	
+	/// When perk of Resilience is active and we use block -> empower next heal only
+	var shouldEmpowerNextHeal = false
+	
+	/// This flag should be active when hero get Armor Destruction Perk
+	var isArmorDestructionPerkActive = false
+	
+	/// This value we should deduct enemy armor if we have Armor Destruction Perk
+	var armorDestructionEffectModifier = 0
+	
+	/// This flag should be active when hero get Energy Surge Perk
+	var isEnergySurgePerkActive = false
+	
+	/// By default we have 0% of perk effect activation chance
+	/// We use simple Int because we compare it against Int.random(in:1...100) which is a simple representation of a chance percent
+	var energySurgeEffectModifier = 0
+	
+	/// This flag should be active when hero get Soul Extraction Perk
+	var isSoulExtractionPerkActive = false
+	
+	/// By default we have 0% effect
+	var soulExtractionEffectModifier = 0.0
+	
+	/// This flag should be active when hero get Perk of Greed
+	var isGreedPerkActive = false
+	
+	/// By default we have 0% effect of the Greed Perk
+	var greedPerkEffectModifier = 0.0
+	
+	/// This flag should be active when hero get Crushing Blow Perk
+	var isCrushingBlowPerkActive = false
+	
+	/// By default this value is 0
+	/// We use simple Int to compare against Int.random(in: 1...) simple chance roll
+	var crushingBlowEffectModifier = 0
+	
+	/// This flag should be active when hero get Perk of Swiftness
+	var isSwiftnessPerkActive = false
+	
+	/// This value is 0 by default and should be a simple Int to compare against Int.random(in: 1...100)
+	var swiftnessPerkEffectModifier = 0
+	
+	/// This flag should be active when hero get Health Grow Perk
+	var isHealthGrowPerkActive = false
+	
+	/// By default it's 0 as simple Int type and should increase hero max hp by this value
+	var healthGrowEffectModifier = 0
+	
+	/// This flag should be false as default so if perk is active, condition for use were met and the effect was applied, turn this flag to true
+	/// When the combat ends this flag should be false again
+	var wasHealthGrowPerkEffectUsed = false
+	
+	/// This flag should be active when hero get Blood Bath Perk
+	var isBloodBathPerkActive = false
+	
+	/// By default it's 0 as simple Int type and should be increase hero max hp by this value
+	var bloodBathPerkEffectModifier = 0
 	
 	// MARK: - Flask, Hero, Enemy Objects
 	
@@ -93,6 +240,12 @@ class GameState {
 	var flaskLevelBonusesToChoose: [FlaskLevelBonus?] = []
 	var selectedFlaskLevelBonuses: [FlaskLevelBonus] = []
 	
+	// Level Perks
+	
+	var levelPerkToDisplay: LevelPerk?
+	var levelPerksToChoose: [LevelPerk?] = []
+	var selectedLevelPerks: [LevelPerk] = []
+	
 	// Flask Talants
 	
 	/// Upgraded Talants of the flask should contain the talant to collect combat impact during the fight by default
@@ -108,12 +261,11 @@ class GameState {
 	
 	// MARK: - Dungeon
 	
-	var currentDungeonLevel = 0
+	var currentDungeonLevel = 1
 	
 	var dungeonMapInMemory: [[Tile]] = []
 	
 	@Transient var dungeonMap: [[Tile]] = []
-//	var dungeonMap: [[Tile]] = []
 	
 	var heroPosition = Coordinate(row: 0, col: 0)
 	
@@ -123,7 +275,7 @@ class GameState {
 	// set default tile outside the grid to avoid undefined behaviour
 	var tappedTile: Tile = Tile(coordinate: Coordinate(row: 998, col: 998), type: .empty, isExplored: false, events: [.empty])
 	
-	var isHeroAppeared = false
+	var didHeroAppear = false
 	var didEncounterEnemy = false
 	var didEncounteredBoss = false
 	var dungeonLevelBeenExplored = false
@@ -174,6 +326,8 @@ class GameState {
 	
 	// MARK: - Stats
 	
+	var runs = 0
+	
 	var heroGold = 0
 	
 	/// Resource to boost abilities/explore dungeon/rebuild the town
@@ -188,6 +342,8 @@ class GameState {
 	
 	var didUseFlaskEmpowerForOffensive = false
 	var didUseFlaskEmpowerForDefensive = false
+	var specialSkillEnergyCost = 2
+	var ultimateSkillEnergyCost = 3
 	var skillEnergyCost = 1
 	var spellManaCost = 10
 	var healMinValue = 3
