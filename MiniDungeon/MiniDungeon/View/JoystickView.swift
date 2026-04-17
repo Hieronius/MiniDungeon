@@ -22,11 +22,15 @@ extension MainView {
 			
 			ZStack {
 				
+				// MARK: Board View
+				
 				Rectangle()
 					.frame(width: UIScreen.main.bounds.width / 2,
 						   height: UIScreen.main.bounds.height / 5)
 					.foregroundStyle(.black)
 					.border(.white, width: 5)
+				
+				// MARK: Buttons
 				
 				HStack {
 					
@@ -111,7 +115,7 @@ extension MainView.JoystickView {
 	
 	func toggleAndSendLeftArrowButtonState() {
 		wasLeftArrowButtonPressed = true
-		onTapEnd?(.top)
+		onTapEnd?(.left)
 		print("has been pressed")
 		
 		DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
@@ -122,7 +126,7 @@ extension MainView.JoystickView {
 	
 	func toggleAndSendRightArrowButtonState() {
 		wasRightArrowButtonPressed = true
-		onTapEnd?(.top)
+		onTapEnd?(.right)
 		print("has been pressed")
 		
 		DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
@@ -133,7 +137,7 @@ extension MainView.JoystickView {
 	
 	func toggleAndSendBottomArrowButtonState() {
 		wasBottomArrowButtonPressed = true
-		onTapEnd?(.top)
+		onTapEnd?(.bottom)
 		print("has been pressed")
 		
 		DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
