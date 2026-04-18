@@ -36,14 +36,29 @@ extension MainView {
 				
 				Section(header: Text("Loot")) {
 					
-					ForEach(viewModel.gameState.lootToDisplay, id: \.self) { item in
-						Text(item)
+					// Test Line
+					ForEach(viewModel.gameState.lootContainerToDisplay.items, id: \.self) { item in
+						Text(item.label)
+							.foregroundStyle(item.rarity.color)
+					}
+					
+					ForEach(viewModel.gameState.lootContainerToDisplay.weapons, id: \.self) {
+						weapon in
+						Text(weapon.label)
+							.foregroundStyle(weapon.rarity.color)
+					}
+					
+					ForEach(viewModel.gameState.lootContainerToDisplay.armors, id: \.self) {
+						armor in
+						Text(armor.label)
+							.foregroundStyle(armor.rarity.color)
 					}
 					
 				}
 			}
 			
 			Button("Got it") {
+				viewModel.audioManager.playSound(fileName: "click", extensionName: "mp3")
 				viewModel.getRewardsAndCleanTheScreen()
 				itemToDisplay = nil
 			}

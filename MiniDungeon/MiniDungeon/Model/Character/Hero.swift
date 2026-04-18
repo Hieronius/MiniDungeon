@@ -251,7 +251,7 @@ class Hero {
 	/// Method to use each time when player dies to avoid getting stats bonuses from previous run
 	func restoreStatsToDefault() {
 		
-		self.baseMaxHP = 75
+		self.baseMaxHP = 50
 		self.baseMaxMP = 50
 		self.baseMaxEP = 3
 		self.baseMinDamage = 5
