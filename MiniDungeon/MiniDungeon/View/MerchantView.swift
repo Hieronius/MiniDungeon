@@ -9,14 +9,18 @@ extension MainView {
 		
 		List {
 			
-			Section(header: Text("Currency")) {
-				Text("Gold: \(viewModel.gameState.heroGold)")
+			if !viewModel.gameState.isStatsRecoveryViewOpen {
+				
+				Section(header: Text("Currency")) {
+					Text("Gold: \(viewModel.gameState.heroGold)")
+				}
 			}
 			
 			if itemToDisplay != nil {
 				Section(header: Text("Item Info")) {
 					
 					Text("Item Name: \(itemToDisplay?.label ?? "")")
+						.foregroundStyle(itemToDisplay?.rarity.color ?? .white)
 						.bold()
 					Text("Item Level: \(itemToDisplay?.itemLevel ?? 0)")
 					Text(viewModel.gameState.isItemOnSale ? "Price to Sell: \((itemToDisplay?.price ?? 0) / 4)" : "Price to Buy: \(itemToDisplay?.price ?? 0)")
@@ -56,6 +60,8 @@ extension MainView {
 		}
 		.frame(height: 350)
 		
+		// MARK: - Stats Difference View
+		
 		.overlay() {
 			if viewModel.gameState.isWeaponsStatsDifferenceOpen {
 				buildItemsStatsDifferenceTable(forStats: viewModel.compareSelectedItemWithEquipedOne(itemToDisplay))
@@ -78,17 +84,19 @@ extension MainView {
 					viewModel.gameState.isItemOnSale = true
 				} label: {
 					Text("\(viewModel.gameState.hero.weaponSlot?.label ?? "Empty")")
+						.foregroundStyle(viewModel.gameState.hero.weaponSlot?.rarity.color ?? .white)
+						.bold()
 				}
 			}
 			
 			Section(header: Text("Armor Slot")) {
-				//				Text("\(viewModel.gameState.hero.armorSlot?.label ?? "Empty")")
-				
 				Button {
 					itemToDisplay = viewModel.gameState.hero.armorSlot
 					viewModel.gameState.isItemOnSale = true
 				} label: {
 					Text("\(viewModel.gameState.hero.armorSlot?.label ?? "Empty")")
+						.foregroundStyle(viewModel.gameState.hero.armorSlot?.rarity.color ?? .white)
+						.bold()
 				}
 			}
 			
@@ -99,6 +107,7 @@ extension MainView {
 						itemToDisplay = weapon
 						viewModel.gameState.isItemOnSale = true
 					}
+					.foregroundStyle(weapon.rarity.color)
 				}
 				
 				ForEach(Array(viewModel.gameState.hero.armors.keys)) { armor in
@@ -106,6 +115,7 @@ extension MainView {
 						itemToDisplay = armor
 						viewModel.gameState.isItemOnSale = true
 					}
+					.foregroundStyle(armor.rarity.color)
 				}
 				
 				ForEach(Array(viewModel.gameState.hero.inventory.keys)) { item in
@@ -113,6 +123,7 @@ extension MainView {
 						itemToDisplay = item
 						viewModel.gameState.isItemOnSale = true
 					}
+					.foregroundStyle(item.rarity.color)
 				}
 			}
 			
@@ -125,6 +136,7 @@ extension MainView {
 						itemToDisplay = weapon
 						viewModel.gameState.isItemOnSale = false
 					}
+					.foregroundStyle(weapon.rarity.color)
 				}
 				
 				ForEach(Array(viewModel.gameState.merchantArmorsLoot.keys)) { armor in
@@ -132,6 +144,7 @@ extension MainView {
 						itemToDisplay = armor
 						viewModel.gameState.isItemOnSale = false
 					}
+					.foregroundStyle(armor.rarity.color)
 				}
 				
 				ForEach(Array(viewModel.gameState.merchantInventoryLoot.keys)) { item in
@@ -139,18 +152,51 @@ extension MainView {
 						itemToDisplay = item
 						viewModel.gameState.isItemOnSale = false
 					}
+					.foregroundStyle(item.rarity.color)
 				}
 				
 			}
 		}
 		.frame(height: 250)
+		
+		.overlay(alignment: .bottom) {
+			
+			if viewModel.gameState.isStatsRecoveryViewOpen {
+				
+				// THIS VIEW SERVS AS PART OF MAINVIEW SO YOU DON'T NEED TO USE VIEWBUILDER UNTIL YOU SURE THE VIEW CONFORMS TO VIEW AND RETURNS A VIEW
+				
+				StatsRecoveryView(
+					currentHPValue: viewModel.gameState.hero.currentHP,
+					maxHPValue: viewModel.gameState.hero.maxHP,
+					currentMPValue: viewModel.gameState.hero.currentMana,
+					maxMPValue: viewModel.gameState.hero.maxMana,
+					currentGoldValue: viewModel.gameState.heroGold,
+					audioManager: viewModel.audioManager
+					
+					// closure result from the view with new hp/mp/gold values to update by view model
+				) { result in
+					viewModel
+						.handleStatsRecoveryUpdate(from: result)
+				}
+									   
+			}
+		}
+		
 		List {
 			
+			if !viewModel.gameState.isStatsRecoveryViewOpen {
+			
 			Section(header: Text("Navigation")) {
-				Button("Go To Dungeon") {
-					itemToDisplay = nil
-					viewModel.goToDungeon()
-					viewModel.checkForLevelUP()
+					
+					Button("Restore HP/MP") {
+						viewModel.gameState.isStatsRecoveryViewOpen = true
+					}
+					
+					Button("Go To Dungeon") {
+						itemToDisplay = nil
+						viewModel.goToDungeon()
+						viewModel.checkForHeroLevelUP()
+					}
 				}
 			}
 		}

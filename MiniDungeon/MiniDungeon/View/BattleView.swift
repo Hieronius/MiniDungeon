@@ -10,15 +10,19 @@ extension MainView {
 		// MARK: - UI
 		
 			VStack {
-				Text("\(viewModel.gameState.hero.flask.currentSoulCollectionStatus.rawValue): \(viewModel.gameState.hero.flask.currentCombatImpactValue)/\(viewModel.gameState.hero.flask.currentCombatImpactCapacity)")
-				ProgressView(
-					value: Double(viewModel.gameState.hero.flask.currentCombatImpactValue),
-					total: Double(viewModel.gameState.hero.flask.currentCombatImpactCapacity)
-				)
-				.frame(width: 200)
-				.tint(viewModel.gameState.hero.flask.flaskIsCollectingCombatImpact ? .white : .yellow)
-				Text(viewModel.gameState.hero.flask.flaskIsReadyToUnleashImpact ? "Flask is ready to unleash!" : "                 ")
-				buildShadowFlaskView()
+				
+				if viewModel.gameState.didFindFlask {
+					
+					Text("\(viewModel.gameState.hero.flask.currentSoulCollectionStatus.rawValue): \(viewModel.gameState.hero.flask.currentCombatImpactValue)/\(viewModel.gameState.hero.flask.currentCombatImpactCapacity)")
+					ProgressView(
+						value: Double(viewModel.gameState.hero.flask.currentCombatImpactValue),
+						total: Double(viewModel.gameState.hero.flask.currentCombatImpactCapacity)
+					)
+					.frame(width: 200)
+					.tint(viewModel.gameState.hero.flask.flaskIsCollectingCombatImpact ? .white : .yellow)
+					Text(viewModel.gameState.hero.flask.flaskIsReadyToUnleashImpact ? "Flask is ready to unleash!" : "                 ")
+					buildShadowFlaskView()
+				}
 			}
 		
 		HStack {
@@ -52,8 +56,8 @@ extension MainView {
 			
 			VStack {
 				
-				Text("HP: \(viewModel.gameState.enemy.enemyCurrentHP) / \(viewModel.gameState.enemy.enemyMaxHP)")
-				Text("MP: \(viewModel.gameState.enemy.currentMana) / \(viewModel.gameState.enemy.maxMana)")
+				Text("HP: \(viewModel.gameState.enemy.currentHP) / \(viewModel.gameState.enemy.maxHP)")
+				Text("MP: \(viewModel.gameState.enemy.currentMP) / \(viewModel.gameState.enemy.maxMana)")
 				Text("EP: \(viewModel.gameState.enemy.currentEnergy) / \(viewModel.gameState.enemy.maxEnergy)")
 				Text("EMPTY LINE")
 					.foregroundStyle(.background)
@@ -86,29 +90,63 @@ extension MainView {
 		
 		Spacer()
 		
-		// MARK: Actions
+		// MARK: - CoinFlipMiniGame
 		
-		if viewModel.gameState.isCombatMiniGameIsOn {
-			
-			// MARK: Call Mini Game and get it's result
-			
-			CombatMiniGameView { success in
-				viewModel.gameState.isCombatMiniGameSuccessful = success
-				print(success)
-				// TODO: Probably should be inside the method in ViewModel
-				DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-					viewModel.gameState.isCombatMiniGameIsOn = false
-					viewModel.continueAttackAfterMiniGame(success: success)
-				}
+		// In the code below you see a view construction with passing a closure to get it's onGameEnd property back to deal with.
+		// THIS CLOSURE IS THE BRIDGE BETWEEN GAME RESULT AND OUTCOME IN BATTLE VIEW
+		
+		if viewModel.gameState.isCoinFlipMiniGameOn {
+			CoinFlipMiniGameView(
+				heroChanceForFirstTurn: viewModel.gameState.hero.currentChanceStartTurnFirst
+			) { result in
+				 viewModel.handleCoinFlipMiniGameResult(for: result)
 			}
+		}
+		
+		// MARK: CombatMiniGame
+		
+		if viewModel.gameState.isCombatMiniGameOn {
+			
+			CombatMiniGameView { result in
+				viewModel.handleCombatMiniGameResult(for: result)
+			}
+		}
+		
+		// MARK: EvasionMiniGame
+		
+		if viewModel.gameState.isEvasionMiniGameOn {
+			
+			EvasionMiniGame { result in
+				viewModel.handleEvasionMiniGameResult(for: result)
+			}
+		}
+		
+		// MARK: ShadowBallMiniGame
+		
+		if viewModel.gameState.isShadowBallMiniGameOn {
+			
+			ShadowBallMiniGameView(
+				
+				   onImpact: { result in
+					   viewModel.handleShadowMiniGameImpact(for: result)
+				   },
+				   
+				   didGameEnd: { gameEnd in  // true if all 10 resisted?
+					   print(gameEnd ? "END OF THE GAME" : "GAME IN PROGRESS")
+					   viewModel.gameState.isShadowBallMiniGameOn = false
+					   viewModel.winLoseCondition()
+				   }
+			)
 		}
 
 			List {
 				
+				// MARK: - Actions
+				
 				Section(header: Text("Actions")) {
 					
 					Button(viewModel.gameState.didUseFlaskEmpowerForOffensive ? "Attack (Damage \(viewModel.gameState.hero.minDamage)-\(viewModel.gameState.hero.maxDamage), Hit \(viewModel.gameState.hero.hitChance)%, Crit \(viewModel.gameState.hero.critChance)%) Empowered" : "Attack (Damage \(viewModel.gameState.hero.minDamage)-\(viewModel.gameState.hero.maxDamage), Hit \(viewModel.gameState.hero.hitChance)%, Crit \(viewModel.gameState.hero.critChance)%)") {
-						viewModel.startMiniGame()
+						viewModel.startCombatMiniGame()
 					}
 					.foregroundStyle(
 						viewModel.gameState.hero.currentEnergy > 0 && viewModel.gameState.isHeroTurn ? (viewModel.gameState.didUseFlaskEmpowerForOffensive ? .purple : .blue) : (.gray))
@@ -152,39 +190,41 @@ extension MainView {
 					
 					// MARK: Flask
 					
-					if viewModel.gameState.hero.flask.actionsToResetCD == 0 {
-						
-						Button(viewModel.gameState.hero.flask.battleMode == .defensive ? "Heal yourself by \(viewModel.gameState.hero.flask.currentHealingValueInPercent)% of max HP.   Charges (\(viewModel.gameState.hero.flask.currentCharges)/\(viewModel.gameState.hero.flask.currentMaxCharges))" : "Damage by \(viewModel.gameState.hero.flask.currentDamageValueInPercent)% of enemy max HP. Charges (\(viewModel.gameState.hero.flask.currentCharges)/\(viewModel.gameState.hero.flask.currentMaxCharges))") {
+					if viewModel.gameState.didFindFlask {
+						if viewModel.gameState.hero.flask.actionsToResetCD == 0 {
 							
-							viewModel.useFlaskInBattlePipeline()
-						}
-						.foregroundColor(viewModel.gameState.hero.flask.currentCharges > 0 && viewModel.gameState.isHeroTurn && viewModel.gameState.hero.flask.actionsToResetCD == 0 ? (viewModel.gameState.hero.flask.battleMode == .defensive ? .green : .red) : .gray)
-						.opacity(0.75)
-						
-					} else {
-						
-						Text("Turns to reset Flask CD: \(viewModel.gameState.hero.flask.actionsToResetCD)/\(viewModel.gameState.hero.flask.currentCooldown)")
-							.foregroundColor(.gray)
-					}
-					
-					if viewModel.gameState.isHeroTurn && viewModel.gameState.hero.flask.flaskIsReadyToUnleashImpact {
-						
-						Button(viewModel.gameState.hero.flask.battleMode == .offensive ? "Unleash Offensively (gain 1 EP)" : "Unleash Defensively (gain dark energy)") {
+							Button(viewModel.gameState.hero.flask.battleMode == .defensive ? "Heal yourself by \(viewModel.gameState.hero.flask.currentHealingValueInPercent)% of max HP. Charges (\(viewModel.gameState.hero.flask.currentCharges)/\(viewModel.gameState.hero.flask.currentMaxCharges))" : "Damage by \(viewModel.gameState.hero.flask.currentDamageValueInPercent)% of enemy max HP. Charges (\(viewModel.gameState.hero.flask.currentCharges)/\(viewModel.gameState.hero.flask.currentMaxCharges))") {
+								
+								viewModel.useFlaskInBattlePipeline()
+							}
+							.foregroundColor(viewModel.gameState.hero.flask.currentCharges > 0 && viewModel.gameState.isHeroTurn && viewModel.gameState.hero.flask.actionsToResetCD == 0 ? (viewModel.gameState.hero.flask.battleMode == .defensive ? .green : .red) : .gray)
+							.opacity(0.75)
 							
-							viewModel.unleashFlaskImpactEffect()
+						} else {
+							
+							Text("Turns to reset Flask CD: \(viewModel.gameState.hero.flask.actionsToResetCD)/\(viewModel.gameState.hero.flask.currentCooldown)")
+								.foregroundColor(.gray)
 						}
-						.foregroundStyle(viewModel.gameState.hero.flask.battleMode == .offensive ? .red : .green)
-						.opacity(0.75)
+						
+						if viewModel.gameState.isHeroTurn && viewModel.gameState.hero.flask.flaskIsReadyToUnleashImpact {
+							
+							Button(viewModel.gameState.hero.flask.battleMode == .offensive ? "Unleash Offensively (gain 1 EP)" : "Unleash Defensively (gain dark energy)") {
+								
+								viewModel.unleashFlaskImpactEffect()
+							}
+							.foregroundStyle(viewModel.gameState.hero.flask.battleMode == .offensive ? .red : .green)
+							.opacity(0.75)
+						}
 					}
 					
 					// MARK: End Turn
 					
 			
 					Button("End Turn") {
+						viewModel.audioManager.playSound(fileName: "click", extensionName: "mp3")
 						viewModel.endHeroTurn()
 					}
 					.foregroundStyle(viewModel.gameState.isHeroTurn ? .blue : .gray)
-					.disabled(viewModel.gameState.didUserPressedEndTurnButton)
 				}
 				
 				// MARK: Navigation
@@ -192,7 +232,33 @@ extension MainView {
 				Section(header: Text("Navigation")) {
 					
 					Button("Enemy Stats") {
+						viewModel.audioManager.playSound(fileName: "click", extensionName: "mp3")
 						viewModel.goToEnemyStats()
+					}
+					
+					// How to fight Alert Controller
+					
+					if !viewModel.gameState.didEndDemoLevel {
+						Button("How to fight Info") {
+							viewModel.audioManager.playSound(fileName: "openInfo", extensionName: "mp3")
+							isCombatInfoAlertOpen = true
+						}
+						
+						.alert("Combat",
+							   isPresented: $isCombatInfoAlertOpen) {
+							
+							Button("Got it", role: .cancel) {
+								viewModel.audioManager.playSound(fileName: "click", extensionName: "mp3")
+								isCombatInfoAlertOpen = false
+							}
+						} message: {
+							Text("""
+		You and enemy will act in turns.		
+	You have EP (Energy Points), each action usually costs 1 EP.					
+	By hitting enemy with Attack button multiple times you will get CP (Combo Points).								
+	After getting 3+ you will be able to commit a powerful strike with different effects.
+	""")
+						}
 					}
 				}
 				
@@ -201,33 +267,43 @@ extension MainView {
 				Section(header: Text("Testability")) {
 					
 					Button("Instant Enemy Kill") {
+						viewModel.audioManager.playSound(fileName: "click", extensionName: "mp3")
 						viewModel.testEnemyExecute()
 					}
 					
 					Button("Restore Hero Combo Points") {
+						viewModel.audioManager.playSound(fileName: "click", extensionName: "mp3")
 						viewModel.testComboPointsRestoration()
 					}
 					
 					Button("Restore Both Targets Stats") {
+						viewModel.audioManager.playSound(fileName: "click", extensionName: "mp3")
 						viewModel.restoreStats()
 					}
 					
-					Button("Reset Flask CD") {
-						viewModel.testFlaskCDreset()
-					}
-					
-					Button {
-						viewModel.toggleCurrentSoulCollectionStatus()
-					} label: {
-						Text("Toggle current Soul Collection Status (\(viewModel.gameState.hero.flask.currentSoulCollectionStatus.rawValue))")
-					}
-					
-					Button("Refill Soul Collection") {
-						viewModel.refillSoulCollection()
+					if viewModel.gameState.didFindFlask {
+						
+						Button("Reset Flask CD") {
+							viewModel.audioManager.playSound(fileName: "click", extensionName: "mp3")
+							viewModel.testFlaskCDreset()
+						}
+						
+						Button {
+							viewModel.audioManager.playSound(fileName: "click", extensionName: "mp3")
+							viewModel.toggleCurrentSoulCollectionStatus()
+						} label: {
+							Text("Toggle current Soul Collection Status (\(viewModel.gameState.hero.flask.currentSoulCollectionStatus.rawValue))")
+						}
+						
+						Button("Refill Soul Collection") {
+							viewModel.audioManager.playSound(fileName: "click", extensionName: "mp3")
+							viewModel.refillSoulCollection()
+						}
 					}
 					
 				}
 				
 			}
+			.disabled(!viewModel.gameState.isHeroTurn)
 		}
 	}

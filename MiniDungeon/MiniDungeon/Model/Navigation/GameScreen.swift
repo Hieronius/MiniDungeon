@@ -29,4 +29,12 @@ enum GameScreen: Codable, CaseIterable {
 	case flask
 	case flaskLevelBonus
 	case flaskTalants
+	case shadowBallMiniGame
+	case testTimelineView
+	case evasionMiniGame
+	case statsRecovery
+	case coinFlipMiniGame
+	case levelPerk
+	case testCollisionView
+	case joystickView
 }

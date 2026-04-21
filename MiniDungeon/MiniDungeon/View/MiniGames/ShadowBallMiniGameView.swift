@@ -425,59 +425,7 @@ extension ShadowBallMiniGameView {
 		}
 	}
 	
-	// MARK: - testCollisionDetection
-	
-	func testCollisionDetection(
-		_ ball: MotionController,
-		_ platform: MotionController
-	) -> Bool {
-		
-		// Get platform's actual Y position (including drag)
-			let currentPlatformY = platform.coordinateY + dragPlatformTemporaryTranslationPositionOnScreen.height
-			
-			// Calculate rectangle bounds (using center-based coordinates)
-			let rectLeft = platform.coordinateX - platform.width / 2
-			let rectRight = platform.coordinateX + platform.width / 2
-			let rectTop = currentPlatformY - platform.height / 2
-			let rectBottom = currentPlatformY + platform.height / 2
-			
-			// CLAMP the circle's center to the rectangle bounds (THIS IS THE KEY)
-			var testX = ball.coordinateX
-			var testY = ball.coordinateY
-			
-			// Clamp X to rectangle's horizontal bounds
-			if testX < rectLeft {
-				testX = rectLeft
-			} else if testX > rectRight {
-				testX = rectRight
-			}
-			
-			// Clamp Y to rectangle's vertical bounds
-			if testY < rectTop {
-				testY = rectTop
-			} else if testY > rectBottom {
-				testY = rectBottom
-			}
-			
-			// Calculate distance from circle center to clamped point
-			let distX = ball.coordinateX - testX
-			let distY = ball.coordinateY - testY
-			let distance = sqrt(distX * distX + distY * distY)
-			
-			// Collision if distance ≤ radius
-			let ballRadius = ball.width / 2  // Assuming width = height for circle
-			return distance <= ballRadius
-	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	// MARK: - didCollisionDetected
 	
 	func didCollisionDetected(
 		_ ball: MotionController,

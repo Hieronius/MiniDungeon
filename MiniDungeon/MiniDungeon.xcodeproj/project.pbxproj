@@ -20,6 +20,13 @@
 		DD12B6842F0E84D0004B4036 /* GameScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD12B6832F0E84D0004B4036 /* GameScreen.swift */; };
 		DD12B6882F0E89C3004B4036 /* FlaskLevelBonus.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD12B6872F0E89C3004B4036 /* FlaskLevelBonus.swift */; };
 		DD12B68A2F161E42004B4036 /* ActivateFlaskTalants.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD12B6892F161E42004B4036 /* ActivateFlaskTalants.swift */; };
+		DD3B2A5F2F69143000944C0F /* coin3.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = DD3B2A5E2F69143000944C0F /* coin3.mp3 */; };
+		DD3B2A602F69143000944C0F /* cloth.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = DD3B2A5B2F69143000944C0F /* cloth.mp3 */; };
+		DD3B2A612F69143000944C0F /* coin2.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = DD3B2A5D2F69143000944C0F /* coin2.mp3 */; };
+		DD3B2A622F69143000944C0F /* coin1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = DD3B2A5C2F69143000944C0F /* coin1.mp3 */; };
+		DD3B2A642F69198300944C0F /* coinFlip.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = DD3B2A632F69198300944C0F /* coinFlip.mp3 */; };
+		DD3B2A662F6A697600944C0F /* ApplyLevelPerk.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD3B2A652F6A697600944C0F /* ApplyLevelPerk.swift */; };
+		DD3B2A682F72400A00944C0F /* LevelPerkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD3B2A672F72400A00944C0F /* LevelPerkView.swift */; };
 		DD50E9722EA57D900072CCC4 /* ActivateShrines.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD50E9712EA57D900072CCC4 /* ActivateShrines.swift */; };
 		DD5833A22EE01FE000DC4371 /* ChestLockPickingMiniGameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD5833A12EE01FE000DC4371 /* ChestLockPickingMiniGameView.swift */; };
 		DD585ABC2EADDF4C00C5446B /* Bugs in Resources */ = {isa = PBXBuildFile; fileRef = DD585AB42EADDF4C00C5446B /* Bugs */; };
@@ -36,7 +43,66 @@
 		DD597D1C2EDCB24B00CB9D7E /* Actions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD597D1B2EDCB24B00CB9D7E /* Actions.swift */; };
 		DD597D1E2EDD80EA00CB9D7E /* GameFeatures in Resources */ = {isa = PBXBuildFile; fileRef = DD597D1D2EDD80EA00CB9D7E /* GameFeatures */; };
 		DD5C56562EEA6D09002EA3F6 /* PlayersFeedback in Resources */ = {isa = PBXBuildFile; fileRef = DD5C56552EEA6D09002EA3F6 /* PlayersFeedback */; };
+		DD5CE0A32F5007980045C6F9 /* flaskModeSwitch.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = DD5CE0A22F5007980045C6F9 /* flaskModeSwitch.mp3 */; };
+		DD5CE0A92F5015E30045C6F9 /* animalSound.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = DD5CE0A62F5015E30045C6F9 /* animalSound.mp3 */; };
+		DD5CE0AA2F5015E30045C6F9 /* swordSound.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = DD5CE0A82F5015E30045C6F9 /* swordSound.mp3 */; };
+		DD5CE0AB2F5015E30045C6F9 /* meleeSound.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = DD5CE0A72F5015E30045C6F9 /* meleeSound.mp3 */; };
+		DD5CE0AD2F5016380045C6F9 /* Audio.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD5CE0AC2F5016380045C6F9 /* Audio.swift */; };
+		DD5CE0B22F5175B50045C6F9 /* hitMissSound2.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = DD5CE0B12F5175B50045C6F9 /* hitMissSound2.mp3 */; };
+		DD5CE0B52F5177690045C6F9 /* heroStep.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = DD5CE0B42F5177690045C6F9 /* heroStep.mp3 */; };
+		DD5CE0B72F5178C70045C6F9 /* heroFailedStep.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = DD5CE0B62F5178C70045C6F9 /* heroFailedStep.mp3 */; };
+		DD5CE0BD2F517B870045C6F9 /* unequip.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = DD5CE0BB2F517B870045C6F9 /* unequip.mp3 */; };
+		DD5CE0BE2F517B870045C6F9 /* equip.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = DD5CE0BA2F517B870045C6F9 /* equip.mp3 */; };
+		DD5CE0BF2F517B870045C6F9 /* useItem.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = DD5CE0BC2F517B870045C6F9 /* useItem.mp3 */; };
+		DD5CE0C02F517B870045C6F9 /* buySell.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = DD5CE0B82F517B870045C6F9 /* buySell.mp3 */; };
+		DD5CE0C12F517B870045C6F9 /* denied.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = DD5CE0B92F517B870045C6F9 /* denied.mp3 */; };
+		DD5CE0C42F5299330045C6F9 /* healSpell1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = DD5CE0C32F5299330045C6F9 /* healSpell1.mp3 */; };
+		DD5CE0C62F52A96E0045C6F9 /* shieldBlock.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = DD5CE0C52F52A96E0045C6F9 /* shieldBlock.mp3 */; };
+		DD5CE0C82F52AB3B0045C6F9 /* confirm.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = DD5CE0C72F52AB3B0045C6F9 /* confirm.mp3 */; };
+		DD5CE0CA2F52AD920045C6F9 /* confirm1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = DD5CE0C92F52AD920045C6F9 /* confirm1.mp3 */; };
+		DD5CE0CE2F52B50D0045C6F9 /* comboHit2.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = DD5CE0CC2F52B50D0045C6F9 /* comboHit2.mp3 */; };
+		DD5CE0CF2F52B50D0045C6F9 /* comboHit1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = DD5CE0CB2F52B50D0045C6F9 /* comboHit1.mp3 */; };
+		DD5CE0D02F52B50D0045C6F9 /* comboHit3.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = DD5CE0CD2F52B50D0045C6F9 /* comboHit3.mp3 */; };
+		DD5CE0D42F52B6E70045C6F9 /* openChest.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = DD5CE0D22F52B6E70045C6F9 /* openChest.mp3 */; };
+		DD5CE0D62F52B73B0045C6F9 /* lockUnlock.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = DD5CE0D52F52B73B0045C6F9 /* lockUnlock.mp3 */; };
+		DD5CE0D82F52BAD20045C6F9 /* restorationShrineEffect.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = DD5CE0D72F52BAD20045C6F9 /* restorationShrineEffect.mp3 */; };
+		DD5CE0DA2F52BBC10045C6F9 /* disenchant.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = DD5CE0D92F52BBC10045C6F9 /* disenchant.mp3 */; };
+		DD5CE0DD2F53F2DA0045C6F9 /* heroLevelUP.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = DD5CE0DC2F53F2DA0045C6F9 /* heroLevelUP.mp3 */; };
+		DD5CE0DE2F53F2DA0045C6F9 /* flaskLevelUP.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = DD5CE0DB2F53F2DA0045C6F9 /* flaskLevelUP.mp3 */; };
+		DD5CE0E02F53FF390045C6F9 /* summonBoss.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = DD5CE0DF2F53FF390045C6F9 /* summonBoss.mp3 */; };
+		DD5CE0E22F5400C30045C6F9 /* potionUse.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = DD5CE0E12F5400C30045C6F9 /* potionUse.mp3 */; };
+		DD5CE0E42F5403360045C6F9 /* click.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = DD5CE0E32F5403360045C6F9 /* click.mp3 */; };
+		DD5CE0E62F540BC00045C6F9 /* secretDoor.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = DD5CE0E52F540BC00045C6F9 /* secretDoor.mp3 */; };
+		DD5CE0E82F5571AE0045C6F9 /* monostilus.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DD5CE0E72F5571AE0045C6F9 /* monostilus.ttf */; };
+		DD5CE0EC2F56AAF40045C6F9 /* MiniGamesIdeas in Resources */ = {isa = PBXBuildFile; fileRef = DD5CE0EB2F56AAF40045C6F9 /* MiniGamesIdeas */; };
+		DD5CE0F02F595A100045C6F9 /* EvasionMiniGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD5CE0EF2F595A100045C6F9 /* EvasionMiniGame.swift */; };
+		DD5CE0F22F59E93B0045C6F9 /* Difficulty.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD5CE0F12F59E93B0045C6F9 /* Difficulty.swift */; };
+		DD64C4202F7A259400A8C15A /* TestTimelineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD64C41E2F7A259400A8C15A /* TestTimelineView.swift */; };
+		DD64C4222F7A25A500A8C15A /* TestCollisionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD64C4212F7A25A500A8C15A /* TestCollisionView.swift */; };
+		DD64C4252F838C6600A8C15A /* bossUltimate1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = DD64C4232F838C6600A8C15A /* bossUltimate1.mp3 */; };
+		DD64C4262F838C6600A8C15A /* bossUltimate2.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = DD64C4242F838C6600A8C15A /* bossUltimate2.mp3 */; };
+		DD64C42D2F83999200A8C15A /* clickTrap1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = DD64C4292F83999200A8C15A /* clickTrap1.mp3 */; };
+		DD64C42E2F83999200A8C15A /* equipItem.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = DD64C42B2F83999200A8C15A /* equipItem.mp3 */; };
+		DD64C42F2F83999200A8C15A /* bottleUse.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = DD64C4272F83999200A8C15A /* bottleUse.mp3 */; };
+		DD64C4302F83999200A8C15A /* clickTrap2.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = DD64C42A2F83999200A8C15A /* clickTrap2.mp3 */; };
+		DD64C4312F83999200A8C15A /* openInfo.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = DD64C42C2F83999200A8C15A /* openInfo.mp3 */; };
+		DD64C4322F83999200A8C15A /* clickChest.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = DD64C4282F83999200A8C15A /* clickChest.mp3 */; };
+		DD64C4342F84D86B00A8C15A /* monsterAppear.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = DD64C4332F84D86B00A8C15A /* monsterAppear.mp3 */; };
+		DD64C4362F84E27000A8C15A /* levelPerkSound.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = DD64C4352F84E27000A8C15A /* levelPerkSound.mp3 */; };
+		DD64C4382F84E7AE00A8C15A /* sliderScroll.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = DD64C4372F84E7AE00A8C15A /* sliderScroll.mp3 */; };
+		DD64C43A2F84EA3700A8C15A /* sliderScroll1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = DD64C4392F84EA3700A8C15A /* sliderScroll1.mp3 */; };
+		DD64C43C2F8CD0A000A8C15A /* Loot.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD64C43B2F8CD0A000A8C15A /* Loot.swift */; };
+		DD64C43F2F8E238800A8C15A /* JoystickView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD64C43E2F8E238800A8C15A /* JoystickView.swift */; };
 		DD679CE92F30725D00CA66C8 /* NavigationStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD679CE82F30725D00CA66C8 /* NavigationStack.swift */; };
+		DD679CEB2F3455F700CA66C8 /* Demo in Resources */ = {isa = PBXBuildFile; fileRef = DD679CEA2F3455F700CA66C8 /* Demo */; };
+		DD679CED2F36103C00CA66C8 /* ItemsStatsDifferenceTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD679CEC2F36103C00CA66C8 /* ItemsStatsDifferenceTableView.swift */; };
+		DD679CF32F361D7F00CA66C8 /* Binding+Int.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD679CF12F361D7F00CA66C8 /* Binding+Int.swift */; };
+		DD679CF52F370D1A00CA66C8 /* ShadowBallMiniGameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD679CF42F370D1A00CA66C8 /* ShadowBallMiniGameView.swift */; };
+		DD679CF72F384F2E00CA66C8 /* MotionObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD679CF62F384F2E00CA66C8 /* MotionObject.swift */; };
+		DD679CFA2F3C4C6F00CA66C8 /* LevelPerk.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD679CF92F3C4C6F00CA66C8 /* LevelPerk.swift */; };
+		DD7520502F4AB79C00889D99 /* AssestsCatalog in Resources */ = {isa = PBXBuildFile; fileRef = DD75204F2F4AB79C00889D99 /* AssestsCatalog */; };
+		DD7520522F4AC05200889D99 /* TheGoalOfTheProject in Resources */ = {isa = PBXBuildFile; fileRef = DD7520512F4AC05200889D99 /* TheGoalOfTheProject */; };
+		DD7520562F4D8D5600889D99 /* AudioManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD7520552F4D8D5600889D99 /* AudioManager.swift */; };
 		DD7641DD2E88F77400359C52 /* InventoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD7641DC2E88F77400359C52 /* InventoryView.swift */; };
 		DD7641DF2E88F90E00359C52 /* Specialisations.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD7641DE2E88F90E00359C52 /* Specialisations.swift */; };
 		DD7641E32E8A4EF200359C52 /* HeroStatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD7641E22E8A4EF200359C52 /* HeroStatsView.swift */; };
@@ -53,6 +119,14 @@
 		DD7EC0CC2E78A45C00849B0B /* Armor.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD7EC0CB2E78A45C00849B0B /* Armor.swift */; };
 		DD7EC0CE2E7C47E800849B0B /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD7EC0CD2E7C47E800849B0B /* Item.swift */; };
 		DD7EC0D72E83B13000849B0B /* CombatMiniGameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD7EC0D62E83B13000849B0B /* CombatMiniGameView.swift */; };
+		DD8B16342F5E8C1D00C83EA0 /* evasionSuccess.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = DD8B16332F5E8C1D00C83EA0 /* evasionSuccess.mp3 */; };
+		DD8B16372F5FD35700C83EA0 /* shadowBallHit.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = DD8B16362F5FD35700C83EA0 /* shadowBallHit.mp3 */; };
+		DD8B16382F5FD35700C83EA0 /* shadowBallBlock.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = DD8B16352F5FD35700C83EA0 /* shadowBallBlock.mp3 */; };
+		DD8B163B2F5FDF7F00C83EA0 /* flaskEffectUnleash.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = DD8B16392F5FDF7F00C83EA0 /* flaskEffectUnleash.mp3 */; };
+		DD8B163C2F5FDF7F00C83EA0 /* flaskImpactUnleash.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = DD8B163A2F5FDF7F00C83EA0 /* flaskImpactUnleash.mp3 */; };
+		DD8B163E2F61551A00C83EA0 /* StatsRecoveryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD8B163D2F61551A00C83EA0 /* StatsRecoveryView.swift */; };
+		DD8B16402F63C15700C83EA0 /* StatsRecoveryResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD8B163F2F63C15700C83EA0 /* StatsRecoveryResult.swift */; };
+		DD8B16422F6665C000C83EA0 /* CoinFlipMiniGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD8B16412F6665C000C83EA0 /* CoinFlipMiniGame.swift */; };
 		DD915CEB2E66CD8900EDCC91 /* MiniDungeonApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD915CEA2E66CD8900EDCC91 /* MiniDungeonApp.swift */; };
 		DD915CED2E66CD8900EDCC91 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD915CEC2E66CD8900EDCC91 /* MainView.swift */; };
 		DD915CEF2E66CD9000EDCC91 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DD915CEE2E66CD9000EDCC91 /* Assets.xcassets */; };
@@ -90,6 +164,13 @@
 		DD12B6832F0E84D0004B4036 /* GameScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScreen.swift; sourceTree = "<group>"; };
 		DD12B6872F0E89C3004B4036 /* FlaskLevelBonus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlaskLevelBonus.swift; sourceTree = "<group>"; };
 		DD12B6892F161E42004B4036 /* ActivateFlaskTalants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivateFlaskTalants.swift; sourceTree = "<group>"; };
+		DD3B2A5B2F69143000944C0F /* cloth.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = cloth.mp3; sourceTree = "<group>"; };
+		DD3B2A5C2F69143000944C0F /* coin1.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = coin1.mp3; sourceTree = "<group>"; };
+		DD3B2A5D2F69143000944C0F /* coin2.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = coin2.mp3; sourceTree = "<group>"; };
+		DD3B2A5E2F69143000944C0F /* coin3.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = coin3.mp3; sourceTree = "<group>"; };
+		DD3B2A632F69198300944C0F /* coinFlip.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = coinFlip.mp3; sourceTree = "<group>"; };
+		DD3B2A652F6A697600944C0F /* ApplyLevelPerk.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplyLevelPerk.swift; sourceTree = "<group>"; };
+		DD3B2A672F72400A00944C0F /* LevelPerkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelPerkView.swift; sourceTree = "<group>"; };
 		DD50E9712EA57D900072CCC4 /* ActivateShrines.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivateShrines.swift; sourceTree = "<group>"; };
 		DD5833A12EE01FE000DC4371 /* ChestLockPickingMiniGameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChestLockPickingMiniGameView.swift; sourceTree = "<group>"; };
 		DD585AB42EADDF4C00C5446B /* Bugs */ = {isa = PBXFileReference; lastKnownFileType = text; path = Bugs; sourceTree = "<group>"; };
@@ -108,7 +189,67 @@
 		DD597D1B2EDCB24B00CB9D7E /* Actions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Actions.swift; sourceTree = "<group>"; };
 		DD597D1D2EDD80EA00CB9D7E /* GameFeatures */ = {isa = PBXFileReference; lastKnownFileType = text; path = GameFeatures; sourceTree = "<group>"; };
 		DD5C56552EEA6D09002EA3F6 /* PlayersFeedback */ = {isa = PBXFileReference; lastKnownFileType = text; path = PlayersFeedback; sourceTree = "<group>"; };
+		DD5CE0A22F5007980045C6F9 /* flaskModeSwitch.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = flaskModeSwitch.mp3; sourceTree = "<group>"; };
+		DD5CE0A62F5015E30045C6F9 /* animalSound.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = animalSound.mp3; sourceTree = "<group>"; };
+		DD5CE0A72F5015E30045C6F9 /* meleeSound.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = meleeSound.mp3; sourceTree = "<group>"; };
+		DD5CE0A82F5015E30045C6F9 /* swordSound.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = swordSound.mp3; sourceTree = "<group>"; };
+		DD5CE0AC2F5016380045C6F9 /* Audio.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Audio.swift; sourceTree = "<group>"; };
+		DD5CE0B12F5175B50045C6F9 /* hitMissSound2.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = hitMissSound2.mp3; sourceTree = "<group>"; };
+		DD5CE0B42F5177690045C6F9 /* heroStep.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = heroStep.mp3; sourceTree = "<group>"; };
+		DD5CE0B62F5178C70045C6F9 /* heroFailedStep.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = heroFailedStep.mp3; sourceTree = "<group>"; };
+		DD5CE0B82F517B870045C6F9 /* buySell.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = buySell.mp3; sourceTree = "<group>"; };
+		DD5CE0B92F517B870045C6F9 /* denied.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = denied.mp3; sourceTree = "<group>"; };
+		DD5CE0BA2F517B870045C6F9 /* equip.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = equip.mp3; sourceTree = "<group>"; };
+		DD5CE0BB2F517B870045C6F9 /* unequip.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = unequip.mp3; sourceTree = "<group>"; };
+		DD5CE0BC2F517B870045C6F9 /* useItem.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = useItem.mp3; sourceTree = "<group>"; };
+		DD5CE0C32F5299330045C6F9 /* healSpell1.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = healSpell1.mp3; sourceTree = "<group>"; };
+		DD5CE0C52F52A96E0045C6F9 /* shieldBlock.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = shieldBlock.mp3; sourceTree = "<group>"; };
+		DD5CE0C72F52AB3B0045C6F9 /* confirm.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = confirm.mp3; sourceTree = "<group>"; };
+		DD5CE0C92F52AD920045C6F9 /* confirm1.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = confirm1.mp3; sourceTree = "<group>"; };
+		DD5CE0CB2F52B50D0045C6F9 /* comboHit1.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = comboHit1.mp3; sourceTree = "<group>"; };
+		DD5CE0CC2F52B50D0045C6F9 /* comboHit2.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = comboHit2.mp3; sourceTree = "<group>"; };
+		DD5CE0CD2F52B50D0045C6F9 /* comboHit3.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = comboHit3.mp3; sourceTree = "<group>"; };
+		DD5CE0D22F52B6E70045C6F9 /* openChest.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = openChest.mp3; sourceTree = "<group>"; };
+		DD5CE0D52F52B73B0045C6F9 /* lockUnlock.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = lockUnlock.mp3; sourceTree = "<group>"; };
+		DD5CE0D72F52BAD20045C6F9 /* restorationShrineEffect.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = restorationShrineEffect.mp3; sourceTree = "<group>"; };
+		DD5CE0D92F52BBC10045C6F9 /* disenchant.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = disenchant.mp3; sourceTree = "<group>"; };
+		DD5CE0DB2F53F2DA0045C6F9 /* flaskLevelUP.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = flaskLevelUP.mp3; sourceTree = "<group>"; };
+		DD5CE0DC2F53F2DA0045C6F9 /* heroLevelUP.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = heroLevelUP.mp3; sourceTree = "<group>"; };
+		DD5CE0DF2F53FF390045C6F9 /* summonBoss.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = summonBoss.mp3; sourceTree = "<group>"; };
+		DD5CE0E12F5400C30045C6F9 /* potionUse.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = potionUse.mp3; sourceTree = "<group>"; };
+		DD5CE0E32F5403360045C6F9 /* click.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = click.mp3; sourceTree = "<group>"; };
+		DD5CE0E52F540BC00045C6F9 /* secretDoor.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = secretDoor.mp3; sourceTree = "<group>"; };
+		DD5CE0E72F5571AE0045C6F9 /* monostilus.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = monostilus.ttf; sourceTree = "<group>"; };
+		DD5CE0EA2F55F07D0045C6F9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		DD5CE0EB2F56AAF40045C6F9 /* MiniGamesIdeas */ = {isa = PBXFileReference; lastKnownFileType = text; path = MiniGamesIdeas; sourceTree = "<group>"; };
+		DD5CE0EF2F595A100045C6F9 /* EvasionMiniGame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EvasionMiniGame.swift; sourceTree = "<group>"; };
+		DD5CE0F12F59E93B0045C6F9 /* Difficulty.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Difficulty.swift; sourceTree = "<group>"; };
+		DD64C41E2F7A259400A8C15A /* TestTimelineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestTimelineView.swift; sourceTree = "<group>"; };
+		DD64C4212F7A25A500A8C15A /* TestCollisionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestCollisionView.swift; sourceTree = "<group>"; };
+		DD64C4232F838C6600A8C15A /* bossUltimate1.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = bossUltimate1.mp3; sourceTree = "<group>"; };
+		DD64C4242F838C6600A8C15A /* bossUltimate2.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = bossUltimate2.mp3; sourceTree = "<group>"; };
+		DD64C4272F83999200A8C15A /* bottleUse.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = bottleUse.mp3; sourceTree = "<group>"; };
+		DD64C4282F83999200A8C15A /* clickChest.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = clickChest.mp3; sourceTree = "<group>"; };
+		DD64C4292F83999200A8C15A /* clickTrap1.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = clickTrap1.mp3; sourceTree = "<group>"; };
+		DD64C42A2F83999200A8C15A /* clickTrap2.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = clickTrap2.mp3; sourceTree = "<group>"; };
+		DD64C42B2F83999200A8C15A /* equipItem.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = equipItem.mp3; sourceTree = "<group>"; };
+		DD64C42C2F83999200A8C15A /* openInfo.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = openInfo.mp3; sourceTree = "<group>"; };
+		DD64C4332F84D86B00A8C15A /* monsterAppear.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = monsterAppear.mp3; sourceTree = "<group>"; };
+		DD64C4352F84E27000A8C15A /* levelPerkSound.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = levelPerkSound.mp3; sourceTree = "<group>"; };
+		DD64C4372F84E7AE00A8C15A /* sliderScroll.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = sliderScroll.mp3; sourceTree = "<group>"; };
+		DD64C4392F84EA3700A8C15A /* sliderScroll1.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = sliderScroll1.mp3; sourceTree = "<group>"; };
+		DD64C43B2F8CD0A000A8C15A /* Loot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Loot.swift; sourceTree = "<group>"; };
+		DD64C43E2F8E238800A8C15A /* JoystickView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoystickView.swift; sourceTree = "<group>"; };
 		DD679CE82F30725D00CA66C8 /* NavigationStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationStack.swift; sourceTree = "<group>"; };
+		DD679CEA2F3455F700CA66C8 /* Demo */ = {isa = PBXFileReference; lastKnownFileType = text; path = Demo; sourceTree = "<group>"; };
+		DD679CEC2F36103C00CA66C8 /* ItemsStatsDifferenceTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemsStatsDifferenceTableView.swift; sourceTree = "<group>"; };
+		DD679CF12F361D7F00CA66C8 /* Binding+Int.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Binding+Int.swift"; sourceTree = "<group>"; };
+		DD679CF42F370D1A00CA66C8 /* ShadowBallMiniGameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShadowBallMiniGameView.swift; sourceTree = "<group>"; };
+		DD679CF62F384F2E00CA66C8 /* MotionObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotionObject.swift; sourceTree = "<group>"; };
+		DD679CF92F3C4C6F00CA66C8 /* LevelPerk.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelPerk.swift; sourceTree = "<group>"; };
+		DD75204F2F4AB79C00889D99 /* AssestsCatalog */ = {isa = PBXFileReference; lastKnownFileType = text; path = AssestsCatalog; sourceTree = "<group>"; };
+		DD7520512F4AC05200889D99 /* TheGoalOfTheProject */ = {isa = PBXFileReference; lastKnownFileType = text; path = TheGoalOfTheProject; sourceTree = "<group>"; };
+		DD7520552F4D8D5600889D99 /* AudioManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioManager.swift; sourceTree = "<group>"; };
 		DD7641DC2E88F77400359C52 /* InventoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InventoryView.swift; sourceTree = "<group>"; };
 		DD7641DE2E88F90E00359C52 /* Specialisations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Specialisations.swift; sourceTree = "<group>"; };
 		DD7641E22E8A4EF200359C52 /* HeroStatsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeroStatsView.swift; sourceTree = "<group>"; };
@@ -125,6 +266,14 @@
 		DD7EC0CB2E78A45C00849B0B /* Armor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Armor.swift; sourceTree = "<group>"; };
 		DD7EC0CD2E7C47E800849B0B /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
 		DD7EC0D62E83B13000849B0B /* CombatMiniGameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CombatMiniGameView.swift; sourceTree = "<group>"; };
+		DD8B16332F5E8C1D00C83EA0 /* evasionSuccess.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = evasionSuccess.mp3; sourceTree = "<group>"; };
+		DD8B16352F5FD35700C83EA0 /* shadowBallBlock.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = shadowBallBlock.mp3; sourceTree = "<group>"; };
+		DD8B16362F5FD35700C83EA0 /* shadowBallHit.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = shadowBallHit.mp3; sourceTree = "<group>"; };
+		DD8B16392F5FDF7F00C83EA0 /* flaskEffectUnleash.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = flaskEffectUnleash.mp3; sourceTree = "<group>"; };
+		DD8B163A2F5FDF7F00C83EA0 /* flaskImpactUnleash.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = flaskImpactUnleash.mp3; sourceTree = "<group>"; };
+		DD8B163D2F61551A00C83EA0 /* StatsRecoveryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsRecoveryView.swift; sourceTree = "<group>"; };
+		DD8B163F2F63C15700C83EA0 /* StatsRecoveryResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsRecoveryResult.swift; sourceTree = "<group>"; };
+		DD8B16412F6665C000C83EA0 /* CoinFlipMiniGame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinFlipMiniGame.swift; sourceTree = "<group>"; };
 		DD915CE72E66CD8900EDCC91 /* MiniDungeon.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MiniDungeon.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD915CEA2E66CD8900EDCC91 /* MiniDungeonApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiniDungeonApp.swift; sourceTree = "<group>"; };
 		DD915CEC2E66CD8900EDCC91 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
@@ -184,6 +333,10 @@
 				DD597D192EDCAC5A00CB9D7E /* Story */,
 				DD597D1D2EDD80EA00CB9D7E /* GameFeatures */,
 				DD5C56552EEA6D09002EA3F6 /* PlayersFeedback */,
+				DD679CEA2F3455F700CA66C8 /* Demo */,
+				DD7520512F4AC05200889D99 /* TheGoalOfTheProject */,
+				DD75204F2F4AB79C00889D99 /* AssestsCatalog */,
+				DD5CE0EB2F56AAF40045C6F9 /* MiniGamesIdeas */,
 			);
 			path = Documentation;
 			sourceTree = "<group>";
@@ -195,7 +348,7 @@
 				DD12B67D2F0E8448004B4036 /* FlaskTalant.swift */,
 				DD585AC32EADDF5F00C5446B /* HeroLevelBonus.swift */,
 				DD585AC52EADDF5F00C5446B /* Specialisation.swift */,
-				DD585AC42EADDF5F00C5446B /* Rarity.swift */,
+				DD679CF92F3C4C6F00CA66C8 /* LevelPerk.swift */,
 			);
 			path = Talants;
 			sourceTree = "<group>";
@@ -208,12 +361,126 @@
 			path = Town;
 			sourceTree = "<group>";
 		};
+		DD5CE0A42F5007FD0045C6F9 /* Sounds */ = {
+			isa = PBXGroup;
+			children = (
+				DD5CE0C22F5298740045C6F9 /* Abilities */,
+				DD5CE0A52F5015CE0045C6F9 /* UI */,
+			);
+			path = Sounds;
+			sourceTree = "<group>";
+		};
+		DD5CE0A52F5015CE0045C6F9 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				DD64C4392F84EA3700A8C15A /* sliderScroll1.mp3 */,
+				DD64C4372F84E7AE00A8C15A /* sliderScroll.mp3 */,
+				DD64C4352F84E27000A8C15A /* levelPerkSound.mp3 */,
+				DD64C4332F84D86B00A8C15A /* monsterAppear.mp3 */,
+				DD64C4232F838C6600A8C15A /* bossUltimate1.mp3 */,
+				DD64C4242F838C6600A8C15A /* bossUltimate2.mp3 */,
+				DD3B2A632F69198300944C0F /* coinFlip.mp3 */,
+				DD3B2A5B2F69143000944C0F /* cloth.mp3 */,
+				DD3B2A5C2F69143000944C0F /* coin1.mp3 */,
+				DD3B2A5D2F69143000944C0F /* coin2.mp3 */,
+				DD3B2A5E2F69143000944C0F /* coin3.mp3 */,
+				DD8B16392F5FDF7F00C83EA0 /* flaskEffectUnleash.mp3 */,
+				DD8B163A2F5FDF7F00C83EA0 /* flaskImpactUnleash.mp3 */,
+				DD8B16352F5FD35700C83EA0 /* shadowBallBlock.mp3 */,
+				DD8B16362F5FD35700C83EA0 /* shadowBallHit.mp3 */,
+				DD5CE0E52F540BC00045C6F9 /* secretDoor.mp3 */,
+				DD5CE0E32F5403360045C6F9 /* click.mp3 */,
+				DD5CE0E12F5400C30045C6F9 /* potionUse.mp3 */,
+				DD5CE0DF2F53FF390045C6F9 /* summonBoss.mp3 */,
+				DD5CE0DB2F53F2DA0045C6F9 /* flaskLevelUP.mp3 */,
+				DD5CE0DC2F53F2DA0045C6F9 /* heroLevelUP.mp3 */,
+				DD5CE0B62F5178C70045C6F9 /* heroFailedStep.mp3 */,
+				DD5CE0B42F5177690045C6F9 /* heroStep.mp3 */,
+				DD5CE0D92F52BBC10045C6F9 /* disenchant.mp3 */,
+				DD5CE0D72F52BAD20045C6F9 /* restorationShrineEffect.mp3 */,
+				DD5CE0D22F52B6E70045C6F9 /* openChest.mp3 */,
+				DD5CE0D52F52B73B0045C6F9 /* lockUnlock.mp3 */,
+				DD5CE0C92F52AD920045C6F9 /* confirm1.mp3 */,
+				DD5CE0C72F52AB3B0045C6F9 /* confirm.mp3 */,
+				DD5CE0B82F517B870045C6F9 /* buySell.mp3 */,
+				DD5CE0B92F517B870045C6F9 /* denied.mp3 */,
+				DD5CE0BA2F517B870045C6F9 /* equip.mp3 */,
+				DD5CE0BB2F517B870045C6F9 /* unequip.mp3 */,
+				DD5CE0BC2F517B870045C6F9 /* useItem.mp3 */,
+				DD5CE0A22F5007980045C6F9 /* flaskModeSwitch.mp3 */,
+				DD8B16332F5E8C1D00C83EA0 /* evasionSuccess.mp3 */,
+				DD64C4272F83999200A8C15A /* bottleUse.mp3 */,
+				DD64C4282F83999200A8C15A /* clickChest.mp3 */,
+				DD64C4292F83999200A8C15A /* clickTrap1.mp3 */,
+				DD64C42A2F83999200A8C15A /* clickTrap2.mp3 */,
+				DD64C42B2F83999200A8C15A /* equipItem.mp3 */,
+				DD64C42C2F83999200A8C15A /* openInfo.mp3 */,
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
+		DD5CE0C22F5298740045C6F9 /* Abilities */ = {
+			isa = PBXGroup;
+			children = (
+				DD5CE0A82F5015E30045C6F9 /* swordSound.mp3 */,
+				DD5CE0B12F5175B50045C6F9 /* hitMissSound2.mp3 */,
+				DD5CE0A62F5015E30045C6F9 /* animalSound.mp3 */,
+				DD5CE0A72F5015E30045C6F9 /* meleeSound.mp3 */,
+				DD5CE0CB2F52B50D0045C6F9 /* comboHit1.mp3 */,
+				DD5CE0CC2F52B50D0045C6F9 /* comboHit2.mp3 */,
+				DD5CE0CD2F52B50D0045C6F9 /* comboHit3.mp3 */,
+				DD5CE0C52F52A96E0045C6F9 /* shieldBlock.mp3 */,
+				DD5CE0C32F5299330045C6F9 /* healSpell1.mp3 */,
+			);
+			path = Abilities;
+			sourceTree = "<group>";
+		};
+		DD5CE0E92F5571C20045C6F9 /* Font */ = {
+			isa = PBXGroup;
+			children = (
+				DD5CE0E72F5571AE0045C6F9 /* monostilus.ttf */,
+			);
+			path = Font;
+			sourceTree = "<group>";
+		};
+		DD5CE0EE2F5959D50045C6F9 /* MiniGames */ = {
+			isa = PBXGroup;
+			children = (
+				DD7EC0D62E83B13000849B0B /* CombatMiniGameView.swift */,
+				DD597D172EDA076300CB9D7E /* TrapDefusionMiniGameView.swift */,
+				DD5833A12EE01FE000DC4371 /* ChestLockPickingMiniGameView.swift */,
+				DD679CF42F370D1A00CA66C8 /* ShadowBallMiniGameView.swift */,
+				DD5CE0EF2F595A100045C6F9 /* EvasionMiniGame.swift */,
+				DD8B16412F6665C000C83EA0 /* CoinFlipMiniGame.swift */,
+			);
+			path = MiniGames;
+			sourceTree = "<group>";
+		};
+		DD64C41F2F7A259400A8C15A /* TestViews */ = {
+			isa = PBXGroup;
+			children = (
+				DD64C41E2F7A259400A8C15A /* TestTimelineView.swift */,
+				DD64C4212F7A25A500A8C15A /* TestCollisionView.swift */,
+			);
+			path = TestViews;
+			sourceTree = "<group>";
+		};
+		DD679CF22F361D7F00CA66C8 /* Utility */ = {
+			isa = PBXGroup;
+			children = (
+				DD679CF12F361D7F00CA66C8 /* Binding+Int.swift */,
+				DD7520552F4D8D5600889D99 /* AudioManager.swift */,
+			);
+			path = Utility;
+			sourceTree = "<group>";
+		};
 		DD7EC0CA2E78A0D100849B0B /* Items */ = {
 			isa = PBXGroup;
 			children = (
 				DD7EC0CD2E7C47E800849B0B /* Item.swift */,
 				DD7EC0C62E78A0BA00849B0B /* Weapon.swift */,
 				DD7EC0CB2E78A45C00849B0B /* Armor.swift */,
+				DD64C43B2F8CD0A000A8C15A /* Loot.swift */,
 			);
 			path = Items;
 			sourceTree = "<group>";
@@ -237,12 +504,16 @@
 		DD915CE92E66CD8900EDCC91 /* MiniDungeon */ = {
 			isa = PBXGroup;
 			children = (
+				DD5CE0EA2F55F07D0045C6F9 /* Info.plist */,
 				DD915CEA2E66CD8900EDCC91 /* MiniDungeonApp.swift */,
 				DD585ABB2EADDF4C00C5446B /* Documentation */,
+				DD679CF22F361D7F00CA66C8 /* Utility */,
 				DD915CF82E66D5E400EDCC91 /* Model */,
 				DD915CFA2E66D5FD00EDCC91 /* ViewModel */,
 				DD915CF92E66D5F100EDCC91 /* View */,
 				DD915CEE2E66CD9000EDCC91 /* Assets.xcassets */,
+				DD5CE0E92F5571C20045C6F9 /* Font */,
+				DD5CE0A42F5007FD0045C6F9 /* Sounds */,
 				DD915CF02E66CD9000EDCC91 /* Preview Content */,
 			);
 			path = MiniDungeon;
@@ -259,6 +530,10 @@
 		DD915CF82E66D5E400EDCC91 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				DD8B163F2F63C15700C83EA0 /* StatsRecoveryResult.swift */,
+				DD585AC42EADDF5F00C5446B /* Rarity.swift */,
+				DD679CF62F384F2E00CA66C8 /* MotionObject.swift */,
+				DD5CE0F12F59E93B0045C6F9 /* Difficulty.swift */,
 				DD12B6422EF65C13004B4036 /* Persistence */,
 				DD585ACB2EADDF6300C5446B /* Town */,
 				DD585AC62EADDF5F00C5446B /* Talants */,
@@ -274,14 +549,13 @@
 		DD915CF92E66D5F100EDCC91 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				DD64C41F2F7A259400A8C15A /* TestViews */,
+				DD5CE0EE2F5959D50045C6F9 /* MiniGames */,
 				DD915CEC2E66CD8900EDCC91 /* MainView.swift */,
 				DD7641EC2E8B9DE000359C52 /* MenuView.swift */,
 				DDEE6C742E6D4C0E00BD2E3C /* BattleView.swift */,
 				DDEE6C762E6D4C3500BD2E3C /* MapView.swift */,
 				DDF7EAC62E713F8D00EC6AF2 /* TownView.swift */,
-				DD7EC0D62E83B13000849B0B /* CombatMiniGameView.swift */,
-				DD597D172EDA076300CB9D7E /* TrapDefusionMiniGameView.swift */,
-				DD5833A12EE01FE000DC4371 /* ChestLockPickingMiniGameView.swift */,
 				DD7641DC2E88F77400359C52 /* InventoryView.swift */,
 				DD7641E22E8A4EF200359C52 /* HeroStatsView.swift */,
 				DD7641E42E8A4FDA00359C52 /* SpecialisationView.swift */,
@@ -293,6 +567,10 @@
 				DD12B6772F0E81F8004B4036 /* FlaskLevelBonusView.swift */,
 				DD12B6712F0A286D004B4036 /* FlaskView.swift */,
 				DD12B6792F0E8290004B4036 /* FlaskTalantsView.swift */,
+				DD679CEC2F36103C00CA66C8 /* ItemsStatsDifferenceTableView.swift */,
+				DD8B163D2F61551A00C83EA0 /* StatsRecoveryView.swift */,
+				DD3B2A672F72400A00944C0F /* LevelPerkView.swift */,
+				DD64C43E2F8E238800A8C15A /* JoystickView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -307,12 +585,14 @@
 				DDB29BD52E6BF53B007BB7DC /* EventGeneration.swift */,
 				DDB869CB2E68BC200042CF9F /* MapGeneration.swift */,
 				DDE6A01E2E6E977D00BEA51F /* DungeonHeroMovement.swift */,
-				DD7641F52E8FA45D00359C52 /* ApplyHeroLevelBonus.swift */,
 				DD597D1B2EDCB24B00CB9D7E /* Actions.swift */,
 				DD12B67B2F0E831D004B4036 /* ApplyFlaskLevelBonuses.swift */,
 				DD7641DE2E88F90E00359C52 /* Specialisations.swift */,
 				DD50E9712EA57D900072CCC4 /* ActivateShrines.swift */,
 				DD12B6892F161E42004B4036 /* ActivateFlaskTalants.swift */,
+				DD7641F52E8FA45D00359C52 /* ApplyHeroLevelBonus.swift */,
+				DD3B2A652F6A697600944C0F /* ApplyLevelPerk.swift */,
+				DD5CE0AC2F5016380045C6F9 /* Audio.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -415,18 +695,74 @@
 			buildActionMask = 2147483647;
 			files = (
 				DD915CF22E66CD9000EDCC91 /* Preview Assets.xcassets in Resources */,
+				DD5CE0A92F5015E30045C6F9 /* animalSound.mp3 in Resources */,
+				DD5CE0AA2F5015E30045C6F9 /* swordSound.mp3 in Resources */,
+				DD5CE0AB2F5015E30045C6F9 /* meleeSound.mp3 in Resources */,
 				DD597D1E2EDD80EA00CB9D7E /* GameFeatures in Resources */,
 				DD915CEF2E66CD9000EDCC91 /* Assets.xcassets in Resources */,
+				DD64C42D2F83999200A8C15A /* clickTrap1.mp3 in Resources */,
+				DD64C42E2F83999200A8C15A /* equipItem.mp3 in Resources */,
+				DD64C4382F84E7AE00A8C15A /* sliderScroll.mp3 in Resources */,
+				DD64C42F2F83999200A8C15A /* bottleUse.mp3 in Resources */,
+				DD64C4302F83999200A8C15A /* clickTrap2.mp3 in Resources */,
+				DD64C4312F83999200A8C15A /* openInfo.mp3 in Resources */,
+				DD64C43A2F84EA3700A8C15A /* sliderScroll1.mp3 in Resources */,
+				DD64C4322F83999200A8C15A /* clickChest.mp3 in Resources */,
+				DD3B2A5F2F69143000944C0F /* coin3.mp3 in Resources */,
+				DD3B2A602F69143000944C0F /* cloth.mp3 in Resources */,
+				DD3B2A612F69143000944C0F /* coin2.mp3 in Resources */,
+				DD3B2A622F69143000944C0F /* coin1.mp3 in Resources */,
+				DD5CE0D62F52B73B0045C6F9 /* lockUnlock.mp3 in Resources */,
+				DD64C4362F84E27000A8C15A /* levelPerkSound.mp3 in Resources */,
+				DD8B163B2F5FDF7F00C83EA0 /* flaskEffectUnleash.mp3 in Resources */,
+				DD3B2A642F69198300944C0F /* coinFlip.mp3 in Resources */,
+				DD8B163C2F5FDF7F00C83EA0 /* flaskImpactUnleash.mp3 in Resources */,
 				DD5C56562EEA6D09002EA3F6 /* PlayersFeedback in Resources */,
+				DD7520522F4AC05200889D99 /* TheGoalOfTheProject in Resources */,
 				DD585ABC2EADDF4C00C5446B /* Bugs in Resources */,
+				DD5CE0CA2F52AD920045C6F9 /* confirm1.mp3 in Resources */,
+				DD679CEB2F3455F700CA66C8 /* Demo in Resources */,
+				DD5CE0DD2F53F2DA0045C6F9 /* heroLevelUP.mp3 in Resources */,
+				DD5CE0E42F5403360045C6F9 /* click.mp3 in Resources */,
+				DD5CE0DE2F53F2DA0045C6F9 /* flaskLevelUP.mp3 in Resources */,
+				DD5CE0B72F5178C70045C6F9 /* heroFailedStep.mp3 in Resources */,
+				DD64C4252F838C6600A8C15A /* bossUltimate1.mp3 in Resources */,
+				DD64C4262F838C6600A8C15A /* bossUltimate2.mp3 in Resources */,
+				DD5CE0C82F52AB3B0045C6F9 /* confirm.mp3 in Resources */,
+				DD5CE0E82F5571AE0045C6F9 /* monostilus.ttf in Resources */,
 				DD585ABD2EADDF4C00C5446B /* CurrentTask in Resources */,
+				DD5CE0D82F52BAD20045C6F9 /* restorationShrineEffect.mp3 in Resources */,
 				DD585ABE2EADDF4C00C5446B /* FeaturesToAdd in Resources */,
+				DD5CE0B52F5177690045C6F9 /* heroStep.mp3 in Resources */,
 				DD585ABF2EADDF4C00C5446B /* GameLoop in Resources */,
+				DD64C4342F84D86B00A8C15A /* monsterAppear.mp3 in Resources */,
+				DD5CE0CE2F52B50D0045C6F9 /* comboHit2.mp3 in Resources */,
+				DD5CE0CF2F52B50D0045C6F9 /* comboHit1.mp3 in Resources */,
+				DD5CE0D02F52B50D0045C6F9 /* comboHit3.mp3 in Resources */,
 				DD12B6762F0CC0E1004B4036 /* DiaryOfProductivity in Resources */,
 				DD597D1A2EDCAC5A00CB9D7E /* Story in Resources */,
 				DD12B6742F0B74D2004B4036 /* BeforeRelease in Resources */,
+				DD5CE0BD2F517B870045C6F9 /* unequip.mp3 in Resources */,
+				DD8B16342F5E8C1D00C83EA0 /* evasionSuccess.mp3 in Resources */,
+				DD5CE0E02F53FF390045C6F9 /* summonBoss.mp3 in Resources */,
+				DD8B16372F5FD35700C83EA0 /* shadowBallHit.mp3 in Resources */,
+				DD8B16382F5FD35700C83EA0 /* shadowBallBlock.mp3 in Resources */,
+				DD5CE0BE2F517B870045C6F9 /* equip.mp3 in Resources */,
+				DD5CE0C42F5299330045C6F9 /* healSpell1.mp3 in Resources */,
+				DD5CE0E22F5400C30045C6F9 /* potionUse.mp3 in Resources */,
+				DD5CE0BF2F517B870045C6F9 /* useItem.mp3 in Resources */,
+				DD5CE0DA2F52BBC10045C6F9 /* disenchant.mp3 in Resources */,
+				DD5CE0C02F517B870045C6F9 /* buySell.mp3 in Resources */,
+				DD5CE0C62F52A96E0045C6F9 /* shieldBlock.mp3 in Resources */,
+				DD5CE0C12F517B870045C6F9 /* denied.mp3 in Resources */,
 				DDD0237E2EB07C0400E7C9CE /* ImplementedFeatures in Resources */,
+				DD5CE0A32F5007980045C6F9 /* flaskModeSwitch.mp3 in Resources */,
 				DD585AC22EADDF4C00C5446B /* Refactoring in Resources */,
+				DD5CE0B22F5175B50045C6F9 /* hitMissSound2.mp3 in Resources */,
+				DD5CE0E62F540BC00045C6F9 /* secretDoor.mp3 in Resources */,
+				DD7520502F4AB79C00889D99 /* AssestsCatalog in Resources */,
+				DD5CE0EC2F56AAF40045C6F9 /* MiniGamesIdeas in Resources */,
+				DD5CE0D42F52B6E70045C6F9 /* openChest.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -437,22 +773,30 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DD679CF72F384F2E00CA66C8 /* MotionObject.swift in Sources */,
 				DDF7EAC72E713F8D00EC6AF2 /* TownView.swift in Sources */,
 				DDB29BD22E6BF47A007BB7DC /* Utility.swift in Sources */,
 				DD915CED2E66CD8900EDCC91 /* MainView.swift in Sources */,
 				DD12B68A2F161E42004B4036 /* ActivateFlaskTalants.swift in Sources */,
 				DD7EC0CC2E78A45C00849B0B /* Armor.swift in Sources */,
 				DD915D152E67436600EDCC91 /* Enemy.swift in Sources */,
+				DD8B163E2F61551A00C83EA0 /* StatsRecoveryView.swift in Sources */,
+				DD64C43F2F8E238800A8C15A /* JoystickView.swift in Sources */,
 				DD7641E92E8B9DB200359C52 /* RewardsView.swift in Sources */,
+				DD8B16402F63C15700C83EA0 /* StatsRecoveryResult.swift in Sources */,
 				DD915CFF2E66D65600EDCC91 /* GameState.swift in Sources */,
 				DD7641ED2E8B9DE000359C52 /* MenuView.swift in Sources */,
 				DD5833A22EE01FE000DC4371 /* ChestLockPickingMiniGameView.swift in Sources */,
 				DD7EC0CE2E7C47E800849B0B /* Item.swift in Sources */,
+				DD64C4202F7A259400A8C15A /* TestTimelineView.swift in Sources */,
 				DDEE6C752E6D4C0E00BD2E3C /* BattleView.swift in Sources */,
 				DD50E9722EA57D900072CCC4 /* ActivateShrines.swift in Sources */,
+				DD7520562F4D8D5600889D99 /* AudioManager.swift in Sources */,
+				DD8B16422F6665C000C83EA0 /* CoinFlipMiniGame.swift in Sources */,
 				DD7641E52E8A4FDA00359C52 /* SpecialisationView.swift in Sources */,
 				DDE6A01F2E6E977D00BEA51F /* DungeonHeroMovement.swift in Sources */,
 				DD12B63D2EF65724004B4036 /* Coordinate.swift in Sources */,
+				DD3B2A682F72400A00944C0F /* LevelPerkView.swift in Sources */,
 				DD12B6782F0E81F8004B4036 /* FlaskLevelBonusView.swift in Sources */,
 				DD915D0B2E672FE000EDCC91 /* TileType.swift in Sources */,
 				DD12B67E2F0E8448004B4036 /* FlaskTalant.swift in Sources */,
@@ -464,6 +808,8 @@
 				DDEE6C772E6D4C3500BD2E3C /* MapView.swift in Sources */,
 				DD12B6882F0E89C3004B4036 /* FlaskLevelBonus.swift in Sources */,
 				DD12B6722F0A286D004B4036 /* FlaskView.swift in Sources */,
+				DD64C43C2F8CD0A000A8C15A /* Loot.swift in Sources */,
+				DD679CF32F361D7F00CA66C8 /* Binding+Int.swift in Sources */,
 				DD12B6432EF65C13004B4036 /* SwiftDataManager.swift in Sources */,
 				DD7EC0D72E83B13000849B0B /* CombatMiniGameView.swift in Sources */,
 				DD915D092E672FB400EDCC91 /* Tile.swift in Sources */,
@@ -471,6 +817,7 @@
 				DD7641DD2E88F77400359C52 /* InventoryView.swift in Sources */,
 				DD7641F12E8F9ED300359C52 /* HeroLevelBonusView.swift in Sources */,
 				DD12B6842F0E84D0004B4036 /* GameScreen.swift in Sources */,
+				DD5CE0F02F595A100045C6F9 /* EvasionMiniGame.swift in Sources */,
 				DD7641EB2E8B9DC900359C52 /* OptionsView.swift in Sources */,
 				DD915D0D2E672FF900EDCC91 /* EventType.swift in Sources */,
 				DD915D052E672F2C00EDCC91 /* DungeonGenerator.swift in Sources */,
@@ -481,15 +828,22 @@
 				DD7641E32E8A4EF200359C52 /* HeroStatsView.swift in Sources */,
 				DD7EC0C72E78A0BA00849B0B /* Weapon.swift in Sources */,
 				DD12B67C2F0E831D004B4036 /* ApplyFlaskLevelBonuses.swift in Sources */,
+				DD64C4222F7A25A500A8C15A /* TestCollisionView.swift in Sources */,
 				DD597D182EDA076300CB9D7E /* TrapDefusionMiniGameView.swift in Sources */,
 				DDB29BD62E6BF53B007BB7DC /* EventGeneration.swift in Sources */,
+				DD5CE0AD2F5016380045C6F9 /* Audio.swift in Sources */,
+				DD679CED2F36103C00CA66C8 /* ItemsStatsDifferenceTableView.swift in Sources */,
 				DDB29BD42E6BF508007BB7DC /* Combat.swift in Sources */,
 				DD12B67A2F0E8290004B4036 /* FlaskTalantsView.swift in Sources */,
 				DD585AC72EADDF5F00C5446B /* HeroLevelBonus.swift in Sources */,
+				DD3B2A662F6A697600944C0F /* ApplyLevelPerk.swift in Sources */,
 				DD585AC82EADDF5F00C5446B /* Rarity.swift in Sources */,
 				DD585ACC2EADDF6300C5446B /* Shrine.swift in Sources */,
 				DD585AC92EADDF5F00C5446B /* Specialisation.swift in Sources */,
 				DD679CE92F30725D00CA66C8 /* NavigationStack.swift in Sources */,
+				DD679CFA2F3C4C6F00CA66C8 /* LevelPerk.swift in Sources */,
+				DD679CF52F370D1A00CA66C8 /* ShadowBallMiniGameView.swift in Sources */,
+				DD5CE0F22F59E93B0045C6F9 /* Difficulty.swift in Sources */,
 				DD915D132E6741F700EDCC91 /* Hero.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -628,6 +982,7 @@
 				DEVELOPMENT_TEAM = K4P994YG2H;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = MiniDungeon/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -661,6 +1016,7 @@
 				DEVELOPMENT_TEAM = K4P994YG2H;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = MiniDungeon/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

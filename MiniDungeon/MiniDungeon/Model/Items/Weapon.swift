@@ -1,5 +1,49 @@
 import Foundation
 
+// MARK: - Weapon
+
+struct Weapon: ItemProtocol, Hashable, Codable, Identifiable {
+	
+//	let id: UUID
+//	let id = UUID()
+	let id: String
+	var label: String
+	var itemType: ItemType
+	var itemLevel: Int
+	var itemDescription: String
+	var minDamage: Int
+	var maxDamage: Int
+	var hitChance: Int
+	var critChance: Int
+	var rarity: Rarity
+	var price: Int
+	
+	init(label: String,
+		 itemLevel: Int,
+		 itemType: ItemType,
+		 itemDescription: String,
+		 minDamage: Int,
+		 maxDamage: Int,
+		 hitChance: Int,
+		 critChance: Int,
+		 rarity: Rarity,
+		 price: Int)
+	{
+//		self.id = UUID()
+		self.id = "\(label)"
+		self.label = label
+		self.itemLevel = itemLevel
+		self.itemType = itemType
+		self.itemDescription = itemDescription
+		self.minDamage = minDamage
+		self.maxDamage = maxDamage
+		self.hitChance = hitChance
+		self.critChance = critChance
+		self.rarity = rarity
+		self.price = price
+	}
+}
+
 struct WeaponManager {
 	
 	// MARK: - Common Weapons
@@ -14,6 +58,7 @@ struct WeaponManager {
 			   maxDamage: 2,
 			   hitChance: 0,
 			   critChance: 0,
+			   rarity: .common,
 			   price: 100),
 		
 		Weapon(
@@ -25,6 +70,7 @@ struct WeaponManager {
 			maxDamage: 1,
 			hitChance: 0,
 			critChance: 0,
+			rarity: .common,
 			price: 50
 		),
 		
@@ -37,6 +83,7 @@ struct WeaponManager {
 			maxDamage: 0,
 			hitChance: 0,
 			critChance: 0,
+			rarity: .common,
 			price: 50
 		),
 		
@@ -49,6 +96,7 @@ struct WeaponManager {
 			maxDamage: 1,
 			hitChance: 0,
 			critChance: 0,
+			rarity: .common,
 			price: 75
 		),
 		
@@ -61,6 +109,7 @@ struct WeaponManager {
 			maxDamage: 1,
 			hitChance: 1,
 			critChance: 0,
+			rarity: .common,
 			price: 75
 		),
 		
@@ -73,6 +122,7 @@ struct WeaponManager {
 			maxDamage: 2,
 			hitChance: 0,
 			critChance: 0,
+			rarity: .common,
 			price: 75
 		)
 	]
@@ -89,6 +139,7 @@ struct WeaponManager {
 			   maxDamage: 4,
 			   hitChance: 1,
 			   critChance: 1,
+			   rarity: .rare,
 			   price: 200),
 		
 		Weapon(
@@ -100,6 +151,7 @@ struct WeaponManager {
 			maxDamage: 3,
 			hitChance: 0,
 			critChance: 0,
+			rarity: .rare,
 			price: 125
 		),
 		
@@ -112,6 +164,7 @@ struct WeaponManager {
 			maxDamage: 1,
 			hitChance: 0,
 			critChance: 0,
+			rarity: .rare,
 			price: 125
 		),
 		
@@ -124,6 +177,7 @@ struct WeaponManager {
 			maxDamage: 2,
 			hitChance: 0,
 			critChance: 0,
+			rarity: .rare,
 			price: 125
 		),
 		
@@ -136,6 +190,7 @@ struct WeaponManager {
 			maxDamage: 3,
 			hitChance: 0,
 			critChance: 1,
+			rarity: .rare,
 			price: 125
 		),
 		
@@ -148,6 +203,7 @@ struct WeaponManager {
 			maxDamage: 4,
 			hitChance: 0,
 			critChance: 0,
+			rarity: .rare,
 			price: 125
 		)
 	]
@@ -165,6 +221,7 @@ struct WeaponManager {
 			maxDamage: 10,
 			hitChance: -5,
 			critChance: -1,
+			rarity: .epic,
 			price: 250
 		),
 		
@@ -177,6 +234,7 @@ struct WeaponManager {
 			maxDamage: 5,
 			hitChance: -2,
 			critChance: -1,
+			rarity: .epic,
 			price: 250
 		),
 		
@@ -189,6 +247,7 @@ struct WeaponManager {
 			maxDamage: 6,
 			hitChance: 0,
 			critChance: 0,
+			rarity: .epic,
 			price: 250
 		),
 		
@@ -201,6 +260,7 @@ struct WeaponManager {
 			maxDamage: 5,
 			hitChance: 0,
 			critChance: 0,
+			rarity: .epic,
 			price: 250
 		),
 		
@@ -213,6 +273,7 @@ struct WeaponManager {
 			maxDamage: 6,
 			hitChance: 2,
 			critChance: 2,
+			rarity: .epic,
 			price: 300
 		),
 		
@@ -225,6 +286,7 @@ struct WeaponManager {
 			maxDamage: 10,
 			hitChance: 3,
 			critChance: 3,
+			rarity: .epic,
 			price: 400
 		),
 	]
@@ -242,6 +304,7 @@ struct WeaponManager {
 			maxDamage: 6,
 			hitChance: 10,
 			critChance: -2,
+			rarity: .legendary,
 			price: 450
 		),
 		
@@ -254,6 +317,7 @@ struct WeaponManager {
 			maxDamage: 10,
 			hitChance: -2,
 			critChance: 5,
+			rarity: .legendary,
 			price: 450
 		),
 		
@@ -266,6 +330,7 @@ struct WeaponManager {
 			maxDamage: 15,
 			hitChance: -5,
 			critChance: -5,
+			rarity: .legendary,
 			price: 450
 		),
 		
@@ -277,6 +342,7 @@ struct WeaponManager {
 			   maxDamage: 16,
 			   hitChance: 5,
 			   critChance: 5,
+			   rarity: .legendary,
 			   price: 500)
 	]
 	
@@ -292,46 +358,5 @@ struct WeaponManager {
 		case .epic: return self.epicWeapons.randomElement()
 		case .legendary: return self.legendaryWeapons.randomElement()
 		}
-	}
-}
-
-// MARK: - Weapon
-
-struct Weapon: ItemProtocol, Hashable, Codable, Identifiable {
-	
-//	let id: UUID
-//	let id = UUID()
-	let id: String
-	var label: String
-	var itemType: ItemType
-	var itemLevel: Int
-	var itemDescription: String
-	var minDamageBonus: Int
-	var maxDamage: Int
-	var hitChance: Int
-	var critChance: Int
-	var price: Int
-	
-	init(label: String,
-		 itemLevel: Int,
-		 itemType: ItemType,
-		 itemDescription: String,
-		 minDamage: Int,
-		 maxDamage: Int,
-		 hitChance: Int,
-		 critChance: Int,
-		 price: Int)
-	{
-//		self.id = UUID()
-		self.id = "\(label)"
-		self.label = label
-		self.itemLevel = itemLevel
-		self.itemType = itemType
-		self.itemDescription = itemDescription
-		self.minDamageBonus = minDamage
-		self.maxDamage = maxDamage
-		self.hitChance = hitChance
-		self.critChance = critChance
-		self.price = price
 	}
 }

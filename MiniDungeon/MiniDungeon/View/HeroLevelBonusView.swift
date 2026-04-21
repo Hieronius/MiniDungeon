@@ -26,6 +26,7 @@ extension MainView {
 					Section(header: Text("Description")) {
 
 						Text("Name - \(viewModel.gameState.heroLevelBonusToDisplay?.name ?? "")")
+							.foregroundStyle(viewModel.gameState.heroLevelBonusToDisplay?.rarity.color ?? .white)
 							.bold()
 						Text("Description:  \(viewModel.gameState.heroLevelBonusToDisplay?.bonusDescription ?? "")")
 						Button("Choose") {

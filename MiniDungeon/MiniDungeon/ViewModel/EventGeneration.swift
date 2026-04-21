@@ -47,6 +47,7 @@ extension MainViewModel {
 	/// If level been completed -> summon the boss and start the fight
 	func summonBoss() {
 		
+		gameState.didBossFightSoundEnd = false
 		audioManager.playSound(fileName: "summonBoss", extensionName: "mp3")
 		gameState.didEncounteredBoss = true
 		gameState.enemy = generateEnemy(didFinalBossSummoned: gameState.didEncounteredBoss)
@@ -60,6 +61,8 @@ extension MainViewModel {
 		gameState.dealtWithRestorationShrine = true
 		
 		DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+			self.gameState.didBossFightSoundEnd = true
+			print(self.gameState.didBossFightSoundEnd)
 			self.gameState.isCoinFlipMiniGameOn = true
 			self.audioManager.playSound(fileName: "coinFlip", extensionName: "mp3")
 		}
@@ -137,6 +140,16 @@ extension MainViewModel {
 		gameState.didFindLootAfterFight = false
 		gameState.lootToDisplay = []
 		
+		// Test line about Loot
+		gameState.lootContainerToDisplay = Loot(
+			experience: 0,
+			gold: 0,
+			darkEnergy: 0,
+			items: [],
+			armors: [],
+			weapons: []
+		)
+		
 		gameState.goldLootToDisplay = 0
 		gameState.expLootToDisplay = 0
 		gameState.darkEnergyLootToDisplay = 0
@@ -161,6 +174,8 @@ extension MainViewModel {
 	/// Combine all types of items and it's chance to drop in a single method to call
 	func generateLoot() {
 		
+		var lootContainer = Loot(experience: 0, gold: 0, darkEnergy: 0, items: [], armors: [], weapons: [])
+		
 		gameState.didFindLootAfterFight = true
 		
 		// extra keys loot
@@ -169,6 +184,11 @@ extension MainViewModel {
 			gameState.hero.inventory[loot, default: 0] += 1
 			gameState.lootToDisplay.append(loot.label)
 			print("got a key in loot")
+			
+			// Test line to integrate Loot struct as viewModel
+			lootContainer.items.append(loot)
+			
+			
 		}
 		
 		// saleable loot
@@ -179,6 +199,9 @@ extension MainViewModel {
 		) {
 			gameState.hero.inventory[loot, default: 0] += 1
 			gameState.lootToDisplay.append(loot.label)
+			
+			// Test line to integrate Loot struct as viewModel
+			lootContainer.items.append(loot)
 		}
 		
 		// potion loot
@@ -189,6 +212,9 @@ extension MainViewModel {
 		) {
 			gameState.hero.inventory[potion, default: 0] += 1
 			gameState.lootToDisplay.append(potion.label)
+			
+			// Test line to integrate Loot struct as viewModel
+			lootContainer.items.append(potion)
 		}
 		
 		// weapon loot
@@ -199,6 +225,9 @@ extension MainViewModel {
 		) {
 			gameState.hero.weapons[weapon, default: 0] += 1
 			gameState.lootToDisplay.append(weapon.label)
+			
+			// Test line to integrate Loot struct as viewModel
+			lootContainer.weapons.append(weapon)
 		}
 		
 		// armor loot
@@ -209,6 +238,9 @@ extension MainViewModel {
 		) {
 			gameState.hero.armors[armor, default: 0] += 1
 			gameState.lootToDisplay.append(armor.label)
+			
+			// Test line to integrate Loot struct as viewModel
+			lootContainer.armors.append(armor)
 		}
 		
 		// 100% Demo Loot Drop
@@ -220,12 +252,18 @@ extension MainViewModel {
 			gameState.lootToDisplay.append(armor.label)
 			print("Demo Armor has been droped")
 			
+			// Test line to integrate Loot struct as viewModel
+			lootContainer.armors.append(armor)
+			
 		} else if gameState.battlesWon == 2 && !gameState.didEndDemoLevel {
 			
 			let weapon = WeaponManager.commonWeapons[1]
 			gameState.hero.weapons[weapon, default: 0] += 1
 			gameState.lootToDisplay.append(weapon.label)
 			print("Demo Weapon has been droped")
+			
+			// Test line to integrate Loot struct as viewModel
+			lootContainer.weapons.append(weapon)
 		}
 		
 		// gold loot
@@ -234,10 +272,16 @@ extension MainViewModel {
 			didFinalBossSummoned: gameState.didEncounteredBoss
 		)
 		
+		// Test line to integrate Loot struct as viewModel
+		lootContainer.gold = gold
+		
 		// Greed Perk Check
 		
 		if gameState.isGreedPerkActive {
 			gold += calculateGreedPerkEffect(for: gold)
+			
+			// Test line to integrate Loot struct as viewModel
+			lootContainer.gold += gold
 		}
 		gameState.heroGold += gold
 		gameState.goldLootToDisplay = gold
@@ -250,10 +294,16 @@ extension MainViewModel {
 				didFinalBossSummoned: gameState.didEncounteredBoss
 			)
 			
+			// Test line to integrate Loot struct as viewModel
+			lootContainer.experience = exp
+			
 			// Greed Perk Check
 			
 			if gameState.isGreedPerkActive {
 				exp += calculateGreedPerkEffect(for: exp)
+				
+				// Test line to integrate Loot struct as viewModel
+				lootContainer.experience += calculateGreedPerkEffect(for: exp)
 			}
 			
 			gameState.hero.currentXP += exp
@@ -266,15 +316,22 @@ extension MainViewModel {
 			didFinalBossSummoned: gameState.didEncounteredBoss
 		)
 		
+		// Test line to integrate Loot struct as viewModel
+		lootContainer.darkEnergy += energy
+		
 		// // Greed Perk Check
 		
 		if gameState.isGreedPerkActive {
 			energy += calculateGreedPerkEffect(for: energy)
+			
+			// Test line to integrate Loot struct as viewModel
+			lootContainer.darkEnergy += calculateGreedPerkEffect(for: energy)
 		}
 		gameState.hero.flask.currentXP += energy
 		gameState.heroDarkEnergy += energy
 		gameState.heroMaxDarkEnergyOverall += energy
 		gameState.darkEnergyLootToDisplay = energy
+		gameState.lootContainerToDisplay = lootContainer
 		
 	}
 	

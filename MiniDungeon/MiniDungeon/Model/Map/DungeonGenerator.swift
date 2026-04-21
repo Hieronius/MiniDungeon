@@ -18,6 +18,22 @@ import Foundation
  "G" - Item/Gold/Chest
  "Q" - Quest/Riddle
  
+ // MARK: DEMO LEVEL COMPOSITION
+ 
+ - GenerateDemoLevel()
+ - SpawnHero()
+ 
+ [".", ".", ".", ".", ".", "C", "R"],
+ [".", "T", "C", "R", ".", "D", "."],
+ [".", "C", ".", "C", ".", "C", "."],
+ ["M", "R", ".", "H", "C", "R", "."],
+ [".", "C", ".", "C", ".", "S", "."],
+ [".", "L", "C", "R", ".", ".", "."],
+ [".", ".", ".", ".", ".", ".", "."]
+ 
+ - GenerateNormalLevel()
+ - SpawnHero()
+ 
  // MARK: LEVEL COMPOSITION
  
  11 level - 7 x 7 = 49 tiles
@@ -133,6 +149,13 @@ struct DungeonGenerator {
 							  type: .disenchant,
 							  isExplored: false,
 							  events: [.disenchant])
+			
+		// You don't know how to handle Secret rooms via parsing the scheme
+		case "S": return Tile(coordinate: Coordinate(row: row,
+													 col: col),
+							  type: .empty,
+							  isExplored: false,
+							  events: [.secret])
 			
 		default: return Tile(coordinate: Coordinate(row: row,
 													col: col),

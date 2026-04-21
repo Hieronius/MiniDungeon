@@ -133,6 +133,7 @@ extension MainView {
 				
 				// TODO: Make it to -> FlaskTalantsView
 				Button("Go to Flask Talants") {
+					viewModel.audioManager.playSound(fileName: "click", extensionName: "mp3")
 					viewModel.applyActiveShrineEffectsAndGoToFlaskTalants()
 				}
 			}

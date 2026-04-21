@@ -14,6 +14,12 @@ class GameState {
 	
 	var currentMusic: GameMusic = GameMusic.none
 	
+	/// If this flag is true you can see Navigation List on MapView and Action Buttons
+	/// Otherwise you should see Joystick for movement
+	var isNavigationOpen = true
+	
+	var isFlaskViewOpen = true
+	
 	// MARK: 3 test properties to replace gameState.currentScreen = screenName with overlay properties like "if isHeroStatsScreenOpen { buildStats() }
 	
 	var isHeroStatsScreenOpen = false
@@ -390,6 +396,15 @@ class GameState {
 	var merchantInventoryLoot: [Item: Int] = [:]
 	
 	@Transient var lootToDisplay: [String] = []
+	
+	@Transient var lootContainerToDisplay: Loot = Loot(
+		experience: 0,
+		gold: 0,
+		darkEnergy: 0,
+		items: [],
+		armors: [],
+		weapons: []
+	)
 	
 	var isItemOnSale = false
 	var expLootToDisplay = 0

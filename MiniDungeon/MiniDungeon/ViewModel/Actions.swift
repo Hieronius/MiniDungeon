@@ -284,7 +284,7 @@ extension MainViewModel {
 		if result {
 			audioManager.playSound(fileName: "openChest", extensionName: "mp3")
 		} else {
-			audioManager.playSound(fileName: "denied", extensionName: "mp3")
+			audioManager.playSound(fileName: "monsterAppear", extensionName: "mp3")
 		}
 		
 		DispatchQueue.main.asyncAfter(deadline: .now() + 1) {

@@ -10,6 +10,7 @@ protocol ItemProtocol: Identifiable {
 	var itemType: ItemType { get }
 	var itemLevel: Int { get }
 	var itemDescription: String { get }
+	var rarity: Rarity { get }
 	var price: Int { get }
 }
 
@@ -36,6 +37,7 @@ struct Item: ItemProtocol, Hashable, Codable, Identifiable {
 	var itemLevel: Int
 	var itemDescription: String
 	var amount: Int?
+	var rarity: Rarity
 	var price: Int
 	
 	init(
@@ -43,6 +45,7 @@ struct Item: ItemProtocol, Hashable, Codable, Identifiable {
 		itemType: ItemType,
 		itemLevel: Int,
 		itemDescription: String,
+		rarity: Rarity,
 		price: Int
 	) {
 //		self.id = UUID()
@@ -51,6 +54,7 @@ struct Item: ItemProtocol, Hashable, Codable, Identifiable {
 		self.itemLevel = itemLevel
 		self.itemType = itemType
 		self.itemDescription = itemDescription
+		self.rarity = rarity
 		self.price = price
 	}
 }
@@ -69,6 +73,7 @@ struct ItemManager {
 			itemType: .loot,
 			itemLevel: 1,
 			itemDescription: "Can open the Chest",
+			rarity: .common,
 			price: 100
 		),
 		
@@ -77,6 +82,7 @@ struct ItemManager {
 			itemType: .loot,
 			itemLevel: 1,
 			itemDescription: "An old and chip accessory",
+			rarity: .common,
 			price: 75
 		),
 		
@@ -85,6 +91,7 @@ struct ItemManager {
 			itemType: .loot,
 			itemLevel: 1,
 			itemDescription: "Really cheap",
+			rarity: .common,
 			price: 75
 		),
 		
@@ -93,6 +100,7 @@ struct ItemManager {
 			itemType: .loot,
 			itemLevel: 1,
 			itemDescription: "Probably was fancy when was new",
+			rarity: .common,
 			price: 75
 		),
 		
@@ -101,6 +109,7 @@ struct ItemManager {
 			itemType: .loot,
 			itemLevel: 1,
 			itemDescription: "You can't see it's original color",
+			rarity: .common,
 			price: 75
 		),
 		
@@ -109,6 +118,7 @@ struct ItemManager {
 			itemType: .loot,
 			itemLevel: 1,
 			itemDescription: "Part of it is missing",
+			rarity: .common,
 			price: 75
 		),
 	]
@@ -122,6 +132,7 @@ struct ItemManager {
 			itemType: .loot,
 			itemLevel: 2,
 			itemDescription: "Just a ring",
+			rarity: .rare,
 			price: 100
 		),
 		
@@ -130,6 +141,7 @@ struct ItemManager {
 			itemType: .loot,
 			itemLevel: 2,
 			itemDescription: "An ordinary one",
+			rarity: .rare,
 			price: 100
 		),
 		
@@ -138,6 +150,7 @@ struct ItemManager {
 			itemType: .loot,
 			itemLevel: 2,
 			itemDescription: "Still handy if you want to get your hair in order",
+			rarity: .rare,
 			price: 100
 		),
 		
@@ -146,6 +159,7 @@ struct ItemManager {
 			itemType: .loot,
 			itemLevel: 2,
 			itemDescription: "Someone important was probably wearing it",
+			rarity: .rare,
 			price: 100
 		),
 		
@@ -154,6 +168,7 @@ struct ItemManager {
 			itemType: .loot,
 			itemLevel: 2,
 			itemDescription: "Probably was part of some kind of a costume",
+			rarity: .rare,
 			price: 100
 		),
 	]
@@ -167,6 +182,7 @@ struct ItemManager {
 			itemType: .loot,
 			itemLevel: 3,
 			itemDescription: "A shiny and beautiful gem",
+			rarity: .epic,
 			price: 150
 		),
 		
@@ -175,6 +191,7 @@ struct ItemManager {
 			itemType: .loot,
 			itemLevel: 3,
 			itemDescription: "Statue of someone important like a king or a lord",
+			rarity: .epic,
 			price: 150
 		),
 		
@@ -183,6 +200,7 @@ struct ItemManager {
 			itemType: .loot,
 			itemLevel: 3,
 			itemDescription: "An old but still well made mirror",
+			rarity: .epic,
 			price: 150
 		),
 		
@@ -191,6 +209,7 @@ struct ItemManager {
 			itemType: .loot,
 			itemLevel: 3,
 			itemDescription: "You still can see an epic battle between a dragon and a knight described on it",
+			rarity: .epic,
 			price: 150
 		),
 		
@@ -199,6 +218,7 @@ struct ItemManager {
 			itemType: .loot,
 			itemLevel: 3,
 			itemDescription: "Probably ment to be used in one of these well made king's crowns",
+			rarity: .epic,
 			price: 150
 		),
 	]
@@ -212,6 +232,7 @@ struct ItemManager {
 			itemType: .loot,
 			itemLevel: 4,
 			itemDescription: "A truly perfect gem",
+			rarity: .legendary,
 			price: 300
 		),
 		
@@ -220,6 +241,7 @@ struct ItemManager {
 			itemType: .loot,
 			itemLevel: 4,
 			itemDescription: "An empty but very expensive chest",
+			rarity: .legendary,
 			price: 300
 		),
 		
@@ -228,6 +250,7 @@ struct ItemManager {
 			itemType: .loot,
 			itemLevel: 4,
 			itemDescription: "As legend tells that kind of crystal can be a storage or a prison for poor's souls",
+			rarity: .legendary,
 			price: 300
 		),
 		
@@ -236,6 +259,7 @@ struct ItemManager {
 			itemType: .loot,
 			itemLevel: 4,
 			itemDescription: "You still can try to made a sound from this thing",
+			rarity: .legendary,
 			price: 300
 		),
 		
@@ -244,6 +268,7 @@ struct ItemManager {
 			itemType: .loot,
 			itemLevel: 4,
 			itemDescription: "Cup so huge you think only giant's king could drink from it",
+			rarity: .legendary,
 			price: 300
 		),
 	]
@@ -257,6 +282,7 @@ struct ItemManager {
 			itemType: .potion,
 			itemLevel: 1,
 			itemDescription: "Heals by 10% of maximum HP",
+			rarity: .common,
 			price: 150
 		),
 		
@@ -265,6 +291,7 @@ struct ItemManager {
 			itemType: .potion,
 			itemLevel: 1,
 			itemDescription: "Restore mana by 10% of maximum MP",
+			rarity: .common,
 			price: 150
 		),
 		
@@ -286,6 +313,7 @@ struct ItemManager {
 			itemType: .potion,
 			itemLevel: 2,
 			itemDescription: "Heals by 25% of max HP",
+			rarity: .rare,
 			price: 300
 		),
 		
@@ -294,6 +322,7 @@ struct ItemManager {
 			itemType: .potion,
 			itemLevel: 2,
 			itemDescription: "Restore mana by 25% of max MP",
+			rarity: .rare,
 			price: 300
 		),
 		
@@ -302,6 +331,7 @@ struct ItemManager {
 			itemType: .potion,
 			itemLevel: 2,
 			itemDescription: "+5 current HP, +5 max HP",
+			rarity: .rare,
 			price: 300
 		),
 		
@@ -310,6 +340,7 @@ struct ItemManager {
 			itemType: .potion,
 			itemLevel: 2,
 			itemDescription: "+5 current MP, +5 max MP",
+			rarity: .rare,
 			price: 300
 		),
 		
@@ -318,6 +349,7 @@ struct ItemManager {
 			itemType: .potion,
 			itemLevel: 2,
 			itemDescription: "+1 min damage",
+			rarity: .rare,
 			price: 300
 		),
 		
@@ -326,6 +358,7 @@ struct ItemManager {
 			itemType: .potion,
 			itemLevel: 2,
 			itemDescription: "+1 max damage",
+			rarity: .rare,
 			price: 300
 		),
 		
@@ -334,6 +367,7 @@ struct ItemManager {
 			itemType: .potion,
 			itemLevel: 2,
 			itemDescription: "+1% crit chance",
+			rarity: .rare,
 			price: 300
 		),
 		
@@ -342,6 +376,7 @@ struct ItemManager {
 			itemType: .potion,
 			itemLevel: 2,
 			itemDescription: "+1 spell power",
+			rarity: .rare,
 			price: 300
 		),
 		
@@ -350,6 +385,7 @@ struct ItemManager {
 			itemType: .potion,
 			itemLevel: 2,
 			itemDescription: "+1% hit chance",
+			rarity: .rare,
 			price: 300
 		)
 	]
@@ -365,6 +401,7 @@ struct ItemManager {
 			itemType: .potion,
 			itemLevel: 3,
 			itemDescription: "Heals by 35% of max health",
+			rarity: .epic,
 			price: 500
 		),
 		
@@ -373,6 +410,7 @@ struct ItemManager {
 			itemType: .potion,
 			itemLevel: 3,
 			itemDescription: "Restores mana by 35% of it's max capacity",
+			rarity: .epic,
 			price: 500
 		),
 		
@@ -381,6 +419,7 @@ struct ItemManager {
 			itemType: .potion,
 			itemLevel: 3,
 			itemDescription: "+1 min damage, +1 max damage",
+			rarity: .epic,
 			price: 600
 		),
 		
@@ -389,6 +428,7 @@ struct ItemManager {
 			itemType: .potion,
 			itemLevel: 3,
 			itemDescription: "+20 health, -1% hit chance",
+			rarity: .epic,
 			price: 500
 		),
 		
@@ -397,6 +437,7 @@ struct ItemManager {
 			itemType: .potion,
 			itemLevel: 3,
 			itemDescription: "+3 spell power, -1 max damage",
+			rarity: .epic,
 			price: 500
 		),
 		
@@ -405,6 +446,7 @@ struct ItemManager {
 			itemType: .potion,
 			itemLevel: 3,
 			itemDescription: "+3% crit chance, -20 health, -20 mana",
+			rarity: .epic,
 			price: 500
 		),
 		
@@ -413,6 +455,7 @@ struct ItemManager {
 			itemType: .potion,
 			itemLevel: 3,
 			itemDescription: "+3% hit chance, -1 armor, -1 spell power",
+			rarity: .epic,
 			price: 500
 		)
 		
@@ -427,6 +470,7 @@ struct ItemManager {
 			itemType: .potion,
 			itemLevel: 4,
 			itemDescription: "+1 ENERGY",
+			rarity: .legendary,
 			price: 1500
 		),
 		
@@ -435,6 +479,7 @@ struct ItemManager {
 			itemType: .potion,
 			itemLevel: 4,
 			itemDescription: "+2 min damage, +2 max damage, +1% hit chance, +1% crit chance",
+			rarity: .legendary,
 			price: 1500
 		),
 		
@@ -443,6 +488,7 @@ struct ItemManager {
 			itemType: .potion,
 			itemLevel: 4,
 			itemDescription: "+5% crit chance, -2% hit chance, -30 health, -30 mana",
+			rarity: .legendary,
 			price: 1500
 		),
 		
@@ -451,6 +497,7 @@ struct ItemManager {
 			itemType: .potion,
 			itemLevel: 4,
 			itemDescription: "+5 spell power, +30 mana, -2% crit chance, -30 health",
+			rarity: .legendary,
 			price: 1500
 		),
 		
@@ -459,6 +506,7 @@ struct ItemManager {
 			itemType: .potion,
 			itemLevel: 4,
 			itemDescription: "+3 Defence, +50 health, -1% crit chance, -1% hit chance, -30 mana, -3 spell power",
+			rarity: .legendary,
 			price: 1500
 		),
 		
@@ -467,6 +515,7 @@ struct ItemManager {
 			itemType: .potion,
 			itemLevel: 4,
 			itemDescription: "+5% hit chance, -1% crit chance, -20 health, -1 defence, -20 mana, -1 spell power",
+			rarity: .legendary,
 			price: 1500
 		),
 	]

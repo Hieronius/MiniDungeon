@@ -4,11 +4,14 @@ import Foundation
 struct Enemy: Codable {
 	
 	var name = "Enemy"
+	var isBoss = false
 	
-	var enemyCurrentHP = 100
-	var enemyMaxHP = 100
+	// State Flags
 	
-	var currentMana = 100
+	var currentHP = 100
+	var maxHP = 100
+	
+	var currentMP = 100
 	var maxMana = 100
 	
 	var currentEnergy = 3

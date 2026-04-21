@@ -1,5 +1,7 @@
 import SwiftUI
 
+// MARK: - StatsRecoveryView
+
 extension MainView {
 	
 	/// View with Sliders to recover HP/MP for gold. It's changes values locally and passes it to the GameState via viewModel when you press button "Confirm"
@@ -13,6 +15,8 @@ extension MainView {
 		@State var mpToRestore = 1
 		@State var maxMPValue: Int
 		@State var currentGoldValue: Int
+		
+		var audioManager: AudioManager
 		
 		var unitCostInGold = 5
 		
@@ -50,7 +54,10 @@ extension MainView {
 								Text("HP")
 								Slider(
 									value: .convert($hpToRestore),
-									in: 1...100
+									in: 1...100,
+									onEditingChanged: { _ in
+										audioManager.playSound(fileName: "sliderScroll1", extensionName: "mp3")
+									}
 								)
 								.frame(width: UIScreen.main.bounds.width - 150)
 							}
@@ -70,7 +77,10 @@ extension MainView {
 							
 							Slider(
 								value: .convert($mpToRestore),
-								in: 1...100
+								in: 1...100,
+								onEditingChanged: { _ in
+									audioManager.playSound(fileName: "sliderScroll1", extensionName: "mp3")
+								}
 							)
 							.frame(width: UIScreen.main.bounds.width - 150)
 						}
@@ -82,7 +92,7 @@ extension MainView {
 						}
 						Spacer()
 						Button("Confirm") {
-							
+							audioManager.playSound(fileName: "confirm", extensionName: "mp3")
 							statsRecoveryResult?(
 								
 								StatsRecoveryResult(
@@ -105,12 +115,15 @@ extension MainView {
 
 extension MainView.StatsRecoveryView {
 	
+	// MARK: - recoverHPLocally
+	
 	func recoverHPLocally(by value: Int) {
 		
 		if (hpToRestore + currentHPValue) <= maxHPValue {
 			
 			if value * unitCostInGold <= currentGoldValue {
 				
+				audioManager.playSound(fileName: "confirm1", extensionName: "mp3")
 				print("old local hp value: \(currentHPValue)")
 				print("old local gold value: \(currentGoldValue)")
 				currentHPValue += value
@@ -121,6 +134,7 @@ extension MainView.StatsRecoveryView {
 				
 			} else {
 				print("Not Enough Gold")
+				audioManager.playSound(fileName: "denied", extensionName: "mp3")
 				return
 			}
 			
@@ -130,9 +144,13 @@ extension MainView.StatsRecoveryView {
 		}
 	}
 	
+	// MARK: - recoverMPLocally
+	
 	func recoverMPLocally(by value: Int) {
 		
 		if (mpToRestore + currentMPValue) <= maxMPValue {
+			
+			audioManager.playSound(fileName: "confirm1", extensionName: "mp3")
 			
 			if value * unitCostInGold <= currentGoldValue {
 				
@@ -145,6 +163,7 @@ extension MainView.StatsRecoveryView {
 				print("new local gold value: \(currentGoldValue)")
 				
 			} else {
+				audioManager.playSound(fileName: "denied", extensionName: "mp3")
 				print("Not Enough Gold")
 				return
 			}

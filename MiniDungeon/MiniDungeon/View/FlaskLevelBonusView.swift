@@ -25,12 +25,14 @@ extension MainView {
 						Button(bonus.name) {
 							viewModel.gameState.flaskLevelBonusToDisplay = bonus
 						}
+						.foregroundStyle(bonus.rarity.color)
 					}
 				}
 				
 				if viewModel.gameState.flaskLevelBonusToDisplay != nil {
 					Section(header: Text("Description")) {
 						Text("Name - \(viewModel.gameState.flaskLevelBonusToDisplay?.name ?? "")")
+							.foregroundStyle(viewModel.gameState.flaskLevelBonusToDisplay?.rarity.color ?? .white)
 							.bold()
 						Text("Description:  \(viewModel.gameState.flaskLevelBonusToDisplay?.bonusDescription ?? "")")
 						Button("Choose") {

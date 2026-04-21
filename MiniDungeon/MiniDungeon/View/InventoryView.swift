@@ -16,6 +16,8 @@ extension MainView {
 					itemToDisplay = viewModel.gameState.hero.weaponSlot
 				} label: {
 					Text("\(viewModel.gameState.hero.weaponSlot?.label ?? "Empty")")
+						.foregroundStyle(viewModel.gameState.hero.weaponSlot?.rarity.color ?? .white)
+						.bold()
 				}
 			}
 			
@@ -25,6 +27,8 @@ extension MainView {
 					itemToDisplay = viewModel.gameState.hero.armorSlot
 				} label: {
 					Text("\(viewModel.gameState.hero.armorSlot?.label ?? "Empty")")
+						.foregroundStyle(viewModel.gameState.hero.armorSlot?.rarity.color ?? .white)
+						.bold()
 				}
 			}
 			
@@ -34,6 +38,7 @@ extension MainView {
 				Section(header: Text("Item Info")) {
 					
 					Text("Item Name: \(itemToDisplay?.label ?? "")")
+						.foregroundColor(itemToDisplay?.rarity.color ?? .white)
 						.bold()
 					Text("Item Level: \(itemToDisplay?.itemLevel ?? 0)")
 					Text("Description: \(itemToDisplay?.itemDescription ?? "")")
@@ -48,21 +53,37 @@ extension MainView {
 						
 					} else {
 						
-						if itemToDisplay as? Weapon != viewModel.gameState.hero.weaponSlot && ((itemToDisplay as? Weapon) != nil) {
+						if ((itemToDisplay as? Weapon ) != nil) {
 							
-							Button("Equip") {
-								if viewModel.equipOrUseItem(itemToDisplay) {
-									itemToDisplay = nil
+								Button("Equip Weapon") {
+									if viewModel.equipOrUseItem(itemToDisplay) {
+										itemToDisplay = nil
+									}
 								}
-							}
+								
+								Button("Compare") {
+									viewModel.audioManager.playSound(fileName: "click", extensionName: "mp3")
+									viewModel.gameState.isArmorsStatsDifferenceOpen = false
+									viewModel.gameState.isWeaponsStatsDifferenceOpen = true
+									print("Did compare Weapons")
+								}
 						}
 						
-						if itemToDisplay as? Armor != viewModel.gameState.hero.armorSlot && ((itemToDisplay as? Armor) != nil) {
-							Button("Equip") {
-								if viewModel.equipOrUseItem(itemToDisplay) {
-									itemToDisplay = nil
+						if ((itemToDisplay as? Armor ) != nil) {
+							
+								Button("Equip Armor") {
+									if viewModel.equipOrUseItem(itemToDisplay) {
+										itemToDisplay = nil
+									}
 								}
-							}
+								
+								Button("Compare") {
+									// viewModel.compareArmors
+									viewModel.gameState.isWeaponsStatsDifferenceOpen = false
+									viewModel.gameState.isArmorsStatsDifferenceOpen = true
+									print("Did compare Armors")
+									
+								}
 						}
 						
 						if itemToDisplay as? Item != nil {
@@ -79,6 +100,19 @@ extension MainView {
 		}
 		.frame(height: 450)
 		
+		// MARK: StatsDifferenceView
+		
+		.overlay() {
+			if viewModel.gameState.isWeaponsStatsDifferenceOpen {
+				buildItemsStatsDifferenceTable(forStats: viewModel.compareSelectedItemWithEquipedOne(itemToDisplay))
+					.frame(height: 450)
+			} else if
+				viewModel.gameState.isArmorsStatsDifferenceOpen {
+				buildItemsStatsDifferenceTable(forStats: viewModel.compareSelectedItemWithEquipedOne(itemToDisplay))
+					.frame(height: 450)
+			}
+		}
+		
 		List {
 			
 			// MARK: - Weapons
@@ -90,6 +124,7 @@ extension MainView {
 						Button("\(weapon.label) - \(viewModel.gameState.hero.weapons[weapon] ?? 0)") {
 							itemToDisplay = weapon
 						}
+						.foregroundStyle(weapon.rarity.color)
 					}
 				}
 			}
@@ -103,6 +138,7 @@ extension MainView {
 						Button("\(armor.label) - \(viewModel.gameState.hero.armors[armor] ?? 0)") {
 							itemToDisplay = armor
 						}
+						.foregroundStyle(armor.rarity.color)
 					}
 				}
 			}
@@ -116,6 +152,7 @@ extension MainView {
 						Button("\(item.label) - \(viewModel.gameState.hero.inventory[item] ?? 0)") {
 							itemToDisplay = item
 						}
+						.foregroundStyle(item.rarity.color)
 					}
 				}
 			}
@@ -132,10 +169,6 @@ extension MainView {
 					itemToDisplay = nil
 					viewModel.goToDungeon()
 				}
-				//				Button("Stats") {
-				//					itemToDisplay = nil
-				//					viewModel.goToHeroStats()
-				//				}
 			}
 		}
 	}

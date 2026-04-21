@@ -10,16 +10,20 @@ extension MainView {
 		
 		List {
 			
+			// MARK: - Hero Main Stats
+			
 			Section(header: Text("Hero Stats")) {
 				
+				Text("Runs: \(viewModel.gameState.runs)")
 				Text("LVL: \(viewModel.gameState.hero.heroLevel)")
 				Text("Experience: \(viewModel.gameState.hero.currentXP)/\(viewModel.gameState.hero.maxXP)")
 				//				Text("Specialisation: \(viewModel.gameState.hero.specialisation?.name ?? "")")
 				Text("Health: \(viewModel.gameState.hero.currentHP)/\(viewModel.gameState.hero.maxHP)")
 				Text("Mana: \(viewModel.gameState.hero.currentMana)/\(viewModel.gameState.hero.maxMana)")
 				Text("Energy: \(viewModel.gameState.hero.currentEnergy)/\(viewModel.gameState.hero.maxEnergy)")
-				Text("Spell Power: \(viewModel.gameState.hero.spellPower)")
 			}
+			
+			// MARK: - Flask Main Stats
 			
 			Section(header: Text("Flask Stats")) {
 				
@@ -28,12 +32,17 @@ extension MainView {
 				Text("Flask Charges: \(viewModel.gameState.hero.flask.currentCharges)/\(viewModel.gameState.hero.flask.currentMaxCharges)")
 			}
 			
+			// MARK: - Hero Combat Stats
+			
 			Section(header: Text("Combat")) {
 				Text("Damage: \(viewModel.gameState.hero.minDamage) - \(viewModel.gameState.hero.maxDamage)")
 				Text("Defence: \(viewModel.gameState.hero.defence)")
 				Text("Crit Chance: \(viewModel.gameState.hero.critChance)%")
 				Text("Hit Chance: \(viewModel.gameState.hero.hitChance)%")
+				Text("Spell Power: \(viewModel.gameState.hero.spellPower)")
 			}
+			
+			// MARK: - Utility
 			
 			Section(header: Text("Utility")) {
 				Text("Gold: \(viewModel.gameState.heroGold)")
@@ -41,11 +50,15 @@ extension MainView {
 				Text("Dark Energy Overall: \(viewModel.gameState.heroMaxDarkEnergyOverall)")
 			}
 			
+			// MARK: - Current Weapon Slot
+			
 			if viewModel.gameState.hero.weaponSlot != nil {
 				Section(header: Text("Equiped Weapon Slot Effects")) {
 					Text("\(viewModel.gameState.hero.weaponSlot!.label): \(viewModel.gameState.hero.weaponSlot!.itemDescription)")
 				}
 			}
+			
+			// MARK: - Current Armor Slot
 			
 			if viewModel.gameState.hero.armorSlot != nil {
 				Section(header: Text("Equiped Armor Slot Effects")) {
@@ -65,15 +78,33 @@ extension MainView {
 				}
 			}
 			
+			// MARK: - Hero Level Bonuses
+			
 			if !viewModel.gameState.selectedHeroLevelBonuses.isEmpty {
 				Section(header: Text("Active Hero Level Bonuses")) {
 					
 					ForEach(viewModel.gameState.selectedHeroLevelBonuses) { bonus in
 						
 						Text("\(bonus.name): \(bonus.bonusDescription)")
+							.foregroundStyle(bonus.rarity.color)
 					}
 				}
 			}
+			
+			// MARK: - Level Perks
+			
+			if !viewModel.gameState.selectedLevelPerks.isEmpty {
+				Section(header: Text("Active Level Perks")) {
+					
+					ForEach(viewModel.gameState.selectedLevelPerks) { perk in
+						
+						Text("\(perk.name): \(perk.perkDescription)")
+							.foregroundStyle(perk.rarity.color)
+					}
+				}
+			}
+			
+			// MARK: - Flask Level Bonuses
 			
 			if !viewModel.gameState.selectedFlaskLevelBonuses.isEmpty {
 				Section(header: Text("Active Flask Level Bonuses")) {
@@ -107,11 +138,14 @@ extension MainView {
 		}
 		.frame(height: 650)
 		
+		// MARK: - Navigation
+		
 		List {
 			
 			Section(header: Text("Navigation")) {
 				
 				Button("Dungeon") {
+					viewModel.audioManager.playSound(fileName: "click", extensionName: "mp3")
 					viewModel.goToDungeon()
 				}
 //				Button("Inventory") {

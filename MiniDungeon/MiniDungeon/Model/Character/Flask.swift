@@ -132,10 +132,10 @@ class Flask {
 	}
 	
 	/// How many charges flask have right now
-	var currentCharges = 3
+	var currentCharges = 2
 	
 	/// Basic amount of max charges you can store
-	var baseMaxCharges = 3
+	var baseMaxCharges = 2
 	
 	/// An emount of max charges after calculation of talants and talent bonuses
 	var currentMaxCharges: Int { baseMaxCharges } // + talants + bonuses
@@ -219,6 +219,7 @@ class Flask {
 		level = 1
 		currentXP = 0
 		expToLevelUP = 50
+		baseMaxCharges = 2
 		baseCombatImpactCapacity = 50
 		readyForLevelUP = false
 		levelBonuses = []
@@ -227,7 +228,6 @@ class Flask {
 		baseDamageValue = 0.25
 		actionsToResetCD = 0
 		baseCooldown = 10
-		
 		// effects
 		
 		baseChanceToGetCDreset = 0

@@ -1,96 +1,99 @@
 import SwiftUI
 
-struct CombatMiniGameView: View {
+extension MainView {
 	
-	@State var timeRemaining = 0.0
-	@State var inProgress = false
-	@State var bonusArea: Double = Double.random(in: 0.2...0.8)
-	@State var gameResult = "             "
-	@State var isSuccess = false
-	@State var progressBarColor: Color = .blue
-	@State var boardColor: Color = .white
-	@State var beenTapped: Bool = false
-	@State var isHapticOn = false
-	
-	// Probably should be replaced by button "HIT"
-	let label = "Tap inside when the line will meet with the circle"
-	
-	/// This callback we send to parent view to react on game result
-	var onGameEnd: ((Bool) -> Void)? // Callback for game result
-	
-	/// Speed of the game bar to move. You can twick for easier or harder difficulty
-	var difficulty = 0.02
-	
-	var timer = Timer.publish(every: 0.02, on: .main, in: .common).autoconnect()
-	
-	// MARK: - Body
-	
-	var body: some View {
+	struct CombatMiniGameView: View {
 		
-		ZStack {
-			Rectangle()
-				.frame(width: UIScreen.main.bounds.width, height: 200)
-				.foregroundStyle(Color.black)
-				.border(boardColor, width: 5)
+		@State var timeRemaining = 0.0
+		@State var inProgress = false
+		@State var bonusArea: Double = Double.random(in: 0.2...0.8)
+		@State var gameResult = "             "
+		@State var isSuccess = false
+		@State var progressBarColor: Color = .blue
+		@State var boardColor: Color = .white
+		@State var beenTapped: Bool = false
+		@State var isHapticOn = false
+		
+		// Probably should be replaced by button "HIT"
+		let label = "Tap inside when the line will meet with the circle"
+		
+		/// This callback we send to parent view to react on game result
+		var onGameEnd: ((Bool) -> Void)? // Callback for game result
+		
+		/// Speed of the game bar to move. You can twick for easier or harder difficulty
+		var difficulty = 0.02
+		
+		var timer = Timer.publish(every: 0.02, on: .main, in: .common).autoconnect()
+		
+		// MARK: - Body
+		
+		var body: some View {
 			
-			VStack {
-				Text("\(gameResult)")
-					.foregroundStyle(isSuccess ? .green : .red)
-					.onReceive(timer) { _ in
-						if timeRemaining < 0.99 {
-							timeRemaining += 0.01
-						} else {
-							timeRemaining = 0.0
-							
+			ZStack {
+				Rectangle()
+					.frame(width: UIScreen.main.bounds.width, height: 200)
+					.foregroundStyle(Color.black)
+					.border(boardColor, width: 5)
+				
+				VStack {
+					Text("\(gameResult)")
+						.foregroundStyle(isSuccess ? .green : .red)
+						.onReceive(timer) { _ in
+							if timeRemaining < 0.99 {
+								timeRemaining += 0.01
+							} else {
+								timeRemaining = 0.0
+								
+							}
 						}
+					ZStack {
+						Slider(value: $bonusArea)
+							.frame(width: UIScreen.main.bounds.width - 20)
+							.tint(.gray)
+						ProgressView(value: timeRemaining, )
+							.frame(width: UIScreen.main.bounds.width - 20)
+							.tint(progressBarColor)
+						
 					}
-				ZStack {
-					Slider(value: $bonusArea)
-						.frame(width: UIScreen.main.bounds.width - 20)
-						.tint(.gray)
-					ProgressView(value: timeRemaining, )
-						.frame(width: UIScreen.main.bounds.width - 20)
-						.tint(progressBarColor)
+					
+					ZStack {
+						Rectangle()
+							.frame(width: 100, height: 50)
+							.foregroundStyle(.black)
+							.clipShape(.capsule)
+							.overlay {
+								Capsule()
+									.stroke(boardColor, lineWidth: 3)
+							}
+						
+						// Mimicing the button but with drag gesture
+						Text("Tap it!")
+							.foregroundStyle(.white)
+					}
+					.scaleEffect(beenTapped ? 0.96 : 1.0)
+					.opacity(beenTapped ? 0.8 : 1.0)
+					.animation(.easeInOut(duration: 0.1), value: beenTapped)
+					.gesture(
+						DragGesture(minimumDistance: 0)
+							.onChanged { _ in
+								beenTapped = true
+								hitBonusArea()
+							}
+					)
+					
 					
 				}
-				
-				ZStack {
-					Rectangle()
-						.frame(width: 100, height: 50)
-						.foregroundStyle(.black)
-						.clipShape(.capsule)
-						.overlay {
-							Capsule()
-								.stroke(.white, lineWidth: 3)
-						}
-					
-					// Mimicing the button but with drag gesture
-					Text("Tap it!")
-						.foregroundStyle(.white)
-				}
-				.scaleEffect(beenTapped ? 0.96 : 1.0)
-				.opacity(beenTapped ? 0.8 : 1.0)
-				.animation(.easeInOut(duration: 0.1), value: beenTapped)
-				.gesture(
-					DragGesture(minimumDistance: 0)
-						.onChanged { _ in
-							beenTapped = true
-							hitBonusArea()
-						}
-				)
-				
-				
 			}
+			.sensoryFeedback(isSuccess ? .success : .error, trigger: isHapticOn)
+			
+			// Handicaped condition to make view untappable after first touch action
+			// Just copy an antire line of spaces from `gameResult` property
+			.allowsHitTesting(gameResult == "             ")
 		}
-		.sensoryFeedback(isSuccess ? .success : .error, trigger: isHapticOn)
-		
-		// Handicaped condition to make view untappable after first touch action
-		// Just copy an antire line of spaces from `gameResult` property
-		.allowsHitTesting(gameResult == "             ")
 	}
 }
 
-extension CombatMiniGameView {
+extension MainView.CombatMiniGameView {
 	
 	func hitBonusArea() {
 		

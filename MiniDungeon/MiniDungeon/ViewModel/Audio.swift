@@ -10,6 +10,8 @@ enum GameMusic: Codable, CaseIterable {
 
 extension MainViewModel {
 	
+	// MARK: - playAttackSound
+	
 	func playAttackSound(didMissHit: Bool) {
 		
 		if didMissHit {

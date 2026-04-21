@@ -62,13 +62,40 @@ extension MainViewModel {
 	// MARK: handleTappedDirection
 
 	/// Method to define Hero movement logic based on tapped direction if it's valid to move
-	func handleTappedDirection(_ row: Int, _ col: Int) {
+//	func handleTappedDirection(_ row: Int, _ col: Int) {
+	
+	func handleUserMovement(for direction: Direction) {
 		
-		let targetTile = gameState.dungeonMap[row][col]
+		var currentHeroPosition = gameState.heroPosition
+		print("user position before movement - \(currentHeroPosition)")
+		
+		switch direction {
+			
+		case .top: currentHeroPosition.row -= 1
+			
+		case .left: currentHeroPosition.col -= 1
+			
+		case .right: currentHeroPosition.col += 1
+			
+		case .bottom: currentHeroPosition.row += 1
+		}
+		
+		
+		guard currentHeroPosition.row >= 0 &&
+				currentHeroPosition.col >= 0 &&
+				currentHeroPosition.row <= 6 &&
+				currentHeroPosition.col <= 6 else {
+			
+			print("Tried to move out of the board!")
+			return
+		}
+		let targetTile = currentHeroPosition
+		
+		print("user target position after tapping joystick - \(targetTile)")
 
 		// If valid -> move hero position to a new coordinate
 
-		if checkIfDirectionValid(row, col) &&
+		if checkIfDirectionValid(targetTile.row, targetTile.col) &&
 			gameState.hero.currentHP > 0 &&
 			!gameState.didEncounterTrap {
 			
@@ -91,10 +118,9 @@ extension MainViewModel {
 			
 			// move hero to the new position
 			
-			gameState.heroPosition = Coordinate(row: row, col: col)
+			gameState.heroPosition = targetTile
 			
 			let heroPosition = gameState.heroPosition
-			print(heroPosition)
 			
 			// MARK: Transition to Combat Screen
 			
@@ -111,6 +137,7 @@ extension MainViewModel {
 				gameState.dungeonMap[heroPosition.row][heroPosition.col].events.contains(.trap) &&
 					!gameState.dungeonMap[heroPosition.row][heroPosition.col].isExplored {
 				
+				gameState.isNavigationOpen = true
 				gameState.didEncounterTrap = true
 				
 				// MARK: Encounter Shrine of Restoration
@@ -119,6 +146,7 @@ extension MainViewModel {
 				
 				gameState.dungeonMap[heroPosition.row][heroPosition.col].events.contains(.restoration) {
 				
+				gameState.isNavigationOpen = true
 				gameState.didEncounterRestorationShrine = true
 				
 				// MARK: Encounter Disenchant Shrine
@@ -127,12 +155,14 @@ extension MainViewModel {
 				
 				gameState.dungeonMap[heroPosition.row][heroPosition.col].events.contains(.disenchant) {
 				
+				gameState.isNavigationOpen = true
 				gameState.didEncounterDisenchantShrine = true
 				
 				// MARK: Encounter Chest Tile
 				
 			} else if gameState.dungeonMap[heroPosition.row][heroPosition.col].events.contains(.chest) {
 				
+				gameState.isNavigationOpen = true
 				gameState.didEncounterChest = true
 			}
 			
@@ -149,29 +179,31 @@ extension MainViewModel {
 			
 			// custom and clanky condition to detect predefined SecretRoom during Demo(tutorial level) at the specific place at the map
 			
-		} else if !checkIfDirectionValid(row, col) &&
-					gameState.dungeonMap[row][col].type == .empty &&
-					gameState.dungeonMap[row][col].events == [.secret] {
+		} else if !checkIfDirectionValid(targetTile.row, targetTile.col) &&
+					gameState.dungeonMap[targetTile.row][targetTile.col].type == .empty &&
+					gameState.dungeonMap[targetTile.row][targetTile.col].events == [.secret] {
+			
+			gameState.isNavigationOpen = true
 			
 			// If met during tutorial level -> set flag to false so in other cases secretRoom will be handled in traditional way
 			handleSecretRoomOutcome(
-				row: row,
-				col: col,
+				row: targetTile.row,
+				col: targetTile.col,
 				predefinedSecret: gameState.shouldMeetPredefinedSecretRoom
 			)
 			
-		} else if !checkIfDirectionValid(row, col) &&
+		} else if !checkIfDirectionValid(targetTile.row, targetTile.col) &&
 					gameState.hero.currentHP > 0 &&
 					!gameState.didEncounterTrap &&
-					!gameState.dungeonMap[row][col].isExplored &&
-					!gameState.dungeonMap[row][col].events.contains(.secret) &&
-					checkForHeroTileNeighbours(includeDiagonals: false).contains(targetTile) {
+					!gameState.dungeonMap[targetTile.row][targetTile.col].isExplored &&
+					!gameState.dungeonMap[targetTile.row][targetTile.col].events.contains(.secret) &&
+					checkForHeroTileNeighbours(includeDiagonals: false).contains(gameState.dungeonMap[targetTile.row][targetTile.col]) {
 			
 			audioManager.playSound(fileName: "heroFailedStep", extensionName: "mp3")
 			
 			handleSecretRoomOutcome(
-				row: row,
-				col: col,
+				row: targetTile.row,
+				col: targetTile.col,
 				predefinedSecret: false
 			)
 			

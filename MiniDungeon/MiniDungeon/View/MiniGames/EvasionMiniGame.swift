@@ -66,10 +66,13 @@ struct EvasionMiniGame: View {
 		color: .green
 	)
 	
+	/// Spot at the end of the scale. If user doesn't act cursor will reach this area and hero will get a hit
 	@State var hitArea = MotionController(
 		id: 3,
-		coordinateX: 160,
-		width: 50,
+		// this width was found purely by practical approach to satisfy iphone 13 mini, iphone 11 and iphone 16 pro screens
+		coordinateX: UIScreen.main.bounds.width / 2.52,
+		// same story here
+		width: UIScreen.main.bounds.width * 0.13,
 		height: 20,
 		color: .red
 	)

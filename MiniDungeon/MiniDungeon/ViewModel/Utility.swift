@@ -4,6 +4,18 @@ import SwiftUI
 
 extension MainViewModel {
 	
+	// MARK: - wereAllLevelEventsExplored
+	
+	/// Method to check if all level rooms with enemies generated were explored
+	func wereAllLevelEventsExplored() -> Bool {
+		
+		if countMapRooms().0 == countMapRooms().1 {
+			return true
+		} else {
+			return false
+		}
+	}
+	
 	// MARK: - endHeroAndEnemyAnimation
 	
 	func endHeroAndEnemyAnimation() {
@@ -95,7 +107,6 @@ extension MainViewModel {
 			
 			print("EnemyTurn && no mini game")
 			
-			
 			// A delay to create feeling the enemy does attacks with a little delay and not instant
 			var extraActionDelay = 2.0 + Double(gameState.enemy.currentEnergy) / 5.0
 			
@@ -120,13 +131,40 @@ extension MainViewModel {
 					
 					switch chance {
 						
-						// 15% for healing ability
+						// 15% for healing ability if enemy has enough mana
+						// otherwise use block if didn't use
+						// otherwise use a fast attack
+						
 					case 1...15:
-						self.heal()
+						if self.gameState.enemy.currentMP >= self.gameState.spellManaCost {
+							self.heal()
+						} else {
+							
+							if !self.gameState.didEnemyUseBlock {
+								self.block()
+							} else {
+								print("Fast Attack Sound from enemyTurn()")
+								self.audioManager.playSound(fileName: "comboHit1", extensionName: "mp3")
+								extraActionDelay += 1.5
+								self.continueAttackAfterMiniGame(combatMiniGameSuccess: false, evasionMiniGameSuccess: false)
+							}
+						}
 						
 						// 15% for block ability
 					case 16...30:
-						self.block()
+						
+						// if enemy did already use block don't do it again
+						if !self.gameState.didEnemyUseBlock {
+							self.block()
+						} else {
+							if self.gameState.enemy.currentMP >= self.gameState.spellManaCost {
+								self.heal()
+							} else {
+								self.audioManager.playSound(fileName: "comboHit1", extensionName: "mp3")
+								extraActionDelay += 1.5
+								self.continueAttackAfterMiniGame(combatMiniGameSuccess: false, evasionMiniGameSuccess: false)
+							}
+						}
 						
 						// 70% for attack ability
 					default:
@@ -136,16 +174,19 @@ extension MainViewModel {
 						// 70% for avoidable one
 						
 						if attackRoll <= 70 {
+							print("Slow Attack Sound from enemyTurn()")
+							self.playAttackSound(didMissHit: false)
 							self.gameState.isEvasionMiniGameOn = true
 							
 							// 30% for unavoidable one
 							// dodge: false mean we don't activate evasion mini game so avoidance is not active
 							
 						} else if attackRoll > 70 {
+							print("Fast Attack Sound from enemyTurn()")
+							self.audioManager.playSound(fileName: "comboHit1", extensionName: "mp3")
 							extraActionDelay += 1.5
-							self.continueAttackAfterMiniGame(success: false, dodge: false)
+							self.continueAttackAfterMiniGame(combatMiniGameSuccess: false, evasionMiniGameSuccess: false)
 						}
-						self.playAttackSound(didMissHit: false)
 					}
 					self.enemyTurn()
 					
@@ -154,6 +195,8 @@ extension MainViewModel {
 					print("Decide an Offensive Action")
 					
 					// if enemy has energy for ultimate throw a roll for it
+					
+					// MARK: Boss Actions
 					
 					if self.gameState.enemy.currentEnergy >= 2 && self.gameState.enemy.isBoss {
 						
@@ -165,6 +208,7 @@ extension MainViewModel {
 							
 							print("specialRoll successful -> perform")
 							
+							self.audioManager.playSound(fileName: "bossUltimate1", extensionName: "mp3")
 							self.gameState.enemy.currentEnergy -= self.gameState.specialSkillEnergyCost
 							self.gameState.logMessage = "Enemy Special Attack!"
 							self.gameState.isShadowBallMiniGameOn = true
@@ -185,6 +229,7 @@ extension MainViewModel {
 							// 70% for avoidable one
 							
 							if attackRoll <= 70 {
+								self.playAttackSound(didMissHit: false)
 								self.gameState.isEvasionMiniGameOn = true
 								
 								// 30% for unavoidable one
@@ -193,7 +238,9 @@ extension MainViewModel {
 							} else if attackRoll > 70 {
 								extraActionDelay += 1.5
 								
-								self.continueAttackAfterMiniGame(success: false, dodge: false)
+								print("Fast Attack Sound from enemyTurn()")
+								self.audioManager.playSound(fileName: "comboHit1", extensionName: "mp3")
+								self.continueAttackAfterMiniGame(combatMiniGameSuccess: false, evasionMiniGameSuccess: false)
 							}
 							
 							self.enemyTurn()
@@ -209,18 +256,20 @@ extension MainViewModel {
 						// 70% for avoidable one
 						
 						if attackRoll <= 70 {
+							print("Slow Attack Sound from enemyTurn()")
+							self.playAttackSound(didMissHit: false)
 							self.gameState.isEvasionMiniGameOn = true
 							
 							// 30% for unavoidable one
 							// dodge: false mean we don't activate evasion mini game so avoidance is not active
 							
 						} else if attackRoll > 70 {
-							
-							self.gameState.logMessage = "FAST ENEMY ATTACK!"
-							
-							self.continueAttackAfterMiniGame(success: false, dodge: false)
+							print("Fast Attack Sound from enemyTurn()")
+							extraActionDelay += 1.5
+							self.audioManager.playSound(fileName: "comboHit1", extensionName: "mp3")
+							self.continueAttackAfterMiniGame(combatMiniGameSuccess: false, evasionMiniGameSuccess: false)
+							self.gameState.logMessage += " from fast unavoidable attack!"
 						}
-						self.playAttackSound(didMissHit: false)
 						self.enemyTurn()
 					}
 					
@@ -348,7 +397,6 @@ extension MainViewModel {
 			
 		} else if gameState.enemy.currentHP <= 0 &&
 					!gameState.didEncounteredBoss {
-			print("Average Enemy has been defeated!")
 			
 			gameState.didUserPressedEndTurnButton = false
 			gameState.didEncounterEnemy = false
@@ -367,6 +415,10 @@ extension MainViewModel {
 			gameState.didUseFlaskEmpowerForDefensive = false
 			gameState.didUseFlaskEmpowerForOffensive = false
 			
+			if wereAllLevelEventsExplored() {
+				gameState.isNavigationOpen = true
+			}
+			
 			// Health Grow Perk Check
 			gameState.wasHealthGrowPerkEffectUsed = false
 			
@@ -383,6 +435,7 @@ extension MainViewModel {
 				gameState.hero.baseMaxHP += gameState.bloodBathPerkEffectModifier
 			}
 			
+			// Pressumely boss fight branch
 			
 		} else if gameState.enemy.currentHP <= 0 &&
 					gameState.didEncounteredBoss {
@@ -397,6 +450,7 @@ extension MainViewModel {
 			gameState.didUseFlaskEmpowerForDefensive = false
 			gameState.didUseFlaskEmpowerForOffensive = false
 			gameState.didUserPressedEndTurnButton = false
+			gameState.didBossFightSoundEnd = true
 			
 			if gameState.hero.flask.actionsToResetCD > 0 {
 				gameState.hero.flask.actionsToResetCD -= 1
@@ -442,6 +496,7 @@ extension MainViewModel {
 			gameState.hero.flask.currentComment = .readyForLevelUP
 			gameState.didFlaskGetLevelUP = true
 			gameState.hero.flask.cleanFlaskComment()
+			gameState.isFlaskViewOpen = true
 		}
 	}
 	
@@ -466,9 +521,6 @@ extension MainViewModel {
 		
 		guard let itemToDisplay = item else { return false }
 		
-		// TODO: Should be put to separate method or to be called separately
-		audioManager.playSound(fileName: "buySell", extensionName: "mp3")
-		
 		switch itemToDisplay.itemType {
 			
 		case .weapon:
@@ -476,6 +528,8 @@ extension MainViewModel {
 			guard let weapon = itemToDisplay as? Weapon else { return false }
 			
 			if onSale {
+				
+				audioManager.playSound(fileName: "buySell", extensionName: "mp3")
 				
 				if weapon != gameState.hero.weaponSlot {
 					
@@ -498,6 +552,8 @@ extension MainViewModel {
 				
 			} else {
 				
+				audioManager.playSound(fileName: "coin3", extensionName: "mp3")
+				
 				if weapon.price <= gameState.heroGold &&
 					gameState.merchantWeaponsLoot[weapon] ?? 0 > 0 {
 					
@@ -517,6 +573,8 @@ extension MainViewModel {
 			guard let armor = itemToDisplay as? Armor else { return false }
 			
 			if onSale {
+				
+				audioManager.playSound(fileName: "buySell", extensionName: "mp3")
 				
 				if gameState.hero.armorSlot != armor {
 					
@@ -540,6 +598,8 @@ extension MainViewModel {
 				
 			} else {
 				
+				audioManager.playSound(fileName: "coin3", extensionName: "mp3")
+				
 				if armor.price <= gameState.heroGold &&
 					gameState.merchantArmorsLoot[armor] ?? 0 > 0  {
 					
@@ -561,6 +621,8 @@ extension MainViewModel {
 			
 			if onSale {
 				
+				audioManager.playSound(fileName: "buySell", extensionName: "mp3")
+				
 				if gameState.hero.inventory[potion] ?? 0 > 0 {
 					gameState.hero.inventory[potion]! -= 1
 					// When you sell an item you get only 25% of it's value
@@ -574,6 +636,8 @@ extension MainViewModel {
 				}
 				
 			} else {
+				
+				audioManager.playSound(fileName: "coin3", extensionName: "mp3")
 				
 				if potion.price <= gameState.heroGold &&
 					gameState.merchantInventoryLoot[potion] ?? 0 > 0 {
@@ -596,6 +660,8 @@ extension MainViewModel {
 			
 			if onSale {
 				
+				audioManager.playSound(fileName: "buySell", extensionName: "mp3")
+				
 				if gameState.hero.inventory[loot] ?? 0 > 0 {
 					gameState.hero.inventory[loot]! -= 1
 					// When you sell an item you get only 25% of it's value
@@ -608,6 +674,8 @@ extension MainViewModel {
 				}
 				
 			} else {
+				
+				audioManager.playSound(fileName: "coin3", extensionName: "mp3")
 				
 				if loot.price <= gameState.heroGold &&
 					gameState.merchantInventoryLoot[loot] ?? 0 > 0 {
@@ -859,7 +927,7 @@ extension MainViewModel {
 		return (stringResult, colorResult)
 	}
 	
-	// MARK: - cquipOrUseItem
+	// MARK: - equipOrUseItem
 	
 	/// If it's a weapon or armor - equip it, otherwise use the item if possible
 	func equipOrUseItem(_ item: (any ItemProtocol)?) -> Bool {
@@ -873,7 +941,7 @@ extension MainViewModel {
 			guard let weapon = itemToDisplay as? Weapon else { return false }
 			
 			equipWeapon(weapon)
-			audioManager.playSound(fileName: "equip", extensionName: "mp3")
+			audioManager.playSound(fileName: "equipItem", extensionName: "mp3")
 			return true
 			
 		case .armor:
@@ -881,7 +949,7 @@ extension MainViewModel {
 			guard let armor = itemToDisplay as? Armor else { return false }
 			
 			equipArmor(armor)
-			audioManager.playSound(fileName: "equip", extensionName: "mp3")
+			audioManager.playSound(fileName: "equipItem", extensionName: "mp3")
 			return true
 			
 		case .potion:

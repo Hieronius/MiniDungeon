@@ -178,7 +178,6 @@ extension MainViewModel {
 	func shouldGetCDreset() -> Bool {
 		
 		let roll = Int.random(in: 1...100)
-//		let result = roll < gameState.flask.currentChanceToGetCDreset
 		let result = roll < gameState.hero.flask.currentChanceToGetCDreset
 		return result
 	}

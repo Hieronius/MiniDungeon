@@ -8,20 +8,34 @@ struct MainView: View {
 	// MARK: - Dependencies
 	
 	@StateObject var viewModel: MainViewModel
+	
+	// MARK: - State Properties
+	
+	@State var didEventOccured = false
+	
 	@State var itemToDisplay: (any ItemProtocol)? = nil
+	@State var weaponToDisplay: Weapon? = nil
+	@State var armorToDisplay: Armor? = nil
 	@State var shrineToDisplay: Shrine? = nil
 	@State var didFlaskGotLevelUP = false
+	
+	// Alert Controllers
+	
+	@State var isTrapDefusionInfoAlertOpen = false
+	@State var isRestorationShrineInfoAlertOpen = false
+	@State var isDisenchantShrineInfoAlertOpen = false
+	@State var isChestLockPickingInfoAlertOpen = false
+	@State var isSecretRoomInfoAlertOpen = false
+	@State var isCombatInfoAlertOpen = false
+	@State var isFlaskInfoAlertOpen = false
+	@State var isDemoLevelCompletionAlertOpen = false
+	
+	// place for flask/battle/... other
 	
 	/// Custom Property when being toggled by tapping the flask view to change it's battle mode will force SwiftUI rerender an entire UI. Otherwise you chance flask battle mode under the hood correctly but UI won't change
 	/// An explanation of this is that to trigger UI you need to use one of MainView properties inside it's other views or ViewBuilders as i did with BuildShadowFlask()
 	/// I just used flaskBeingTapped as Ternary Operator Argument to change flask view width from 40 to 40, so in SwiftUI View Tree Structure will observe it's change automatically
 	@State var flaskBeingTapped = false
-	
-	/// It's a flask "ghost position" property which holds X and Y coordinates as Width and Height
-	/// When you drag the Flask it's actual "inMemory" coordinates are the same, only this property changes
-	/// When you drop the view, this property will be added to initial flask coordinates as a difference between start and end position
-	/// IMPORTANT: IF YOU IGNORE THIS PROPERTY AND JUST INCREMENT VIEW COORDINATES WHILE DRAGGING, IT WILL FLY OUT OF THE SCREEN
-	@State var dragFlaskTemporaryTranslationPositionOnScreen: CGSize = .zero
 	
 	// MARK: - Initialization
 	
@@ -29,6 +43,8 @@ struct MainView: View {
 		_viewModel = StateObject(wrappedValue: viewModel)
 		didFlaskGotLevelUP = viewModel.gameState.didFlaskGetLevelUP
 		itemToDisplay = nil
+		weaponToDisplay = nil
+		armorToDisplay = nil
 	}
 	
 	// MARK: - Body
@@ -48,7 +64,10 @@ struct MainView: View {
 				
 			case .battle:
 				
+				// When CoinFlipMiniGame is visible on the screen user should not be able to press any buttons
 				buildBattleView()
+					.allowsHitTesting(!viewModel.gameState.isCoinFlipMiniGameOn)
+					.allowsHitTesting(viewModel.gameState.didBossFightSoundEnd)
 				
 			case .dungeon:
 				
@@ -76,20 +95,25 @@ struct MainView: View {
 				
 			case .combatMiniGame:
 				
-				CombatMiniGameView { success in
-					viewModel.gameState.isCombatMiniGameSuccessful = success
-					DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-						self.viewModel.goToBattle()
-					}
+				// Probably made for testing purposes
+				
+//				CombatMiniGameView { success in
+//					viewModel.gameState.isCombatMiniGameSuccessful = success
+//					DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+//						self.viewModel.goToBattle()
+//					}
+//				}
+				VStack {
+					
 				}
 				
 			case .trapDefusionMiniGame:
 				
-				buildTrapDefusionMiniGameView()
+				buildTrapDefusionMiniGameView(audioManager: viewModel.audioManager)
 				
 			case .chestLockPickingMiniGame:
 				
-				buildChestLockPickingMiniGameView()
+				buildChestLockPickingMiniGameView(audioManager: viewModel.audioManager)
 				
 			case .specialisation:
 				
@@ -117,34 +141,50 @@ struct MainView: View {
 				
 			case .flaskLevelBonus:
 				
-				 buildFlaskLevelBonusView()
+				buildFlaskLevelBonusView()
 				
+				
+			case .shadowBallMiniGame:
+				
+				buildShadowBallMiniGameView()
+				
+			case .testTimelineView:
+				
+				buildTestTimelineView()
+				
+			case .evasionMiniGame:
+				
+				buildEvasionMiniGame()
+				
+			case .statsRecovery:
+				
+				VStack {
+					// we have a direct call of the struct from battle view
+				}
+				
+			case .coinFlipMiniGame:
+				
+				buildCoinFlipMiniGame()
+				
+			case .levelPerk:
+				
+				buildLevelPerkView()
+				
+			case .testCollisionView:
+				
+				TestCollisionView()
+				
+			case .joystickView:
+				
+				JoystickView() { direction in
+				print(direction)
+				}
 			}
-		}
-//		.overlay(alignment: .topLeading) {
-//			
-//			// MARK: Put conditions to not display flask in Menu and other statistic screens here
-//			
-//			if viewModel.gameState.currentGameScreen != .menu && viewModel.gameState.currentGameScreen != .options &&
-//				viewModel.gameState.currentGameScreen != .heroStats &&
-//				viewModel.gameState.currentGameScreen != .enemyStats &&
-//				viewModel.gameState.currentGameScreen != .inventory &&
-//				viewModel.gameState.currentGameScreen != .heroLevelBonus &&
-//				viewModel.gameState.currentGameScreen != .merchant &&
-//				viewModel.gameState.currentGameScreen != .rewards &&
-//				viewModel.gameState.currentGameScreen != .town &&
-//				viewModel.gameState.currentGameScreen != .flaskTalants &&
-//				viewModel.gameState.currentGameScreen != .flaskLevelBonus &&
-//				viewModel.gameState.currentGameScreen != .dungeon {
-//				
-//				buildShadowFlaskView()
-//			}
-//		}
 			
 			
 		}
-		
 	}
+}
 
 
 

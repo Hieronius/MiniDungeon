@@ -9,12 +9,12 @@ extension MainView {
 	
 	/// This method is optional and need only for testing purposes - to run the view independently from the MainMenu
 	@ViewBuilder
-	func buildChestLockPickingMiniGameView() -> some View {
+	func buildChestLockPickingMiniGameView(audioManager: AudioManager) -> some View {
 		
 		VStack {
-			ChestLockPickingMiniGameView()
+			ChestLockPickingMiniGameView(audioManager: audioManager)
 		}
-		.frame(width: 400, height: 400)
+		.frame(width: 400, height: 325)
 	}
 }
 
@@ -52,6 +52,10 @@ struct ChestLockPickingMiniGameView: View {
 	@State var attempts = Int.random(in: 1...3)
 	
 	// MARK: - Public Properties
+	
+	/// We use this property to reach viewModel.audioManager.playSound()
+	/// Otherwise it's unreachable
+	var audioManager: AudioManager
 	
 	var timer1 = Timer.publish(every: 0.02, on: .main, in: .common).autoconnect()
 	var timer2 = Timer.publish(every: 0.02, on: .main, in: .common).autoconnect()
@@ -279,6 +283,8 @@ extension ChestLockPickingMiniGameView {
 	/// Generate and apply schemes for all motions of the view
 	func startGame() {
 		
+		audioManager.playSound(fileName: "click", extensionName: "mp3")
+		
 		guard !gameWasStarted else { return }
 		
 		// critical flag to avoid solving chest puzzle before starting a game
@@ -469,6 +475,7 @@ extension ChestLockPickingMiniGameView {
 		
 		if motion.coordinateY <= 10.0 {
 			
+			audioManager.playSound(fileName: "clickChest", extensionName: "mp3")
 			motion.isMoving = false
 			motion.coordinateY = 0.0
 			motionsToCatch[motion.id - 1] = true
@@ -477,6 +484,7 @@ extension ChestLockPickingMiniGameView {
 			boardColor = .green
 			
 		} else {
+			audioManager.playSound(fileName: "denied", extensionName: "mp3")
 			attempts -= 1
 			isSuccess = false
 			gameResult = "Failure"

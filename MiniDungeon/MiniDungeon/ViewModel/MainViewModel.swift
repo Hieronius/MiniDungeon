@@ -28,6 +28,8 @@ class MainViewModel: ObservableObject {
 		self.audioManager = audioManager
 		self.gameState = gameState
 		
+		print("This is an actual width of the screen - \(UIScreen.main.bounds.width)")
+		
 		// IF IT'S A NEW SESSION -> CREATE A NEW SESSION
 		if gameState.isFreshSession {
 			
@@ -72,7 +74,10 @@ extension MainViewModel {
 		gameState.hero = Hero(flask: flask)
 		
 		gameState.didFlaskGetLevelUP = false
+		gameState.isEvasionMiniGameOn = false
 		gameState.didUserPressedEndTurnButton = false
+		gameState.enemy.currentEnergy = 0
+		
 		gameState.enemy = Enemy()
 		gameState.heroGold = 0
 		gameState.lootToDisplay = []
