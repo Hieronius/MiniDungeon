@@ -1,11 +1,11 @@
-# Build 0.03. iOS 17.5. Xcode 16.4
+# Build 0.1. iOS 17.5. Xcode 16.4
 
-По любым вопросам, предложениям и обратной связью по игре, пишите, пожалуйста в Телеграм на @Hieronius.
+If you have any questions about the game or it's development please send a message in telegram to @Hieronius.
 
-# Тест Гайд
+# Test Guide
 
-- Это очень ранний прототип игры. Музыка и дизайн отсутствует. Многое может не работать.
-- Подземелья генерируются случайным образом каждый забег.
-- Смерть персонажа в текущей игре это не конец. Активируйте алтари в городе, чтобы сделать персонажа сильнее и начинайте сначала.
-- На экране битвы можно использовать "тестовые" кнопки, чтобы быстрее зачистить подземелье, если боевка наскучила
-- Оставляйте любую обратную связь по игре, особенно негативную. Критика поможет понять в каком направлении двигаться.
+- This is raw preAlpha build of the game. Core logic and sound effects of main features and buttons are active. No music, no visuals.
+- Dungeon generation is random every time the hero enter the dungeon.
+- If your hero died it's not the end. Respawn at the town, activate shrines and flask talants to become stronger and start again.
+- In battle mode you can use buttons in Testability section to fix some bugs or to test more features fast.
+- Will be glad to hear any feedback about the game overall and it's core loop specifically. You can be direct in your words as you want.
