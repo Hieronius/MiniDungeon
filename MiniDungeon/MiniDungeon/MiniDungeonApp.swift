@@ -14,9 +14,11 @@ struct MiniDungeonApp: App {
 	init() {
 		
 		do {
-			let container = try ModelContainer(for: GameState.self,
-													 Hero.self,
-											   Flask.self)
+			let container = try ModelContainer(for:
+				GameState.self,
+				Hero.self,
+				Flask.self
+			)
 			
 			self.modelContainer = container
 			
