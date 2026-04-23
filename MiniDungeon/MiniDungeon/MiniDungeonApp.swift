@@ -22,7 +22,9 @@ struct MiniDungeonApp: App {
 			
 			self.modelContainer = container
 			
-			let dataManager = SwiftDataManager(context: container.mainContext)
+			let dataManager = SwiftDataManager(
+				context: container.mainContext
+			)
 			self.swiftDataManager = dataManager
 			
 			let gameState: GameState
