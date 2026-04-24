@@ -31,15 +31,16 @@ struct ChestLockPickingMiniGameView: View {
 	@State var isSuccess = false
 	
 	@State var boardColor: Color = .white
+	@State var startAreaColor: Color = Color(red: 0/255.0, green: 100/255.0, blue: 0/255.0)
 	@State var isHapticOn = false
 	
 	// Motion Objects
 	
-	@State var motion1 = MotionController(id: 1)
-	@State var motion2 = MotionController(id: 2)
-	@State var motion3 = MotionController(id: 3)
-	@State var motion4 = MotionController(id: 4)
-	@State var motion5 = MotionController(id: 5)
+	@State var motion1 = MotionController(id: 1, coordinateY: 15)
+	@State var motion2 = MotionController(id: 2, coordinateY: 15)
+	@State var motion3 = MotionController(id: 3, coordinateY: 15)
+	@State var motion4 = MotionController(id: 4, coordinateY: 15)
+	@State var motion5 = MotionController(id: 5, coordinateY: 15)
 	
 	/// An array to store the result of motion objects being catched in "safe" area
 	/// 5 initial states for 5 objects to catch
@@ -97,6 +98,7 @@ struct ChestLockPickingMiniGameView: View {
 							Button("Fight an enemy") {
 								onGameEnd?(false)
 							}
+							.foregroundStyle(.red)
 						}
 					}
 				} else {
@@ -111,14 +113,14 @@ struct ChestLockPickingMiniGameView: View {
 				ZStack {
 					
 					Rectangle()
-						.frame(width: 300, height: 300)
+						.frame(width: 300, height: 250)
 						.foregroundStyle(.black)
 						.border(boardColor, width: 5)
 					Rectangle()
 						.frame(width: 300, height: 40)
 						.border(boardColor, width: 3)
-						.foregroundStyle(Color(red: 0/255.0, green: 100/255.0, blue: 0/255.0))
-						.offset(y: -135)
+						.foregroundStyle(startAreaColor)
+						.offset(y: -105)
 				}
 				
 				// MARK: - Catch Buttons
@@ -268,7 +270,7 @@ struct ChestLockPickingMiniGameView: View {
 				
 			}
 			.sensoryFeedback(isSuccess ? .success : .error, trigger: isHapticOn)
-			.frame(height: 280)
+			.frame(height: 250)
 			
 		}
 	}
@@ -369,11 +371,12 @@ extension ChestLockPickingMiniGameView {
 		// Generate minRange
 		// Current number is correct for given Chest LockPicking View
 		// Otherwise it will go out of the view
-		let minRange: CGFloat = -10.0
+		
+		let minRange: CGFloat  = 15 // test change from 23.04
 		
 		// Generate maxRange
 		// Current value allows to move inside the view
-		let maxRange: CGFloat = 250.0
+		let maxRange: CGFloat = 220 // test change from 23.04
 		
 		// fill with generated properties
 		
@@ -473,14 +476,15 @@ extension ChestLockPickingMiniGameView {
 		
 		guard gameWasStarted else { return }
 		
-		if motion.coordinateY <= 10.0 {
+		if motion.coordinateY <= 35.0 {
 			
 			audioManager.playSound(fileName: "clickChest", extensionName: "mp3")
 			motion.isMoving = false
-			motion.coordinateY = 0.0
+			motion.coordinateY = 15.0
 			motionsToCatch[motion.id - 1] = true
 			isSuccess = true
 			gameResult = "Perfect!"
+			startAreaColor = .green
 			boardColor = .green
 			
 		} else {
@@ -488,6 +492,7 @@ extension ChestLockPickingMiniGameView {
 			attempts -= 1
 			isSuccess = false
 			gameResult = "Failure"
+			startAreaColor = .red
 			boardColor = .red
 		}
 		isHapticOn = true
@@ -495,6 +500,7 @@ extension ChestLockPickingMiniGameView {
 		DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
 			isHapticOn = false
 			boardColor = .white
+			startAreaColor = Color(red: 0/255.0, green: 100/255.0, blue: 0/255.0)
 			gameResult = "             "
 			
 			if attempts == 0 {
