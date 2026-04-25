@@ -9,6 +9,12 @@ extension MainView {
 		
 		VStack {
 			
+			Rectangle()
+				.frame(height: 25)
+				.foregroundStyle(.black)
+			
+		VStack {
+			
 			HStack {
 				Spacer()
 				Text("Dungeon Level: \(viewModel.gameState.currentDungeonLevel)")
@@ -53,17 +59,6 @@ extension MainView {
 				}
 				Spacer()
 			}
-			
-			// MARK: Flask View (YOU WORK HERE)
-			// A little height of the flask ruins an entire dungeon layout
-			
-//			Rectangle()
-//				.fill(Color.clear)
-//				.frame(height: 1)
-//			
-//			if viewModel.gameState.didFindFlask {
-//				buildShadowFlaskView()
-//			}
 			
 		}
 		
@@ -148,11 +143,11 @@ extension MainView {
 		}
 		
 		if viewModel.gameState.isNavigationOpen {
-		
-		List {
 			
-			// MARK: Actions
-			
+			List {
+				
+				// MARK: Actions
+				
 				// if encountered any type of events such as a trap or shrine
 				
 				if viewModel.gameState.didEncounterTrap && !viewModel.gameState.isTrapDefusionMiniGameIsOn || viewModel.gameState.didEncounterRestorationShrine || viewModel.gameState.didEncounterDisenchantShrine || viewModel.gameState.didEncounterChest ||
@@ -290,6 +285,8 @@ extension MainView {
 								}
 							}
 							
+							// MARK: Flask Actions
+							
 						} else if viewModel.gameState.didFindFlask {
 							
 							Button("Open/Hide Flask") {
@@ -407,9 +404,9 @@ extension MainView {
 					}
 				}
 			}
-		.frame(height: 250)
-				
-				// MARK: Joystick View
+			.frame(height: 250)
+			
+			// MARK: Joystick View
 			
 		} else if !viewModel.gameState.isNavigationOpen {
 			
@@ -419,6 +416,8 @@ extension MainView {
 			.frame(height: 250)
 		}
 	}
+		.frame(height: UIScreen.main.bounds.height - 50)
+}
 	
 	// MARK: Get Dungeon Map
 
