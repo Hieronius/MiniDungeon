@@ -9,6 +9,7 @@
 import SwiftUI
 import AVFoundation
 
+/// Entity to control playing sounds and music
 final class AudioManager {
 	
 	private var player: AVAudioPlayer?
