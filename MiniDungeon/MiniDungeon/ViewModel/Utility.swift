@@ -487,6 +487,7 @@ extension MainViewModel {
 	
 	// MARK: - checkForFlaskLevelUP
 	
+	/// Method should be used to catch a moment when flask has it's experience bar filled to provide user with random choice of minor improvements
 	func checkForFlaskLevelUP() {
 		
 		if gameState.hero.flask.currentXP >= gameState.hero.flask.expToLevelUP {
