@@ -111,6 +111,7 @@ extension MainViewModel {
 	
 	// MARK: generateRewardRarity
 	
+	/// Method to generate level of rarity of any item, talant or perk in the game
 	func generateRewardRarity() -> Rarity {
 		
 		let roll = Int.random(in: 1...100)
