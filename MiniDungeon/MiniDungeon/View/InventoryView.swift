@@ -158,7 +158,7 @@ extension MainView {
 			}
 			
 		}
-		.frame(height: 250)
+		.frame(height: 200)
 		
 		List {
 			// MARK: - Navigation
