@@ -231,6 +231,10 @@ extension MainViewModel {
 		
 		guard currentCharges < maxCharges else { return }
 		gameState.hero.flask.currentCharges += 1
+		
+		let position = gameState.heroPosition
+		gameState.dungeonMap[position.row][position.col].type = .corridor
+		
 		gameState.dealtWithRestorationShrine = true
 		
 		audioManager.playSound(fileName: "restorationShrineEffect", extensionName: "mp3")
