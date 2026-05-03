@@ -10,6 +10,7 @@ import Foundation
 
 // MARK: - FlaskLevelBonus
 
+/// Entity to represent an effect player can choose after each flask level up
 struct FlaskLevelBonus: Identifiable, Hashable, Codable {
 	
 	var id: UUID
