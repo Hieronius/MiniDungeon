@@ -80,7 +80,6 @@ extension MainViewModel {
 		case .bottom: currentHeroPosition.row += 1
 		}
 		
-		
 		guard currentHeroPosition.row >= 0 &&
 				currentHeroPosition.col >= 0 &&
 				currentHeroPosition.row <= 6 &&
@@ -121,9 +120,9 @@ extension MainViewModel {
 			gameState.heroPosition = targetTile
 			
 			let heroPosition = gameState.heroPosition
+			print(gameState.dungeonMap[heroPosition.row][heroPosition.col].events)
 			
 			// MARK: Transition to Combat Screen
-			
 			
 			if gameState.dungeonMap[heroPosition.row][heroPosition.col].events.contains(.enemy) &&
 				!gameState.dungeonMap[heroPosition.row][heroPosition.col].isExplored {
@@ -146,6 +145,7 @@ extension MainViewModel {
 				
 				gameState.dungeonMap[heroPosition.row][heroPosition.col].events.contains(.restoration) {
 				
+				print("Tile contains healing shrine event")
 				gameState.isNavigationOpen = true
 				gameState.didEncounterRestorationShrine = true
 				
