@@ -48,8 +48,8 @@ extension MainViewModel {
 		
 		// After any type of actions remove an event from the tile so in the future you won't find yourself at the same choice twice
 		
-		let position = gameState.heroPosition
-		gameState.dungeonMap[position.row][position.col].events = []
+//		let position = gameState.heroPosition
+//		gameState.dungeonMap[position.row][position.col].events = []
 	}
 	
 	// MARK: - lockPickChest
@@ -80,7 +80,10 @@ extension MainViewModel {
 		// place to erase tile character to "" to reflect that an event has been completed
 		let position = self.gameState.heroPosition
 		
-		self.gameState.dungeonMap[position.row][position.col].type = .corridor
+		gameState.dungeonMap[position.row][position.col].type = .corridor
+		
+		/// If success -> clean tile events 
+		gameState.dungeonMap[position.row][position.col].events = []
 		
 		generateLoot()
 		goToRewards()
@@ -144,8 +147,11 @@ extension MainViewModel {
 		
 		// place to erase tile character to "" to reflect that an event has been completed
 		let position = gameState.heroPosition
-//
+		
 		gameState.dungeonMap[position.row][position.col].type = .corridor
+		
+		/// After success disenchant clean tile events
+		gameState.dungeonMap[position.row][position.col].events = []
 		
 		audioManager.playSound(fileName: "disenchant", extensionName: "mp3")
 		goToRewards()
@@ -213,6 +219,9 @@ extension MainViewModel {
 		}
 		let position = gameState.heroPosition
 		gameState.dungeonMap[position.row][position.col].type = .corridor
+		
+		// this line cleans the events from the tile only if you did a success action
+		gameState.dungeonMap[position.row][position.col].events = []
 		gameState.dealtWithRestorationShrine = true
 		
 		audioManager.playSound(fileName: "restorationShrineEffect", extensionName: "mp3")
@@ -227,13 +236,14 @@ extension MainViewModel {
 		let currentCharges = gameState.hero.flask.currentCharges
 		let maxCharges = gameState.hero.flask.currentMaxCharges
 		
-		print("attempt to restore flask charge")
-		
 		guard currentCharges < maxCharges else { return }
+		
 		gameState.hero.flask.currentCharges += 1
 		
 		let position = gameState.heroPosition
 		gameState.dungeonMap[position.row][position.col].type = .corridor
+		// this line cleans the events from the tile only if you did a success action
+		gameState.dungeonMap[position.row][position.col].events = []
 		
 		gameState.dealtWithRestorationShrine = true
 		
@@ -271,6 +281,9 @@ extension MainViewModel {
 //					viewModel.gameState.dungeonMap[position.row][position.col].events = []
 			self.gameState.dungeonMap[position.row][position.col].type = .corridor
 			
+			// If Success/Failure -> clean tile events
+			self.gameState.dungeonMap[position.row][position.col].events = []
+			
 			// with this one
 			self.gameState.didTrapDefusionIsSuccess = result
 			self.goToRewards()
@@ -302,6 +315,9 @@ extension MainViewModel {
 			let position = self.gameState.heroPosition
 			
 			self.gameState.dungeonMap[position.row][position.col].type = .corridor
+			
+			// Clean tile events to remove the latter of H from the map
+			self.gameState.dungeonMap[position.row][position.col].events = []
 			
 		}
 	}
