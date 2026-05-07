@@ -12,6 +12,7 @@ extension MainViewModel {
 	
 	// MARK: - playAttackSound
 	
+	/// Method to play a specific sound that depends of evasion mini game outcome
 	func playAttackSound(didMissHit: Bool) {
 		
 		if didMissHit {
