@@ -2,6 +2,7 @@ import SwiftUI
 
 extension MainView {
 	
+	/// Entity responsible for playing a mini game when the user are pressing attack button.
 	struct CombatMiniGameView: View {
 		
 		@State var timeRemaining = 0.0
