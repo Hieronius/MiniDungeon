@@ -16,6 +16,7 @@ import SwiftData
  
  */
 
+/// Entity to create and control Navigation Schemes inside the game
 @Model
 class NavigationStack {
 	
