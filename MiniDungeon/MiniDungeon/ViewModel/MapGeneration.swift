@@ -120,6 +120,7 @@ extension MainViewModel {
 	
 	// MARK: checkDungeonLevelForValidRouts
 	
+	/// Method to check if map islands are not connected and to add a corridor between them from the tiles
 	func checkDungeonLevelForValidRouts(_ map: [[String]]) -> [[String]] {
 		
 		// traverse the map and find bottlenecks to fix
