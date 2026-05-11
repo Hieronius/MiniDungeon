@@ -636,7 +636,7 @@ extension MainViewModel {
 				
 				if roll <= gameState.swiftnessPerkEffectModifier {
 					gameState.hero.baseDefence += blockValue
-					gameState.heroBlockValueBuffer = blockValue
+					gameState.heroBlockValueBuffer += blockValue
 					gameState.didHeroUseBlock = true
 					gameState.logMessage = "DOUBLE BLOCK \(blockConsoleMessage) \(blockValue * 2) has been added to the Hero Defence!"
 				}
@@ -811,7 +811,7 @@ extension MainViewModel {
 						impact: healingValue
 					)
 					
-					gameState.logMessage = "DOUBLE \(critConsoleMessage) \(healingValue) amount of health has been recovered by hero"
+					gameState.logMessage = "DOUBLE HEAL \(critConsoleMessage) \(healingValue) amount of health has been recovered by hero"
 				}
 			}
 			
