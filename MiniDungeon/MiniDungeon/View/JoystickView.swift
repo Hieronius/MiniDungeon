@@ -14,6 +14,7 @@ extension MainView {
 		
 		// MARK: - Public Properties
 		
+		/// Property to signal what direction user wants to take after pressing a button
 		var onTapEnd: ((Direction) -> Void)?
 		
 		// MARK: - Body
