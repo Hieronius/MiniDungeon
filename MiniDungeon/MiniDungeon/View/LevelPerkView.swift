@@ -1,11 +1,5 @@
 import SwiftUI
 
-/*
- var levelPerkToDisplay: LevelPerk?
- var levelPerkToChoose: [LevelPerk?] = []
- var selectedLevelPerks: [LevelPerk] = []
- */
-
 // MARK: - HeroLevelBonusView
 
 extension MainView {
