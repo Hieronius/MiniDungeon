@@ -27,6 +27,7 @@ extension MainViewModel {
 	
 	// MARK: - checkIsThereFlaskTalantsToUpgrade
 	
+	/// Method to display only talants that weren't upgraded yet
 	func checkIsThereFlaskTalantsToUpgrade(_ talants: [FlaskTalant]) -> Bool {
 		
 		for talant in talants {
