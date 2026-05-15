@@ -294,6 +294,7 @@ extension MainViewModel {
 	
 	// MARK: - handleChestLockPickingMiniGameResult
 	
+	/// Method to decide to open the chest or summon the monster depends on the lock picking mini game result
 	func handleChestLockPickingMiniGameResult(_ result: Bool) {
 		
 		gameState.isLockPickingMiniGameIsSuccess = result
