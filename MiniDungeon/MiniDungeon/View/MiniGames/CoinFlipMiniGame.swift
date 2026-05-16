@@ -39,6 +39,7 @@ struct CoinFlipMiniGameView: View {
 	@State var coinFlipEnd = false
 	@State var isHapticOn = false
 	
+	/// Basic chance is 50% but can be changed accordingly to game talants, perks or events
 	var heroChanceForFirstTurn: Int
 	
 	/// This closure will send a game result to parent view (Battle View)
