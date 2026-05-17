@@ -45,6 +45,7 @@ struct EvasionMiniGame: View {
 	@State var resultLabelColor: Color = .white
 	@State var swipeDirectionLabel = "             "
 	@State var swipeDirection: Direction = .bottom
+	/// Property to decide should phone use one of it's negative/positive haptic effects or not
 	@State var isHapticOn = false
 
 	
