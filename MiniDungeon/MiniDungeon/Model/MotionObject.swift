@@ -50,8 +50,10 @@ struct MotionController {
 	/// Is object going up or down
 	var direction: Direction = .bottom
 	
+	/// Current coordinate of the object at the Y axis
 	var coordinateY: CGFloat = 0.0
 	
+	/// Current coordinate of the object at the X axis
 	var coordinateX: CGFloat = 0.0
 	
 	/// Points per timer's tick movement object moves
