@@ -2,6 +2,7 @@ import Foundation
 
 struct Loot: Hashable, Codable, Identifiable {
 	
+	/// Unique identifier to conform this struct to Hashable and distinguish two items with the same name
 	var id = UUID()
 	
 	var experience: Int
