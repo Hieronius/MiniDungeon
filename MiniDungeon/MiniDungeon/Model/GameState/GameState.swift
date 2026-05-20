@@ -8,6 +8,9 @@ class GameState {
 	// MARK: - Navigation & Session
 	
 	var isFreshSession =  true
+	
+	/// We use this toggle to react on user language choices
+	var isEnglishLocalisation = false
 
 	var currentGameScreen: GameScreen = GameScreen.menu
 	var previousGameScreen: GameScreen = GameScreen.menu
