@@ -9,7 +9,7 @@ extension MainViewModel {
 		
 		guard let bonus = bonus else { return }
 		
-		switch bonus.name {
+		switch bonus.nameEN {
 			
 		// Common
 			
