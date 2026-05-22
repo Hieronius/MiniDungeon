@@ -44,7 +44,6 @@ extension MainViewModel {
 	func applyActiveFlaskTalantEffects() {
 		gameState.upgradedFlaskTalants.forEach {
 			applyFlaskTalantEffect($0)
-			print("applied \($0.name) flask talant effect for a new run")
 		}
 	}
 	
@@ -55,7 +54,7 @@ extension MainViewModel {
 		
 		// TODO: Should be refactored. relying on talant.name is not safe
 		
-		switch talant.name {
+		switch talant.nameEN {
 			
 			// Minor talants
 			
@@ -71,23 +70,17 @@ extension MainViewModel {
 			
 		case "Minor Talant of Recovery":
 			gameState.hero.flask.baseHealingValue += 0.05
-			print("should be 30 now")
-			print(gameState.hero.flask.baseHealingValue)
-			
 			
 		case "Minor Talant of Sharness":
 			gameState.hero.flask.baseDamageValue += 0.05
 			
-			
 		case "Minor Talant of Swiftness":
 			gameState.hero.flask.baseCooldown -= 1
-			
 			
 		case "Minor Talant of Soul Collection":
 			gameState.hero.flask.baseMaxCharges += 1
 			gameState.hero.flask.currentCharges += 1
 			
-
 			// Medium Talants
 			
 		case "Soul Extractor":
