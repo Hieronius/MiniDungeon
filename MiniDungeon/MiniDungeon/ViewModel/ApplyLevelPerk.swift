@@ -9,7 +9,7 @@ extension MainViewModel {
 		
 		guard let perk = perk else { return }
 		
-		switch perk.name {
+		switch perk.nameEN {
 			
 			// MARK: - Common Perks
 			
