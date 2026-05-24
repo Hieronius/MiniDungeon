@@ -14,7 +14,9 @@ extension MainViewModel {
 	}
 	
 	func goToBattle() {
-		gameState.logMessage = "Battle Begins!"
+		
+		let message = gameState.isEnglishLocalisation ? "Battle Begins!" : "Битва началась!"
+		gameState.logMessage = message
 		gameState.currentGameScreen = .battle
 	}
 	
