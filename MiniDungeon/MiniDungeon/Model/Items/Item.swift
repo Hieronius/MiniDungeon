@@ -6,10 +6,12 @@ protocol ItemProtocol: Identifiable {
 	
 	var id: String { get }
 //	var id: UUID { get }
-	var label: String { get }
+	var labelEN: String { get }
+	var labelRU: String { get }
 	var itemType: ItemType { get }
 	var itemLevel: Int { get }
-	var itemDescription: String { get }
+	var itemDescriptionEN: String { get }
+	var itemDescriptionRU: String { get }
 	var rarity: Rarity { get }
 	var price: Int { get }
 }
@@ -32,28 +34,34 @@ struct Item: ItemProtocol, Hashable, Codable, Identifiable {
 //	let id: UUID
 //	let id = UUID()
 	let id: String
-	var label: String
+	var labelEN: String
+	var labelRU: String
 	var itemType: ItemType
 	var itemLevel: Int
-	var itemDescription: String
+	var itemDescriptionEN: String
+	var itemDescriptionRU: String
 	var amount: Int?
 	var rarity: Rarity
 	var price: Int
 	
 	init(
-		label: String,
+		labelEN: String,
+		labelRU: String,
 		itemType: ItemType,
 		itemLevel: Int,
-		itemDescription: String,
+		itemDescriptionEN: String,
+		itemDescriptionRU: String,
 		rarity: Rarity,
 		price: Int
 	) {
 //		self.id = UUID()
-		self.id = "\(label)"
-		self.label = label
+		self.id = "\(labelEN)"
+		self.labelEN = labelEN
+		self.labelRU = labelRU
 		self.itemLevel = itemLevel
 		self.itemType = itemType
-		self.itemDescription = itemDescription
+		self.itemDescriptionEN = itemDescriptionEN
+		self.itemDescriptionRU = itemDescriptionRU
 		self.rarity = rarity
 		self.price = price
 	}
@@ -69,55 +77,67 @@ struct ItemManager {
 	static let commonLoot: [Item] = [
 		
 		Item(
-			label: "Key",
+			labelEN: "Key",
+			labelRU: "Ключ",
 			itemType: .loot,
 			itemLevel: 1,
-			itemDescription: "Can open the Chest",
+			itemDescriptionEN: "Can open the Chest",
+			itemDescriptionRU: "Может открыть сундук",
 			rarity: .common,
 			price: 100
 		),
 		
 		Item(
-			label: "Broken Trinket",
+			labelEN: "Broken Trinket",
+			labelRU: "Сломанная безделушка",
 			itemType: .loot,
 			itemLevel: 1,
-			itemDescription: "An old and chip accessory",
+			itemDescriptionEN: "An old and chip accessory",
+			itemDescriptionRU: "Старый и дешевый аксессуар",
 			rarity: .common,
 			price: 75
 		),
 		
 		Item(
-			label: "Cheap gem",
+			labelEN: "Cheap gem",
+			labelRU: "Низкокачественный драгоценный камень",
 			itemType: .loot,
 			itemLevel: 1,
-			itemDescription: "Really cheap",
+			itemDescriptionEN: "Really cheap",
+			itemDescriptionRU: "И правда низкого качества",
 			rarity: .common,
 			price: 75
 		),
 		
 		Item(
-			label: "Cracked Jewel",
+			labelEN: "Cracked Jewel",
+			labelRU: "Потресканная драгоценность",
 			itemType: .loot,
 			itemLevel: 1,
-			itemDescription: "Probably was fancy when was new",
+			itemDescriptionEN: "Probably was fancy when was new",
+			itemDescriptionRU: "Вероятно выглядела изумительно, когда была новой",
 			rarity: .common,
 			price: 75
 		),
 		
 		Item(
-			label: "Darkened Ring",
+			labelEN: "Darkened Ring",
+			labelRU: "Потемневшее кольцо",
 			itemType: .loot,
 			itemLevel: 1,
-			itemDescription: "You can't see it's original color",
+			itemDescriptionEN: "You can't see it's original color",
+			itemDescriptionRU: "Нельзя узнать его первоначальный цвет",
 			rarity: .common,
 			price: 75
 		),
 		
 		Item(
-			label: "Damaged Necklace",
+			labelEN: "Damaged Necklace",
+			labelRU: "Поврежденное ожерелье",
 			itemType: .loot,
 			itemLevel: 1,
-			itemDescription: "Part of it is missing",
+			itemDescriptionEN: "Part of it is missing",
+			itemDescriptionRU: "Часть ожерелья отсутствует",
 			rarity: .common,
 			price: 75
 		),
@@ -128,46 +148,56 @@ struct ItemManager {
 	static let rareLoot: [Item] = [
 		
 		Item(
-			label: "Steel Ring",
+			labelEN: "Steel Ring",
+			labelRU: "Стальное кольцо",
 			itemType: .loot,
 			itemLevel: 2,
-			itemDescription: "Just a ring",
+			itemDescriptionEN: "Just a ring",
+			itemDescriptionRU: "Просто кольцо",
 			rarity: .rare,
 			price: 100
 		),
 		
 		Item(
-			label: "Bronze Necklace",
+			labelEN: "Bronze Necklace",
+			labelRU: "Бронзовое ожерелье",
 			itemType: .loot,
 			itemLevel: 2,
-			itemDescription: "An ordinary one",
+			itemDescriptionEN: "An ordinary one",
+			itemDescriptionRU: "Самое обычное ожерелье",
 			rarity: .rare,
 			price: 100
 		),
 		
 		Item(
-			label: "Old Ridge",
+			labelEN: "Old Ridge",
+			labelRU: "Старый гребень",
 			itemType: .loot,
 			itemLevel: 2,
-			itemDescription: "Still handy if you want to get your hair in order",
+			itemDescriptionEN: "Still handy if you want to get your hair in order",
+			itemDescriptionRU: "Все еще полезен, если нужно привести волосы в порядок",
 			rarity: .rare,
 			price: 100
 		),
 		
 		Item(
-			label: "White Stud",
+			labelEN: "White Stud",
+			labelRU: "Белая запонка",
 			itemType: .loot,
 			itemLevel: 2,
-			itemDescription: "Someone important was probably wearing it",
+			itemDescriptionEN: "Someone important was probably wearing it",
+			itemDescriptionRU: "Вероятно кто-то важный носил это",
 			rarity: .rare,
 			price: 100
 		),
 		
 		Item(
-			label: "Gray Chain",
+			labelEN: "Gray Chain",
+			labelRU: "Серая цепь",
 			itemType: .loot,
 			itemLevel: 2,
-			itemDescription: "Probably was part of some kind of a costume",
+			itemDescriptionEN: "Probably was part of some kind of a costume",
+			itemDescriptionRU: "Вероятно была частью чьего-то костюма",
 			rarity: .rare,
 			price: 100
 		),
@@ -178,46 +208,56 @@ struct ItemManager {
 	static let epicLoot: [Item] = [
 		
 		Item(
-			label: "Moon Stone",
+			labelEN: "Moon Stone",
+			labelRU: "Лунный камень",
 			itemType: .loot,
 			itemLevel: 3,
-			itemDescription: "A shiny and beautiful gem",
+			itemDescriptionEN: "A shiny and beautiful gem",
+			itemDescriptionRU: "Красивый блестящий драгоценный камень",
 			rarity: .epic,
 			price: 150
 		),
 		
 		Item(
-			label: "Golden Statue",
+			labelEN: "Golden Statue",
+			labelRU: "Золотая статуя",
 			itemType: .loot,
 			itemLevel: 3,
-			itemDescription: "Statue of someone important like a king or a lord",
+			itemDescriptionEN: "Statue of someone important like a king or a lord",
+			itemDescriptionRU: "Статуя какого-то известного короля или лорда",
 			rarity: .epic,
 			price: 150
 		),
 		
 		Item(
-			label: "Silver Mirror",
+			labelEN: "Silver Mirror",
+			labelRU: "Серебряное зеркало",
 			itemType: .loot,
 			itemLevel: 3,
-			itemDescription: "An old but still well made mirror",
+			itemDescriptionEN: "An old but still well made mirror",
+			itemDescriptionRU: "Старое, но искусно изготовленное зеркало",
 			rarity: .epic,
 			price: 150
 		),
 		
 		Item(
-			label: "Painted Vase",
+			labelEN: "Painted Vase",
+			labelRU: "Разукрашенная ваза",
 			itemType: .loot,
 			itemLevel: 3,
-			itemDescription: "You still can see an epic battle between a dragon and a knight described on it",
+			itemDescriptionEN: "You still can see an epic battle between a dragon and a knight described on it",
+			itemDescriptionRU: "Все еще можно увидеть детали эпической битвы между рыцарем и драконом, изображенной в рисунке",
 			rarity: .epic,
 			price: 150
 		),
 		
 		Item(
-			label: "Scarlet Ruby",
+			labelEN: "Scarlet Ruby",
+			labelRU: "Алый рубин",
 			itemType: .loot,
 			itemLevel: 3,
-			itemDescription: "Probably ment to be used in one of these well made king's crowns",
+			itemDescriptionEN: "Probably ment to be used in one of these well made king's crowns",
+			itemDescriptionRU: "Вероятно один из тех, что можно увидеть на короне короля",
 			rarity: .epic,
 			price: 150
 		),
@@ -228,46 +268,56 @@ struct ItemManager {
 	static let legendaryLoot: [Item] = [
 		
 		Item(
-			label: "Perfect Diamond",
+			labelEN: "Perfect Diamond",
+			labelRU: "Идеальный Алмаз",
 			itemType: .loot,
 			itemLevel: 4,
-			itemDescription: "A truly perfect gem",
+			itemDescriptionEN: "A truly perfect gem",
+			itemDescriptionRU: "По-настоящему идеальный драгоценный камень",
 			rarity: .legendary,
 			price: 300
 		),
 		
 		Item(
-			label: "Jewel-encrusted Casket",
+			labelEN: "Jewel-encrusted Casket",
+			labelRU: "Инкрустированная драгоценными камнями шкатулка",
 			itemType: .loot,
 			itemLevel: 4,
-			itemDescription: "An empty but very expensive chest",
+			itemDescriptionEN: "An empty but very expensive chest",
+			itemDescriptionRU: "Пустой, но очень дорогой сундучок для драгоценностей",
 			rarity: .legendary,
 			price: 300
 		),
 		
 		Item(
-			label: "Violet Soul Crystal",
+			labelEN: "Violet Soul Crystal",
+			labelRU: "Фиолетовый кристалл души",
 			itemType: .loot,
 			itemLevel: 4,
-			itemDescription: "As legend tells that kind of crystal can be a storage or a prison for poor's souls",
+			itemDescriptionEN: "As legend tells that kind of crystal can be a storage or a prison for poor's souls",
+			itemDescriptionRU: "Согласно легендам этот кристалл может быть хранилищем или тюрьмой для душ несчастных, попавших в ловушку злого гения",
 			rarity: .legendary,
 			price: 300
 		),
 		
 		Item(
-			label: "Ivory Flute covered with gold",
+			labelEN: "Ivory Flute covered with gold",
+			labelRU: "Флейта из слоновой кости покрытая золотом",
 			itemType: .loot,
 			itemLevel: 4,
-			itemDescription: "You still can try to made a sound from this thing",
+			itemDescriptionEN: "You still can try to made a sound from this thing",
+			itemDescriptionRU: "Все еще можно использовать по назначению",
 			rarity: .legendary,
 			price: 300
 		),
 		
 		Item(
-			label: "Giant Silver Cup",
+			labelEN: "Giant Silver Cup",
+			labelRU: "Гигантский серебряный кубок",
 			itemType: .loot,
 			itemLevel: 4,
-			itemDescription: "Cup so huge you think only giant's king could drink from it",
+			itemDescriptionEN: "Cup so huge you think only giant's king could drink from it",
+			itemDescriptionRU: "Кубок настолько велик что, вероятно, предназначался для предводителя великанов",
 			rarity: .legendary,
 			price: 300
 		),
@@ -278,19 +328,23 @@ struct ItemManager {
 	static let commonPotions: [Item] = [
 		
 		Item(
-			label: "Small Health Restoration Potion",
+			labelEN: "Small Health Restoration Potion",
+			labelRU: "Небольное зелье восстановления здоровья",
 			itemType: .potion,
 			itemLevel: 1,
-			itemDescription: "Heals by 10% of maximum HP",
+			itemDescriptionEN: "Heals by 10% of maximum HP",
+			itemDescriptionRU: "Исцеляет в размере 10% от максимального уровня здоровья",
 			rarity: .common,
 			price: 150
 		),
 		
 		Item(
-			label: "Small Mana Restoration Potion",
+			labelEN: "Small Mana Restoration Potion",
+			labelRU: "Небольшое зелье восстановления маны",
 			itemType: .potion,
 			itemLevel: 1,
-			itemDescription: "Restore mana by 10% of maximum MP",
+			itemDescriptionEN: "Restore mana by 10% of maximum MP",
+			itemDescriptionRU: "Восстанавливает ману в размере 10% от максимального уровня",
 			rarity: .common,
 			price: 150
 		),
@@ -309,82 +363,100 @@ struct ItemManager {
 	static let rarePotions: [Item] = [
 		
 		Item(
-			label: "Health Restoration Potion",
+			labelEN: "Health Restoration Potion",
+			labelRU: "Зелье восстановление здоровья",
 			itemType: .potion,
 			itemLevel: 2,
-			itemDescription: "Heals by 25% of max HP",
+			itemDescriptionEN: "Heals by 25% of max HP",
+			itemDescriptionRU: "Исцеляет в размере 25% от максимального уровня здоровья",
 			rarity: .rare,
 			price: 300
 		),
 		
 		Item(
-			label: "Mana Restoration Potion",
+			labelEN: "Mana Restoration Potion",
+			labelRU: "Зелье восстановления маны",
 			itemType: .potion,
 			itemLevel: 2,
-			itemDescription: "Restore mana by 25% of max MP",
+			itemDescriptionEN: "Restore mana by 25% of max MP",
+			itemDescriptionRU: "Восстанавливает 25% от максимального уровня маны",
 			rarity: .rare,
 			price: 300
 		),
 		
 		Item(
-			label: "Small Health Pool Elixir",
+			labelEN: "Small Health Pool Elixir",
+			labelRU: "Небольшой эликсир живучести",
 			itemType: .potion,
 			itemLevel: 2,
-			itemDescription: "+5 current HP, +5 max HP",
+			itemDescriptionEN: "+5 current HP, +5 max HP",
+			itemDescriptionRU: "+5 к текущему и максимальному уровню здоровью",
 			rarity: .rare,
 			price: 300
 		),
 		
 		Item(
-			label: "Small Mana Pool Elixir",
+			labelEN: "Small Mana Pool Elixir",
+			labelRU: "Небольшой эликсир магических сил",
 			itemType: .potion,
 			itemLevel: 2,
-			itemDescription: "+5 current MP, +5 max MP",
+			itemDescriptionEN: "+5 current MP, +5 max MP",
+			itemDescriptionRU: "+5 к текущему и максимальному уровню маны",
 			rarity: .rare,
 			price: 300
 		),
 		
 		Item(
-			label: "Small Wolf Tonic",
+			labelEN: "Small Wolf Tonic",
+			labelRU: "Небольшой эликсир волка",
 			itemType: .potion,
 			itemLevel: 2,
-			itemDescription: "+1 min damage",
+			itemDescriptionEN: "+1 min damage",
+			itemDescriptionRU: "+1 к минимальному урону",
 			rarity: .rare,
 			price: 300
 		),
 		
 		Item(
-			label: "Small Bear Tonic",
+			labelEN: "Small Bear Tonic",
+			labelRU: "Небольшой эликсир медведя",
 			itemType: .potion,
 			itemLevel: 2,
-			itemDescription: "+1 max damage",
+			itemDescriptionEN: "+1 max damage",
+			itemDescriptionRU: "+1 к максимальному урону",
 			rarity: .rare,
 			price: 300
 		),
 		
 		Item(
-			label: "Small Fox Tonic",
+			labelEN: "Small Fox Tonic",
+			labelRU: "Небольшой эликсир лисы",
 			itemType: .potion,
 			itemLevel: 2,
-			itemDescription: "+1% crit chance",
+			itemDescriptionEN: "+1% crit chance",
+			itemDescriptionRU: "+1% к шансу критического эффекта",
 			rarity: .rare,
 			price: 300
 		),
 		
 		Item(
-			label: "Small Owl Tonic",
+			labelEN: "Small Owl Tonic",
+			labelRU: "Небольшой эликсир совы",
 			itemType: .potion,
 			itemLevel: 2,
-			itemDescription: "+1 spell power",
+			itemDescriptionEN: "+1 spell power",
+			itemDescriptionRU: "+1 к силе заклинаний",
 			rarity: .rare,
 			price: 300
 		),
 		
 		Item(
-			label: "Small Iguana Tonic",
+			labelEN: "Small Iguana Tonic",
+			labelRU: "Небольшой эликсир игуаны",
 			itemType: .potion,
 			itemLevel: 2,
-			itemDescription: "+1% hit chance",
+			itemDescriptionEN: "+1% hit chance",
+			itemDescriptionRU: "+1% к шансу попадения по противнику",
 			rarity: .rare,
 			price: 300
 		)
@@ -397,64 +469,78 @@ struct ItemManager {
 		// A few normal and powerful ones and other should be corrupted to give not only benefits but also negative side effects
 		
 		Item(
-			label: "Huge Health Restoration Potion",
+			labelEN: "Huge Health Restoration Potion",
+			labelRU: "Большое зелье восстановление здоровья",
 			itemType: .potion,
 			itemLevel: 3,
-			itemDescription: "Heals by 35% of max health",
+			itemDescriptionEN: "Heals by 35% of max health",
+			itemDescriptionRU: "Исцеляет в размере 35% от максимального уровня здоровья",
 			rarity: .epic,
 			price: 500
 		),
 		
 		Item(
-			label: "Huge Mana Restoration Potion",
+			labelEN: "Huge Mana Restoration Potion",
+			labelRU: "Большое зелье восстановления маны",
 			itemType: .potion,
 			itemLevel: 3,
-			itemDescription: "Restores mana by 35% of it's max capacity",
+			itemDescriptionEN: "Restores mana by 35% of it's max capacity",
+			itemDescriptionRU: "Восстанавливает ману в размере 35% от максимального уровня",
 			rarity: .epic,
 			price: 500
 		),
 		
 		Item(
-			label: "Elixir of Strength",
+			labelEN: "Elixir of Strength",
+			labelRU: "Эликсир силы",
 			itemType: .potion,
 			itemLevel: 3,
-			itemDescription: "+1 min damage, +1 max damage",
+			itemDescriptionEN: "+1 min damage, +1 max damage",
+			itemDescriptionRU: "+1 к минимальному и максимальному урону",
 			rarity: .epic,
 			price: 600
 		),
 		
 		Item(
-			label: "Huge Elixir of Tortoise",
+			labelEN: "Huge Elixir of Tortoise",
+			labelRU: "Большой эликсир черепахи",
 			itemType: .potion,
 			itemLevel: 3,
-			itemDescription: "+20 health, -1% hit chance",
+			itemDescriptionEN: "+20 health, -1% hit chance",
+			itemDescriptionRU: "+20 к максимальному уровню здоровья, -1% к шансу попадения по противнику",
 			rarity: .epic,
 			price: 500
 		),
 		
 		Item(
-			label: "Huge Elixir of Wisdom",
+			labelEN: "Huge Elixir of Wisdom",
+			labelRU: "Большой эликсир мудрости",
 			itemType: .potion,
 			itemLevel: 3,
-			itemDescription: "+3 spell power, -1 max damage",
+			itemDescriptionEN: "+3 spell power, -1 max damage",
+			itemDescriptionRU: "+3 к силе заклинаний, -1 к максимальному урону",
 			rarity: .epic,
 			price: 500
 		),
 		
 		Item(
-			label: "Huge Elixir of Boldness",
+			labelEN: "Huge Elixir of Boldness",
+			labelRU: "Большой эликсир смелости",
 			itemType: .potion,
 			itemLevel: 3,
-			itemDescription: "+3% crit chance, -20 health, -20 mana",
+			itemDescriptionEN: "+3% crit chance, -20 health, -20 mana",
+			itemDescriptionRU: "+3% к шансу критического эффекта, -20 к максимальному уровню здоровья, -20 к максимальному уровню маны",
 			rarity: .epic,
 			price: 500
 		),
 		
 		Item(
-			label: "Huge Elixir of Accuracy",
+			labelEN: "Huge Elixir of Accuracy",
+			labelRU: "Большой эликсир точности",
 			itemType: .potion,
 			itemLevel: 3,
-			itemDescription: "+3% hit chance, -1 armor, -1 spell power",
+			itemDescriptionEN: "+3% hit chance, -1 armor, -1 spell power",
+			itemDescriptionRU: "+3% к шансу попадения по противнику, -1 к броне, -1 к силе заклинаний",
 			rarity: .epic,
 			price: 500
 		)
@@ -466,55 +552,67 @@ struct ItemManager {
 	static let legendaryPotions: [Item] = [
 		
 		Item(
-			label: "Legendary Potion of Energy",
+			labelEN: "Legendary Potion of Energy",
+			labelRU: "Легендарное зелье энергии",
 			itemType: .potion,
 			itemLevel: 4,
-			itemDescription: "+1 ENERGY",
+			itemDescriptionEN: "+1 ENERGY",
+			itemDescriptionRU: "+1 к ОЧКАМ ДЕЙСТВИЯ",
 			rarity: .legendary,
 			price: 1500
 		),
 		
 		Item(
-			label: "Legendary Potion of Strength",
+			labelEN: "Legendary Potion of Strength",
+			labelRU: "Легендарное зелье силы",
 			itemType: .potion,
 			itemLevel: 4,
-			itemDescription: "+2 min damage, +2 max damage, +1% hit chance, +1% crit chance",
+			itemDescriptionEN: "+2 min damage, +2 max damage, +1% hit chance, +1% crit chance",
+			itemDescriptionRU: "+2 к минимальному и максимальному урону, +1% к шансу попадения по противнику, +1% к шансу критического эффекта",
 			rarity: .legendary,
 			price: 1500
 		),
 		
 		Item(
-			label: "Corrupted Elixir of Agility",
+			labelEN: "Corrupted Elixir of Agility",
+			labelRU: "Проклятый эликсир ловкости",
 			itemType: .potion,
 			itemLevel: 4,
-			itemDescription: "+5% crit chance, -2% hit chance, -30 health, -30 mana",
+			itemDescriptionEN: "+5% crit chance, -2% hit chance, -30 health, -30 mana",
+			itemDescriptionRU: "+5% к шансу критического эффекта, -2% к шансу попадения по противнику, -30 к максимальному уровню здоровья, -30 к максимальному уровню маны",
 			rarity: .legendary,
 			price: 1500
 		),
 		
 		Item(
-			label: "Corrupted Elixir of Wisdom",
+			labelEN: "Corrupted Elixir of Wisdom",
+			labelRU: "Проклятый эликсир мудрости",
 			itemType: .potion,
 			itemLevel: 4,
-			itemDescription: "+5 spell power, +30 mana, -2% crit chance, -30 health",
+			itemDescriptionEN: "+5 spell power, +30 mana, -2% crit chance, -30 health",
+			itemDescriptionRU: "+5 к силе заклинаний, +30 к мане, -2% к шансу критического эффекта, -30 к здоровью",
 			rarity: .legendary,
 			price: 1500
 		),
 		
 		Item(
-			label: "Corrupted Elixir of Behemoth",
+			labelEN: "Corrupted Elixir of Behemoth",
+			labelRU: "Проклятый эликсир бегемота",
 			itemType: .potion,
 			itemLevel: 4,
-			itemDescription: "+3 Defence, +50 health, -1% crit chance, -1% hit chance, -30 mana, -3 spell power",
+			itemDescriptionEN: "+3 Defence, +50 health, -1% crit chance, -1% hit chance, -30 mana, -3 spell power",
+			itemDescriptionRU: "+3 к броне, +50 к максимальному уровню здоровья, -1% к шансу критического эффекта, -1% к шансу попадения по противнику, -30 к максимальному уровню маны, -3 к силе заклинаний",
 			rarity: .legendary,
 			price: 1500
 		),
 		
 		Item(
-			label: "Corrupted Elixir of Focus",
+			labelEN: "Corrupted Elixir of Focus",
+			labelRU: "Проклятый эликсир концентрации",
 			itemType: .potion,
 			itemLevel: 4,
-			itemDescription: "+5% hit chance, -1% crit chance, -20 health, -1 defence, -20 mana, -1 spell power",
+			itemDescriptionEN: "+5% hit chance, -1% crit chance, -20 health, -1 defence, -20 mana, -1 spell power",
+			itemDescriptionRU: "+5% к шансу попадения по противнику, -1% к шансу критического эффекта, -20 к максимальному уровню здоровья, -1 к броне, -20 к максимальному уровню маны, -1 к силе заклинаний",
 			rarity: .legendary,
 			price: 1500
 		),
