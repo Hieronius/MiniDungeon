@@ -1038,7 +1038,7 @@ extension MainViewModel {
 			}
 		}
 		
-		switch potion.label {
+		switch potion.labelEN {
 			
 			// MARK:  Common Potions Effect
 			
