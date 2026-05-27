@@ -105,8 +105,6 @@ extension MainViewModel {
 		
 		if !gameState.isHeroTurn && !gameState.isShadowBallMiniGameOn {
 			
-			print("EnemyTurn && no mini game")
-			
 			// A delay to create feeling the enemy does attacks with a little delay and not instant
 			var extraActionDelay = 2.0 + Double(gameState.enemy.currentEnergy) / 5.0
 			
@@ -114,7 +112,6 @@ extension MainViewModel {
 				
 				guard self.gameState.enemy.currentEnergy > 0 else {
 					self.passTurnToHero()
-					print("->>>>>>FOUND LACK OF ENERGY WHILE ON DISPATCH<<<<<<-")
 					return
 				}
 				
@@ -125,7 +122,6 @@ extension MainViewModel {
 				// if enemy has less than 30% hp add heal/block as actions to choose between
 				if currentHealthInPercent <= 30.0 {
 					
-					print("Decide Defensive Action")
 					// 1 - 100 equal to part of 100% of the chance to get a specific action
 					let chance = Int.random(in: 1...100)
 					
@@ -143,7 +139,6 @@ extension MainViewModel {
 							if !self.gameState.didEnemyUseBlock {
 								self.block()
 							} else {
-								print("Fast Attack Sound from enemyTurn()")
 								self.audioManager.playSound(fileName: "comboHit1", extensionName: "mp3")
 								extraActionDelay += 1.5
 								self.continueAttackAfterMiniGame(combatMiniGameSuccess: false, evasionMiniGameSuccess: false)
@@ -174,7 +169,6 @@ extension MainViewModel {
 						// 70% for avoidable one
 						
 						if attackRoll <= 70 {
-							print("Slow Attack Sound from enemyTurn()")
 							self.playAttackSound(didMissHit: false)
 							self.gameState.isEvasionMiniGameOn = true
 							
@@ -210,7 +204,12 @@ extension MainViewModel {
 							
 							self.audioManager.playSound(fileName: "bossUltimate1", extensionName: "mp3")
 							self.gameState.enemy.currentEnergy -= self.gameState.specialSkillEnergyCost
-							self.gameState.logMessage = "Enemy Special Attack!"
+							
+							if self.gameState.isEnglishLocalisation {
+								self.gameState.logMessage = "Enemy Special Attack!"
+							} else {
+								self.gameState.logMessage = "Специальная атака противника!"
+							}
 							self.gameState.isShadowBallMiniGameOn = true
 							
 							DispatchQueue.main.asyncAfter(deadline: .now() + 9.0) {
@@ -268,7 +267,11 @@ extension MainViewModel {
 							extraActionDelay += 1.5
 							self.audioManager.playSound(fileName: "comboHit1", extensionName: "mp3")
 							self.continueAttackAfterMiniGame(combatMiniGameSuccess: false, evasionMiniGameSuccess: false)
-							self.gameState.logMessage += " from fast unavoidable attack!"
+							if self.gameState.isEnglishLocalisation {
+								self.gameState.logMessage += " from fast unavoidable attack!"
+							} else {
+								self.gameState.logMessage += " от быстрой неминуемой атаки!"
+							}
 						}
 						self.enemyTurn()
 					}
@@ -290,7 +293,12 @@ extension MainViewModel {
 		
 		// May be i don't need to set this value to 0 because it will be replaced anyway
 		gameState.heroBlockValueBuffer = 0
-		gameState.logMessage = "Hero Block Ability has been removed"
+		
+		if gameState.isEnglishLocalisation {
+			gameState.logMessage = "Hero Block Ability has been removed"
+		} else {
+			gameState.logMessage = "Эффект способности 'блок' героя закончился"
+		}
 	}
 	
 	// MARK: endEnemyBlockEffect
@@ -303,7 +311,12 @@ extension MainViewModel {
 		
 		// May be i don't need to set this value to 0 because it will be replaced anyway
 		gameState.enemyBlockValueBuffer = 0
-		gameState.logMessage = "Enemy Block Ability has been removed"
+		
+		if gameState.isEnglishLocalisation {
+			gameState.logMessage = "Enemy Block Ability has been removed"
+		} else {
+			gameState.logMessage = "Эффект способности 'блок' противника завершился"
+		}
 	}
 	
 	// MARK: restoreAllEnergy
@@ -715,7 +728,13 @@ extension MainViewModel {
 			
 			let minDamageDif = selectedWeapon.minDamage - (equipedWeapon?.minDamage ?? 0)
 			
-			let minDamageDifString = "min damage: "
+			var minDamageDifString = ""
+			
+			if gameState.isEnglishLocalisation {
+				minDamageDifString = "min damage: "
+			} else {
+				minDamageDifString = "мин. урон: "
+			}
 			let selectedItemMinDamageValue = selectedWeapon.minDamage
 			
 			let minDamageStatsDifference = checkStatDifferenceAndCompileAsString(
@@ -730,7 +749,13 @@ extension MainViewModel {
 			
 			let maxDamageDif = selectedWeapon.maxDamage - (equipedWeapon?.maxDamage ?? 0)
 			
-			let maxDamageDifString = "max damage: "
+			var maxDamageDifString = ""
+			
+			if gameState.isEnglishLocalisation {
+				maxDamageDifString = "max damage: "
+			} else {
+				maxDamageDifString = "макс. урон: "
+			}
 			let selectedItemMaxDamageValue = selectedWeapon.maxDamage
 			
 			let maxDamageStatsDifference =  checkStatDifferenceAndCompileAsString(
@@ -744,7 +769,13 @@ extension MainViewModel {
 			
 			let critRatioDif = selectedWeapon.critChance - (equipedWeapon?.critChance ?? 0)
 			
-			let critRatioDifString = "crit chance %: "
+			var critRatioDifString = ""
+			
+			if gameState.isEnglishLocalisation {
+				critRatioDifString = "crit chance %: "
+			} else {
+				critRatioDifString = "крит. шанс %: "
+			}
 			let selectedItemCritRatio = selectedWeapon.critChance
 			
 			let critRatioStatsDifference =  checkStatDifferenceAndCompileAsString(
@@ -758,7 +789,12 @@ extension MainViewModel {
 			
 			let hitRatioDif = selectedWeapon.hitChance - (equipedWeapon?.hitChance ?? 0)
 			
-			let hitRatioDifString = "hit chance %: "
+			var hitRatioDifString = ""
+			if gameState.isEnglishLocalisation {
+				hitRatioDifString = "hit chance %: "
+			} else {
+				hitRatioDifString = "шанс попадения %: "
+			}
 			let selectedItemHitRatioValue = selectedWeapon.hitChance
 			
 			let hitRatioStatsDifference = checkStatDifferenceAndCompileAsString(
@@ -783,7 +819,13 @@ extension MainViewModel {
 			
 			let hpBonusDif = selectedArmor.healthBonus - (equipedArmor?.healthBonus ?? 0)
 			
-			let hpDifString = "health: "
+			var hpDifString = ""
+			
+			if gameState.isEnglishLocalisation {
+				hpDifString = "health: "
+			} else {
+				hpDifString = "здоровье: "
+			}
 			let selectedItemHPValue = selectedArmor.healthBonus
 			
 			let hpStatsDifference =  checkStatDifferenceAndCompileAsString(
@@ -797,7 +839,12 @@ extension MainViewModel {
 			
 			let mpBonusDif = selectedArmor.manaBonus - (equipedArmor?.manaBonus ?? 0)
 			
-			let mpBonusDifString = "mana: "
+			var mpBonusDifString = ""
+			if gameState.isEnglishLocalisation {
+				mpBonusDifString = "mana: "
+			} else {
+				mpBonusDifString = "мана: "
+			}
 			let selectedItemMPValue = selectedArmor.manaBonus
 			
 			let mpBonusStatsDifference = checkStatDifferenceAndCompileAsString(
@@ -811,7 +858,13 @@ extension MainViewModel {
 			
 			let energyDif = selectedArmor.energyBonus - (equipedArmor?.energyBonus ?? 0)
 			
-			let energyDifString = "energy: "
+			var energyDifString = ""
+			
+			if gameState.isEnglishLocalisation {
+				energyDifString = "energy: "
+			} else {
+				energyDifString = "энергия: "
+			}
 			let selectedArmorEnergyValue = selectedArmor.energyBonus
 			
 			let energyStatsDifference = checkStatDifferenceAndCompileAsString(
@@ -824,7 +877,13 @@ extension MainViewModel {
 			
 			let defenceDif = selectedArmor.defence - (equipedArmor?.defence ?? 0)
 			
-			let defenceDifString = "defence: "
+			var defenceDifString = "броня: "
+			
+			if gameState.isEnglishLocalisation {
+				defenceDifString = "defence: "
+			} else {
+				defenceDifString = "броня: "
+			}
 			let selectedArmorDefenceValue = selectedArmor.defence
 			
 			let defenceStatsDifference = checkStatDifferenceAndCompileAsString(
@@ -838,7 +897,13 @@ extension MainViewModel {
 			
 			let critRatioDif = selectedArmor.critChanceBonus - (equipedArmor?.critChanceBonus ?? 0)
 			
-			let critRatioDifString = "crit chance %: "
+			var critRatioDifString = ""
+			
+			if gameState.isEnglishLocalisation {
+				critRatioDifString = "crit chance %: "
+			} else {
+				critRatioDifString = "крит. шанс %: "
+			}
 			let selectedArmorCritValue = selectedArmor.critChanceBonus
 			
 			let critRatioStatsDifference = checkStatDifferenceAndCompileAsString(
@@ -852,7 +917,13 @@ extension MainViewModel {
 			
 			let hitBonusDif = selectedArmor.hitChanceBonus - (equipedArmor?.hitChanceBonus ?? 0)
 			
-			let hitBonusDifString = "hit chance %: "
+			var hitBonusDifString = ""
+			
+			if gameState.isEnglishLocalisation {
+				hitBonusDifString = "hit chance %: "
+			} else {
+				hitBonusDifString = "шанс попадения %: "
+			}
 			let selectedArmorHitValue = selectedArmor.hitChanceBonus
 			
 			let hitBonusStatsDifference = checkStatDifferenceAndCompileAsString(
@@ -866,7 +937,13 @@ extension MainViewModel {
 			
 			let spellPowerDif = selectedArmor.spellPowerBonus - (equipedArmor?.spellPowerBonus ?? 0)
 			
-			let spellPowerDifString = "spell power: "
+			var spellPowerDifString = ""
+			
+			if gameState.isEnglishLocalisation {
+				spellPowerDifString = "spell power: "
+			} else {
+				spellPowerDifString = "сила заклинаний: "
+			}
 			let selectedArmorSpellPowerValue = selectedArmor.spellPowerBonus
 			
 			let spellPowerStatsDifference = checkStatDifferenceAndCompileAsString(
@@ -1297,6 +1374,42 @@ extension MainViewModel {
 			gameState.usedPotionsWithPermanentEffects.append(potion)
 			
 		default: return
+		}
+	}
+	
+	// Utility method to get a correct localisation for current FlaskSoulCollectionStatus to display in BattleView
+	func localizeFlaskSoulCollectionStatus(
+		status: FlaskSoulCollectionStatus
+	) -> String {
+		
+		switch status {
+			
+		case .soulCollector:
+			
+			if gameState.isEnglishLocalisation {
+				
+				return "Soul Collector"
+			} else {
+				return "Собиратель Душ"
+			}
+			
+		case .soulExtractor:
+			
+			if gameState.isEnglishLocalisation {
+				
+				return "Soul Extractor"
+			} else {
+				return "Извлекатель Душ"
+			}
+			
+		case .soulEater:
+			
+			if gameState.isEnglishLocalisation {
+				
+				return "Soul Eater"
+			} else {
+				return "Пожиратель Душ"
+			}
 		}
 	}
 }
