@@ -507,7 +507,7 @@ extension MainViewModel {
 			
 			audioManager.playSound(fileName: "flaskLevelUP", extensionName: "mp3")
 			
-			gameState.hero.flask.currentComment = .readyForLevelUP
+			gameState.hero.flask.currentComment = gameState.isEnglishLocalisation ? .readyForLevelUPEN : .readyForLevelUPRU
 			gameState.didFlaskGetLevelUP = true
 			gameState.hero.flask.cleanFlaskComment()
 			gameState.isFlaskViewOpen = true
