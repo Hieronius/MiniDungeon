@@ -43,6 +43,8 @@ class MainViewModel: ObservableObject {
 			
 			goToMenu()
 			
+			print("Navigation open? - \(gameState.isNavigationOpen)")
+			
 		// AND IF IT'S AN OLD SESSION -> LOAD IT
 		} else {
 			
@@ -69,8 +71,9 @@ extension MainViewModel {
 		gameState.isHeroTurn = true
 		gameState.didApplySpec = false
 		
+		
 		// Reset all hero progress to 0
-		let flask = Flask()
+		let flask = Flask(isEnglish: gameState.isEnglishLocalisation)
 		gameState.hero = Hero(flask: flask)
 		
 		gameState.didFlaskGetLevelUP = false
