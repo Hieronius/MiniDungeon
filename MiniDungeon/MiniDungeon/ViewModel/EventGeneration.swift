@@ -175,7 +175,14 @@ extension MainViewModel {
 	/// Combine all types of items and it's chance to drop in a single method to call
 	func generateLoot() {
 		
-		var lootContainer = Loot(experience: 0, gold: 0, darkEnergy: 0, items: [], armors: [], weapons: [])
+		var lootContainer = Loot(
+			experience: 0,
+			gold: 0,
+			darkEnergy: 0,
+			items: [],
+			armors: [],
+			weapons: []
+		)
 		
 		gameState.didFindLootAfterFight = true
 		
@@ -183,8 +190,7 @@ extension MainViewModel {
 		
 		if let loot = generateKeysLoot(didFinalBossSummoned: gameState.didEncounteredBoss) {
 			gameState.hero.inventory[loot, default: 0] += 1
-			gameState.lootToDisplay.append(loot.label)
-			print("got a key in loot")
+			gameState.lootToDisplay.append(loot.labelEN)
 			
 			// Test line to integrate Loot struct as viewModel
 			lootContainer.items.append(loot)
@@ -199,7 +205,7 @@ extension MainViewModel {
 			
 		) {
 			gameState.hero.inventory[loot, default: 0] += 1
-			gameState.lootToDisplay.append(loot.label)
+			gameState.lootToDisplay.append(loot.labelEN)
 			
 			// Test line to integrate Loot struct as viewModel
 			lootContainer.items.append(loot)
@@ -212,7 +218,7 @@ extension MainViewModel {
 			of: generateRewardRarity()
 		) {
 			gameState.hero.inventory[potion, default: 0] += 1
-			gameState.lootToDisplay.append(potion.label)
+			gameState.lootToDisplay.append(potion.labelEN)
 			
 			// Test line to integrate Loot struct as viewModel
 			lootContainer.items.append(potion)
@@ -225,7 +231,7 @@ extension MainViewModel {
 			of: generateRewardRarity()
 		) {
 			gameState.hero.weapons[weapon, default: 0] += 1
-			gameState.lootToDisplay.append(weapon.label)
+			gameState.lootToDisplay.append(weapon.labelEN)
 			
 			// Test line to integrate Loot struct as viewModel
 			lootContainer.weapons.append(weapon)
@@ -238,7 +244,7 @@ extension MainViewModel {
 			of: generateRewardRarity()
 		) {
 			gameState.hero.armors[armor, default: 0] += 1
-			gameState.lootToDisplay.append(armor.label)
+			gameState.lootToDisplay.append(armor.labelEN)
 			
 			// Test line to integrate Loot struct as viewModel
 			lootContainer.armors.append(armor)
@@ -250,7 +256,7 @@ extension MainViewModel {
 			
 			let armor = ArmorManager.commonArmors[0]
 			gameState.hero.armors[armor, default: 0] += 1
-			gameState.lootToDisplay.append(armor.label)
+			gameState.lootToDisplay.append(armor.labelEN)
 			print("Demo Armor has been droped")
 			
 			// Test line to integrate Loot struct as viewModel
@@ -260,7 +266,7 @@ extension MainViewModel {
 			
 			let weapon = WeaponManager.commonWeapons[1]
 			gameState.hero.weapons[weapon, default: 0] += 1
-			gameState.lootToDisplay.append(weapon.label)
+			gameState.lootToDisplay.append(weapon.labelEN)
 			print("Demo Weapon has been droped")
 			
 			// Test line to integrate Loot struct as viewModel
@@ -876,11 +882,35 @@ extension MainViewModel {
 							   "Goblin",
 							   "Rat",
 							   "Ghoul"].randomElement()
+				
 		else {
 			return Enemy()
 		}
 		
-		if didFinalBossSummoned { enemyName += " Elite" }
+		var enemyImage = enemyName
+		
+		if !gameState.isEnglishLocalisation {
+			
+			switch enemyName {
+				
+			case "Skeleton": enemyName = "Скелет"
+			case "Goblin": enemyName = "Гоблин"
+			case "Rat": enemyName = "Крыса"
+			case "Ghoul": enemyName = "Зомби"
+			default: enemyName = "Противник"
+			}
+		}
+		
+		if didFinalBossSummoned {
+			
+			if gameState.isEnglishLocalisation {
+				enemyName += " Elite"
+				enemyImage += " Elite"
+			} else {
+				enemyName += " Босс"
+			}
+			
+		}
 		
 		// Modifer for level difficulty
 		// 1 level = 0 %
@@ -971,6 +1001,7 @@ extension MainViewModel {
 			
 			return Enemy(
 				name: enemyName,
+				imageName: enemyImage,
 				currentHP: finalHP,
 				maxHP: finalHP,
 				currentMP: finalMP,
@@ -987,6 +1018,7 @@ extension MainViewModel {
 			
 			return Enemy(
 				name: enemyName,
+				imageName: enemyImage,
 				isBoss: true,
 				currentHP: Int(Double(finalHP) * bossModifier),
 				maxHP: Int(Double(finalHP) * bossModifier),
