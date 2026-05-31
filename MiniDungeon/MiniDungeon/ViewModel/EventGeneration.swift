@@ -903,9 +903,10 @@ extension MainViewModel {
 		
 		if didFinalBossSummoned {
 			
+			enemyImage += " Elite"
+			
 			if gameState.isEnglishLocalisation {
 				enemyName += " Elite"
-				enemyImage += " Elite"
 			} else {
 				enemyName += " Босс"
 			}
