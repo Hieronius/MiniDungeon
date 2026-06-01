@@ -89,7 +89,7 @@ extension MainViewModel {
 		gameState.didHeroUseBlock = false
 		gameState.didEnemyUseBlock = false
 		goToBattle()
-		gameState.logMessage = "Battle begin!"
+		gameState.logMessage = gameState.isEnglishLocalisation ? "Battle begin!" : "Битва начинается!"
 	}
 	
 	// MARK: - Attack
@@ -124,7 +124,7 @@ extension MainViewModel {
 			let hitRoll = Int.random(in: 1...100)
 			
 			if hitRoll > gameState.hero.hitChance {
-				gameState.logMessage = "Hero's Attack has been missed!"
+				gameState.logMessage = gameState.isEnglishLocalisation ? "Hero's Attack has been missed!" : "Герой промахнулся!"
 				playAttackSound(didMissHit: true)
 				return
 			}
@@ -155,7 +155,6 @@ extension MainViewModel {
 			// MARK: Base Damage Calculation
 			
 			var baseDamage = Int(Double(Int.random(in: gameState.hero.minDamage...gameState.hero.maxDamage)) * gameState.hero.currentAttackDamageModifier)
-			print("test damage indicator - \(baseDamage)")
 			
 			// MARK: Perk Of Preparation
 			// Prep Perk Check should verify is perk active, was block used, wasn't perk effect already applied during this turn
@@ -200,7 +199,7 @@ extension MainViewModel {
 			
 			if gameState.isCombatMiniGameSuccessful  {
 				finalDamage = Int(Double(finalDamage) * 1.25)
-				gameState.logMessage += "Nice Hit!"
+				gameState.logMessage += gameState.isEnglishLocalisation ? "Nice Hit!" : "Отличный Удар!"
 			}
 			
 			// MARK: Crit Chance
@@ -253,7 +252,12 @@ extension MainViewModel {
 					gameState.hero.flask.collectCombatImpactWithAnimation(impact: criticalDamage)
 					
 					gameState.enemy.currentHP -= criticalDamage
-					gameState.logMessage = "Critical hit - \(criticalDamage) has been done!"
+					
+					if gameState.isEnglishLocalisation {
+						gameState.logMessage = "Critical hit - \(criticalDamage) has been done!"
+					} else {
+						gameState.logMessage = "Критический удар - \(criticalDamage) урона нанесено!"
+					}
 					
 					// MARK: Perk Of Swiftness
 					// Swiftness Perk Check
@@ -266,13 +270,18 @@ extension MainViewModel {
 							gameState.hero.flask.collectCombatImpactWithAnimation(impact: criticalDamage)
 							
 							gameState.enemy.currentHP -= criticalDamage
-							gameState.logMessage = "DOUBLE ATTACK - \(criticalDamage) has been done!"
+							if gameState.isEnglishLocalisation {
+								gameState.logMessage = "DOUBLE ATTACK - \(criticalDamage) has been done!"
+							} else {
+								gameState.logMessage = "ДВОЙНАЯ АТАКА - \(criticalDamage) урона нанесено!"
+							}
 						}
 					}
 					
 				} else {
 					
-					// Vampirism Perk
+					// MARK: Vampirism Perk
+					
 					
 					if gameState.isVampirismPerkActive {
 						
@@ -283,7 +292,8 @@ extension MainViewModel {
 						}
 					}
 					
-					// Spell Stealing Perk (MP Vampirism)
+					
+					// MARK: Spell Stealing Perk (MP Vampirism)
 					
 					if gameState.isSpellStealingPerkActive {
 						
@@ -299,9 +309,14 @@ extension MainViewModel {
 					gameState.hero.flask.collectCombatImpactWithAnimation(impact: finalDamage)
 					
 					gameState.enemy.currentHP -= finalDamage
-					gameState.logMessage = "\(finalDamage) damage has been done."
 					
-					// Swiftness Perk Check
+					if gameState.isEnglishLocalisation {
+						gameState.logMessage = "\(finalDamage) damage has been done."
+					} else {
+						gameState.logMessage = "\(finalDamage) урона нанесено."
+					}
+					
+					// MARK: Swiftness Perk Check
 					
 					if gameState.isSwiftnessPerkActive {
 						
@@ -311,7 +326,12 @@ extension MainViewModel {
 							gameState.hero.flask.collectCombatImpactWithAnimation(impact: finalDamage)
 							
 							gameState.enemy.currentHP -= finalDamage
-							gameState.logMessage = "DOUBLE ATTACK - \(finalDamage) has been done!"
+							
+							if gameState.isEnglishLocalisation {
+								gameState.logMessage = "DOUBLE ATTACK - \(finalDamage) damage has been done!"
+							} else {
+								gameState.logMessage = "ДВОЙНАЯ АТАКА - \(finalDamage) урона нанесено!"
+							}
 						}
 					}
 				}
@@ -334,13 +354,25 @@ extension MainViewModel {
 			gameState.enemy.currentEnergy -= gameState.skillEnergyCost
 			
 			if evasionMiniGameSuccess {
-				gameState.logMessage = "Perfect Evasion!"
+				
+				// if evasion is successful make a message to log console and play a little animation of gray background and remove it with a little delay
+				gameState.currentHeroAnimation = .successDodge
+				gameState.logMessage = gameState.isEnglishLocalisation ? "Perfect Evasion!" : "Идеальное уклонение!"
+				
+				DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+					self.gameState.currentHeroAnimation = .none
+				}
 				return
 			}
 			
 			let hitRoll = Int.random(in: 1...100)
 			if hitRoll > gameState.enemy.hitChance {
-				gameState.logMessage = "Enemy Attack has been missed"
+				
+				if gameState.isEnglishLocalisation {
+					gameState.logMessage = "Enemy Attack has been missed"
+				} else {
+					gameState.logMessage = "Противник промахнулся"
+				}
 				playAttackSound(didMissHit: true)
 				return
 			}
@@ -368,7 +400,12 @@ extension MainViewModel {
 					gameState.hero.flask.collectCombatImpactWithAnimation(impact: criticalDamage)
 					
 					gameState.hero.currentHP -= criticalDamage
-					gameState.logMessage = "Critical hit - \(criticalDamage) has been done!"
+					
+					if gameState.isEnglishLocalisation {
+						gameState.logMessage = "Critical hit - \(criticalDamage) damage has been done!"
+					} else {
+						gameState.logMessage = "Критический удар - \(criticalDamage) урона нанесено!"
+					}
 					
 				} else {
 					
@@ -386,13 +423,17 @@ extension MainViewModel {
 					
 					gameState.hero.currentHP -= damage
 					
-					gameState.logMessage = "\(damage) damage has been done by enemy"
+					if gameState.isEnglishLocalisation {
+						gameState.logMessage = "\(damage) damage has been done by enemy"
+					} else {
+						gameState.logMessage = "\(damage) урона было нанесено противником"
+					}
 				}
 				audioManager.playSound(fileName: "comboHit1", extensionName: "mp3")
 				gameState.currentHeroAnimation = .gotDamage
 				
 			} else {
-				gameState.logMessage = "0 damage has been made"
+				gameState.logMessage = gameState.isEnglishLocalisation ? "0 damage has been made" : "0 урона нанесено"
 			}
 		}
 		// Reset Empower Flag after use
@@ -443,14 +484,24 @@ extension MainViewModel {
 				gameState.hero.flask.collectCombatImpactWithAnimation(impact: criticalDamage)
 				
 				gameState.enemy.currentHP -= criticalDamage
-				gameState.logMessage = "Critical Combo hit! - \(criticalDamage) has been done!"
+				
+				if gameState.isEnglishLocalisation {
+					gameState.logMessage = "Critical Combo hit! - \(criticalDamage) damage has been done!"
+				} else {
+					gameState.logMessage = "Критический комбо удар! - \(criticalDamage) урона нанесено!"
+				}
 				
 			} else {
 				
 				gameState.hero.flask.collectCombatImpactWithAnimation(impact: finalDamage)
 				
 				gameState.enemy.currentHP -= finalDamage
-				gameState.logMessage = "\(finalDamage) Combo damage has been done!"
+				
+				if gameState.isEnglishLocalisation {
+					gameState.logMessage = "\(finalDamage) Combo damage has been done!"
+				} else {
+					gameState.logMessage = "\(finalDamage) комбо урона нанесено!"
+				}
 			}
 			
 		case 4:
@@ -474,14 +525,24 @@ extension MainViewModel {
 				gameState.hero.flask.collectCombatImpactWithAnimation(impact: criticalDamage)
 				
 				gameState.enemy.currentHP -= criticalDamage
-				gameState.logMessage = "Critical Combo hit! - \(criticalDamage) has been done!"
+				
+				if gameState.isEnglishLocalisation {
+					gameState.logMessage = "Critical Combo hit! - \(criticalDamage) damage has been done!"
+				} else {
+					gameState.logMessage = "Критический комбо удар! - \(criticalDamage) урона нанесено!"
+				}
 				
 			} else {
 				
 				gameState.hero.flask.collectCombatImpactWithAnimation(impact: finalDamage)
 				
 				gameState.enemy.currentHP -= finalDamage
-				gameState.logMessage = "\(finalDamage) Combo damage has been done!"
+				
+				if gameState.isEnglishLocalisation {
+					gameState.logMessage = "\(finalDamage) Combo damage has been done!"
+				} else {
+					gameState.logMessage = "\(finalDamage) комбо урона нанесено!"
+				}
 			}
 			
 		case 5:
@@ -503,7 +564,12 @@ extension MainViewModel {
 			gameState.hero.flask.collectCombatImpactWithAnimation(impact: criticalDamage)
 			
 			gameState.enemy.currentHP -= criticalDamage
-			gameState.logMessage = "Critical Combo hit! - \(criticalDamage) has been done!"
+			
+			if gameState.isEnglishLocalisation {
+				gameState.logMessage = "Critical Combo hit! - \(criticalDamage) damage has been done!"
+			} else {
+				gameState.logMessage = "Критический комбо удар! - \(criticalDamage) урона нанесено!"
+			}
 			
 			
 		default: fatalError("Something went wrong with combo attack")
@@ -605,7 +671,12 @@ extension MainViewModel {
 			if critChance <= gameState.hero.critChance {
 				
 				blockValue = Int(Double(blockValue) * gameState.hero.currentCritEffectModifier)
-				blockConsoleMessage = "Critical Block!"
+				
+				if gameState.isEnglishLocalisation {
+					blockConsoleMessage = "Critical Block!"
+				} else {
+					blockConsoleMessage = "Критический блок!"
+				}
 			}
 			
 			// Flask Soul Eater Talant Check with 150/150 Combat Impact Collected
@@ -622,7 +693,12 @@ extension MainViewModel {
 				gameState.hero.baseDefence += blockValue
 				gameState.heroBlockValueBuffer = blockValue
 				gameState.didHeroUseBlock = true
-				gameState.logMessage = "\(blockConsoleMessage) \(blockValue) has been added to the Hero Defence!"
+				
+				if gameState.isEnglishLocalisation {
+					gameState.logMessage = "\(blockConsoleMessage) \(blockValue) has been added to the Hero Defence!"
+				} else {
+					gameState.logMessage = "\(blockConsoleMessage) \(blockValue) было добавлено к броне героя!"
+				}
 				
 				audioManager.playSound(fileName: "shieldBlock", extensionName: "mp3")
 				gameState.currentHeroAnimation = .usedBlock
@@ -638,7 +714,12 @@ extension MainViewModel {
 					gameState.hero.baseDefence += blockValue
 					gameState.heroBlockValueBuffer += blockValue
 					gameState.didHeroUseBlock = true
-					gameState.logMessage = "DOUBLE BLOCK \(blockConsoleMessage) \(blockValue * 2) has been added to the Hero Defence!"
+					
+					if gameState.isEnglishLocalisation {
+						gameState.logMessage = "DOUBLE BLOCK \(blockConsoleMessage) \(blockValue * 2) has been added to the Hero Defence!"
+					} else {
+						gameState.logMessage = "Двойной блок \(blockConsoleMessage) \(blockValue * 2) было добавлено к броне героя!"
+					}
 				}
 			}
 			
@@ -659,7 +740,7 @@ extension MainViewModel {
 			if critChance <= gameState.enemy.critChance {
 				
 				blockValue = Int(Double(blockValue) * 1.5)
-				blockConsoleMessage = "Critical Block!"
+				blockConsoleMessage = gameState.isEnglishLocalisation ? "Critical Block!" : "Критический блок!"
 			}
 			
 			if gameState.didEnemyUseBlock == false {
@@ -668,7 +749,11 @@ extension MainViewModel {
 				gameState.enemyBlockValueBuffer = blockValue
 				gameState.didEnemyUseBlock = true
 				
-				gameState.logMessage = "\(blockConsoleMessage) \(blockValue) has been added to the Enemy Defence!"
+				if gameState.isEnglishLocalisation {
+					gameState.logMessage = "\(blockConsoleMessage) \(blockValue) has been added to the Enemy Defence!"
+				} else {
+					gameState.logMessage = "\(blockConsoleMessage) \(blockValue) было добавлено к броне противника!"
+				}
 				
 				audioManager.playSound(fileName: "shieldBlock", extensionName: "mp3")
 				gameState.currentEnemyAnimation = .usedBlock
@@ -686,7 +771,6 @@ extension MainViewModel {
 	func calculateBlockValueBonusDamageForNextAttack() -> Int {
 		
 		let bonusDamage = Int(Double((gameState.minBlockValue + gameState.maxBlockValue) / 2) * gameState.prepPerkEffectModifier)
-		print("Added \(bonusDamage) as PrepPerk bonus block value to next attack")
 		return bonusDamage
 	}
 	
@@ -695,7 +779,6 @@ extension MainViewModel {
 	func calculateReflectionDamage(damage: Int) -> Int {
 		
 		let reflectionDamage = Int(Double(damage) * gameState.reflectionPerkEffectModifier)
-		print("Enemy should get back - \(reflectionDamage)")
 		return reflectionDamage
 	}
 	
@@ -762,7 +845,7 @@ extension MainViewModel {
 				
 				healingValue = Int(Double(healingValue) * gameState.hero.currentCritEffectModifier)
 				
-				critConsoleMessage = "Critical Heal Effect!"
+				critConsoleMessage = gameState.isEnglishLocalisation ? "Critical Heal Effect!" : "Критический исцеляющий эффект!"
 				
 			}
 			
@@ -794,7 +877,11 @@ extension MainViewModel {
 			audioManager.playSound(fileName: "healSpell1", extensionName: "mp3")
 			gameState.currentHeroAnimation = .gotHealing
 			
-			gameState.logMessage = "\(critConsoleMessage) \(healingValue) amount of health has been recovered by hero"
+			if gameState.isEnglishLocalisation {
+				gameState.logMessage = "\(critConsoleMessage) \(healingValue) amount of health has been recovered by hero"
+			} else {
+				gameState.logMessage = "\(critConsoleMessage) \(healingValue) здоровья было исцелено героем"
+			}
 			
 			// Swiftness Perk Check
 			
@@ -811,7 +898,11 @@ extension MainViewModel {
 						impact: healingValue
 					)
 					
-					gameState.logMessage = "DOUBLE HEAL \(critConsoleMessage) \(healingValue) amount of health has been recovered by hero"
+					if gameState.isEnglishLocalisation {
+						gameState.logMessage = "DOUBLE HEAL \(critConsoleMessage) \(healingValue) amount of health has been recovered by hero"
+					} else {
+						gameState.logMessage = "Двойное лечение \(critConsoleMessage) \(healingValue) здоровья было исцелено героем"
+					}
 				}
 			}
 			
@@ -828,7 +919,7 @@ extension MainViewModel {
 			
 		} else if gameState.isHeroTurn && gameState.hero.currentEnergy >= gameState.skillEnergyCost &&
 			gameState.hero.currentMana < gameState.spellManaCost {
-			gameState.logMessage = "Not enough mana to cast"
+			gameState.logMessage = gameState.isEnglishLocalisation ? "Not enough mana to cast" : "Недостаточно маны"
 			audioManager.playSound(fileName: "denied", extensionName: "mp3")
 			
 			
@@ -853,12 +944,17 @@ extension MainViewModel {
 				
 				healingValue = Int(Double(healingValue) * 1.5)
 				
-				critConsoleMessage = "Critical Heal Effect!"
+				critConsoleMessage = gameState.isEnglishLocalisation ? "Critical Heal Effect!" : "Критический эффект лечения!"
 				
 			}
 			
 			gameState.enemy.currentHP += healingValue
-			gameState.logMessage = "\(critConsoleMessage) \(healingValue) amount of health has been recovered by enemy"
+			
+			if gameState.isEnglishLocalisation {
+				gameState.logMessage = "\(critConsoleMessage) \(healingValue) amount of health has been recovered by enemy"
+			} else {
+				gameState.logMessage = "\(critConsoleMessage) \(healingValue) здоровья было исцелено противником"
+			}
 			
 			if gameState.enemy.currentHP >= gameState.enemy.maxHP {
 				gameState.enemy.currentHP = gameState.enemy.maxHP
@@ -879,7 +975,6 @@ extension MainViewModel {
 	func calculateHealValueDamageBonusForNextAttack() -> Int {
 		
 		let bonusDamage = Int(Double((gameState.healMinValue + gameState.healMaxValue) / 2) * gameState.illWordPerkEffectModifier)
-		print("heal value bonus damage for next ability - \(bonusDamage)")
 		return bonusDamage
 	}
 	
@@ -889,7 +984,6 @@ extension MainViewModel {
 	func calculateVampiricEffect(from damage: Int) -> Int {
 		
 		let vampiricEffect = Int(Double(damage) * gameState.vampirismEffectModifier)
-		print("Vampiric effect from this attack is \(vampiricEffect) hp")
 		return vampiricEffect
 	}
 	
@@ -899,7 +993,6 @@ extension MainViewModel {
 	func calculateSpellStealingEffect(from damage: Int) -> Int {
 		
 		let spellStealingEffect = Int(Double(damage) * gameState.spellStealingEffectModifier)
-		print("Spell Stealing effect from this attack is \(spellStealingEffect) mp")
 		return spellStealingEffect
 	}
 	
@@ -909,7 +1002,6 @@ extension MainViewModel {
 	func calculateSoulExtractionEffect(from criticalHit: Int) -> Int {
 		
 		let extractionEffect = Int(Double(criticalHit) * gameState.soulExtractionEffectModifier)
-		print("Extraction effect is \(extractionEffect) dark energy")
 		return extractionEffect
 	}
 	
@@ -946,7 +1038,11 @@ extension MainViewModel {
 			case (.soulCollector, 50):
 				
 				gameState.hero.flask.currentCombatImpactValue -= 50
-				gameState.logMessage = "\(energyPoint) Energy Point been generated"
+				if gameState.isEnglishLocalisation {
+					gameState.logMessage = "\(energyPoint) Energy Point been generated"
+				} else {
+					gameState.logMessage = "\(energyPoint) Энергии восстановлено"
+				}
 				audioManager.playSound(fileName: "flaskImpactUnleash", extensionName: "mp3")
 				
 			// Level 2 Talant + not 100% capacity -> Use Stage 1 Effect
@@ -954,7 +1050,11 @@ extension MainViewModel {
 			case (.soulExtractor, 50..<100):
 				
 				gameState.hero.flask.currentCombatImpactValue -= 50
-				gameState.logMessage = "\(energyPoint) Energy Point been generated"
+				if gameState.isEnglishLocalisation {
+					gameState.logMessage = "\(energyPoint) Energy Point been generated"
+				} else {
+					gameState.logMessage = "\(energyPoint) Энергии восстановлено"
+				}
 				audioManager.playSound(fileName: "flaskImpactUnleash", extensionName: "mp3")
 				
 			// Level 2 Talant + 100% capacity -> Use Stage 2 Effect
@@ -963,8 +1063,6 @@ extension MainViewModel {
 				
 				guard gameState.enemy.currentHP > 0 else { return }
 				
-				print("Got an extra Energy Point + deal 10% target max hp as a damage")
-				
 				gameState.hero.flask.currentCombatImpactValue -= 100
 				
 				let damageValue = Int(Double(gameState.enemy.maxHP) * 0.10)
@@ -977,7 +1075,11 @@ extension MainViewModel {
 					
 					gameState.enemy.currentHP -= damageValue
 					
+					if gameState.isEnglishLocalisation {
 					gameState.logMessage = "\(energyPoint) Energy Point been generated + \(damageValue) damage has been dealt"
+					} else {
+						gameState.logMessage = "\(energyPoint) Энергии получено + \(damageValue) урона нанесено"
+					}
 				}
 				audioManager.playSound(fileName: "flaskImpactUnleash", extensionName: "mp3")
 				
@@ -986,7 +1088,11 @@ extension MainViewModel {
 			case (.soulEater, 50..<100):
 				
 				gameState.hero.flask.currentCombatImpactValue -= 50
-				gameState.logMessage = "\(energyPoint) Energy Point been generated"
+				if gameState.isEnglishLocalisation {
+					gameState.logMessage = "\(energyPoint) Energy Point been generated"
+				} else {
+					gameState.logMessage = "\(energyPoint) Энергии получено"
+				}
 				audioManager.playSound(fileName: "flaskImpactUnleash", extensionName: "mp3")
 				
 			// Level 3 Talant + Level 2 current capacity -> Use Stage 2 Effect
@@ -994,8 +1100,6 @@ extension MainViewModel {
 			case (.soulEater, 100..<150):
 				
 				guard gameState.enemy.currentHP > 0 else { return }
-				
-				print("Got an extra Energy Point + deal 10% target max hp as a damage")
 				
 				gameState.hero.flask.currentCombatImpactValue -= 100
 				
@@ -1009,15 +1113,17 @@ extension MainViewModel {
 					
 					gameState.enemy.currentHP -= damageValue
 					
-					gameState.logMessage = "\(energyPoint) Energy Point been generated + \(damageValue) has been dealt"
+					if gameState.isEnglishLocalisation {
+						gameState.logMessage = "\(energyPoint) Energy Point been generated + \(damageValue) has been dealt"
+					} else {
+						gameState.logMessage = "\(energyPoint) Энергии получено + \(damageValue) урона нанесено"
+					}
 				}
 				audioManager.playSound(fileName: "flaskImpactUnleash", extensionName: "mp3")
 				
 			case (.soulEater, 150):
 				
 				guard gameState.enemy.currentHP > 0 else { return }
-				
-				print("Got an extra Energy Point + deal 10% target max hp as a damage and gives Empower Ability")
 				
 				gameState.hero.flask.currentCombatImpactValue -= 150
 				
@@ -1034,7 +1140,11 @@ extension MainViewModel {
 				
 				gameState.didUseFlaskEmpowerForOffensive = true
 				
-				gameState.logMessage = "\(energyPoint) Energy Point been generated + \(damageValue) damage  has been dealt + EMPOWER is ready to use"
+				if gameState.isEnglishLocalisation {
+					gameState.logMessage = "\(energyPoint) Energy Point been generated + \(damageValue) damage  has been dealt + EMPOWER is ready to use"
+				} else {
+					gameState.logMessage = "\(energyPoint) Энергии получено + \(damageValue) урона нанесено + УСИЛЕНИЕ готово"
+				}
 				audioManager.playSound(fileName: "flaskImpactUnleash", extensionName: "mp3")
 				
 			default:
@@ -1063,25 +1173,30 @@ extension MainViewModel {
 				print("Got some extra dark energy")
 				
 				gameState.hero.flask.currentCombatImpactValue -= 50
-				gameState.logMessage = "\(darkEnergyLoot) dark energy has been generated"
+				if gameState.isEnglishLocalisation {
+					gameState.logMessage = "\(darkEnergyLoot) dark energy has been generated"
+				} else {
+					gameState.logMessage = "\(darkEnergyLoot) темной энергии получено"
+				}
 				audioManager.playSound(fileName: "flaskImpactUnleash", extensionName: "mp3")
 				
 			// Level 2 Talant + not 100% capacity -> Use Level 1 Effect
 				
 			case (.soulExtractor, 50..<100):
 				
-				print("Got some extra dark energy")
-				
 				gameState.hero.flask.currentCombatImpactValue -= 50
-				gameState.logMessage = "\(darkEnergyLoot) dark energy has been generated"
+				
+				if gameState.isEnglishLocalisation {
+					gameState.logMessage = "\(darkEnergyLoot) dark energy has been generated"
+				} else {
+					gameState.logMessage = "\(darkEnergyLoot) темной энергии получено"
+				}
 				audioManager.playSound(fileName: "flaskImpactUnleash", extensionName: "mp3")
 				
 			// Level 2 Talant + not 100% max capacity -> Use Level 2 Effect
 				
 			case (.soulExtractor, 100):
 				
-				print("Got some extra dark energy + 10% of max HP")
-				
 				gameState.hero.flask.currentCombatImpactValue -= 100
 				
 				let healingValue = Int(Double(gameState.hero.maxHP) * 0.10)
@@ -1093,24 +1208,28 @@ extension MainViewModel {
 					gameState.hero.currentHP += healingValue
 				}
 				
-				gameState.logMessage = "\(darkEnergyLoot) dark energy has been generated + \(healingValue) health ponts has been healed"
+				if gameState.isEnglishLocalisation {
+					gameState.logMessage = "\(darkEnergyLoot) dark energy has been generated + \(healingValue) health ponts has been healed"
+				} else {
+					gameState.logMessage = "\(darkEnergyLoot) темной энергии получено + \(healingValue) здоровья исцелено"
+				}
 				audioManager.playSound(fileName: "flaskImpactUnleash", extensionName: "mp3")
 				
 			// Level 3 Talant + Level 1 current capacity -> Use Level 1 Effect
 				
 			case (.soulEater, 50..<100):
 				
-				print("Got some extra dark energy")
-				
 				gameState.hero.flask.currentCombatImpactValue -= 50
-				gameState.logMessage = "\(darkEnergyLoot) dark energy has been generated"
+				if gameState.isEnglishLocalisation {
+					gameState.logMessage = "\(darkEnergyLoot) dark energy has been generated"
+				} else {
+					gameState.logMessage = "\(darkEnergyLoot) темной энергии получено"
+				}
 				audioManager.playSound(fileName: "flaskImpactUnleash", extensionName: "mp3")
 				
 			// Level 3 Talant + Level 2 current capacity -> Use Level 2 Effect
 				
 			case (.soulEater, 100..<150):
-				
-				print("Got some extra dark energy + 10% of max HP")
 				
 				gameState.hero.flask.currentCombatImpactValue -= 100
 				
@@ -1123,11 +1242,14 @@ extension MainViewModel {
 					gameState.hero.currentHP += healingValue
 				}
 				
-				gameState.logMessage = "\(darkEnergyLoot) dark energy has been generated + \(healingValue) health ponts has been healed"
+				if gameState.isEnglishLocalisation {
+					gameState.logMessage = "\(darkEnergyLoot) dark energy has been generated + \(healingValue) health ponts has been healed"
+				} else {
+					gameState.logMessage = "\(darkEnergyLoot) темной энергии получено + \(healingValue) здоровья исцелено"
+				}
 				audioManager.playSound(fileName: "flaskImpactUnleash", extensionName: "mp3")
 				
 			case (.soulEater, 150):
-				print("Got some extra dark energy + 10% of max HP and Empower ability")
 				
 				gameState.hero.flask.currentCombatImpactValue -= 150
 				
@@ -1142,7 +1264,11 @@ extension MainViewModel {
 				
 				gameState.didUseFlaskEmpowerForDefensive = true
 				
-				gameState.logMessage = "\(darkEnergyLoot) dark energy has been generated + \(healingValue) health ponts has been healed + EMPOWER is ready to use"
+				if gameState.isEnglishLocalisation {
+					gameState.logMessage = "\(darkEnergyLoot) dark energy has been generated + \(healingValue) health ponts has been healed + EMPOWER is ready to use"
+				} else {
+					gameState.logMessage = "\(darkEnergyLoot) темной энергии получено + \(healingValue) здоровья исцелено + УСИЛЕНИЕ готово"
+				}
 				audioManager.playSound(fileName: "flaskImpactUnleash", extensionName: "mp3")
 				
 			default:
@@ -1203,7 +1329,11 @@ extension MainViewModel {
 				gameState.hero.currentHP += healingValue
 			}
 			
-			gameState.logMessage = "Flask did restore \(healingValue) of health"
+			if gameState.isEnglishLocalisation {
+				gameState.logMessage = "Flask did restore \(healingValue) of health"
+			} else {
+				gameState.logMessage = "Фляга восстановила \(healingValue) здоровья"
+			}
 			
 			gameState.currentHeroAnimation = .gotHealing
 			audioManager.playSound(fileName: "flaskEffectUnleash", extensionName: "mp3")
@@ -1256,7 +1386,11 @@ extension MainViewModel {
 			
 			gameState.enemy.currentHP -= damageValue
 			
-			gameState.logMessage = "Flask dealt \(damageValue) of damage"
+			if gameState.isEnglishLocalisation {
+				gameState.logMessage = "Flask dealt \(damageValue) of damage"
+			} else {
+				gameState.logMessage = "Фляга нанесла \(damageValue) урона"
+			}
 			
 			gameState.currentEnemyAnimation = .gotDamage
 			audioManager.playSound(fileName: "flaskEffectUnleash", extensionName: "mp3")
