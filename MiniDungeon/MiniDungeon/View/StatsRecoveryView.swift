@@ -18,6 +18,8 @@ extension MainView {
 		
 		var audioManager: AudioManager
 		
+		var isEnglish: Bool
+		
 		var unitCostInGold = 5
 		
 		var statsRecoveryResult: ((StatsRecoveryResult) -> Void)?
@@ -39,9 +41,18 @@ extension MainView {
 				VStack {
 					Spacer()
 					
-					Text("HP: \(currentHPValue)/\(maxHPValue)")
-					Text("MP: \(currentMPValue)/\(maxMPValue)")
-					Text("Gold: \(currentGoldValue)")
+					if isEnglish {
+						
+						Text("HP: \(currentHPValue)/\(maxHPValue)")
+						Text("MP: \(currentMPValue)/\(maxMPValue)")
+						Text("Gold: \(currentGoldValue)")
+						
+					} else {
+						
+						Text("Здоровье: \(currentHPValue)/\(maxHPValue)")
+						Text("Мана: \(currentMPValue)/\(maxMPValue)")
+						Text("Золото: \(currentGoldValue)")
+					}
 					
 					// VStack for HP
 					
@@ -51,7 +62,7 @@ extension MainView {
 						
 						VStack {
 							HStack {
-								Text("HP")
+								Text(isEnglish ? "HP" : "Здоровье")
 								Slider(
 									value: .convert($hpToRestore),
 									in: 1...100,
@@ -61,12 +72,24 @@ extension MainView {
 								)
 								.frame(width: UIScreen.main.bounds.width - 150)
 							}
-							Button("Restore \(hpToRestore) hp for \(hpToRestore * unitCostInGold) gold") {
+							if isEnglish {
 								
-								recoverHPLocally(by: hpToRestore)
-						
+								Button("Restore \(hpToRestore) hp for \(hpToRestore * unitCostInGold) gold") {
+									
+									recoverHPLocally(by: hpToRestore)
+									
+								}
+								.buttonStyle(.bordered)
+								
+							} else {
+								
+								Button("Восстановить \(hpToRestore) здоровья за  \(hpToRestore * unitCostInGold) золота") {
+									
+									recoverHPLocally(by: hpToRestore)
+									
+								}
+								.buttonStyle(.bordered)
 							}
-							.buttonStyle(.bordered)
 						}
 						
 						// VStack for MP
@@ -75,6 +98,7 @@ extension MainView {
 							
 						HStack {
 							
+							Text(isEnglish ? "MP" : "Здоровье")
 							Slider(
 								value: .convert($mpToRestore),
 								in: 1...100,
@@ -84,14 +108,24 @@ extension MainView {
 							)
 							.frame(width: UIScreen.main.bounds.width - 150)
 						}
-							Button("Restore \(mpToRestore) mp for \(mpToRestore * unitCostInGold) gold") {
+							if isEnglish {
+								Button("Restore \(mpToRestore) mp for \(mpToRestore * unitCostInGold) gold") {
+									
+									recoverMPLocally(by: mpToRestore)
+								}
+								.buttonStyle(.bordered)
 								
-								recoverMPLocally(by: mpToRestore)
+							} else {
+								
+								Button("Восстановить \(mpToRestore) маны за \(mpToRestore * unitCostInGold) золота") {
+									
+									recoverMPLocally(by: mpToRestore)
+								}
+								.buttonStyle(.bordered)
 							}
-							.buttonStyle(.bordered)
 						}
 						Spacer()
-						Button("Confirm") {
+						Button(isEnglish ? "Confirm" : "Подтвердить") {
 							audioManager.playSound(fileName: "confirm", extensionName: "mp3")
 							statsRecoveryResult?(
 								
