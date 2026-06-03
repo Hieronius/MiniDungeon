@@ -41,7 +41,7 @@ extension MainViewModel {
 	func applyActiveShrinesEffects() {
 		gameState.upgradedShrines.forEach {
 			applyShrineEffect($0)
-			print("applied \($0.name) effect for a new run")
+			print("applied \($0.nameEN) effect for a new run")
 		}
 	}
 	
@@ -50,7 +50,7 @@ extension MainViewModel {
 	/// Use this method on the array of shrines to activate at the start of new run
 	func applyShrineEffect(_ shrine: Shrine) {
 		
-		switch shrine.name {
+		switch shrine.nameEN {
 			
 		// Common Shrines
 			
