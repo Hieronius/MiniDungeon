@@ -85,6 +85,8 @@ extension MainViewModel {
 		/// If success -> clean tile events 
 		gameState.dungeonMap[position.row][position.col].events = []
 		
+		audioManager.playSound(fileName: "openChest", extensionName: "mp3")
+		
 		generateLoot()
 		goToRewards()
 	}
@@ -95,11 +97,7 @@ extension MainViewModel {
 		
 		guard let item = item else { return }
 		
-		guard item is Armor || item is Weapon  else {
-			print("Item is not Armor or Weapon")
-			return
-		}
-		print("Solid item to disenchant")
+		guard item is Armor || item is Weapon  else { return }
 		
 		switch item.itemLevel {
 			
