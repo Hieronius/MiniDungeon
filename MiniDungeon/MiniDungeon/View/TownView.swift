@@ -19,10 +19,16 @@ extension MainView {
 			
 			if viewModel.gameState.shrineUpgradeToDisplay != nil {
 				Section(header: Text("Description")) {
-					Text("Name: \(viewModel.gameState.shrineUpgradeToDisplay?.name ?? "")")
-					Text("Description: \(viewModel.gameState.shrineUpgradeToDisplay?.shrineDescription ?? "")")
-					Text("Cost: \(viewModel.gameState.shrineUpgradeToDisplay?.darkEnergyCost ?? 0) dark energy")
-					Button("Activate") {
+					Text("\(isEnglish() ? "Name:" : "Название:") \((isEnglish() ? (viewModel.gameState.shrineUpgradeToDisplay?.nameEN ?? "") : viewModel.gameState.shrineUpgradeToDisplay?.nameRU) ?? "")")
+					Text("\(isEnglish() ? "Description:" : "Описание") \((isEnglish() ? viewModel.gameState.shrineUpgradeToDisplay?.shrineDescriptionEN : viewModel.gameState.shrineUpgradeToDisplay?.shrineDescriptionRU) ?? "")")
+					
+					if isEnglish() {
+						Text("Cost: \(viewModel.gameState.shrineUpgradeToDisplay?.darkEnergyCost ?? 0) dark energy")
+					} else {
+						Text("Стоимость: \(viewModel.gameState.shrineUpgradeToDisplay?.darkEnergyCost ?? 0) темной энергии")
+					}
+					
+					Button(isEnglish() ? "Activate" : "Активировать") {
 						viewModel.activateShrine(viewModel.gameState.shrineUpgradeToDisplay)
 						viewModel.gameState.shrineUpgradeToDisplay = nil
 					}
@@ -39,13 +45,13 @@ extension MainView {
 			
 			if !viewModel.checkIsThereShrinesToUpgrade(ShrineManager.commonShrines) {
 				
-				Section(header: Text("Minor Shrines")) {
+				Section(header: Text(isEnglish() ? "Minor Shrines" : "Небольшие Алтари")) {
 					
 					ForEach(ShrineManager.commonShrines) { shrine in
 						
 						if !viewModel.gameState.upgradedShrines.contains(shrine) {
 							
-							Button("\(shrine.name)") {
+							Button("\(viewModel.gameState.isEnglishLocalisation ? shrine.nameEN : shrine.nameRU)") {
 								viewModel.gameState.shrineUpgradeToDisplay = shrine
 							}
 						}
@@ -57,13 +63,13 @@ extension MainView {
 			
 			if !viewModel.checkIsThereShrinesToUpgrade(ShrineManager.rareShrines) {
 				
-				Section(header: Text("Medium Shrines")) {
+				Section(header: Text(isEnglish() ? "Medium Shrines" : "Средние Алтари")) {
 					
 					ForEach(ShrineManager.rareShrines) { shrine in
 						
 						if !viewModel.gameState.upgradedShrines.contains(shrine) {
 							
-							Button("\(shrine.name)") {
+							Button("\(viewModel.gameState.isEnglishLocalisation ? shrine.nameEN : shrine.nameRU)") {
 								viewModel.gameState.shrineUpgradeToDisplay = shrine
 							}
 						}
@@ -75,13 +81,13 @@ extension MainView {
 			
 			if !viewModel.checkIsThereShrinesToUpgrade(ShrineManager.epicShrines) {
 				
-				Section(header: Text("Big Shrines")) {
+				Section(header: Text(isEnglish() ?  "Big Shrines" : "Большие Алтари")) {
 					
 					ForEach(ShrineManager.epicShrines) { shrine in
 						
 						if !viewModel.gameState.upgradedShrines.contains(shrine) {
 							
-							Button("\(shrine.name)") {
+							Button("\(viewModel.gameState.isEnglishLocalisation ? shrine.nameEN : shrine.nameRU)") {
 								viewModel.gameState.shrineUpgradeToDisplay = shrine
 							}
 						}
@@ -93,13 +99,13 @@ extension MainView {
 			
 			if !viewModel.checkIsThereShrinesToUpgrade(ShrineManager.legendaryShrines) {
 				
-				Section(header: Text("Huge Shrines")) {
+				Section(header: Text(isEnglish() ? "Huge Shrines" : "Великие Алтари")) {
 					
 					ForEach(ShrineManager.legendaryShrines) { shrine in
 						
 						if !viewModel.gameState.upgradedShrines.contains(shrine) {
 							
-							Button("\(shrine.name)") {
+							Button("\(viewModel.gameState.isEnglishLocalisation ? shrine.nameEN : shrine.nameRU)") {
 								viewModel.gameState.shrineUpgradeToDisplay = shrine
 							}
 						}
@@ -107,15 +113,15 @@ extension MainView {
 				}
 			}
 		}
-		.frame(height: 300)
+		.frame(height: 250)
 		
 		// MARK: - Navigation
 		
 		List {
 			
-			Section(header: Text("Navigation")) {
+			Section(header: Text(isEnglish() ? "Navigation" : "Навигация")) {
 				
-				Menu("Active Shrines") {
+				Menu(isEnglish() ? "Activated Shrines" : "Активные Алтари") {
 					
 					// MARK: - Activated Shrines
 					
@@ -123,7 +129,7 @@ extension MainView {
 						
 						ForEach(viewModel.gameState.upgradedShrines) { shrine in
 							
-							Button("\(shrine.name)") {
+							Button("\(viewModel.gameState.isEnglishLocalisation ? shrine.nameEN : shrine.nameRU)") {
 								viewModel.gameState.shrineUpgradeToDisplay = shrine
 							}
 							.foregroundStyle(.white)
@@ -132,7 +138,7 @@ extension MainView {
 				}
 				
 				// TODO: Make it to -> FlaskTalantsView
-				Button("Go to Flask Talants") {
+				Button(isEnglish() ? "Go to Flask Talants" : "Перейти к Талантам Фляги") {
 					viewModel.audioManager.playSound(fileName: "click", extensionName: "mp3")
 					viewModel.applyActiveShrineEffectsAndGoToFlaskTalants()
 				}
