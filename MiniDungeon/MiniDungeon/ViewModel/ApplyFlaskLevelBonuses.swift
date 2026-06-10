@@ -14,7 +14,9 @@ extension MainViewModel {
 		
 		guard let bonus = bonus else { return }
 		
-		switch bonus.name {
+		// Even after applying a localisation you still depend on english words in all methods as a single source of truth
+		
+		switch bonus.nameEN {
 			
 		// Common
 			
@@ -24,7 +26,7 @@ extension MainViewModel {
 		case "Common Damage Bonus":
 			gameState.hero.flask.baseDamageValue += 0.05
 			
-		case "Common CD Reduction Bonus":
+		case "Common CoolDown Reduction Bonus":
 			if gameState.hero.flask.baseCooldown > 1 {
 				gameState.hero.flask.baseCooldown -= 1
 			}
@@ -32,7 +34,7 @@ extension MainViewModel {
 		case "Common Charge Back Bonus":
 			gameState.hero.flask.baseChanceToGetChargeAfterUse += 5
 			
-		case "Common CD Reset Bonus":
+		case "Common CoolDown Reset Bonus":
 			gameState.hero.flask.baseChanceToGetCDreset += 5
 			
 		// Rare
@@ -43,7 +45,7 @@ extension MainViewModel {
 		case "Rare Damage Bonus":
 			gameState.hero.flask.baseDamageValue += 0.10
 			
-		case "Rare CD Reduction Bonus":
+		case "Rare CoolDown Reduction Bonus":
 			if gameState.hero.flask.baseCooldown > 1 {
 				gameState.hero.flask.baseCooldown -= 2
 				
@@ -55,7 +57,7 @@ extension MainViewModel {
 		case "Rare Charge Back Bonus":
 			gameState.hero.flask.baseChanceToGetChargeAfterUse += 10
 			
-		case "Rare CD Reset Bonus":
+		case "Rare CoolDown Reset Bonus":
 			gameState.hero.flask.baseChanceToGetCDreset += 10
 			
 		case "Rare Damage Buff Bonus":
@@ -79,7 +81,7 @@ extension MainViewModel {
 		case "Epic Damage Bonus":
 			gameState.hero.flask.baseDamageValue += 0.15
 			
-		case "Epic CD Reduction Bonus":
+		case "Epic CoolDown Reduction Bonus":
 			if gameState.hero.flask.baseCooldown > 1 {
 				gameState.hero.flask.baseCooldown -= 4
 				
@@ -91,7 +93,7 @@ extension MainViewModel {
 		case "Epic Charge Back Bonus":
 			gameState.hero.flask.baseChanceToGetChargeAfterUse += 15
 			
-		case "Epic CD Reset Bonus":
+		case "Epic CoolDown Reset Bonus":
 			gameState.hero.flask.baseChanceToGetCDreset += 15
 			
 		case "Epic Damage Buff Bonus":
@@ -118,7 +120,7 @@ extension MainViewModel {
 		case "Legendary Damage Bonus":
 			gameState.hero.flask.baseDamageValue += 0.20
 			
-		case "Legendary CD Reduction Bonus":
+		case "Legendary CoolDown Reduction Bonus":
 			
 			if gameState.hero.flask.baseCooldown > 1 {
 				gameState.hero.flask.baseCooldown -= 6
@@ -132,7 +134,7 @@ extension MainViewModel {
 		case "Legendary Charge Back Bonus":
 			gameState.hero.flask.baseChanceToGetChargeAfterUse += 20
 			
-		case "Legendary CD Reset Bonus":
+		case "Legendary CoolDown Reset Bonus":
 			gameState.hero.flask.baseChanceToGetCDreset += 20
 			
 		case "Legendary Damage Buff Bonus":
