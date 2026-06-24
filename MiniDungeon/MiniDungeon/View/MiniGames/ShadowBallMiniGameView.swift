@@ -27,18 +27,18 @@
 
 import SwiftUI
 
-extension MainView {
-	
-	/// Test method to call shadowBallMiniGame independently
-	@ViewBuilder
-	func buildShadowBallMiniGameView() -> some View {
-		
-		VStack {
-			ShadowBallMiniGameView()
-		}
-		.frame(width: 400, height: 400)
-	}
-}
+//extension MainView {
+//	
+//	/// Test method to call shadowBallMiniGame independently
+//	@ViewBuilder
+//	func buildShadowBallMiniGameView() -> some View {
+//		
+//		VStack {
+//			ShadowBallMiniGameView()
+//		}
+//		.frame(width: 400, height: 400)
+//	}
+//}
 
 struct ShadowBallMiniGameView: View {
 	
@@ -86,6 +86,8 @@ struct ShadowBallMiniGameView: View {
 												 height: 50)
 	
 	// MARK: - Public Properties
+	
+	var isEnglish: Bool
 	
 	/// This callback we send to parent view to react on game result
 	var onImpact: ((Bool) -> Void)? // Callback for game result
@@ -357,10 +359,6 @@ extension ShadowBallMiniGameView {
 		// Adjust such coordinates in both objects of collision or you simply end with trying to meet the points of two thin arrow in a field
 			
 		if motion.isMoving {
-			print("ball X coordinate - \(motion.coordinateX)")
-			print("ball Y coordinate - \(motion.coordinateY)")
-			print("platform X coordinate - \(platformMotion.coordinateX)")
-			print("platform Y coordinate - \(platformMotion.coordinateY + dragPlatformTemporaryTranslationPositionOnScreen.height)")
 			
 			// Case responsible for collision between the ball and rect
 			// 10 points addition just for smooth hit box
@@ -404,7 +402,7 @@ extension ShadowBallMiniGameView {
 			motion.isMoving = false
 			successCatches += 1
 			isSuccess = true
-			gameResult = "Damage Resist!"
+			gameResult = isEnglish ? "Damage Resist!" : "Заблокировано!"
 			boardColor = .green
 			
 		} else {
@@ -412,7 +410,7 @@ extension ShadowBallMiniGameView {
 			motion.isMoving = false
 			failedCatches += 1
 			isSuccess = false
-			gameResult = "Taking Damage!"
+			gameResult = isEnglish ? "Taking Damage!" : "Получен урон!"
 			boardColor = .red
 			
 		}
