@@ -4,6 +4,8 @@ import Foundation
 struct Enemy: Codable {
 	
 	var name = "Enemy"
+	
+	var imageName = ""
 	var isBoss = false
 	
 	// State Flags
