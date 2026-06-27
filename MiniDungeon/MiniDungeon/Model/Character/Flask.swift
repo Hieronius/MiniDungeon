@@ -20,16 +20,31 @@ enum FlaskActions: Codable {
 	case heal
 	case damage
 }
-
+	
 enum FlaskComments: String, Codable {
 	
-	case battleModeChange = "Battle Mode has been changed"
-	case readyForLevelUP = "Level UP!"
-	case didGetLevelUP = "I'm stronger now!"
-	case offensiveMode = "Offensive Mode On"
-	case defensiveMode = "Defensive Mode On"
+//	case battleModeChange = "Battle Mode has been changed"
+//	case readyForLevelUP = "Level UP!"
+//	case didGetLevelUP = "I'm stronger now!"
+//	case offensiveMode = "Offensive Mode On"
+//	case defensiveMode = "Defensive Mode On"
+//	case none = "                         "
+	
+	case battleModeChangeEN = "Battle Mode has been changed"
+	case readyForLevelUPEN = "Level UP!"
+	case didGetLevelUPEN = "I'm stronger now!"
+	case offensiveModeEN = "Offensive Mode On"
+	case defensiveModeEN = "Defensive Mode On"
+	
+	case battleModeChangeRU = "Смена боевого режима"
+	case readyForLevelUPRU = "Новый уровень!"
+	case didGetLevelUPRU = "Я стал сильнее!"
+	case offensiveModeRU = "Атакующий режим"
+	case defensiveModeRU = "Защитный режим"
+	
 	case none = "                         "
 }
+
 
 /// Use this enum to determine what talant of Soul Collection user has under his belt so flask can collect more souls and unleash a bigger effect
 enum FlaskSoulCollectionStatus: String, Codable {
@@ -37,7 +52,7 @@ enum FlaskSoulCollectionStatus: String, Codable {
 	case soulCollector = "Soul Collector"
 	case soulExtractor = "Soul Extractor"
 	case soulEater = "Soul Eater"
-}
+	}
 
 // TODO: Uncomment when you refactor
 //enum FlaskLevelBonus: Codable {
@@ -62,6 +77,9 @@ class Flask {
 	var level = 1
 	var currentXP = 0
 	var expToLevelUP = 50
+	
+	/// test property to get access to app current language to translate comments properly
+	var isEnglish: Bool
 	
 	/// By default we have Soul Collector Talant to get combat impact up to 50
 	var currentSoulCollectionStatus: FlaskSoulCollectionStatus = FlaskSoulCollectionStatus.soulCollector
@@ -179,8 +197,8 @@ class Flask {
 	var baseDefenceDebuffAfterUseOnTarget = 0
 	
 	
-	init() {
-		
+	init(isEnglish: Bool) {
+		self.isEnglish = isEnglish
 	}
 	
 	// MARK: - collectCombatImpactWithAnimation
@@ -244,7 +262,7 @@ class Flask {
 		level += 1
 		currentXP = 0
 		expToLevelUP += 25
-		currentComment = .didGetLevelUP
+		currentComment = isEnglish ? .didGetLevelUPEN : .didGetLevelUPRU
 		cleanFlaskComment()
 	}
 	
@@ -275,10 +293,10 @@ class Flask {
 		
 		if battleMode == .offensive {
 			battleMode = .defensive
-			currentComment = .defensiveMode
+			currentComment = isEnglish ? .defensiveModeEN : .defensiveModeRU
 		} else if battleMode == .defensive {
 			battleMode = .offensive
-			currentComment = .offensiveMode
+			currentComment = isEnglish ? .offensiveModeEN : .offensiveModeRU
 		}
 		cleanFlaskComment()
 		
