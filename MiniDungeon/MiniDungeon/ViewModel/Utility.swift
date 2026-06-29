@@ -24,6 +24,14 @@ extension MainViewModel {
 			self.gameState.currentHeroAnimation = .none
 			self.gameState.currentEnemyAnimation = .none
 		}
+		
+		// MARK: Test Async@Await Implementation
+		
+//		Task {
+//			try await Task.sleep(for: .seconds(1))
+//			self.gameState.currentHeroAnimation = .none
+//			self.gameState.currentEnemyAnimation = .none
+//		}
 	}
 	
 	// MARK: - endHeroTurn
@@ -67,7 +75,11 @@ extension MainViewModel {
 			gameState.logMessage = "Now is Enemy Turn"
 			
 		}
-		enemyTurn()
+		// MARK: Uncomment it before release if a new enemy queue system will fail
+		Task {
+			try await Task.sleep(for: .seconds(1.5))
+			generateAndExecuteEnemyAction()
+		}
 	}
 	
 	// MARK: - passTurnToHero
@@ -94,192 +106,6 @@ extension MainViewModel {
 		restoreAllEnergy()
 		DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
 			self.gameState.logMessage = "Now is Hero Turn"
-		}
-	}
-	
-	
-	
-	// MARK: - enemyTurn
-	
-	func enemyTurn() {
-		
-		if !gameState.isHeroTurn && !gameState.isShadowBallMiniGameOn {
-			
-			// A delay to create feeling the enemy does attacks with a little delay and not instant
-			var extraActionDelay = 2.0 + Double(gameState.enemy.currentEnergy) / 5.0
-			
-			DispatchQueue.main.asyncAfter(deadline: .now() + extraActionDelay) {
-				
-				guard self.gameState.enemy.currentEnergy > 0 else {
-					self.passTurnToHero()
-					return
-				}
-				
-				// Calculate current enemy hp in %
-				let enemyMaxHealthInPercent = Double(self.gameState.enemy.maxHP) / 100.0
-				let currentHealthInPercent = Double(self.gameState.enemy.currentHP) / enemyMaxHealthInPercent
-				
-				// if enemy has less than 30% hp add heal/block as actions to choose between
-				if currentHealthInPercent <= 30.0 {
-					
-					// 1 - 100 equal to part of 100% of the chance to get a specific action
-					let chance = Int.random(in: 1...100)
-					
-					switch chance {
-						
-						// 15% for healing ability if enemy has enough mana
-						// otherwise use block if didn't use
-						// otherwise use a fast attack
-						
-					case 1...15:
-						if self.gameState.enemy.currentMP >= self.gameState.spellManaCost {
-							self.heal()
-						} else {
-							
-							if !self.gameState.didEnemyUseBlock {
-								self.block()
-							} else {
-								self.audioManager.playSound(fileName: "comboHit1", extensionName: "mp3")
-								extraActionDelay += 1.5
-								self.continueAttackAfterMiniGame(combatMiniGameSuccess: false, evasionMiniGameSuccess: false)
-							}
-						}
-						
-						// 15% for block ability
-					case 16...30:
-						
-						// if enemy did already use block don't do it again
-						if !self.gameState.didEnemyUseBlock {
-							self.block()
-						} else {
-							if self.gameState.enemy.currentMP >= self.gameState.spellManaCost {
-								self.heal()
-							} else {
-								self.audioManager.playSound(fileName: "comboHit1", extensionName: "mp3")
-								extraActionDelay += 1.5
-								self.continueAttackAfterMiniGame(combatMiniGameSuccess: false, evasionMiniGameSuccess: false)
-							}
-						}
-						
-						// 70% for attack ability
-					default:
-						
-						let attackRoll = Int.random(in: 1...100)
-						
-						// 70% for avoidable one
-						
-						if attackRoll <= 70 {
-							self.playAttackSound(didMissHit: false)
-							self.gameState.isEvasionMiniGameOn = true
-							
-							// 30% for unavoidable one
-							// dodge: false mean we don't activate evasion mini game so avoidance is not active
-							
-						} else if attackRoll > 70 {
-							print("Fast Attack Sound from enemyTurn()")
-							self.audioManager.playSound(fileName: "comboHit1", extensionName: "mp3")
-							extraActionDelay += 1.5
-							self.continueAttackAfterMiniGame(combatMiniGameSuccess: false, evasionMiniGameSuccess: false)
-						}
-					}
-					self.enemyTurn()
-					
-				} else {
-					
-					print("Decide an Offensive Action")
-					
-					// if enemy has energy for ultimate throw a roll for it
-					
-					// MARK: Boss Actions
-					
-					if self.gameState.enemy.currentEnergy >= 2 && self.gameState.enemy.isBoss {
-						
-						print("enemy.energy > 2 -> special attack roll")
-						
-						let ultimateRoll = Int.random(in: 1...10)
-						
-						if ultimateRoll <= 4 {
-							
-							print("specialRoll successful -> perform")
-							
-							self.audioManager.playSound(fileName: "bossUltimate1", extensionName: "mp3")
-							self.gameState.enemy.currentEnergy -= self.gameState.specialSkillEnergyCost
-							
-							if self.gameState.isEnglishLocalisation {
-								self.gameState.logMessage = "Enemy Special Attack!"
-							} else {
-								self.gameState.logMessage = "Специальная атака противника!"
-							}
-							self.gameState.isShadowBallMiniGameOn = true
-							
-							DispatchQueue.main.asyncAfter(deadline: .now() + 9.0) {
-								print("After 9 seconds enemy performs action again")
-								self.enemyTurn()
-							}
-							
-							// if energy < 2 -> perform a normal attack
-							
-						} else {
-							
-							print("special roll failed -> perform a normal attack -> start new enemy turn")
-							
-							let attackRoll = Int.random(in: 1...100)
-							
-							// 70% for avoidable one
-							
-							if attackRoll <= 70 {
-								self.playAttackSound(didMissHit: false)
-								self.gameState.isEvasionMiniGameOn = true
-								
-								// 30% for unavoidable one
-								// dodge: false mean we don't activate evasion mini game so avoidance is not active
-								
-							} else if attackRoll > 70 {
-								extraActionDelay += 1.5
-								
-								print("Fast Attack Sound from enemyTurn()")
-								self.audioManager.playSound(fileName: "comboHit1", extensionName: "mp3")
-								self.continueAttackAfterMiniGame(combatMiniGameSuccess: false, evasionMiniGameSuccess: false)
-							}
-							
-							self.enemyTurn()
-						}
-						
-						// otherwise use an normal attack
-						
-					} else {
-						
-						print("enemy.energy < 2 -> perform a normal attack -> start a new enemy turn")
-						let attackRoll = Int.random(in: 1...100)
-						
-						// 70% for avoidable one
-						
-						if attackRoll <= 70 {
-							print("Slow Attack Sound from enemyTurn()")
-							self.playAttackSound(didMissHit: false)
-							self.gameState.isEvasionMiniGameOn = true
-							
-							// 30% for unavoidable one
-							// dodge: false mean we don't activate evasion mini game so avoidance is not active
-							
-						} else if attackRoll > 70 {
-							print("Fast Attack Sound from enemyTurn()")
-							extraActionDelay += 1.5
-							self.audioManager.playSound(fileName: "comboHit1", extensionName: "mp3")
-							self.continueAttackAfterMiniGame(combatMiniGameSuccess: false, evasionMiniGameSuccess: false)
-							if self.gameState.isEnglishLocalisation {
-								self.gameState.logMessage += " from fast unavoidable attack!"
-							} else {
-								self.gameState.logMessage += " от быстрой неминуемой атаки!"
-							}
-						}
-						self.enemyTurn()
-					}
-					
-				}
-				
-			}
-			
 		}
 	}
 	
@@ -485,7 +311,7 @@ extension MainViewModel {
 			}
 			
 		}
-		gameState.isCombatMiniGameOn = false
+		gameState.isDamageBoostMiniGameOn = false
 	}
 	
 	// MARK: getRewardAfterFight
@@ -1377,6 +1203,8 @@ extension MainViewModel {
 		}
 	}
 	
+	// MARK: - localizeFlaskSoulCollectionStatus
+	
 	// Utility method to get a correct localisation for current FlaskSoulCollectionStatus to display in BattleView
 	func localizeFlaskSoulCollectionStatus(
 		status: FlaskSoulCollectionStatus
@@ -1411,5 +1239,6 @@ extension MainViewModel {
 				return "Пожиратель Душ"
 			}
 		}
+		
 	}
 }
