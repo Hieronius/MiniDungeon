@@ -295,7 +295,7 @@ extension MainViewModel {
 		
 		
 		// experience loot (ignore if it's a chest loot)
-		if !gameState.dealthWithChest && !gameState.didEncounterSecretRoom {
+		if (!gameState.dealthWithChest && !gameState.didEncounterSecretRoom) || gameState.didEncounteredBoss {
 			
 			var exp = generateExperienceLoot(
 				didFinalBossSummoned: gameState.didEncounteredBoss
@@ -663,7 +663,10 @@ extension MainViewModel {
 		
 		var expRoll = Int.random(in: 30...40)
 		
-		if didFinalBossSummoned { expRoll *= 2 }
+		if didFinalBossSummoned {
+			print("This is boss, hello")
+			expRoll *= 2
+		}
 		
 		return expRoll
 	}
