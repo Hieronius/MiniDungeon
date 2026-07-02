@@ -62,8 +62,8 @@ extension MainView {
 				.animation(
 					.bouncy(), value: viewModel.gameState.didFlaskGetLevelUP
 				)
-				Text(viewModel.gameState.hero.flask.currentComment.rawValue)
-					.frame(width: 150)
+//				Text(viewModel.gameState.hero.flask.currentComment.rawValue)
+//					.frame(width: 150)
 			}
 	}
 }
