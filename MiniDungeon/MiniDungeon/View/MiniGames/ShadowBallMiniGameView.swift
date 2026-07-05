@@ -88,6 +88,7 @@ struct ShadowBallMiniGameView: View {
 	// MARK: - Public Properties
 	
 	var isEnglish: Bool
+	var isGamePaused: Bool
 	
 	/// This callback we send to parent view to react on game result
 	var onImpact: ((Bool) -> Void)? // Callback for game result
@@ -182,9 +183,12 @@ struct ShadowBallMiniGameView: View {
 					
 				}
 				.onChange(of: context.date) { _, newDate in
+					
+					if !isGamePaused {
 						let delta = newDate.timeIntervalSince(lastUpdate)
 						lastUpdate = newDate
 						updateGame(delta: delta)
+					}
 					}
 			}
 			
@@ -217,69 +221,102 @@ extension ShadowBallMiniGameView {
 		// critical flag to avoid solving chest puzzle before starting a game
 		gameWasStarted = true
 		
-		DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-			let scheme1 = generateMovementScheme()
-			applyMovementScheme(scheme1, for: &motions[0])
+		if !isGamePaused {
+			print("Fired 1 ball")
+			DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+				let scheme1 = generateMovementScheme()
+				applyMovementScheme(scheme1, for: &motions[0])
+			}
 		}
 		
-		DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-			
-			let scheme2 = generateMovementScheme()
-			applyMovementScheme(scheme2, for: &motions[1])
+		if !isGamePaused {
+			print("Fired 2 ball")
+			DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+				
+				let scheme2 = generateMovementScheme()
+				applyMovementScheme(scheme2, for: &motions[1])
+			}
 		}
 		
-		DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-			
-			let scheme3 = generateMovementScheme()
-			applyMovementScheme(scheme3, for: &motions[2])
-			
+		if !isGamePaused {
+			print("Fired 3 ball")
+			DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+				
+				let scheme3 = generateMovementScheme()
+				applyMovementScheme(scheme3, for: &motions[2])
+				
+			}
 		}
 		
-		DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-			
-			let scheme4 = generateMovementScheme()
-			applyMovementScheme(scheme4, for: &motions[3])
+		if !isGamePaused {
+			print("Fired 4 ball")
+			DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+				
+				let scheme4 = generateMovementScheme()
+				applyMovementScheme(scheme4, for: &motions[3])
+			}
 		}
 		
-		DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-			
-			let scheme5 = generateMovementScheme()
-			applyMovementScheme(scheme5, for: &motions[4])
+		if !isGamePaused {
+			print("Fired 5 ball")
+			DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+				
+				let scheme5 = generateMovementScheme()
+				applyMovementScheme(scheme5, for: &motions[4])
+			}
 		}
 		
-		DispatchQueue.main.asyncAfter(deadline: .now() + 2.5) {
-			
-			let scheme6 = generateMovementScheme()
-			applyMovementScheme(scheme6, for: &motions[5])
+		if !isGamePaused {
+			print("Fired 6 ball")
+			DispatchQueue.main.asyncAfter(deadline: .now() + 2.5) {
+				
+				let scheme6 = generateMovementScheme()
+				applyMovementScheme(scheme6, for: &motions[5])
+			}
 		}
 		
-		DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
-			
-			let scheme7 = generateMovementScheme()
-			applyMovementScheme(scheme7, for: &motions[6])
+		if !isGamePaused {
+			print("Fired 7 ball")
+			DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
+				
+				let scheme7 = generateMovementScheme()
+				applyMovementScheme(scheme7, for: &motions[6])
+			}
 		}
 		
-		DispatchQueue.main.asyncAfter(deadline: .now() + 3.5) {
-			
-			let scheme8 = generateMovementScheme()
-			applyMovementScheme(scheme8, for: &motions[7])
+		if !isGamePaused {
+			print("Fired 8 ball")
+			DispatchQueue.main.asyncAfter(deadline: .now() + 3.5) {
+				
+				let scheme8 = generateMovementScheme()
+				applyMovementScheme(scheme8, for: &motions[7])
+			}
 		}
 		
-		DispatchQueue.main.asyncAfter(deadline: .now() + 4.0) {
-			
-			let scheme9 = generateMovementScheme()
-			applyMovementScheme(scheme9, for: &motions[8])
+		if !isGamePaused {
+			print("Fired 9 ball")
+			DispatchQueue.main.asyncAfter(deadline: .now() + 4.0) {
+				
+				let scheme9 = generateMovementScheme()
+				applyMovementScheme(scheme9, for: &motions[8])
+			}
 		}
 		
-		DispatchQueue.main.asyncAfter(deadline: .now() + 4.5) {
-			
-			let scheme10 = generateMovementScheme()
-			applyMovementScheme(scheme10, for: &motions[9])
+		if !isGamePaused {
+			print("Fired 10 ball")
+			DispatchQueue.main.asyncAfter(deadline: .now() + 4.5) {
+				
+				let scheme10 = generateMovementScheme()
+				applyMovementScheme(scheme10, for: &motions[9])
+			}
 		}
 		
-		DispatchQueue.main.asyncAfter(deadline: .now() + 8.0) {
+		if !isGamePaused {
+			
+			DispatchQueue.main.asyncAfter(deadline: .now() + 8.0) {
 				self.stopGame()
 			}
+		}
 	
 		
 	}
@@ -358,7 +395,7 @@ extension ShadowBallMiniGameView {
 		// To get object sides/angles use object.leftTopAngleCoordinates
 		// Adjust such coordinates in both objects of collision or you simply end with trying to meet the points of two thin arrow in a field
 			
-		if motion.isMoving {
+		if motion.isMoving && !isGamePaused {
 			
 			// Case responsible for collision between the ball and rect
 			// 10 points addition just for smooth hit box
