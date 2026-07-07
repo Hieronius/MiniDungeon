@@ -52,6 +52,8 @@ extension MainView {
 		/// Localisation of current DamageBoostMiniGame session
 		var isEnglish: Bool
 		
+		var isGamePaused: Bool
+		
 		/// A result of the mini game we send to the ViewModel to process and apply to hero damage
 		var onGameEnd: ((DamageBoostOutcome) -> (Void))?
 		
@@ -195,6 +197,10 @@ extension MainView.DamageBoostMiniGameView {
 	// MARK: - moveCursor
 	
 	func moveCursor(object: inout MotionController) {
+		
+		guard !isGamePaused else {
+			return
+		}
 		
 		if object.coordinateX < object.maxRangeX - 15 {
 			object.coordinateX += object.velocity
