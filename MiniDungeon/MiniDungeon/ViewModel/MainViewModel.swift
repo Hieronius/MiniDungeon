@@ -58,6 +58,36 @@ class MainViewModel: ObservableObject {
 	}
 }
 
+extension MainViewModel {
+	
+	// MARK: - resetGameStateToDefault
+	
+	/// Method to set a new fresh game state and to save it
+	func resetGameStateToDefault() {
+		
+		let isEnglishLocalisation = true
+		
+		let flask = Flask(isEnglish: isEnglishLocalisation)
+		let hero = Hero(flask: flask)
+		
+		let freshGameState = GameState(hero: hero)
+		freshGameState.isFreshSession = true
+		freshGameState.isEnglishLocalisation = isEnglishLocalisation
+		gameState = freshGameState
+		print("We did reset Default Game State")
+		
+		// Create new map
+		
+		generateDemoLevelMap()
+		
+		// Prepare hero
+		
+		spawnHeroAtDemoLevel()
+		
+		print("Generate a new demo level and spawn the hero")
+	}
+}
+
 
 extension MainViewModel {
 	
