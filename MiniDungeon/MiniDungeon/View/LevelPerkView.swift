@@ -11,15 +11,26 @@ extension MainView {
 			
 			List {
 				
-				Section(header: Text("Level Perks")) {
+				Section(header: Text(isEnglish() ? "Level Perks" : "Перк Уровня")) {
 					
 					// Replace from gameState.selectedLevelPerks
 					
 					ForEach(viewModel.gameState.levelPerksToChoose.compactMap { $0 }) { bonus in
-						Button(bonus.name) {
-							viewModel.gameState.levelPerkToDisplay = bonus
+						
+						if isEnglish() {
+							
+							Button(bonus.nameEN) {
+								viewModel.gameState.levelPerkToDisplay = bonus
+							}
+							.foregroundStyle(bonus.rarity.color)
+							
+						} else {
+							
+							Button(bonus.nameRU) {
+								viewModel.gameState.levelPerkToDisplay = bonus
+							}
+							.foregroundStyle(bonus.rarity.color)
 						}
-						.foregroundStyle(bonus.rarity.color)
 					}
 				}
 				
@@ -27,14 +38,26 @@ extension MainView {
 				
 				if viewModel.gameState.levelPerkToDisplay != nil {
 					
-					Section(header: Text("Description")) {
+					Section(header: Text(isEnglish() ? "Description" : "Описание")) {
 
-						Text("Name - \(viewModel.gameState.levelPerkToDisplay?.name ?? "")")
-							.foregroundStyle(viewModel.gameState.levelPerkToDisplay?.rarity.color ?? .white)
-							.bold()
-						Text("Description:  \(viewModel.gameState.levelPerkToDisplay?.perkDescription ?? "")")
-						Button("Choose") {
-							viewModel.applyLevelPerk(viewModel.gameState.levelPerkToDisplay)
+						if isEnglish() {
+							Text("Name: \(viewModel.gameState.levelPerkToDisplay?.nameEN ?? "")")
+								.foregroundStyle(viewModel.gameState.levelPerkToDisplay?.rarity.color ?? .white)
+								.bold()
+							Text("Description:  \(viewModel.gameState.levelPerkToDisplay?.perkDescriptionEN ?? "")")
+							Button("Choose") {
+								viewModel.applyLevelPerk(viewModel.gameState.levelPerkToDisplay)
+							}
+							
+						} else {
+							
+							Text("Название: \(viewModel.gameState.levelPerkToDisplay?.nameRU ?? "")")
+								.foregroundStyle(viewModel.gameState.levelPerkToDisplay?.rarity.color ?? .white)
+								.bold()
+							Text("Описание:  \(viewModel.gameState.levelPerkToDisplay?.perkDescriptionRU ?? "")")
+							Button("Выбрать") {
+								viewModel.applyLevelPerk(viewModel.gameState.levelPerkToDisplay)
+							}
 						}
 					}
 				}
