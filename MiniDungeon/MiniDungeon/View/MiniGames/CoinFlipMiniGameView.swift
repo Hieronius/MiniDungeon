@@ -16,16 +16,16 @@
  */
 import SwiftUI
 
-extension MainView {
-	
-	@ViewBuilder
-	func buildCoinFlipMiniGame() -> some View {
-		
-		VStack {
-			CoinFlipMiniGameView(heroChanceForFirstTurn: 50)
-		}
-	}
-}
+//extension MainView {
+//	
+//	@ViewBuilder
+//	func buildCoinFlipMiniGame() -> some View {
+//		
+//		VStack {
+//			CoinFlipMiniGameView(isEnglish: , heroChanceForFirstTurn: 50)
+//		}
+//	}
+//}
 
 struct CoinFlipMiniGameView: View {
 	
@@ -39,6 +39,8 @@ struct CoinFlipMiniGameView: View {
 	@State var coinFlipEnd = false
 	@State var isHapticOn = false
 	
+	
+	var isEnglish: Bool
 	/// Basic chance is 50% but can be changed accordingly to game talants, perks or events
 	var heroChanceForFirstTurn: Int
 	
@@ -62,10 +64,20 @@ struct CoinFlipMiniGameView: View {
 					.rotation3DEffect(.degrees(rotatingAngle), axis: (x: 1, y: 0, z: 0))
 					.offset(y: yOffSet)
 				
-				Text(isHeroCoinInFront ? "Hero Turn First!" : "Enemy Turn First!")
-					.foregroundStyle(coinColor)
-					.opacity(coinFlipEnd ? 1.0 : 0.0)
-					.offset(y: 30)
+				
+				if isEnglish {
+					Text(isHeroCoinInFront ? "Hero Turn First!" : "Enemy Turn First!")
+						.foregroundStyle(coinColor)
+						.opacity(coinFlipEnd ? 1.0 : 0.0)
+						.offset(y: 30)
+					
+				} else {
+					
+					Text(isHeroCoinInFront ? "Ваш ход!" : "Ход противника!")
+						.foregroundStyle(coinColor)
+						.opacity(coinFlipEnd ? 1.0 : 0.0)
+						.offset(y: 30)
+				}
 				
 			}
 		}
@@ -120,14 +132,10 @@ extension CoinFlipMiniGameView {
 				}
 				
 				if direction == .top {
-					print("we move top")
 					yOffSet -= 1
 				} else if direction == .bottom {
-					print("we move bottom")
 					yOffSet += 1
 				}
-				print(yOffSet)
-				print(direction)
 			}
 		}
 	}
@@ -142,13 +150,11 @@ extension CoinFlipMiniGameView {
 				coinColor = .green
 				isHeroCoinInFront = true
 				onGameEnd?(true)
-				print("HERO START FIRST")
 			} else if roll > heroChanceForFirstTurn {
 				
 				coinColor = .red
 				isHeroCoinInFront = false
 				onGameEnd?(false)
-				print("ENEMY START FIRST")
 			}
 			coinFlipEnd = true
 			isHapticOn = true
