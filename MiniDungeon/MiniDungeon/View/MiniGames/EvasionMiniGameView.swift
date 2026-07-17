@@ -25,7 +25,7 @@ extension MainView {
 	func buildEvasionMiniGame() -> some View {
 		
 		VStack {
-			EvasionMiniGame()
+			EvasionMiniGameView(isEnglish: isEnglish(), isGamePaused: isGamePaused())
 		}
 		.frame(height: 200)
 	}
@@ -33,7 +33,7 @@ extension MainView {
 
 // MARK: - EvasionMiniGame
 
-struct EvasionMiniGame: View {
+struct EvasionMiniGameView: View {
 	
 	// MARK: - State Properties
 	
@@ -83,6 +83,8 @@ struct EvasionMiniGame: View {
 	
 	// MARK: - General Properties
 	
+	var isEnglish: Bool
+	var isGamePaused: Bool
 	var onGameEnd: ((Bool) -> (Void))?
 	var difficulty: Difficulty = .easy
 	
@@ -105,8 +107,8 @@ struct EvasionMiniGame: View {
 				
 				Text(resultLabel)
 					.foregroundStyle(resultLabelColor)
-				Text("Slow Enemy Attack!")
 				Text(swipeDirectionLabel)
+					.font(.largeTitle)
 				
 				TimelineView(.animation) { context in
 
@@ -148,7 +150,7 @@ struct EvasionMiniGame: View {
 						.onChange(of: context.date){ oldValue, newDate in
 							let delta = newDate.timeIntervalSince(lastUpdate)
 							lastUpdate = newDate
-							if userCursor.isMoving {
+							if userCursor.isMoving && !isGamePaused {
 								moveCursor(&userCursor, delta: delta)
 							}
 						}
@@ -165,25 +167,23 @@ struct EvasionMiniGame: View {
 					// put methods to check collision here
 					
 					if value.translation.width > 50 {
-						swipeDirectionLabel = "Did Swipe Right"
+						
+						swipeDirectionLabel = isEnglish ? "Did Swipe Right" : "Свайпнули вправо"
 						// if predefined direction == .right -> send true to process
 						if swipeDirection == .right {
 							handleSwipe(isSwipeCorrect: true)
-							print("Predefined Direction was Right, Swipe was Right")
 						} else if swipeDirection == .left {
 							handleSwipe(isSwipeCorrect: false)
-							print("Predefined Direction was Right, Swipe was Left")
 						}
 						// otherwise -> send false
 					} else if value.translation.width < -50 {
-						swipeDirectionLabel = "Did Swipe Left"
+						
+						swipeDirectionLabel = isEnglish ? "Did Swipe Left" : "Свайпнули влево"
 						// if predefined diretion ==.left -> send true to process
 						if swipeDirection == .left {
 							handleSwipe(isSwipeCorrect: true)
-							print("Predefined Direction was Left, Swipe was Left")
 						} else {
 							handleSwipe(isSwipeCorrect: false)
-							print("Predefined Direction was Left, Swipe was Right")
 						}
 					}
 				}
@@ -196,7 +196,7 @@ struct EvasionMiniGame: View {
 		
 }
 
-extension EvasionMiniGame {
+extension EvasionMiniGameView {
 	
 	// MARK: - startGame
 	
@@ -206,9 +206,9 @@ extension EvasionMiniGame {
 		sweetSpot.coordinateX = generateSweetSpot()
 		swipeDirection = generateSwipeDirection()
 		if swipeDirection == .right {
-			swipeDirectionLabel = "-> Right ->"
+			swipeDirectionLabel = isEnglish ? "➡️ Swipe Right ➡️" : "➡️ Смахни Вправо ➡️"
 		} else if swipeDirection == .left {
-			swipeDirectionLabel = "<- Left <-"
+			swipeDirectionLabel = isEnglish ? "⬅️ Swipe Left ⬅️" : "⬅️ Смахни Влево ⬅️"
 		}
 		
 	}
@@ -219,7 +219,7 @@ extension EvasionMiniGame {
 		
 		boardColor = .red
 		resultLabelColor = .red
-		resultLabel = "Got Hit!"
+		resultLabel = isEnglish ? "Got Hit!" : "Получен удар!"
 		userCursor.color = .red
 		cursorColor = .red
 		onGameEnd?(false)
@@ -313,7 +313,7 @@ extension EvasionMiniGame {
 			userCursor.isMoving = false
 			boardColor = .green
 			resultLabelColor = .green
-			resultLabel = "Success!"
+			resultLabel = isEnglish ? "Success!" : "Успех!"
 			userCursor.color = .green
 			cursorColor = .green
 			onGameEnd?(true)
@@ -329,7 +329,7 @@ extension EvasionMiniGame {
 			userCursor.isMoving = false
 			boardColor = .red
 			resultLabelColor = .red
-			resultLabel = "Failure!"
+			resultLabel = isEnglish ? "Failure!" : "Неудача!"
 			onGameEnd?(false)
 			userCursor.color = .red
 			cursorColor = .red
