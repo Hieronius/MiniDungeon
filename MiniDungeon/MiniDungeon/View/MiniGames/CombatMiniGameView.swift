@@ -18,6 +18,7 @@ extension MainView {
 		// Probably should be replaced by button "HIT"
 		let label = "Tap inside when the line will meet with the circle"
 		
+		var isEnglish: Bool
 		/// This callback we send to parent view to react on game result
 		var onGameEnd: ((Bool) -> Void)? // Callback for game result
 		
@@ -68,7 +69,7 @@ extension MainView {
 							}
 						
 						// Mimicing the button but with drag gesture
-						Text("Tap it!")
+						Text(isEnglish ? "Tap it!" :"Жми!")
 							.foregroundStyle(.white)
 					}
 					.scaleEffect(beenTapped ? 0.96 : 1.0)
@@ -99,12 +100,12 @@ extension MainView.CombatMiniGameView {
 	func hitBonusArea() {
 		
 		if timeRemaining > bonusArea - 0.035 && timeRemaining < bonusArea + 0.05 {
-			gameResult = "Perfect!"
+			gameResult = isEnglish ? "Perfect!" : "Идеально!"
 			isSuccess = true
 			boardColor = .green
 			
 		} else {
-			gameResult = "Failure!"
+			gameResult = isEnglish ? "Failure!" : "Мимо!"
 			isSuccess = false
 			boardColor = .red
 		}
