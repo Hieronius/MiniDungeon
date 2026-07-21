@@ -36,12 +36,17 @@ struct MiniDungeonApp: App {
 				
 			} else {
 				
-				let flask = Flask()
+				// MARK: Localisation here
+				
+				let isEnglishLocalisation = true
+				
+				let flask = Flask(isEnglish: isEnglishLocalisation)
 				let hero = Hero(flask: flask)
 				
 				let freshGameState = GameState(hero: hero)
 				gameState = freshGameState
 				gameState.isFreshSession = true
+				gameState.isEnglishLocalisation = isEnglishLocalisation
 				swiftDataManager.saveGameState(gameState)
 				print("Fresh Game State has been started")
 			}
