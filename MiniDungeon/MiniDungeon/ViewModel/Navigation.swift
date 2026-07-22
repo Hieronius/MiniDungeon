@@ -165,4 +165,8 @@ extension MainViewModel {
 	func goToTestCollisionView() {
 		gameState.currentGameScreen = .testCollisionView
 	}
+	
+	func goToDamageBoostMiniGameView() {
+		gameState.currentGameScreen = .damageBoostMiniGameView
+	}
 }
