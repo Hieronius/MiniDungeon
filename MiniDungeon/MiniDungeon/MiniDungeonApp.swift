@@ -9,7 +9,7 @@ struct MiniDungeonApp: App {
 	var modelContainer: ModelContainer
 	var swiftDataManager: SwiftDataManager
 	
-	@State var viewModel: MainViewModel
+	let viewModel: MainViewModel
 	
 	init() {
 		
@@ -61,7 +61,7 @@ struct MiniDungeonApp: App {
 				gameState: gameState
 			)
 			
-			_viewModel = State(initialValue: viewModel)
+			self.viewModel = viewModel
 			
 		} catch {
 			fatalError("Failed to initialise ModelContainer")

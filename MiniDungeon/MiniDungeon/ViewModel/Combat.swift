@@ -3,13 +3,577 @@ import SwiftUI
 
 extension MainViewModel {
 	
+	// MARK: - Test Pausable Action Delay
+	
+	func pauseableSleep(seconds: Double) async throws {
+		// this small chunk faster than a single frame so user will see an actual pause
+		let chunkSize = 0.05 // 50ms - small enough to feel instant on resume
+		// this property we use to track how much time we slept
+		var elapsed: Double = 0.0
+		
+		while elapsed < seconds {
+			// 1. Check if we are paused - if so, wait indefinitely until unpaused
+			while gameState.isGamePaused {
+				// Sleep for 100ms while paused to keep the thread responsive
+				try await Task.sleep(for: .milliseconds(100))
+				// Check if the task was externally cancelled (e.g., user quit the battle)
+				try Task.checkCancellation()
+			}
+			
+			// 2. Sleep for the next chunk
+			let remaining = seconds - elapsed
+			let sleepTime = min(chunkSize, remaining)
+			try await Task.sleep(for: .seconds(sleepTime))
+			elapsed += sleepTime
+			
+			// 3. Allow cancellation
+			try Task.checkCancellation()
+		}
+	}
+	
+	// MARK: - Test method generateAndExecuteEnemyAction
+	
+	/// Test method for single enemy action generation and execution
+	func generateAndExecuteEnemyAction() {
+			
+			// 1. check for resources
+		
+			guard gameState.isHeroTurn == false else {
+				print("It's actually a hero turn")
+				return
+			}
+			
+			guard gameState.enemy.currentHP > 0 else {
+				print("Enemy is dead!")
+				return
+			}
+			
+			guard gameState.enemy.currentEnergy > 0 else {
+				print("Enemy don't have any energy left")
+				passTurnToHero()
+				return
+			}
+			
+			guard gameState.isActionInProgress == false else {
+				print("Wait for current action to complete")
+				return
+			}
+			
+			// 1.1 Display that an action started
+			gameState.isActionInProgress = true
+		
+			// 1.2 Property to add extra delay time to decide when to reflect that enemy action is actually over
+			var delayTime = 0
+		
+		// 2.0 Find enemy HP percent to decide an offensive or defensive action
+		
+		// Calculate current enemy hp in %
+		let enemyMaxHealthInPercent = Double(self.gameState.enemy.maxHP) / 100.0
+		let currentHealthInPercent = Double(self.gameState.enemy.currentHP) / enemyMaxHealthInPercent
+		
+		// MARK: ENEMY LOW HP (less than 30%) DECISION MAKING ALGORITHM
+		// if enemy has less than 30% hp add heal/block as actions to choose between
+		if currentHealthInPercent <= 30.0 {
+			
+			// 2.1 Generate an enemy action (algorithm from my actual enemyTurn method)
+			
+			// 1 - 100 equal to part of 100% of the chance to get a specific action
+			let chance = Int.random(in: 1...100)
+			
+			switch chance {
+				
+				// 15% for healing ability if enemy has enough mana
+				// otherwise use block if didn't use
+				// otherwise throw a roll for fast(30)/slow(70) attack
+				
+			case 1...15:
+				
+				if gameState.enemy.currentMP >= gameState.spellManaCost {
+					delayTime = 2
+					print("Execute heal with 2 sec delay")
+					heal()
+					
+				} else {
+					
+					if !gameState.didEnemyUseBlock {
+						delayTime = 2
+						print("Execute block with 2 sec delay")
+						block()
+						
+						// block for attack decision making based on boss or normal enemy
+						
+					} else {
+						
+						// MARK: Boss Attacks
+						
+						if self.gameState.enemy.currentEnergy >= 2 && self.gameState.enemy.isBoss {
+							
+							let roll = Int.random(in: 1...100)
+							
+							switch roll {
+								
+							case 1...20:
+								
+								// 30% for fast attack
+								
+								delayTime = 3
+								continueAttackAfterMiniGame(
+									damageBoostModifier: 1.0,
+									evasionMiniGameSuccess: false
+								)
+								print("Execute fast attack with delay 3 sec")
+								
+							case 21...70:
+								
+								// 50% for slow attack
+								
+								// 5 sec it's a time for action time
+								// 2 sec it's a time for label "BEWARE"
+								delayTime = 5 + 2
+								Task {
+									gameState.isBewareLabelVisiable = true
+									try await pauseableSleep(seconds: 2)
+									gameState.isBewareLabelVisiable = false
+									playAttackSound(didMissHit: false)
+									gameState.isEvasionMiniGameOn = true
+									print("Execute slow attack with delay 5 sec")
+								}
+								
+							case 71...100:
+								
+								// 30% for ultimate attack
+								
+								delayTime = 10
+								audioManager.playSound(fileName: "bossUltimate1", extensionName: "mp3")
+								gameState.enemy.currentEnergy -= gameState.specialSkillEnergyCost
+								
+								if gameState.isEnglishLocalisation {
+									gameState.logMessage = "Enemy Special Attack!"
+								} else {
+									gameState.logMessage = "Специальная атака противника!"
+								}
+								gameState.isShadowBallMiniGameOn = true
+								print("Execute Ultimate attack with delay 10 sec")
+								
+							default:
+								
+								// 5 sec it's a time for action time
+								// 2 sec it's a time for label "BEWARE"
+								delayTime = 5 + 2
+								Task {
+									gameState.isBewareLabelVisiable = true
+									try await pauseableSleep(seconds: 2)
+									gameState.isBewareLabelVisiable = false
+									playAttackSound(didMissHit: false)
+									gameState.isEvasionMiniGameOn = true
+									print("Execute slow attack with delay 5 sec")
+								}
+								
+							}
+							
+							// MARK: Normal Enemy Attacks
+							
+						} else {
+							
+							let roll = Int.random(in: 1...100)
+							
+							if roll >= 70 {
+								
+								// 30% for fast attack
+								
+								delayTime = 3
+								continueAttackAfterMiniGame(
+									damageBoostModifier: 1.0,
+									evasionMiniGameSuccess: false
+								)
+								print("Execute fast attack with delay 3 sec")
+								
+							} else {
+								
+								// 70% for slow attack
+
+								// 5 sec it's a time for action time
+								// 2 sec it's a time for label "BEWARE"
+								delayTime = 5 + 2
+								Task {
+									gameState.isBewareLabelVisiable = true
+									try await pauseableSleep(seconds: 2)
+									gameState.isBewareLabelVisiable = false
+									playAttackSound(didMissHit: false)
+									gameState.isEvasionMiniGameOn = true
+									print("Execute slow attack with delay 5 sec")
+								}
+								
+							}
+							
+						}
+					}
+				}
+				
+				// 15% for block ability
+				// otherwise use heal if enough mana
+				// otherwise throw a roll attack for fast(30) / slow(70) attack
+				
+			case 16...30:
+				
+				// if enemy did already use block don't do it again
+				if !gameState.didEnemyUseBlock {
+					delayTime = 2
+					print("Execute block with 2 sec delay")
+					block()
+					
+				} else {
+					
+					if gameState.enemy.currentMP >= gameState.spellManaCost {
+						
+						delayTime = 2
+						print("Execute heal with 2 sec delay")
+						heal()
+						
+					} else {
+						
+						// block for boss and normal enemy attack decisions
+						
+						// MARK: Boss Attacks
+						
+						if self.gameState.enemy.currentEnergy >= 2 && self.gameState.enemy.isBoss {
+							
+							let roll = Int.random(in: 1...100)
+							
+							switch roll {
+								
+							case 1...20:
+								
+								// 30% for fast attack
+								
+								delayTime = 3
+								continueAttackAfterMiniGame(
+									damageBoostModifier: 1.0,
+									evasionMiniGameSuccess: false
+								)
+								print("Execute fast attack with delay 3 sec")
+								
+							case 21...70:
+								
+								// 50% for slow attack
+								
+								// 5 sec it's a time for action time
+								// 2 sec it's a time for label "BEWARE"
+								delayTime = 5 + 2
+								Task {
+									gameState.isBewareLabelVisiable = true
+									try await pauseableSleep(seconds: 2)
+									gameState.isBewareLabelVisiable = false
+									playAttackSound(didMissHit: false)
+									gameState.isEvasionMiniGameOn = true
+									print("Execute slow attack with delay 5 sec")
+								}
+								
+							case 71...100:
+								
+								// 30% for ultimate attack
+								
+								delayTime = 10
+								audioManager.playSound(fileName: "bossUltimate1", extensionName: "mp3")
+								gameState.enemy.currentEnergy -= gameState.specialSkillEnergyCost
+								
+								if gameState.isEnglishLocalisation {
+									gameState.logMessage = "Enemy Special Attack!"
+								} else {
+									gameState.logMessage = "Специальная атака противника!"
+								}
+								gameState.isShadowBallMiniGameOn = true
+								print("Execute Ultimate attack with delay 10 sec")
+								
+							default:
+								
+								// 5 sec it's a time for action time
+								// 2 sec it's a time for label "BEWARE"
+								delayTime = 5 + 2
+								Task {
+									gameState.isBewareLabelVisiable = true
+									try await pauseableSleep(seconds: 2)
+									gameState.isBewareLabelVisiable = false
+									playAttackSound(didMissHit: false)
+									gameState.isEvasionMiniGameOn = true
+									print("Execute slow attack with delay 5 sec")
+								}
+								
+							}
+							
+							// MARK: Normal Enemy Attacks
+							
+						} else {
+							
+							let roll = Int.random(in: 1...100)
+							
+							if roll >= 70 {
+								
+								// 30% for fast attack
+								
+								delayTime = 3
+								continueAttackAfterMiniGame(
+									damageBoostModifier: 1.0,
+									evasionMiniGameSuccess: false
+								)
+								print("Execute fast attack with delay 3 sec")
+								
+							} else {
+								
+								// 70% for slow attack
+								
+								// 5 sec it's a time for action time
+								// 2 sec it's a time for label "BEWARE"
+								delayTime = 5 + 2
+								Task {
+									gameState.isBewareLabelVisiable = true
+									try await pauseableSleep(seconds: 2)
+									gameState.isBewareLabelVisiable = false
+									playAttackSound(didMissHit: false)
+									gameState.isEvasionMiniGameOn = true
+									print("Execute slow attack with delay 5 sec")
+								}
+							}
+						}
+					}
+				}
+					
+				// In all other cases (70%) throw the same attack roll
+				default:
+					
+				// MARK: Boss Attacks
+				
+				if self.gameState.enemy.currentEnergy >= 2 && self.gameState.enemy.isBoss {
+					
+					let roll = Int.random(in: 1...100)
+					
+					switch roll {
+						
+					case 1...20:
+						
+						// 30% for fast attack
+						
+						delayTime = 3
+						continueAttackAfterMiniGame(
+							damageBoostModifier: 1.0,
+							evasionMiniGameSuccess: false
+						)
+						print("Execute fast attack with delay 3 sec")
+						
+					case 21...70:
+						
+						// 50% for slow attack
+						
+						// 5 sec it's a time for action time
+						// 2 sec it's a time for label "BEWARE"
+						delayTime = 5 + 2
+						Task {
+							gameState.isBewareLabelVisiable = true
+							try await pauseableSleep(seconds: 2)
+							gameState.isBewareLabelVisiable = false
+							playAttackSound(didMissHit: false)
+							gameState.isEvasionMiniGameOn = true
+							print("Execute slow attack with delay 5 sec")
+						}
+						
+					case 71...100:
+						
+						// 30% for ultimate attack
+						
+						delayTime = 10
+						audioManager.playSound(fileName: "bossUltimate1", extensionName: "mp3")
+						gameState.enemy.currentEnergy -= gameState.specialSkillEnergyCost
+						
+						if gameState.isEnglishLocalisation {
+							gameState.logMessage = "Enemy Special Attack!"
+						} else {
+							gameState.logMessage = "Специальная атака противника!"
+						}
+						gameState.isShadowBallMiniGameOn = true
+						print("Execute Ultimate attack with delay 10 sec")
+						
+					default:
+						
+						// 5 sec it's a time for action time
+						// 2 sec it's a time for label "BEWARE"
+						delayTime = 5 + 2
+						Task {
+							gameState.isBewareLabelVisiable = true
+							try await pauseableSleep(seconds: 2)
+							gameState.isBewareLabelVisiable = false
+							playAttackSound(didMissHit: false)
+							gameState.isEvasionMiniGameOn = true
+							print("Execute slow attack with delay 5 sec")
+						}
+						
+					}
+					
+					// MARK: Normal Enemy Attacks
+					
+				} else {
+					
+					let roll = Int.random(in: 1...100)
+					
+					if roll >= 70 {
+						
+						// 30% for fast attack
+						
+						delayTime = 3
+						continueAttackAfterMiniGame(
+							damageBoostModifier: 1.0,
+							evasionMiniGameSuccess: false
+						)
+						print("Execute fast attack with delay 3 sec")
+						
+					} else {
+						
+						// 70% for slow attack
+						
+						// 5 sec it's a time for action time
+						// 2 sec it's a time for label "BEWARE"
+						delayTime = 5 + 2
+						Task {
+							gameState.isBewareLabelVisiable = true
+							try await pauseableSleep(seconds: 2)
+							gameState.isBewareLabelVisiable = false
+							playAttackSound(didMissHit: false)
+							gameState.isEvasionMiniGameOn = true
+							print("Execute slow attack with delay 5 sec")
+						}
+					}
+				}
+				}
+			
+			// MARK: ENEMY NORMAL HP (more than 30%) DECISION MAKING ALGORITHM
+				
+		} else if currentHealthInPercent > 30 {
+			
+			// MARK: Boss Actions
+			
+			if self.gameState.enemy.currentEnergy >= 2 && self.gameState.enemy.isBoss {
+				
+				let roll = Int.random(in: 1...100)
+				
+				switch roll {
+					
+				case 1...20:
+					
+					// 30% for fast attack
+					
+					delayTime = 3
+					continueAttackAfterMiniGame(
+						damageBoostModifier: 1.0,
+						evasionMiniGameSuccess: false
+					)
+					print("Execute fast attack with delay 3 sec")
+					
+				case 21...70:
+					
+					// 50% for slow attack
+					
+					// 5 sec it's a time for action time
+					// 2 sec it's a time for label "BEWARE"
+					delayTime = 5 + 2
+					Task {
+						gameState.isBewareLabelVisiable = true
+						try await pauseableSleep(seconds: 2)
+						gameState.isBewareLabelVisiable = false
+						playAttackSound(didMissHit: false)
+						gameState.isEvasionMiniGameOn = true
+						print("Execute slow attack with delay 5 sec")
+					}
+					
+				case 71...100:
+					
+					// 30% for ultimate attack
+					
+					delayTime = 10
+					audioManager.playSound(fileName: "bossUltimate1", extensionName: "mp3")
+					gameState.enemy.currentEnergy -= gameState.specialSkillEnergyCost
+					
+					if gameState.isEnglishLocalisation {
+						gameState.logMessage = "Enemy Special Attack!"
+					} else {
+						gameState.logMessage = "Специальная атака противника!"
+					}
+					gameState.isShadowBallMiniGameOn = true
+					print("Execute Ultimate attack with delay 10 sec")
+					
+				default:
+					
+					delayTime = 5
+					gameState.isEvasionMiniGameOn = true
+					print("Execute DEFAULT slow attack with delay 5 sec")
+					
+				}
+				
+				// MARK: Normal Enemy Actions
+				
+			} else {
+				
+				let roll = Int.random(in: 1...100)
+				
+				if roll >= 70 {
+					
+					// 30% for fast attack
+					
+					delayTime = 3
+					continueAttackAfterMiniGame(
+						damageBoostModifier: 1.0,
+						evasionMiniGameSuccess: false
+					)
+					print("Execute fast attack with delay 3 sec")
+					
+				} else {
+					
+					// 70% for slow attack
+					
+					// 5 sec it's a time for action time
+					// 2 sec it's a time for label "BEWARE"
+					delayTime = 5 + 2
+					Task {
+						gameState.isBewareLabelVisiable = true
+						try await pauseableSleep(seconds: 2)
+						gameState.isBewareLabelVisiable = false
+						playAttackSound(didMissHit: false)
+						gameState.isEvasionMiniGameOn = true
+						print("Execute slow attack with delay 5 sec")
+					}
+				}
+				
+			}
+		}
+			
+		// MARK: Action Execution Block
+			/*
+			 3. Use designated delay time to complete an action by:
+			 - setting actionInProgress to false
+			 - setting animation to none
+			 - checking if there is still enemy energy left to execute another action
+			 - or to pass turn to hero
+			 */
+			
+			Task {
+				try await pauseableSleep(seconds: Double(delayTime))
+				print("this print we have after a delay")
+				gameState.currentEnemyAnimation = .none
+				gameState.isActionInProgress = false
+				
+				if gameState.enemy.currentEnergy > 0 {
+					generateAndExecuteEnemyAction()
+				} else {
+					passTurnToHero()
+				}
+			}
+		}
+	
 	// MARK: - startCombatMiniGame
 	
 	/// Check energy for action and start a miniGame
 	func startCombatMiniGame() {
 		
 		if gameState.isHeroTurn && gameState.hero.currentEnergy >= gameState.skillEnergyCost {
-			gameState.isCombatMiniGameOn = true
+			gameState.isDamageBoostMiniGameOn = true
 			playAttackSound(didMissHit: false)
 		} else {
 			audioManager.playSound(fileName: "denied", extensionName: "mp3")
@@ -19,22 +583,38 @@ extension MainViewModel {
 	// MARK: - handleCoinFlipMiniGameResult
 	
 	/// Method to handle CoinFlipMiniGame outcome
+	/// TODO: Reword with AsyncAwait
 	func handleCoinFlipMiniGameResult(for result: Bool) {
-		DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+		DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
 			self.gameState.isCoinFlipMiniGameOn = false
 			if !result {
 				self.gameState.isHeroTurn = false
-				self.enemyTurn()
+//				self.enemyTurn()
+				self.generateAndExecuteEnemyAction()
 			}
 		}
 	}
 	
-	// MARK: - handleCombatMiniGameResult
+	// MARK: - processDamageBoostMiniGameOutcome
 	
-	func handleCombatMiniGameResult(for result: Bool) {
+	/// This method should replace handleCombatMiniGameResult to apply different damage boost modifiers after reworked DamageBoostMiniGame
+	func processDamageBoostMiniGameOutcome(result: DamageBoostOutcome) {
+		
+		var damageBoostModifer = 1.0
+		
+		switch result {
+			
+		case .small: damageBoostModifer = 1.1
+		case .medium: damageBoostModifer = 1.25
+		case .none: damageBoostModifer = 1.0
+		}
+		
 		DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-			self.gameState.isCombatMiniGameOn = false
-			self.continueAttackAfterMiniGame(combatMiniGameSuccess: result, evasionMiniGameSuccess: false)
+			self.gameState.isDamageBoostMiniGameOn = false
+			self.continueAttackAfterMiniGame(
+				damageBoostModifier: damageBoostModifer,
+				evasionMiniGameSuccess: false
+			)
 		}
 	}
 	
@@ -43,12 +623,13 @@ extension MainViewModel {
 	func handleEvasionMiniGameResult(for result: Bool) {
 		DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
 			self.gameState.isEvasionMiniGameOn = false
-			self.continueAttackAfterMiniGame(combatMiniGameSuccess: result, evasionMiniGameSuccess: result)
+			self.continueAttackAfterMiniGame(
+				damageBoostModifier: 1.0,
+				evasionMiniGameSuccess: result
+			)
 			
 			if result {
 				self.audioManager.playSound(fileName: "evasionSuccess", extensionName: "mp3")
-			} else {
-//				self.audioManager.playSound(fileName: "denied", extensionName: "mp3")
 			}
 		}
 	}
@@ -98,11 +679,11 @@ extension MainViewModel {
 	/// combatMiniGameSuccess mean if user's attack should be improved
 	/// evasionMiniGameSuccess mean if user did dodge an enemy attack
 	func continueAttackAfterMiniGame(
-		combatMiniGameSuccess: Bool,
+		damageBoostModifier: Double,
 		evasionMiniGameSuccess: Bool
 	) {
 		
-		gameState.isCombatMiniGameSuccessful = combatMiniGameSuccess
+//		gameState.isCombatMiniGameSuccessful = combatMiniGameSuccess
 		
 		// MARK: - HERO ATTACK
 		
@@ -194,13 +775,12 @@ extension MainViewModel {
 				finalDamage *= 2
 			}
 			
-			// MARK: CombatMiniGame
+			// MARK: DamageBoostMiniGame
 			// mini game success check
 			
-			if gameState.isCombatMiniGameSuccessful  {
-				finalDamage = Int(Double(finalDamage) * 1.25)
-				gameState.logMessage += gameState.isEnglishLocalisation ? "Nice Hit!" : "Отличный Удар!"
-			}
+			if damageBoostModifier > 1.0  {
+				finalDamage = Int(Double(finalDamage) * damageBoostModifier)
+			} 
 			
 			// MARK: Crit Chance
 			// crit chance
@@ -311,9 +891,17 @@ extension MainViewModel {
 					gameState.enemy.currentHP -= finalDamage
 					
 					if gameState.isEnglishLocalisation {
-						gameState.logMessage = "\(finalDamage) damage has been done."
+						if damageBoostModifier > 1.0 {
+							gameState.logMessage = "\(finalDamage) damage has been done. Nice Hit!"
+						} else {
+							gameState.logMessage = "\(finalDamage) damage has been done."
+						}
 					} else {
-						gameState.logMessage = "\(finalDamage) урона нанесено."
+						if damageBoostModifier > 1.0 {
+							gameState.logMessage = "\(finalDamage) урона нанесено. Отличный Удар!"
+						} else {
+							gameState.logMessage = "\(finalDamage) урона нанесено."
+						}
 					}
 					
 					// MARK: Swiftness Perk Check
@@ -787,6 +1375,7 @@ extension MainViewModel {
 	func heal() {
 		
 		// Hero Turn
+		// TODO: Replace multiple if else statements with guard <condition>
 		
 		if gameState.isHeroTurn &&
 			gameState.hero.currentEnergy >= gameState.skillEnergyCost &&
@@ -912,15 +1501,16 @@ extension MainViewModel {
 			}
 			
 		} else if gameState.isHeroTurn &&
-					!(gameState.hero.currentEnergy >= gameState.skillEnergyCost) ||
-					!(gameState.hero.currentMana >= gameState.spellManaCost) {
+					gameState.hero.currentEnergy < gameState.skillEnergyCost {
 			
 			audioManager.playSound(fileName: "denied", extensionName: "mp3")
+			gameState.logMessage = gameState.isEnglishLocalisation ? "Not enough energy!" : "Недостаточно энергии!"
 			
-		} else if gameState.isHeroTurn && gameState.hero.currentEnergy >= gameState.skillEnergyCost &&
+		} else if gameState.isHeroTurn &&
 			gameState.hero.currentMana < gameState.spellManaCost {
-			gameState.logMessage = gameState.isEnglishLocalisation ? "Not enough mana to cast" : "Недостаточно маны"
+			
 			audioManager.playSound(fileName: "denied", extensionName: "mp3")
+			gameState.logMessage = gameState.isEnglishLocalisation ? "Not enough mana to cast" : "Недостаточно маны"
 			
 			
 			// Enemy Turn
@@ -1018,6 +1608,8 @@ extension MainViewModel {
 		// Determine what BattleMode flask is on
 		
 		// 6 cases for each mode to handle all talants and impact value
+		
+		// MARK: Offensive Mode
 		
 		if gameState.hero.flask.battleMode == .offensive {
 			
@@ -1151,6 +1743,8 @@ extension MainViewModel {
 				print("Not Enough Impact Collected or Something wen't wrong with unleashing flask effect from Offensive Mode")
 			}
 			
+			// MARK: Defensive Mode
+			
 		} else if gameState.hero.flask.battleMode == .defensive {
 			
 			// 1. Soul Collector - generates extra Dark Energy
@@ -1165,18 +1759,24 @@ extension MainViewModel {
 			gameState.heroMaxDarkEnergyOverall += darkEnergyLoot
 			gameState.hero.flask.currentXP += darkEnergyLoot
 			
+			gameState.hero.flask.currentCharges += 1
+			
+			if gameState.hero.flask.currentCharges > gameState.hero.flask.currentMaxCharges {
+				gameState.hero.flask.currentCharges = gameState.hero.flask.currentMaxCharges
+			}
+			
 			switch (currentFlaskTalant, currentFlaskImpactValue) {
 				
 			// Level 1 Talant + 100% capacity -> Use Stage 1 Effect
 				
 			case (.soulCollector, 50):
-				print("Got some extra dark energy")
+				print("Got some extra dark energy and flask charge")
 				
 				gameState.hero.flask.currentCombatImpactValue -= 50
 				if gameState.isEnglishLocalisation {
-					gameState.logMessage = "\(darkEnergyLoot) dark energy has been generated"
+					gameState.logMessage = "flask charge and \(darkEnergyLoot) dark energy has been generated"
 				} else {
-					gameState.logMessage = "\(darkEnergyLoot) темной энергии получено"
+					gameState.logMessage = "заряд фляги и \(darkEnergyLoot) темной энергии получено"
 				}
 				audioManager.playSound(fileName: "flaskImpactUnleash", extensionName: "mp3")
 				
@@ -1187,9 +1787,9 @@ extension MainViewModel {
 				gameState.hero.flask.currentCombatImpactValue -= 50
 				
 				if gameState.isEnglishLocalisation {
-					gameState.logMessage = "\(darkEnergyLoot) dark energy has been generated"
+					gameState.logMessage = "flask charge and \(darkEnergyLoot) dark energy has been generated"
 				} else {
-					gameState.logMessage = "\(darkEnergyLoot) темной энергии получено"
+					gameState.logMessage = "заряд фляги и \(darkEnergyLoot) темной энергии получено"
 				}
 				audioManager.playSound(fileName: "flaskImpactUnleash", extensionName: "mp3")
 				
@@ -1209,9 +1809,9 @@ extension MainViewModel {
 				}
 				
 				if gameState.isEnglishLocalisation {
-					gameState.logMessage = "\(darkEnergyLoot) dark energy has been generated + \(healingValue) health ponts has been healed"
+					gameState.logMessage = "flask charge, \(darkEnergyLoot) dark energy has been generated + \(healingValue) health ponts has been healed"
 				} else {
-					gameState.logMessage = "\(darkEnergyLoot) темной энергии получено + \(healingValue) здоровья исцелено"
+					gameState.logMessage = "заряд фляги, \(darkEnergyLoot) темной энергии получено + \(healingValue) здоровья исцелено"
 				}
 				audioManager.playSound(fileName: "flaskImpactUnleash", extensionName: "mp3")
 				
@@ -1221,9 +1821,9 @@ extension MainViewModel {
 				
 				gameState.hero.flask.currentCombatImpactValue -= 50
 				if gameState.isEnglishLocalisation {
-					gameState.logMessage = "\(darkEnergyLoot) dark energy has been generated"
+					gameState.logMessage = "flask charge and \(darkEnergyLoot) dark energy has been generated"
 				} else {
-					gameState.logMessage = "\(darkEnergyLoot) темной энергии получено"
+					gameState.logMessage = "заряд фляги и \(darkEnergyLoot) темной энергии получено"
 				}
 				audioManager.playSound(fileName: "flaskImpactUnleash", extensionName: "mp3")
 				
@@ -1243,9 +1843,9 @@ extension MainViewModel {
 				}
 				
 				if gameState.isEnglishLocalisation {
-					gameState.logMessage = "\(darkEnergyLoot) dark energy has been generated + \(healingValue) health ponts has been healed"
+					gameState.logMessage = "flask charge, \(darkEnergyLoot) dark energy has been generated + \(healingValue) health ponts has been healed"
 				} else {
-					gameState.logMessage = "\(darkEnergyLoot) темной энергии получено + \(healingValue) здоровья исцелено"
+					gameState.logMessage = "заряд фляги, \(darkEnergyLoot) темной энергии получено + \(healingValue) здоровья исцелено"
 				}
 				audioManager.playSound(fileName: "flaskImpactUnleash", extensionName: "mp3")
 				
@@ -1265,9 +1865,9 @@ extension MainViewModel {
 				gameState.didUseFlaskEmpowerForDefensive = true
 				
 				if gameState.isEnglishLocalisation {
-					gameState.logMessage = "\(darkEnergyLoot) dark energy has been generated + \(healingValue) health ponts has been healed + EMPOWER is ready to use"
+					gameState.logMessage = "flask charge, \(darkEnergyLoot) dark energy has been generated + \(healingValue) health ponts has been healed + EMPOWER is ready to use"
 				} else {
-					gameState.logMessage = "\(darkEnergyLoot) темной энергии получено + \(healingValue) здоровья исцелено + УСИЛЕНИЕ готово"
+					gameState.logMessage = "заряд фляги, \(darkEnergyLoot) темной энергии получено + \(healingValue) здоровья исцелено + УСИЛЕНИЕ готово"
 				}
 				audioManager.playSound(fileName: "flaskImpactUnleash", extensionName: "mp3")
 				
