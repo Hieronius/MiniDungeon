@@ -7,19 +7,19 @@ import SwiftUI
  - To increase the size of the buttons use .scaleEffect(1.0 - 2.0)
  */
 
-// MARK: - buildTrapDefusionMiniGameView
-
-extension MainView {
-	
-	/// This method is optional and need only for testing purposes - to run the view independently from the MainMenu
-	@ViewBuilder
-	func buildTrapDefusionMiniGameView(audioManager: AudioManager) -> some View {
-		
-		VStack {
-			TrapDefusionMiniGameView(audioManager: audioManager)
-		}
-	}
-}
+//// MARK: - buildTrapDefusionMiniGameView
+//
+//extension MainView {
+//	
+//	/// This method is optional and need only for testing purposes - to run the view independently from the MainMenu
+//	@ViewBuilder
+//	func buildTrapDefusionMiniGameView(audioManager: AudioManager) -> some View {
+//		
+//		VStack {
+//			TrapDefusionMiniGameView(audioManager: audioManager)
+//		}
+//	}
+//}
 
 // MARK: - Arrows
 
@@ -60,6 +60,8 @@ extension MainView {
 		
 		var audioManager: AudioManager
 		
+		var isEnglish: Bool
+		
 		/// This callback we send to parent view to react on game result
 		var onGameEnd: ((Bool) -> Void)?
 		
@@ -77,7 +79,7 @@ extension MainView {
 					
 					Text(gameResult)
 						.foregroundStyle(isSuccess ? .green : .red)
-					Button("Start the game") {
+					Button(isEnglish ? "Start the game" : "Начать игру") {
 						startGame()
 					}
 					
@@ -91,7 +93,6 @@ extension MainView {
 							self.audioManager.playSound(fileName: "clickTrap2", extensionName: "mp3")
 							if button1Index < Arrows.allCases.count - 1 {
 								
-								print("WHERE IS MY SOUND?")
 								button1Index += 1
 								tappedButtons[1] = button1Index
 							} else {
@@ -101,13 +102,15 @@ extension MainView {
 							}
 						}
 						.frame(width: 50, height: 50)
+						.buttonBorderShape(.roundedRectangle(radius: 8))
 						.buttonStyle(.bordered)
 						.foregroundColor(.white)
 						.labelStyle(.iconOnly)
 						
 						// Button 2
 						
-						Button(Arrows.allCases[button2Index].rawValue, systemImage: Arrows.allCases[button2Index].rawValue) {
+						Button(Arrows.allCases[button2Index].rawValue,
+							   systemImage: Arrows.allCases[button2Index].rawValue) {
 							
 							self.audioManager.playSound(fileName: "clickTrap2", extensionName: "mp3")
 							
@@ -120,6 +123,7 @@ extension MainView {
 							}
 						}
 						.frame(width: 50, height: 50)
+						.buttonBorderShape(.roundedRectangle(radius: 8))
 						.buttonStyle(.bordered)
 						.foregroundColor(.white)
 						.labelStyle(.iconOnly)
@@ -139,6 +143,7 @@ extension MainView {
 							}
 						}
 						.frame(width: 50, height: 50)
+						.buttonBorderShape(.roundedRectangle(radius: 8))
 						.buttonStyle(.bordered)
 						.foregroundColor(.white)
 						.labelStyle(.iconOnly)
@@ -163,6 +168,7 @@ extension MainView {
 							}
 						}
 						.frame(width: 50, height: 50)
+						.buttonBorderShape(.roundedRectangle(radius: 8))
 						.buttonStyle(.bordered)
 						.foregroundColor(.white)
 						.labelStyle(.iconOnly)
@@ -182,6 +188,7 @@ extension MainView {
 							}
 						}
 						.frame(width: 50, height: 50)
+						.buttonBorderShape(.roundedRectangle(radius: 8))
 						.buttonStyle(.bordered)
 						.foregroundColor(.white)
 						.labelStyle(.iconOnly)
@@ -201,6 +208,7 @@ extension MainView {
 							}
 						}
 						.frame(width: 50, height: 50)
+						.buttonBorderShape(.roundedRectangle(radius: 8))
 						.buttonStyle(.bordered)
 						.foregroundColor(.white)
 						.labelStyle(.iconOnly)
@@ -225,6 +233,7 @@ extension MainView {
 							}
 						}
 						.frame(width: 50, height: 50)
+						.buttonBorderShape(.roundedRectangle(radius: 8))
 						.buttonStyle(.bordered)
 						.foregroundColor(.white)
 						.labelStyle(.iconOnly)
@@ -244,6 +253,7 @@ extension MainView {
 							}
 						}
 						.frame(width: 50, height: 50)
+						.buttonBorderShape(.roundedRectangle(radius: 8))
 						.buttonStyle(.bordered)
 						.foregroundColor(.white)
 						.labelStyle(.iconOnly)
@@ -263,12 +273,14 @@ extension MainView {
 							}
 						}
 						.frame(width: 50, height: 50)
+						// without this property you will get a complete circle shaped buttons on any devices with iOS 26+
+						.buttonBorderShape(.roundedRectangle(radius: 8))
 						.buttonStyle(.bordered)
 						.foregroundColor(.white)
 						.labelStyle(.iconOnly)
 					}
 					
-					Button("Defuse") {
+					Button(isEnglish ? "Defuse" : "Обезвредить") {
 						self.defuseTrap()
 					}
 				}
@@ -358,11 +370,11 @@ extension MainView.TrapDefusionMiniGameView {
 			
 			if patternButtons == tappedButtons {
 				isSuccess = true
-				gameResult = "Success!"
+				gameResult = isEnglish ? "Success!" : "Успех!"
 				boardColor = .green
 			} else {
 				isSuccess = false
-				gameResult = "Failure!"
+				gameResult = isEnglish ? "Failure!" : "Неудача!"
 				boardColor = .red
 			}
 			onGameEnd?(isSuccess)
