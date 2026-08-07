@@ -7,7 +7,10 @@ class GameState {
 	
 	// MARK: - Navigation & Session
 	
-	var isFreshSession =  true
+	var isFreshSession = true
+	
+	/// we use this property to pause fight, dungeon exploration or any screen from tapping wrongly when for example user gets a call or should left the phone for a while in open game state
+	var isGamePaused = false
 	
 	/// We use this toggle to react on user language choices
 	var isEnglishLocalisation = false
@@ -19,7 +22,7 @@ class GameState {
 	
 	/// If this flag is true you can see Navigation List on MapView and Action Buttons
 	/// Otherwise you should see Joystick for movement
-	var isNavigationOpen = true
+	var isNavigationOpen = false
 	
 	var isFlaskViewOpen = true
 	
@@ -55,7 +58,7 @@ class GameState {
 	// MARK: - Mini Games Properties
 	
 	/// When you hit the enemy this mini game appears
-	var isCombatMiniGameOn = false
+	var isDamageBoostMiniGameOn = false
 	
 	/// When enemy use his special attack this mini game appears
 	var isShadowBallMiniGameOn = false
@@ -69,12 +72,18 @@ class GameState {
 	/// When enemy try to land an attack this mini game pops up
 	var isEvasionMiniGameOn = false
 	
+	/// We use this property as a delay before EvasionMiniGame to prepare user to react
+	var isBewareLabelVisiable = false
+	
 	/// Flag to start the combat with coin flip mini game to decide who will get turn first
 	var isCoinFlipMiniGameOn = false
 	
 	// MARK: - Combat
 	
 	var isHeroTurn = true
+	/// We use this property to manage enemy actions
+	/// Enemy can't start a new one until the previous one is ended
+	var isActionInProgress = false
 	var didUserPressedEndTurnButton = false
 	var comboPoints = 0
 	
@@ -373,6 +382,7 @@ class GameState {
 		case gotDamage
 		case gotHealing
 		case usedBlock
+		case successDodge
 		case none
 		
 		var color: Color {
@@ -380,6 +390,7 @@ class GameState {
 			case .gotDamage: return .red
 			case .gotHealing: return .green
 			case .usedBlock: return .blue
+			case .successDodge: return .gray
 			case .none: return .black
 			}
 		}
