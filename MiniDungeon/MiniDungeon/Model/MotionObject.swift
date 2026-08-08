@@ -41,6 +41,10 @@ struct MotionController {
 	/// Personal ID to identify what object has been stoped successfully
 	var id: Int
 	
+	var systemImage: String?
+	
+	var imageName: String?
+	
 	/// is object on the move or not
 	var isMoving = false
 	
