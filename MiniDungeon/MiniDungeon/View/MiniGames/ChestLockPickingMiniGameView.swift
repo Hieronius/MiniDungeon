@@ -5,18 +5,18 @@ import SwiftUI
 
 // MARK: buildChestLockPickingMiniGameView
 
-extension MainView {
-	
-	/// This method is optional and need only for testing purposes - to run the view independently from the MainMenu
-	@ViewBuilder
-	func buildChestLockPickingMiniGameView(audioManager: AudioManager) -> some View {
-		
-		VStack {
-			ChestLockPickingMiniGameView(audioManager: audioManager)
-		}
-		.frame(width: 400, height: 325)
-	}
-}
+//extension MainView {
+//	
+//	/// This method is optional and need only for testing purposes - to run the view independently from the MainMenu
+//	@ViewBuilder
+//	func buildChestLockPickingMiniGameView(audioManager: AudioManager) -> some View {
+//		
+//		VStack {
+//			ChestLockPickingMiniGameView(audioManager: audioManager)
+//		}
+//		.frame(width: 400, height: 325)
+//	}
+//}
 
 // MARK: - ChestLockPickingMiniGameView
 
@@ -52,11 +52,10 @@ struct ChestLockPickingMiniGameView: View {
 	/// Property to define the level of chest lock-picking difficulty on the fly
 	@State var attempts = Int.random(in: 1...3)
 	
-	// MARK: - Public Properties
+	/// Property to detect the moment user did open the chest to prevent multiple loot generation
+	@State var didOpenChest = false
 	
-	/// We use this property to reach viewModel.audioManager.playSound()
-	/// Otherwise it's unreachable
-	var audioManager: AudioManager
+	// MARK: - Public Properties
 	
 	var timer1 = Timer.publish(every: 0.02, on: .main, in: .common).autoconnect()
 	var timer2 = Timer.publish(every: 0.02, on: .main, in: .common).autoconnect()
@@ -64,8 +63,15 @@ struct ChestLockPickingMiniGameView: View {
 	var timer4 = Timer.publish(every: 0.02, on: .main, in: .common).autoconnect()
 	var timer5 = Timer.publish(every: 0.02, on: .main, in: .common).autoconnect()
 	
-	/// Property to detect the moment user did open the chest to prevent multiple loot generation
-	@State var didOpenChest = false
+	/// We use this property to reach viewModel.audioManager.playSound()
+	/// Otherwise it's unreachable
+	var audioManager: AudioManager
+	
+	/// Property to decide what language to display
+	var isEnglish: Bool
+	
+	/// Property to pass to ChestView to display that game was paused
+	var isGamePaused: Bool
 	
 	/// This callback we send to parent view to react on game result
 	var onGameEnd: ((Bool) -> Void)?
@@ -87,22 +93,44 @@ struct ChestLockPickingMiniGameView: View {
 					
 					if attempts > 0 {
 						HStack {
-							Text("Attempts: \(attempts)")
-							Button("Start the game") {
-								startGame()
+							if isEnglish {
+								
+								Text("Attempts: \(attempts)")
+								Button("Start the game") {
+									startGame()
+								}
+								
+							} else {
+								
+								Text("Попытки: \(attempts)")
+								Button("Начать игру") {
+									startGame()
+								}
 							}
 						}
 					} else {
 						HStack {
-							Text("Failed to unlock")
-							Button("Fight an enemy") {
-								onGameEnd?(false)
+							
+							if isEnglish {
+								
+								Text("Failed to unlock")
+								Button("Fight an enemy") {
+									onGameEnd?(false)
+								}
+								.foregroundStyle(.red)
+								
+							} else {
+								
+								Text("Не удалось взломать")
+								Button("Начать бой с врагом") {
+									onGameEnd?(false)
+								}
+								.foregroundStyle(.red)
 							}
-							.foregroundStyle(.red)
 						}
 					}
 				} else {
-					Button("Open the Chest") {
+					Button(isEnglish ? "Open the Chest" : "Открыть сундук") {
 						openChest()
 					}
 					.foregroundStyle(.orange)
@@ -442,6 +470,8 @@ extension ChestLockPickingMiniGameView {
 	func runMotionObject(_ motion: inout MotionController) {
 		
 		// object exceed it's max range -> change direction
+		print("This is real state of the game pause - \(isGamePaused)")
+		guard !isGamePaused else { return }
 		
 		if motion.coordinateY >= motion.maxRangeY && motion.direction == .bottom {
 			motion.direction = .top
@@ -483,7 +513,7 @@ extension ChestLockPickingMiniGameView {
 			motion.coordinateY = 15.0
 			motionsToCatch[motion.id - 1] = true
 			isSuccess = true
-			gameResult = "Perfect!"
+			gameResult = isEnglish ? "Perfect!" : "Идеально!"
 			startAreaColor = .green
 			boardColor = .green
 			
@@ -491,7 +521,7 @@ extension ChestLockPickingMiniGameView {
 			audioManager.playSound(fileName: "denied", extensionName: "mp3")
 			attempts -= 1
 			isSuccess = false
-			gameResult = "Failure"
+			gameResult = isEnglish ? "Failure" : "Неудача"
 			startAreaColor = .red
 			boardColor = .red
 		}
