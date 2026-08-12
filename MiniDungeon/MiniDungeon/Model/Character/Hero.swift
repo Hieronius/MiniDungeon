@@ -229,7 +229,6 @@ class Hero {
 			self.currentMana = self.maxMana
 		}
 		
-		print("Equipped \(armor?.label ?? "None"). HP is now \(currentHP)/\(maxHP)")
 	}
 	
 	func equipWeapon(_ weapon: Weapon?) {
@@ -245,7 +244,6 @@ class Hero {
 			self.currentMana = self.maxMana
 		}
 		
-		print("Equipped \(weapon?.label ?? "None"). HP is now \(currentHP)/\(maxHP)")
 	}
 	
 	/// Method to use each time when player dies to avoid getting stats bonuses from previous run
