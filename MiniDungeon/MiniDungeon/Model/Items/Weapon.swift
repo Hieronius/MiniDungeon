@@ -7,10 +7,12 @@ struct Weapon: ItemProtocol, Hashable, Codable, Identifiable {
 //	let id: UUID
 //	let id = UUID()
 	let id: String
-	var label: String
+	var labelEN: String
+	var labelRU: String
 	var itemType: ItemType
 	var itemLevel: Int
-	var itemDescription: String
+	var itemDescriptionEN: String
+	var itemDescriptionRU: String
 	var minDamage: Int
 	var maxDamage: Int
 	var hitChance: Int
@@ -18,10 +20,12 @@ struct Weapon: ItemProtocol, Hashable, Codable, Identifiable {
 	var rarity: Rarity
 	var price: Int
 	
-	init(label: String,
+	init(labelEN: String,
+		 labelRU: String,
 		 itemLevel: Int,
 		 itemType: ItemType,
-		 itemDescription: String,
+		 itemDescriptionEN: String,
+		 itemDescriptionRU: String,
 		 minDamage: Int,
 		 maxDamage: Int,
 		 hitChance: Int,
@@ -30,11 +34,13 @@ struct Weapon: ItemProtocol, Hashable, Codable, Identifiable {
 		 price: Int)
 	{
 //		self.id = UUID()
-		self.id = "\(label)"
-		self.label = label
+		self.id = "\(labelEN)"
+		self.labelEN = labelEN
+		self.labelRU = labelRU
 		self.itemLevel = itemLevel
 		self.itemType = itemType
-		self.itemDescription = itemDescription
+		self.itemDescriptionEN = itemDescriptionEN
+		self.itemDescriptionRU = itemDescriptionRU
 		self.minDamage = minDamage
 		self.maxDamage = maxDamage
 		self.hitChance = hitChance
@@ -50,10 +56,12 @@ struct WeaponManager {
 	
 	static let commonWeapons: [Weapon] = [
 		
-		Weapon(label: "Knife",
+		Weapon(labelEN: "Knife",
+			   labelRU: "Нож",
 			   itemLevel: 1,
 			   itemType: .weapon,
-			   itemDescription: "+1 min damage, +2 max damage",
+			   itemDescriptionEN: "+1 min damage, +2 max damage",
+			   itemDescriptionRU: "+1 к минимальному урону, +2 к максимальному урону",
 			   minDamage: 1,
 			   maxDamage: 2,
 			   hitChance: 0,
@@ -62,10 +70,12 @@ struct WeaponManager {
 			   price: 100),
 		
 		Weapon(
-			label: "Wooden Sword",
+			labelEN: "Wooden Sword",
+			labelRU: "Деревянный меч",
 			itemLevel: 1,
 			itemType: .weapon,
-			itemDescription: "+1 max damage",
+			itemDescriptionEN: "+1 max damage",
+			itemDescriptionRU: "+1 к максимальному урону",
 			minDamage: 0,
 			maxDamage: 1,
 			hitChance: 0,
@@ -75,10 +85,12 @@ struct WeaponManager {
 		),
 		
 		Weapon(
-			label: "Broken Spear",
+			labelEN: "Broken Spear",
+			labelRU: "Сломанное копье",
 			itemLevel: 1,
 			itemType: .weapon,
-			itemDescription: "+1 min damage",
+			itemDescriptionEN: "+1 min damage",
+			itemDescriptionRU: "+1 к минимальному урону",
 			minDamage: 1,
 			maxDamage: 0,
 			hitChance: 0,
@@ -88,10 +100,12 @@ struct WeaponManager {
 		),
 		
 		Weapon(
-			label: "Blunted Axe",
+			labelEN: "Blunted Axe",
+			labelRU: "Тупой топор",
 			itemLevel: 1,
 			itemType: .weapon,
-			itemDescription: "+1 min damage, +1 max damage",
+			itemDescriptionEN: "+1 min damage, +1 max damage",
+			itemDescriptionRU: "+1 к минимальному урону, +1 к максимальному урону",
 			minDamage: 1,
 			maxDamage: 1,
 			hitChance: 0,
@@ -101,10 +115,12 @@ struct WeaponManager {
 		),
 		
 		Weapon(
-			label: "Damaged Mace",
+			labelEN: "Damaged Mace",
+			labelRU: "Поврежденная булава",
 			itemLevel: 1,
 			itemType: .weapon,
-			itemDescription: "+1 max damage, +1 hit chance",
+			itemDescriptionEN: "+1 max damage, +1 hit chance",
+			itemDescriptionRU: "+1 к максимальному урону, +1 к шансу попасть по противнику",
 			minDamage: 0,
 			maxDamage: 1,
 			hitChance: 1,
@@ -114,10 +130,12 @@ struct WeaponManager {
 		),
 		
 		Weapon(
-			label: "Old two-handed sword",
+			labelEN: "Old two-handed sword",
+			labelRU: "Старый двуручный меч",
 			itemLevel: 1,
 			itemType: .weapon,
-			itemDescription: "+2 max damage",
+			itemDescriptionEN: "+2 max damage",
+			itemDescriptionRU: "+2 к максимальному урону",
 			minDamage: 0,
 			maxDamage: 2,
 			hitChance: 0,
@@ -131,22 +149,28 @@ struct WeaponManager {
 	
 	static let rareWeapons: [Weapon] = [
 		
-		Weapon(label: "Bronze Axe",
-			   itemLevel: 2,
-			   itemType: .weapon,
-			   itemDescription: "+2 min damage, +4 max damage, +1% hit chance, +1% crit chance",
-			   minDamage: 2,
-			   maxDamage: 4,
-			   hitChance: 1,
-			   critChance: 1,
-			   rarity: .rare,
-			   price: 200),
-		
 		Weapon(
-			label: "Sword",
+			labelEN: "Bronze Axe",
+			labelRU: "Бронзовый топор",
 			itemLevel: 2,
 			itemType: .weapon,
-			itemDescription: "+2 min damage, +3 max damage",
+			itemDescriptionEN: "+2 min damage, +4 max damage, +1% hit chance, +1% crit chance",
+			itemDescriptionRU: "+2 к минимальному урону, +4 к максимальному урону, +1% к шансу попасть по противнику, +1% к шансу критического эффекта",
+			minDamage: 2,
+			maxDamage: 4,
+			hitChance: 1,
+			critChance: 1,
+			rarity: .rare,
+			price: 200
+		),
+		
+		Weapon(
+			labelEN: "Sword",
+			labelRU: "Меч",
+			itemLevel: 2,
+			itemType: .weapon,
+			itemDescriptionEN: "+2 min damage, +3 max damage",
+			itemDescriptionRU: "+2 к минимальному урону, +3 к максимальному урону",
 			minDamage: 2,
 			maxDamage: 3,
 			hitChance: 0,
@@ -156,10 +180,12 @@ struct WeaponManager {
 		),
 		
 		Weapon(
-			label: "Spear",
+			labelEN: "Spear",
+			labelRU: "Копье",
 			itemLevel: 2,
 			itemType: .weapon,
-			itemDescription: "+2 min damage, +1 max damage",
+			itemDescriptionEN: "+2 min damage, +1 max damage",
+			itemDescriptionRU: "+2 к минимальному урону, +1 к максимальному урону",
 			minDamage: 2,
 			maxDamage: 1,
 			hitChance: 0,
@@ -169,10 +195,12 @@ struct WeaponManager {
 		),
 		
 		Weapon(
-			label: "Mace",
+			labelEN: "Mace",
+			labelRU: "Палица",
 			itemLevel: 2,
 			itemType: .weapon,
-			itemDescription: "+2 min damage, +2 max damage",
+			itemDescriptionEN: "+2 min damage, +2 max damage",
+			itemDescriptionRU: "+2 к минимальному урону, +2 к максимальному урону",
 			minDamage: 2,
 			maxDamage: 2,
 			hitChance: 0,
@@ -182,10 +210,12 @@ struct WeaponManager {
 		),
 		
 		Weapon(
-			label: "Dagger",
+			labelEN: "Dagger",
+			labelRU: "Кинжал",
 			itemLevel: 2,
 			itemType: .weapon,
-			itemDescription: "+1 min damage, +3 max damage, +1 crit chance",
+			itemDescriptionEN: "+1 min damage, +3 max damage, +1 crit chance",
+			itemDescriptionRU: "+1 к минимальному урону, +3 к максимальному урону, +1 к шансу критического эффекта",
 			minDamage: 1,
 			maxDamage: 3,
 			hitChance: 0,
@@ -195,10 +225,12 @@ struct WeaponManager {
 		),
 		
 		Weapon(
-			label: "Two Handed Sword",
+			labelEN: "Two Handed Sword",
+			labelRU: "Двуручный меч",
 			itemLevel: 2,
 			itemType: .weapon,
-			itemDescription: "+4 max damage",
+			itemDescriptionEN: "+4 max damage",
+			itemDescriptionRU: "+4 к максимальному урону",
 			minDamage: 0,
 			maxDamage: 4,
 			hitChance: 0,
@@ -213,10 +245,12 @@ struct WeaponManager {
 	static let epicWeapons: [Weapon] = [
 		
 		Weapon(
-			label: "Corrupted Two-Hand Sword",
+			labelEN: "Corrupted Two-Hand Sword",
+			labelRU: "Проклятый двуручный меч",
 			itemLevel: 3,
 			itemType: .weapon,
-			itemDescription: "+10 max damage, -2 min damage, -1% crit chance, -5% hit chance",
+			itemDescriptionEN: "+10 max damage, -2 min damage, -1% crit chance, -5% hit chance",
+			itemDescriptionRU: "+10 к максимальному урону, -2 к минимальному урону, -1% к шансу критического эффекта, -5% к шансу попадения по противнику",
 			minDamage: -2,
 			maxDamage: 10,
 			hitChance: -5,
@@ -226,10 +260,12 @@ struct WeaponManager {
 		),
 		
 		Weapon(
-			label: "Corrupted Sword",
+			labelEN: "Corrupted Sword",
+			labelRU: "Проклятый меч",
 			itemLevel: 3,
 			itemType: .weapon,
-			itemDescription: "+5 min damage, +5 max damage, -1% crit chance, -2% hit chance",
+			itemDescriptionEN: "+5 min damage, +5 max damage, -1% crit chance, -2% hit chance",
+			itemDescriptionRU: "+5 к минимальному урону, +5 к максимальному урону, -1% к шансу критического эффекта, -2% к шансу попадения по противнику",
 			minDamage: 5,
 			maxDamage: 5,
 			hitChance: -2,
@@ -239,10 +275,12 @@ struct WeaponManager {
 		),
 		
 		Weapon(
-			label: "Great Spear",
+			labelEN: "Great Spear",
+			labelRU: "Отличное копье",
 			itemLevel: 3,
 			itemType: .weapon,
-			itemDescription: "+1 min damage, + 6 max damage, + 1% crit chance",
+			itemDescriptionEN: "+1 min damage, +6 max damage, +1% crit chance",
+			itemDescriptionRU: "+1 к минимальному урону, +6 к максимальному урону, +1% к шансу критического эффекта",
 			minDamage: 1,
 			maxDamage: 6,
 			hitChance: 0,
@@ -252,10 +290,12 @@ struct WeaponManager {
 		),
 		
 		Weapon(
-			label: "Great Axe",
+			labelEN: "Great Axe",
+			labelRU: "Отличный топор",
 			itemLevel: 3,
 			itemType: .weapon,
-			itemDescription: "+3 min damage, +5 max damage",
+			itemDescriptionEN: "+3 min damage, +5 max damage",
+			itemDescriptionRU: "+3 к минимальному урону, +5 к максимальному урону",
 			minDamage: 3,
 			maxDamage: 5,
 			hitChance: 0,
@@ -265,10 +305,12 @@ struct WeaponManager {
 		),
 		
 		Weapon(
-			label: "Morning Star",
+			labelEN: "Morning Star",
+			labelRU: "Утренняя звезда",
 			itemLevel: 3,
 			itemType: .weapon,
-			itemDescription: "+3 min damage, +6 max damage, +2% hit chance, +2% crit chance",
+			itemDescriptionEN: "+3 min damage, +6 max damage, +2% hit chance, +2% crit chance",
+			itemDescriptionRU: "+3 к минимальному урону, +3 к максимальному урону, +2% к шансу попасть по противнику, +2% к шансу критического эффекта",
 			minDamage: 3,
 			maxDamage: 6,
 			hitChance: 2,
@@ -278,10 +320,12 @@ struct WeaponManager {
 		),
 		
 		Weapon(
-			label: "Steel Sword",
+			labelEN: "Steel Sword",
+			labelRU: "Железный меч",
 			itemLevel: 3,
 			itemType: .weapon,
-			itemDescription: "+5 minDamage, +10 maxDamage, +3% hitChance, +3% critChance",
+			itemDescriptionEN: "+5 minDamage, +10 maxDamage, +3% hitChance, +3% critChance",
+			itemDescriptionRU: "+5 к минимальному урону, +10 к максимальному урону, +3% к шансу попасть по противнику, +3% к шансу критического эффекта",
 			minDamage: 5,
 			maxDamage: 10,
 			hitChance: 3,
@@ -296,10 +340,12 @@ struct WeaponManager {
 	static let legendaryWeapons: [Weapon] = [
 		
 		Weapon(
-			label: "Silver Spear",
+			labelEN: "Silver Spear",
+			labelRU: "Серебряное копье",
 			itemLevel: 4,
 			itemType: .weapon,
-			itemDescription: "+5 min damage, +6 max damage, +10% hit chance, -2% crit chance. An incrediably light spear left by someone with very good taste and agile fighting style",
+			itemDescriptionEN: "+5 min damage, +6 max damage, +10% hit chance, -2% crit chance. An incrediably light spear left by someone with very good taste and agile fighting style",
+			itemDescriptionRU: "+5 к минимальному урону, +6 к максимальному урону, +10% к шансу попадения по противнику, -2% к шансу критического эффекта. Невероятно легкое копье оставленное воином с особенным вкусом и стилем боя",
 			minDamage: 5,
 			maxDamage: 6,
 			hitChance: 10,
@@ -309,10 +355,12 @@ struct WeaponManager {
 		),
 		
 		Weapon(
-			label: "Bloody Axe",
+			labelEN: "Bloody Axe",
+			labelRU: "Кровавый топор",
 			itemLevel: 4,
 			itemType: .weapon,
-			itemDescription: "+6 min damage, +10 max damage, +5% crit chance, -2% hit chance. Very sharp axe with blood marks on it's edge and halt. Are they only from it's target or from the owner it's self?",
+			itemDescriptionEN: "+6 min damage, +10 max damage, +5% crit chance, -2% hit chance. Very sharp axe with blood marks on it's edge and halt",
+			itemDescriptionRU: "+6 к минимальному урону, +10 к максимальному урону, +5% к шансу критического эффекта, -2% к шансу попасть по противнику. Очень острый топор с кровавыми метками на лезвии и рукояти",
 			minDamage: 6,
 			maxDamage: 10,
 			hitChance: -2,
@@ -322,10 +370,12 @@ struct WeaponManager {
 		),
 		
 		Weapon(
-			label: "Giant Mace",
+			labelEN: "Giant Mace",
+			labelRU: "Гигантская палица",
 			itemLevel: 4,
 			itemType: .weapon,
-			itemDescription: "+15 max damage, -2 min damage, -5% hit chance, -5% crit chance. Someone with a powerful grip fall in battle and left this huge mace being unmovable for years",
+			itemDescriptionEN: "+15 max damage, -2 min damage, -5% hit chance, -5% crit chance. Someone with a powerful grip fall in battle and left this huge mace being unmovable for years",
+			itemDescriptionRU: "+15 к максимальному урону, -2 к минимальному урону, -5% к шансу попасть по противнику, -5% к шансу критического эффекта. Прошлый владелец с невероятной силой оставил эту булаву нетронутой годами",
 			minDamage: -2,
 			maxDamage: 15,
 			hitChance: -5,
@@ -334,16 +384,20 @@ struct WeaponManager {
 			price: 450
 		),
 		
-		Weapon(label: "Frostmourne",
-			   itemLevel: 4,
-			   itemType: .weapon,
-			   itemDescription: "+8 minDamage, +16 maxDamage, +5% hit chance, +5% crit chance. At last! Power my father never dreamed of!",
-			   minDamage: 8,
-			   maxDamage: 16,
-			   hitChance: 5,
-			   critChance: 5,
-			   rarity: .legendary,
-			   price: 500)
+		Weapon(
+			labelEN: "Frostmourne",
+			labelRU: "Ледяная Скорбь",
+			itemLevel: 4,
+			itemType: .weapon,
+			itemDescriptionEN: "+8 min Damage, +16 max Damage, +5% hit chance, +5% crit chance, -100% humanity. At last! Power my father never dreamed of!",
+			itemDescriptionRU: "+8 к минимальному урону, +16 к максимальному урону, +5% к шансу попасть по противнику, +5% к шансу критического эффекта, -100 к человечности. Наконец-то! Сила, которая и не снилась моему отцу!",
+			minDamage: 8,
+			maxDamage: 16,
+			hitChance: 5,
+			critChance: 5,
+			rarity: .legendary,
+			price: 500
+		)
 	]
 	
 	// MARK: generateWeapon
