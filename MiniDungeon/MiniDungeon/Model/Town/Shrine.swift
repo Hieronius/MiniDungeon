@@ -7,20 +7,26 @@ struct Shrine: Identifiable, Hashable, Codable {
 	
 //	var id: UUID
 	var id: String
-	var name: String
-	var shrineDescription: String
+	var nameEN: String
+	var nameRU: String
+	var shrineDescriptionEN: String
+	var shrineDescriptionRU: String
 	var darkEnergyCost: Int
 	var beenUpgraded = false
 	
 	init(id: String,
-		name: String,
-		 shrineDescription: String,
+		nameEN: String,
+		 nameRU: String,
+		 shrineDescriptionEN: String,
+		 shrineDescriptionRU: String,
 		 darkEnergyCost: Int
 	) {
 //		self.id = UUID()
 		self.id = id
-		self.name = name
-		self.shrineDescription = shrineDescription
+		self.nameEN = nameEN
+		self.nameRU = nameRU
+		self.shrineDescriptionEN = shrineDescriptionEN
+		self.shrineDescriptionRU = shrineDescriptionRU
 		self.darkEnergyCost = darkEnergyCost
 	}
 }
@@ -34,26 +40,38 @@ struct ShrineManager {
 		
 		Shrine(
 			id: "smallShrineOfHealth",
-			name: "Small Shrine of Health",
-			shrineDescription: "+5 max health for each run", darkEnergyCost: 20
+			nameEN: "Small Shrine of Health",
+			nameRU: "Небольшой Алтарь Здоровья",
+			shrineDescriptionEN: "+5 max health for each run",
+			shrineDescriptionRU: "+5 очков к максимальному уровню здоровья навсегда",
+			darkEnergyCost: 20
 		),
 		
 		Shrine(
 			id: "smallShrineOfMana",
-			name: "Small Shrine of Mana",
-			shrineDescription: "+5 max mana for each run", darkEnergyCost: 20
+			nameEN: "Small Shrine of Mana",
+			nameRU: "Небольшой Алтарь Маны",
+			shrineDescriptionEN: "+5 max mana for each run",
+			shrineDescriptionRU: "+5 очков к максимальному уровню маны навсегда",
+			darkEnergyCost: 20
 		),
 		
 		Shrine(
 			id: "smallShrineOfClaw",
-			name: "Small Shrine of Claw",
-			shrineDescription: "+1 max damage for each run", darkEnergyCost: 30
+			nameEN: "Small Shrine of Claw",
+			nameRU: "Небольшой Алтарь Когтя",
+			shrineDescriptionEN: "+1 max damage for each run",
+			shrineDescriptionRU: "+1 к максимальному урону навсегда",
+			darkEnergyCost: 30
 		),
 		
 		Shrine(
 			id: "smallShrineOfPaw",
-			name: "Small Shrine of Paw",
-			shrineDescription: "+1 min damage for each run", darkEnergyCost: 30
+			nameEN: "Small Shrine of Paw",
+			nameRU: "Небольшой Алтарь Лапы",
+			shrineDescriptionEN: "+1 min damage for each run",
+			shrineDescriptionRU: "+1 к минимальному урону навсегда",
+			darkEnergyCost: 30
 		)
 	]
 	
@@ -63,69 +81,101 @@ struct ShrineManager {
 		
 		Shrine(
 			id: "smallShrineOfAlchemist",
-			name: "Small Shrine of Alchemist Luck",
-			shrineDescription: "A chance to get random common potion at the start of each run",
+			nameEN: "Small Shrine of Alchemist Luck",
+			nameRU: "Небольшой Алтарь Удачи Алхимика",
+			shrineDescriptionEN: "A chance to get random common potion at the start of each run",
+			shrineDescriptionRU: "Небольшой шанс получить случайное зелье обычного качества на старте каждого нового забега",
 			darkEnergyCost: 50
 		),
 		
 		Shrine(
 			id: "smallShrineOfSharpness",
-			name: "Small Shrine of Sharpness",
-			shrineDescription: "+1% crit chance for each run", darkEnergyCost: 50
+			nameEN: "Small Shrine of Sharpness",
+			nameRU: "Небольшой Алтарь Остроты",
+			shrineDescriptionEN: "+1% crit chance for each run",
+			shrineDescriptionRU: "+1% шанса критического удара навсегда",
+			darkEnergyCost: 50
 		),
 		
 		Shrine(
 			id: "smallShrineOfFocus",
-			name: "Small Shrine of Focus",
-			shrineDescription: "+1% hit chance for each run", darkEnergyCost: 50
+			nameEN: "Small Shrine of Focus",
+			nameRU: "Небольшой Алтарь Фокуса",
+			shrineDescriptionEN: "+1% hit chance for each run",
+			shrineDescriptionRU: "+1% к шансу попадения по противника навсегда",
+			darkEnergyCost: 50
 		),
 		
 		Shrine(
 			id: "smallShrineOfWarrior",
-			name: "Small Shrine of Warrior Luck",
-			shrineDescription: "A chance to get random common weapon at the start of each run", darkEnergyCost: 50
+			nameEN: "Small Shrine of Warrior Luck",
+			nameRU: "Небольшой Алтарь Удачи Воина",
+			shrineDescriptionEN: "A chance to get random common weapon at the start of each run",
+			shrineDescriptionRU: "Небольшой шанс получить случайное оружие обычного качества на старте каждого забега",
+			darkEnergyCost: 50
 		),
 		
 		Shrine(
 			id: "smallShrineOfWing",
-			name: "Small Shrine of Wing",
-			shrineDescription: "+2 spell power for each run", darkEnergyCost: 50
+			nameEN: "Small Shrine of Wing",
+			nameRU: "Небольшой Алтарь Крыла",
+			shrineDescriptionEN: "+2 spell power for each run",
+			shrineDescriptionRU: "+2 очка к силе заклинаний навсегда",
+			darkEnergyCost: 50
 		),
 		
 		Shrine(
 			id: "shrineOfHealth",
-			name: "Shrine of Health",
-			shrineDescription: "+10 max health for each run", darkEnergyCost: 50
+			nameEN: "Shrine of Health",
+			nameRU: "Алтарь Здоровья",
+			shrineDescriptionEN: "+10 max health for each run",
+			shrineDescriptionRU: "+10 очков к максимальному уровню здоровья навсегда",
+			darkEnergyCost: 50
 		),
 		
 		Shrine(
 			id: "smallShrineOfGuardian",
-			name: "Small Shrine of Guardian Luck",
-			shrineDescription: "A chance to get random common armor at the start of each run", darkEnergyCost: 50
+			nameEN: "Small Shrine of Guardian Luck",
+			nameRU: "Небольшой Алтарь Удачи Защитника",
+			shrineDescriptionEN: "A chance to get random common armor at the start of each run",
+			shrineDescriptionRU: "Небольшой шанс получить случайную броню обычного качества в начале каждого забега",
+			darkEnergyCost: 50
 		),
 		
 		Shrine(
 			id: "shrineOfMana",
-			name: "Shrine of Mana",
-			shrineDescription: "+10 max mana for each run", darkEnergyCost: 50
+			nameEN: "Shrine of Mana",
+			nameRU: "Алтарь Маны",
+			shrineDescriptionEN: "+10 max mana for each run",
+			shrineDescriptionRU: "+10 очков к максимальному уровню маны навсегда",
+			darkEnergyCost: 50
 		),
 		
 		Shrine(
 			id: "shrineOfClaw",
-			name: "Shrine of Claw",
-			shrineDescription: "+2 max damage for each run", darkEnergyCost: 70
+			nameEN: "Shrine of Claw",
+			nameRU: "Алтарь Когтя",
+			shrineDescriptionEN: "+2 max damage for each run",
+			shrineDescriptionRU: "+2 к максимальному урону навсегда",
+			darkEnergyCost: 70
 		),
 		
 		Shrine(
 			id: "shrineOfPaw",
-			name: "Shrine of Paw",
-			shrineDescription: "+2 min damage for each run", darkEnergyCost: 70
+			nameEN: "Shrine of Paw",
+			nameRU: "Алтарь Лапы",
+			shrineDescriptionEN: "+2 min damage for each run",
+			shrineDescriptionRU: "+2 к минимальному урону навсегда",
+			darkEnergyCost: 70
 		),
 		
 		Shrine(
 			id: "shrineOfProtection",
-			name: "Shrine of Protection",
-			shrineDescription: "+1 defence for each run", darkEnergyCost: 70
+			nameEN: "Shrine of Protection",
+			nameRU: "Алтарь Защиты",
+			shrineDescriptionEN: "+1 defence for each run",
+			shrineDescriptionRU: "+1 к защите навсегда",
+			darkEnergyCost: 70
 		)
 	]
 	
@@ -140,68 +190,101 @@ struct ShrineManager {
 		
 		Shrine(
 			id: "greatShrineOfHealth",
-			name: "Great Shrine of Health",
-			shrineDescription: "+15 max health for each run", darkEnergyCost: 100
+			nameEN: "Great Shrine of Health",
+			nameRU: "Большой Алтарь Здоровья",
+			shrineDescriptionEN: "+15 max health for each run",
+			shrineDescriptionRU: "+15 к максимальному уровню здоровья навсегда",
+			darkEnergyCost: 100
 		),
 		
 		Shrine(
 			id: "greatShrineOfMana",
-			name: "Great Shrine of Mana",
-			shrineDescription: "+15 max mana for each run", darkEnergyCost: 100
+			nameEN: "Great Shrine of Mana",
+			nameRU: "Большой Алтарь Маны",
+			shrineDescriptionEN: "+15 max mana for each run",
+			shrineDescriptionRU: "+15 к максимальному уровню маны навсегда",
+			darkEnergyCost: 100
 		),
 		
 		Shrine(
 			id: "shrineOfAlchemist",
-			name: "Shrine of Alchemist Luck",
-			shrineDescription: "A chance to get rare potion at the start of each run", darkEnergyCost: 120
+			nameEN: "Shrine of Alchemist Luck",
+			nameRU: "Алтарь Удачи Алхимика",
+			shrineDescriptionEN: "A chance to get rare potion at the start of each run",
+			shrineDescriptionRU: "Небольшой шанс получить зелье редкого качества на старте каждого забега",
+			darkEnergyCost: 120
 		),
 		
 		Shrine(
 			id: "shrineOfSharpness",
-			name: "Shrine of Sharpness",
-			shrineDescription: "+2% crit chance for each run", darkEnergyCost: 120
+			nameEN: "Shrine of Sharpness",
+			nameRU: "Алтарь Остроты",
+			shrineDescriptionEN: "+2% crit chance for each run",
+			shrineDescriptionRU: "+2% к шансу критического удара навсегда",
+			darkEnergyCost: 120
 		),
 		
 		Shrine(
 			id: "shrineOfFocus",
-			name: "Shrine of Focus",
-			shrineDescription: "+2% hit chance for each run", darkEnergyCost: 120
+			nameEN: "Shrine of Focus",
+			nameRU: "Алтарь Фокуса",
+			shrineDescriptionEN: "+2% hit chance for each run",
+			shrineDescriptionRU: "+2% к шансу попадения по противнику навсегда",
+			darkEnergyCost: 120
 		),
 		
 		Shrine(
 			id: "shrineOfWarrior",
-			name: "Shrine of Warrior Luck",
-			shrineDescription: "A chance to get rare weapon at the start of each run", darkEnergyCost: 120
+			nameEN: "Shrine of Warrior Luck",
+			nameRU: "Алтарь Удачи Воина",
+			shrineDescriptionEN: "A chance to get rare weapon at the start of each run",
+			shrineDescriptionRU: "Небольшой шанс получить оружие редкого качества в начале каждого забега",
+			darkEnergyCost: 120
 		),
 		
 		Shrine(
 			id: "shrineOfWing",
-			name: "Shrine of Wing",
-			shrineDescription: "+5 spell power for each run", darkEnergyCost: 120
+			nameEN: "Shrine of Wing",
+			nameRU: "Алтарь Крыла",
+			shrineDescriptionEN: "+5 spell power for each run",
+			shrineDescriptionRU: "+5 к силе заклинаний навсегда",
+			darkEnergyCost: 120
 		),
 		
 		Shrine(
 			id: "greatShrineOfClaw",
-			name: "Great Shrine of Claw",
-			shrineDescription: "+3 max damage for each run", darkEnergyCost: 140
+			nameEN: "Great Shrine of Claw",
+			nameRU: "Большой Алтарь Когтя",
+			shrineDescriptionEN: "+3 max damage for each run",
+			shrineDescriptionRU: "+3 к максимальному урону навсегда",
+			darkEnergyCost: 140
 		),
 		
 		Shrine(
 			id: "greatShrineOfPaw",
-			name: "Great Shrine of Paw",
-			shrineDescription: "+3 min damage for each run", darkEnergyCost: 140
+			nameEN: "Great Shrine of Paw",
+			nameRU: "Большой Алтарь Лапы",
+			shrineDescriptionEN: "+3 min damage for each run",
+			shrineDescriptionRU: "+3 к минимальному урону навсегда",
+			darkEnergyCost: 140
 		),
 		
 		Shrine(
 			id: "shrineOfGuardian",
-			name: "Shrine of Guardian Luck",
-			shrineDescription: "A chance to get rare armor at the start of each run", darkEnergyCost: 120
+			nameEN: "Shrine of Guardian Luck",
+			nameRU: "Большой Алтарь Удачи Защитника",
+			shrineDescriptionEN: "A chance to get rare armor at the start of each run",
+			shrineDescriptionRU: "Небольшой шанс получить броню редкого качества в начале каждого забега",
+			darkEnergyCost: 120
 		),
 		
 		Shrine(
 			id: "greatShrineOfProtection",
-			name: "Great Shrine of Protection",
-			shrineDescription: "+2 defence for each run", darkEnergyCost: 150
+			nameEN: "Great Shrine of Protection",
+			nameRU: "Большой Алтарь Защиты",
+			shrineDescriptionEN: "+2 defence for each run",
+			shrineDescriptionRU: "+2 к броне навсегда",
+			darkEnergyCost: 150
 		),
 	]
 	
@@ -216,14 +299,20 @@ struct ShrineManager {
 		
 		Shrine(
 			id: "shrineOfShadowGreed",
-			name: "Shrine of Shadow Greed",
-			shrineDescription: "+25% of Dark Energy after killing an enemy", darkEnergyCost: 250
+			nameEN: "Shrine of Shadow Greed",
+			nameRU: "Алтарь Темной Жадности",
+			shrineDescriptionEN: "+25% of Dark Energy after killing an enemy",
+			shrineDescriptionRU: "+25% к количеству Темной Энергии в добыче после каждого убийства противника",
+			darkEnergyCost: 250
 		),
 		
 		Shrine(
 			id: "greatShrineOfStamina",
-			name: "Great Shrine of Stamina",
-			shrineDescription: "+1 ENERGY for each run", darkEnergyCost: 250
+			nameEN: "Great Shrine of Stamina",
+			nameRU: "Большой Алтарь Выносливости",
+			shrineDescriptionEN: "+1 ENERGY for each run",
+			shrineDescriptionRU: "+1 очко к МАКСИМАЛЬНОМУ КОЛИЧЕСТВУ ОЧКОВ ДЕЙСТВИЯ",
+			darkEnergyCost: 250
 		),
 		
 //		Shrine(
