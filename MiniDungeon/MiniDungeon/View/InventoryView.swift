@@ -11,43 +11,77 @@ extension MainView {
 		
 		List {
 			
-			Section(header: Text("Weapon Slot")) {
+			Section(header: Text(isEnglish() ? "Weapon Slot" : "Оружие")) {
 				Button {
 					itemToDisplay = viewModel.gameState.hero.weaponSlot
 				} label: {
-					Text("\(viewModel.gameState.hero.weaponSlot?.label ?? "Empty")")
-						.foregroundStyle(viewModel.gameState.hero.weaponSlot?.rarity.color ?? .white)
-						.bold()
+					
+					if isEnglish() {
+						
+						Text("\(viewModel.gameState.hero.weaponSlot?.labelEN ?? "Empty")")
+							.foregroundStyle(viewModel.gameState.hero.weaponSlot?.rarity.color ?? .white)
+							.bold()
+						
+					} else {
+						
+						Text("\(viewModel.gameState.hero.weaponSlot?.labelRU ?? "Пусто")")
+							.foregroundStyle(viewModel.gameState.hero.weaponSlot?.rarity.color ?? .white)
+							.bold()
+					}
 				}
 			}
 			
-			Section(header: Text("Armor Slot")) {
+			Section(header: Text(isEnglish() ? "Armor Slot" : "Броня")) {
 				
 				Button {
 					itemToDisplay = viewModel.gameState.hero.armorSlot
 				} label: {
-					Text("\(viewModel.gameState.hero.armorSlot?.label ?? "Empty")")
-						.foregroundStyle(viewModel.gameState.hero.armorSlot?.rarity.color ?? .white)
-						.bold()
+					
+					if isEnglish() {
+						
+						Text("\(viewModel.gameState.hero.armorSlot?.labelEN ?? "Empty")")
+							.foregroundStyle(viewModel.gameState.hero.armorSlot?.rarity.color ?? .white)
+							.bold()
+						
+					} else {
+						
+						Text("\(viewModel.gameState.hero.armorSlot?.labelRU ?? "Пусто")")
+							.foregroundStyle(viewModel.gameState.hero.armorSlot?.rarity.color ?? .white)
+							.bold()
+					}
 				}
 			}
 			
 			// MARK: - Selected Item Info
 			
 			if itemToDisplay != nil  {
-				Section(header: Text("Item Info")) {
+				Section(header: Text(isEnglish() ? "Item Info" : "Свойства предмета")) {
 					
-					Text("Item Name: \(itemToDisplay?.label ?? "")")
-						.foregroundColor(itemToDisplay?.rarity.color ?? .white)
-						.bold()
-					Text("Item Level: \(itemToDisplay?.itemLevel ?? 0)")
-					Text("Description: \(itemToDisplay?.itemDescription ?? "")")
-					Text("Price: \(itemToDisplay?.price ?? 0) gold")
+					
+					if isEnglish() {
+						
+						Text("Item Name: \(itemToDisplay?.labelEN ?? "")")
+							.foregroundColor(itemToDisplay?.rarity.color ?? .white)
+							.bold()
+						Text("Item Level: \(itemToDisplay?.itemLevel ?? 0)")
+						Text("Description: \(itemToDisplay?.itemDescriptionEN ?? "")")
+						Text("Price: \(itemToDisplay?.price ?? 0) gold")
+						
+					} else {
+						
+						Text("Название: \(itemToDisplay?.labelRU ?? "")")
+							.foregroundColor(itemToDisplay?.rarity.color ?? .white)
+							.bold()
+						Text("Уровень предмета: \(itemToDisplay?.itemLevel ?? 0)")
+						Text("Описание: \(itemToDisplay?.itemDescriptionEN ?? "")")
+						Text("Цена: \(itemToDisplay?.price ?? 0) золота")
+						
+					}
 					
 					if viewModel.gameState.didEncounterDisenchantShrine && !viewModel.gameState.dealtWithDisenchantShrine &&
 						!(itemToDisplay is Item) {
 						
-						Button("Disenchant") {
+						Button(isEnglish() ? "Disenchant" : "Распылить") {
 							viewModel.applyEffect(for: .disenchantItem, item: itemToDisplay)
 						}
 						
@@ -55,39 +89,37 @@ extension MainView {
 						
 						if ((itemToDisplay as? Weapon ) != nil) {
 							
-								Button("Equip Weapon") {
+							Button(isEnglish() ? "Equip Weapon" : "Использовать оружие") {
 									if viewModel.equipOrUseItem(itemToDisplay) {
 										itemToDisplay = nil
 									}
 								}
 								
-								Button("Compare") {
+							Button(isEnglish() ? "Compare" : "Сравнить") {
 									viewModel.audioManager.playSound(fileName: "click", extensionName: "mp3")
 									viewModel.gameState.isArmorsStatsDifferenceOpen = false
 									viewModel.gameState.isWeaponsStatsDifferenceOpen = true
-									print("Did compare Weapons")
 								}
 						}
 						
 						if ((itemToDisplay as? Armor ) != nil) {
 							
-								Button("Equip Armor") {
+							Button(isEnglish() ? "Equip Armor" : "Использовать броню") {
 									if viewModel.equipOrUseItem(itemToDisplay) {
 										itemToDisplay = nil
 									}
 								}
 								
-								Button("Compare") {
+							Button(isEnglish() ? "Compare" : "Сравнить") {
 									// viewModel.compareArmors
 									viewModel.gameState.isWeaponsStatsDifferenceOpen = false
 									viewModel.gameState.isArmorsStatsDifferenceOpen = true
-									print("Did compare Armors")
 									
 								}
 						}
 						
 						if itemToDisplay as? Item != nil {
-							Button("Use") {
+							Button(isEnglish() ? "Use" : "Использовать") {
 								if viewModel.equipOrUseItem(itemToDisplay) {
 									itemToDisplay = nil
 								}
@@ -98,9 +130,17 @@ extension MainView {
 			}
 			
 		}
-		.frame(height: 450)
+		.frame(height: 500)
 		
 		// MARK: StatsDifferenceView
+		
+		.overlay(alignment: .topTrailing) {
+			
+			Button(isEnglish() ? "Close" : "Закрыть") {
+				itemToDisplay = nil
+				viewModel.goToDungeon()
+			}
+		}
 		
 		.overlay() {
 			if viewModel.gameState.isWeaponsStatsDifferenceOpen {
@@ -118,13 +158,24 @@ extension MainView {
 			// MARK: - Weapons
 			
 			if !viewModel.gameState.hero.weapons.isEmpty {
-				Section(header: Text("Weapons")) {
+				Section(header: Text(isEnglish() ? "Weapons" :"Оружие")) {
 					
 					ForEach(Array(viewModel.gameState.hero.weapons.keys)) { weapon in
-						Button("\(weapon.label) - \(viewModel.gameState.hero.weapons[weapon] ?? 0)") {
-							itemToDisplay = weapon
+						
+						if isEnglish() {
+							
+							Button("\(weapon.labelEN) - \(viewModel.gameState.hero.weapons[weapon] ?? 0)") {
+								itemToDisplay = weapon
+							}
+							.foregroundStyle(weapon.rarity.color)
+							
+						} else {
+							
+							Button("\(weapon.labelRU) - \(viewModel.gameState.hero.weapons[weapon] ?? 0)") {
+								itemToDisplay = weapon
+							}
+							.foregroundStyle(weapon.rarity.color)
 						}
-						.foregroundStyle(weapon.rarity.color)
 					}
 				}
 			}
@@ -132,13 +183,24 @@ extension MainView {
 			// MARK: - Armors
 			
 			if !viewModel.gameState.hero.armors.isEmpty {
-				Section(header: Text("Armors")) {
+				Section(header: Text(isEnglish() ? "Armors" : "Доспехи")) {
 					
 					ForEach(Array(viewModel.gameState.hero.armors.keys)) { armor in
-						Button("\(armor.label) - \(viewModel.gameState.hero.armors[armor] ?? 0)") {
-							itemToDisplay = armor
+						
+						if isEnglish() {
+							
+							Button("\(armor.labelEN) - \(viewModel.gameState.hero.armors[armor] ?? 0)") {
+								itemToDisplay = armor
+							}
+							.foregroundStyle(armor.rarity.color)
+							
+						} else {
+							
+							Button("\(armor.labelRU) - \(viewModel.gameState.hero.armors[armor] ?? 0)") {
+								itemToDisplay = armor
+							}
+							.foregroundStyle(armor.rarity.color)
 						}
-						.foregroundStyle(armor.rarity.color)
 					}
 				}
 			}
@@ -146,30 +208,29 @@ extension MainView {
 			// MARK: - Other Items
 			
 			if !viewModel.gameState.hero.inventory.isEmpty {
-				Section(header: Text("Items")) {
+				Section(header: Text(isEnglish() ? "Items" : "Предметы")) {
 					
 					ForEach(Array(viewModel.gameState.hero.inventory.keys)) { item in
-						Button("\(item.label) - \(viewModel.gameState.hero.inventory[item] ?? 0)") {
-							itemToDisplay = item
+						
+						if isEnglish() {
+							
+							Button("\(item.labelEN) - \(viewModel.gameState.hero.inventory[item] ?? 0)") {
+								itemToDisplay = item
+							}
+							.foregroundStyle(item.rarity.color)
+							
+						} else {
+							
+							Button("\(item.labelRU) - \(viewModel.gameState.hero.inventory[item] ?? 0)") {
+								itemToDisplay = item
+							}
+							.foregroundStyle(item.rarity.color)
 						}
-						.foregroundStyle(item.rarity.color)
 					}
 				}
 			}
 			
 		}
 		.frame(height: 200)
-		
-		List {
-			// MARK: - Navigation
-			
-			Section(header: Text("Navigation")) {
-				
-				Button("Dungeon") {
-					itemToDisplay = nil
-					viewModel.goToDungeon()
-				}
-			}
-		}
 	}
 }
