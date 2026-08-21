@@ -15,19 +15,36 @@ extension MainView {
 			
 			// MARK: - Header
 			
-			Section(header: Text("Flask Talants")) {
-				Text("Dark Energy Capacity Overall: \(viewModel.gameState.heroMaxDarkEnergyOverall)")
+			Section(header: Text(isEnglish() ? "Flask Talants" : "Таланты Фляги")) {
+				if isEnglish() {
+					Text("Dark Energy Capacity Overall: \(viewModel.gameState.heroMaxDarkEnergyOverall)")
+				} else {
+					Text("Общее Количество Собранной Темной Энергии: \(viewModel.gameState.heroMaxDarkEnergyOverall)")
+				}
 			}
 			
 			// MARK: - Flask Talant Info
 			
 			if viewModel.gameState.flaskTalantToDisplay != nil {
-				Section(header: Text("Description")) {
-					Text("Name: \(viewModel.gameState.flaskTalantToDisplay?.name ?? "")")
-					Text("Description: \(viewModel.gameState.flaskTalantToDisplay?.flaskTalantDescription ?? "")")
-					Text("Dark Energy To Collect: \(viewModel.gameState.flaskTalantToDisplay?.darkEnergyLevelToUpgrade ?? 0) dark energy")
-					Button("Activate") {
-						viewModel.activateFlaskTalant(viewModel.gameState.flaskTalantToDisplay)
+				Section(header: Text(isEnglish() ? "Description" : "Описание")) {
+					
+					if isEnglish() {
+						
+						Text("Name: \(viewModel.gameState.flaskTalantToDisplay?.nameEN ?? "")")
+						Text("Description: \(viewModel.gameState.flaskTalantToDisplay?.flaskTalantDescriptionEN ?? "")")
+						Text("Dark Energy To Collect: \(viewModel.gameState.flaskTalantToDisplay?.darkEnergyLevelToUpgrade ?? 0) dark energy")
+						Button("Activate") {
+							viewModel.activateFlaskTalant(viewModel.gameState.flaskTalantToDisplay)
+						}
+						
+					} else {
+						
+						Text("Название: \(viewModel.gameState.flaskTalantToDisplay?.nameRU ?? "")")
+						Text("Описание: \(viewModel.gameState.flaskTalantToDisplay?.flaskTalantDescriptionRU ?? "")")
+						Text("Необходимое количество темной энергии: \(viewModel.gameState.flaskTalantToDisplay?.darkEnergyLevelToUpgrade ?? 0) темной энергии")
+						Button("Активировать") {
+							viewModel.activateFlaskTalant(viewModel.gameState.flaskTalantToDisplay)
+						}
 					}
 				}
 			}
@@ -42,14 +59,20 @@ extension MainView {
 		
 		if !viewModel.checkIsThereFlaskTalantsToUpgrade(FlaskTalantManager.minorTalants) {
 			
-			Section(header: Text("Minor Talants")) {
+			Section(header: Text(isEnglish() ? "Minor Talants" : "Небольшие Таланты")) {
 				
 				ForEach(FlaskTalantManager.minorTalants) { talant in
 					
 					if !viewModel.gameState.upgradedFlaskTalants.contains(talant) {
 						
-						Button("\(talant.name)") {
-							viewModel.gameState.flaskTalantToDisplay = talant
+						if isEnglish() {
+							Button("\(talant.nameEN)") {
+								viewModel.gameState.flaskTalantToDisplay = talant
+							}
+						} else {
+							Button("\(talant.nameRU)") {
+								viewModel.gameState.flaskTalantToDisplay = talant
+							}
 						}
 					}
 				}
@@ -60,14 +83,20 @@ extension MainView {
 		
 		if !viewModel.checkIsThereFlaskTalantsToUpgrade(FlaskTalantManager.mediumTalants) {
 			
-			Section(header: Text("Medium Talants")) {
+			Section(header: Text(isEnglish() ? "Medium Talants" : "Средние Таланты")) {
 				
 				ForEach(FlaskTalantManager.mediumTalants) { talant in
 					
 					if !viewModel.gameState.upgradedFlaskTalants.contains(talant) {
 						
-						Button("\(talant.name)") {
-							viewModel.gameState.flaskTalantToDisplay = talant
+						if isEnglish() {
+							Button("\(talant.nameEN)") {
+								viewModel.gameState.flaskTalantToDisplay = talant
+							}
+						} else {
+							Button("\(talant.nameRU)") {
+								viewModel.gameState.flaskTalantToDisplay = talant
+							}
 						}
 					}
 				}
@@ -78,14 +107,20 @@ extension MainView {
 		
 		if !viewModel.checkIsThereFlaskTalantsToUpgrade(FlaskTalantManager.hugeTalants) {
 			
-			Section(header: Text("Huge Talants")) {
+			Section(header: Text(isEnglish() ? "Huge Talants" : "Большие Таланты")) {
 				
 				ForEach(FlaskTalantManager.hugeTalants) { talant in
 					
 					if !viewModel.gameState.upgradedFlaskTalants.contains(talant) {
 						
-						Button("\(talant.name)") {
-							viewModel.gameState.flaskTalantToDisplay = talant
+						if isEnglish() {
+							Button("\(talant.nameEN)") {
+								viewModel.gameState.flaskTalantToDisplay = talant
+							}
+						} else {
+							Button("\(talant.nameRU)") {
+								viewModel.gameState.flaskTalantToDisplay = talant
+							}
 						}
 					}
 				}
@@ -110,15 +145,15 @@ extension MainView {
 //			}
 //		}
 	}
-	.frame(height: 300)
+	.frame(height: 250)
 		
 		// MARK: - Navigation
 		
 		List {
 			
-			Section(header: Text("Navigation")) {
+			Section(header: Text(isEnglish() ? "Navigation" : "Навигация")) {
 				
-				Menu("Active Flask Talants") {
+				Menu(isEnglish() ? "Active Flask Talants" : "Активные Таланты Фляги") {
 					
 					// MARK: - Activated Shrines
 					
@@ -126,15 +161,25 @@ extension MainView {
 						
 						ForEach(viewModel.gameState.upgradedFlaskTalants) { talant in
 							
-							Button("\(talant.name)") {
-								viewModel.gameState.flaskTalantToDisplay = talant
+							if isEnglish() {
+								
+								Button("\(talant.nameEN)") {
+									viewModel.gameState.flaskTalantToDisplay = talant
+								}
+								.foregroundStyle(.white)
+								
+							} else {
+								
+								Button("\(talant.nameRU)") {
+									viewModel.gameState.flaskTalantToDisplay = talant
+								}
+								.foregroundStyle(.white)
 							}
-							.foregroundStyle(.white)
 						}
 					}
 				}
 				
-				Button("Go to Menu") {
+				Button(isEnglish() ? "Go to Menu" : "Вернуться в Меню") {
 					viewModel.applyActivateFlaskTalantsAndGoToMenu()
 				}
 			}
