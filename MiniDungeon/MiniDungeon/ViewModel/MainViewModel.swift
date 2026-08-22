@@ -2,7 +2,10 @@ import SwiftUI
 import AVFoundation
 
 /// An entity to connect Model with View
-class MainViewModel: ObservableObject {
+/// We use @Observable macro to replace ObservableObject
+/// Because it will rerender only properties that changes instead of entire gameState i did @Published in the past
+@Observable
+class MainViewModel {
 	
 	// MARK: - Dependencies
 	
@@ -10,11 +13,13 @@ class MainViewModel: ObservableObject {
 	var dungeonGenerator: DungeonGenerator
 	
 	// MARK: TestAudioPlayer
+	
 	var audioManager: AudioManager
 	
 	// MARK: - Properties
 	
-	@Published var gameState: GameState
+	// There might be a problem with disconnecting GameState @Model which is observable by default from correct redriwing when inner changes happen
+	var gameState: GameState
 	
 	// MARK: - Initialization
 	
