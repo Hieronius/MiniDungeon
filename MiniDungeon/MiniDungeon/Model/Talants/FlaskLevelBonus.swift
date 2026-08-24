@@ -14,17 +14,23 @@ import Foundation
 struct FlaskLevelBonus: Identifiable, Hashable, Codable {
 	
 	var id: UUID
-	var name: String
-	var bonusDescription: String
+	var nameEN: String
+	var nameRU: String
+	var bonusDescriptionEN: String
+	var bonusDescriptionRU: String
 	var rarity: Rarity
 	
-	init(name: String,
-		 bonusDescription: String,
+	init(nameEN: String,
+		 nameRU: String,
+		 bonusDescriptionEN: String,
+		 bonusDescriptionRU: String,
 		 rarity: Rarity
 	) {
 		self.id = UUID()
-		self.name = name
-		self.bonusDescription = bonusDescription
+		self.nameEN = nameEN
+		self.nameRU = nameRU
+		self.bonusDescriptionEN = bonusDescriptionEN
+		self.bonusDescriptionRU = bonusDescriptionRU
 		self.rarity = rarity
 	}
 }
@@ -39,32 +45,42 @@ struct FlaskLevelBonusManager {
 	static private let commonLevelBonuses: [FlaskLevelBonus] = [
 		
 		FlaskLevelBonus(
-			name: "Common Healing Bonus",
-			bonusDescription: "+5% healing value",
+			nameEN: "Common Healing Bonus",
+			nameRU: "Обычный Бонус Лечения",
+			bonusDescriptionEN: "+5% healing value",
+			bonusDescriptionRU: "+5% к силе эффекта лечения",
 			rarity: .common
 		),
 		
 		FlaskLevelBonus(
-			name: "Common Damage Bonus",
-			bonusDescription: "+5% damage value",
+			nameEN: "Common Damage Bonus",
+			nameRU: "Обычный Бонус Урона",
+			bonusDescriptionEN: "+5% damage value",
+			bonusDescriptionRU: "+5% к силе эффекта нанесения урона",
+			rarity: .common
+		),
+
+		FlaskLevelBonus(
+			nameEN: "Common CoolDown Reduction Bonus",
+			nameRU: "Обычный Бонус Восстановления",
+			bonusDescriptionEN: "-1 turn to reset flask CoolDown",
+			bonusDescriptionRU: "-1 ход до восставления способностей фляги",
 			rarity: .common
 		),
 		
 		FlaskLevelBonus(
-			name: "Common CD Reduction Bonus",
-			bonusDescription: "-1 turn to reset flask CD",
+			nameEN: "Common Charge Back Bonus",
+			nameRU: "Обычный Бонус Перезарядки",
+			bonusDescriptionEN: "+5% chance to get charge back after use",
+			bonusDescriptionRU: "+5% к шансу вернуть заряд после использования фляги",
 			rarity: .common
 		),
 		
 		FlaskLevelBonus(
-			name: "Common Charge Back Bonus",
-			bonusDescription: "+5% chance to get charge back after use",
-			rarity: .common
-		),
-		
-		FlaskLevelBonus(
-			name: "Common CD Reset Bonus",
-			bonusDescription: "+5% chance to get flask CD reset",
+			nameEN: "Common CoolDown Reset Bonus",
+			nameRU: "Обычный Бонус Обновления",
+			bonusDescriptionEN: "+5% chance to get flask CD reset",
+			bonusDescriptionRU: "+5% к шансу обнулить время восстановления способностей фляги после использования",
 			rarity: .common
 		),
 		
@@ -73,56 +89,74 @@ struct FlaskLevelBonusManager {
 	static private let rareLevelBonuses: [FlaskLevelBonus] = [
 		
 		FlaskLevelBonus(
-			name: "Rare Healing Bonus",
-			bonusDescription: "+10% healing value",
+			nameEN: "Rare Healing Bonus",
+			nameRU: "Редкий Бонус Лечения",
+			bonusDescriptionEN: "+10% healing value",
+			bonusDescriptionRU: "+10% к силе эффекта лечения",
 			rarity: .rare
 		),
 		
 		FlaskLevelBonus(
-			name: "Rare Damage Bonus",
-			bonusDescription: "+10% damage value",
+			nameEN: "Rare Damage Bonus",
+			nameRU: "Редкий Бонус Урона",
+			bonusDescriptionEN: "+10% damage value",
+			bonusDescriptionRU: "+10% к силе эффекта нанесения урона",
 			rarity: .rare
 		),
 		
 		FlaskLevelBonus(
-			name: "Rare CD Reduction Bonus",
-			bonusDescription: "-2 turns to reset flask CD",
+			nameEN: "Rare CoolDown Reduction Bonus",
+			nameRU: "Редкий Бонус Восстановления",
+			bonusDescriptionEN: "-2 turns to reset flask CD",
+			bonusDescriptionRU: "-2 хода до восставления способностей фляги",
 			rarity: .rare
 		),
 		
 		FlaskLevelBonus(
-			name: "Rare Charge Back Bonus",
-			bonusDescription: "+10% to get flask charge back after use",
+			nameEN: "Rare Charge Back Bonus",
+			nameRU: "Редкий Бонус Перезарядки",
+			bonusDescriptionEN: "+10% to get flask charge back after use",
+			bonusDescriptionRU: "+10: к шансу вернуть заряд после использования фляги",
 			rarity: .rare
 		),
 		
 		FlaskLevelBonus(
-			name: "Rare CD Reset Bonus",
-			bonusDescription: "+10% to get flask CD reset after use",
+			nameEN: "Rare CoolDown Reset Bonus",
+			nameRU: "Редкий Бонус Обновления",
+			bonusDescriptionEN: "+10% to get flask CoolDown reset after use",
+			bonusDescriptionRU: "+10% к шансу обнулить время восстановления способнстей после использования фляги",
 			rarity: .rare
 		),
 		
 		FlaskLevelBonus(
-			name: "Rare Damage Buff Bonus",
-			bonusDescription: "+1 min and max damage while flask on CD",
+			nameEN: "Rare Damage Buff Bonus",
+			nameRU: "Редкий Бонус Усиления Урона",
+			bonusDescriptionEN: "+1 min and max damage while flask on CD",
+			bonusDescriptionRU: "+1 к минимальному и максимальному урону, когда способности фляги недоступны",
 			rarity: .rare
 		),
 		
 		FlaskLevelBonus(
-			name: "Rare Armor Buff Bonus",
-			bonusDescription: "+1 armor while flask on CD",
+			nameEN: "Rare Armor Buff Bonus",
+			nameRU: "Редкий Бонус Усиления Брони",
+			bonusDescriptionEN: "+1 armor while flask on CD",
+			bonusDescriptionRU: "+1 к броне, когда способности фляги недоступны",
 			rarity: .rare
 		),
 		
 		FlaskLevelBonus(
-			name: "Rare Damage Debuff Bonus",
-			bonusDescription: "-1 min and max damage to the target after use",
+			nameEN: "Rare Damage Debuff Bonus",
+			nameRU: "Редкий Бонус Ослабления Урона",
+			bonusDescriptionEN: "-1 min and max damage to the enemy after use",
+			bonusDescriptionRU: "-1 к минимальному и максимальному урону противника после нанесения урона с помощью фляги",
 			rarity: .rare
 		),
 		
 		FlaskLevelBonus(
-			name: "Rare Armor Debuff Bonus",
-			bonusDescription: "-1 armor to the target after use",
+			nameEN: "Rare Armor Debuff Bonus",
+			nameRU: "Редкий Бонус Ослабления Брони",
+			bonusDescriptionEN: "-1 armor to the target after use",
+			bonusDescriptionRU: "-1 к броне противника после нанесения урона с помощью фляги",
 			rarity: .rare
 		)
 		
@@ -131,62 +165,82 @@ struct FlaskLevelBonusManager {
 	static private let epicLevelBonuses: [FlaskLevelBonus] = [
 		
 		FlaskLevelBonus(
-			name: "Epic Healing Bonus",
-			bonusDescription: "+15% healing value",
+			nameEN: "Epic Healing Bonus",
+			nameRU: "Эпический Бонус Лечения",
+			bonusDescriptionEN: "+15% healing value",
+			bonusDescriptionRU: "+15% к силе эффекта лечения",
 			rarity: .epic
 		),
 		
 		FlaskLevelBonus(
-			name: "Epic Damage Bonus",
-			bonusDescription: "+15% damage value",
+			nameEN: "Epic Damage Bonus",
+			nameRU: "Эпический Бонус Урона",
+			bonusDescriptionEN: "+15% damage value",
+			bonusDescriptionRU: "+15% к силе эффекта нанесения урона",
 			rarity: .epic
 		),
 		
 		FlaskLevelBonus(
-			name: "Epic CD Reduction Bonus",
-			bonusDescription: "-4 turns to reset flask CD",
+			nameEN: "Epic CoolDown Reduction Bonus",
+			nameRU: "Эпический Бонус Восстановления",
+			bonusDescriptionEN: "-4 turns to reset flask CD",
+			bonusDescriptionRU: "-4 хода до восстановления способностей фляги",
 			rarity: .epic
 		),
 		
 		FlaskLevelBonus(
-			name: "Epic Charge Back Bonus",
-			bonusDescription: "+15% to get flask charge back after use",
+			nameEN: "Epic Charge Back Bonus",
+			nameRU: "Эпический Бонус Перезарядки",
+			bonusDescriptionEN: "+15% to get flask charge back after use",
+			bonusDescriptionRU: "+15% к шансу вернуть заряд после использования фляги",
 			rarity: .epic
 		),
 		
 		FlaskLevelBonus(
-			name: "Epic CD Reset Bonus",
-			bonusDescription: "+15% to get flask CD reset after use",
+			nameEN: "Epic CoolDown Reset Bonus",
+			nameRU: "Эпический Бонус Обнуления",
+			bonusDescriptionEN: "+15% to get flask CD reset after use",
+			bonusDescriptionRU: "+15% к шансу обнулить время восстановления способностей фляги после использования",
 			rarity: .epic
 		),
 		
 		FlaskLevelBonus(
-			name: "Epic Damage Buff Bonus",
-			bonusDescription: "+2 min and max damage while flask on CD",
+			nameEN: "Epic Damage Buff Bonus",
+			nameRU: "Эпический Бонус Усиления Урона",
+			bonusDescriptionEN: "+2 min and max damage while flask on CoolDown",
+			bonusDescriptionRU: "+2 к минимальному и максимальному урону, когда способности фляги недоступны",
 			rarity: .epic
 		),
 		
 		FlaskLevelBonus(
-			name: "Epic Armor Buff Bonus",
-			bonusDescription: "+2 armor while flask on CD",
+			nameEN: "Epic Armor Buff Bonus",
+			nameRU: "Эпический Бонус Усиления Брони",
+			bonusDescriptionEN: "+2 armor while flask on CoolDown",
+			bonusDescriptionRU: "+2 к броне, когда способности фляги недоступны",
 			rarity: .epic
 		),
 		
 		FlaskLevelBonus(
-			name: "Epic Damage Debuff Bonus",
-			bonusDescription: "-2 min and max damage to the enemy after use",
+			nameEN: "Epic Damage Debuff Bonus",
+			nameRU: "Эпический Бонус Ослабления Урона",
+			bonusDescriptionEN: "-2 min and max damage to the enemy after use",
+			bonusDescriptionRU: "-2 к минимальному и максимальному урону противника после нанесения урона с помощью фляги",
 			rarity: .epic
 		),
 		
 		FlaskLevelBonus(
-			name: "Epic Armor Debuff",
-			bonusDescription: "-2 armor to the enemy after use",
+			nameEN: "Epic Armor Debuff",
+			nameRU: "Эпический Бонус Ослабления Брони",
+			bonusDescriptionEN: "-2 armor to the enemy after use",
+			bonusDescriptionRU: "-2 к броне противника после нанесения урона с помощью фляги",
 			rarity: .epic
 		),
 		
 		FlaskLevelBonus(
-			name: "Epic Flask Charge Bonus",
-			bonusDescription: "+1 max charges capacity",
+			nameEN: "Epic Flask Charge Bonus",
+			nameRU: "Эпический Бонус Возврата Заряда",
+			bonusDescriptionEN: "+1 max charges capacity",
+			bonusDescriptionRU: "+1 к максимальному количеству зарядов фляги",
 			rarity: .epic
 		)
 		
@@ -195,62 +249,82 @@ struct FlaskLevelBonusManager {
 	static private let legendaryLevelBonuses: [FlaskLevelBonus] = [
 		
 		FlaskLevelBonus(
-			name: "Legendary Healing Bonus",
-			bonusDescription: "+20% healing value",
+			nameEN: "Legendary Healing Bonus",
+			nameRU: "Легендарный Бонус Лечения",
+			bonusDescriptionEN: "+20% healing value",
+			bonusDescriptionRU: "+20% к силе эффекта лечения",
 			rarity: .legendary
 		),
 		
 		FlaskLevelBonus(
-			name: "Legendary Damage Bonus",
-			bonusDescription: "+20% damage value",
+			nameEN: "Legendary Damage Bonus",
+			nameRU: "Легендарный Бонус Урона",
+			bonusDescriptionEN: "+20% damage value",
+			bonusDescriptionRU: "+20% к эффекту нанесения урона",
 			rarity: .legendary
 		),
 		
 		FlaskLevelBonus(
-			name: "Legendary CD Reduction Bonus",
-			bonusDescription: "-6 turns to reset Flask CD",
+			nameEN: "Legendary CoolDown Reduction Bonus",
+			nameRU: "Легендарный Бонус Восстановления",
+			bonusDescriptionEN: "-6 turns to reset Flask CoolDown",
+			bonusDescriptionRU: "-6 ходов до восстановления способностей фляги",
 			rarity: .legendary
 		),
 		
 		FlaskLevelBonus(
-			name: "Legendary Charge Back Bonus",
-			bonusDescription: "+20% to get charge back after use",
+			nameEN: "Legendary Charge Back Bonus",
+			nameRU: "Легендарный Бонус Перезарядки",
+			bonusDescriptionEN: "+20% to get charge back after use",
+			bonusDescriptionRU: "+20% к шансу вернуть заряд фляги после использования",
 			rarity: .legendary
 		),
 		
 		FlaskLevelBonus(
-			name: "Legendary CD Reset Bonus",
-			bonusDescription: "+20% to reset flask CD after use",
+			nameEN: "Legendary CoolDown Reset Bonus",
+			nameRU: "Легендарный Бонус Восстановления",
+			bonusDescriptionEN: "+20% to reset flask CD after use",
+			bonusDescriptionRU: "+20% к шансу обнулить время восстановления способностей фляги после использования",
 			rarity: .legendary
 		),
 		
 		FlaskLevelBonus(
-			name: "Legendary Damage Buff Bonus",
-			bonusDescription: "+3 min and max damage while flask on CD",
+			nameEN: "Legendary Damage Buff Bonus",
+			nameRU: "Легендарный Бонус Усиления Урона",
+			bonusDescriptionEN: "+3 min and max damage while flask on CD",
+			bonusDescriptionRU: "+3 к минимальному и максимальному урону, когда способности фляги недоступны",
 			rarity: .legendary
 		),
 		
 		FlaskLevelBonus(
-			name: "Legendary Armor Buff Bonus",
-			bonusDescription: "+3 armor while flask on CD",
+			nameEN: "Legendary Armor Buff Bonus",
+			nameRU: "Легендарный Бонус Усиления Брони",
+			bonusDescriptionEN: "+3 armor while flask on CD",
+			bonusDescriptionRU: "+3 к броне, когда способности фляги недоступны",
 			rarity: .legendary
 		),
 		
 		FlaskLevelBonus(
-			name: "Legendary Damage Debuff Bonus",
-			bonusDescription: "-3 min and max damage to the enemy after use",
+			nameEN: "Legendary Damage Debuff Bonus",
+			nameRU: "Легендарный Бонус Ослабления Урона",
+			bonusDescriptionEN: "-3 min and max damage to the enemy after use",
+			bonusDescriptionRU: "-3 к минимальному и максимальному урону противника после нанесения урона с помощью фляги",
 			rarity: .legendary
 		),
 		
 		FlaskLevelBonus(
-			name: "Legendary Armor Debuff Bonus",
-			bonusDescription: "-3 armor to the enemy after use",
+			nameEN: "Legendary Armor Debuff Bonus",
+			nameRU: "Легендарный Бонус Ослабления Брони",
+			bonusDescriptionEN: "-3 armor to the enemy after use",
+			bonusDescriptionRU: "-3 к броне противника после нанесения урона с помощью фляги",
 			rarity: .legendary
 		),
 		
 		FlaskLevelBonus(
-			name: "Legendary Flask Charge Bonus",
-			bonusDescription: "+2 max flask charges capacity",
+			nameEN: "Legendary Flask Charge Bonus",
+			nameRU: "Легендарный Бонус Перезарядки",
+			bonusDescriptionEN: "+2 max flask charges capacity",
+			bonusDescriptionRU: "+2 к максимальному количеству зарядов фляги",
 			rarity: .legendary
 		),
 		
