@@ -27,19 +27,6 @@
 
 import SwiftUI
 
-//extension MainView {
-//	
-//	/// Test method to call shadowBallMiniGame independently
-//	@ViewBuilder
-//	func buildShadowBallMiniGameView() -> some View {
-//		
-//		VStack {
-//			ShadowBallMiniGameView()
-//		}
-//		.frame(width: 400, height: 400)
-//	}
-//}
-
 struct ShadowBallMiniGameView: View {
 	
 	@State private var lastUpdate = Date()
@@ -61,12 +48,15 @@ struct ShadowBallMiniGameView: View {
 	
 	@State var isHapticOn = false
 	
+	/// Try to use this property to detect if there 10 or less collisions to end the game
+	@State var numberOfCollisionsDetected = 0
+	
 	 // MARK: Change 3
 	 
 	/// Motion Object to describe the shadow ball
 	 @State var motions: [MotionController] = [
 	 
-		MotionController(id: 1, coordinateX: -400.0, width: 30, height: 30),
+	 MotionController(id: 1, coordinateX: -400.0, width: 30, height: 30),
 	 MotionController(id: 2, coordinateX: -400.0, width: 30, height: 30),
 	 MotionController(id: 3, coordinateX: -400.0, width: 30, height: 30),
 	 MotionController(id: 4, coordinateX: -400.0, width: 30, height: 30),
@@ -88,7 +78,9 @@ struct ShadowBallMiniGameView: View {
 	// MARK: - Public Properties
 	
 	var isEnglish: Bool
-	var isGamePaused: Bool
+	
+	// We want to pass an entire GameState so each time we put game on pause, mini game will react on it accordingly
+	var gameState: GameState
 	
 	/// This callback we send to parent view to react on game result
 	var onImpact: ((Bool) -> Void)? // Callback for game result
@@ -184,7 +176,7 @@ struct ShadowBallMiniGameView: View {
 				}
 				.onChange(of: context.date) { _, newDate in
 					
-					if !isGamePaused {
+					if !gameState.isGamePaused {
 						let delta = newDate.timeIntervalSince(lastUpdate)
 						lastUpdate = newDate
 						updateGame(delta: delta)
@@ -193,6 +185,7 @@ struct ShadowBallMiniGameView: View {
 			}
 			
 		}
+		
 		.sensoryFeedback(isSuccess ? .success : .error, trigger: isHapticOn)
 		.onAppear { startGame() }
 	}
@@ -215,108 +208,23 @@ extension ShadowBallMiniGameView {
 		
 		guard !gameWasStarted else { return }
 		
-		successCatches = 0
-		failedCatches = 0
-		
-		// critical flag to avoid solving chest puzzle before starting a game
+		// critical flag to avoid overlapping of different sessions of the same game
 		gameWasStarted = true
 		
-		if !isGamePaused {
-			print("Fired 1 ball")
-			DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-				let scheme1 = generateMovementScheme()
-				applyMovementScheme(scheme1, for: &motions[0])
-			}
-		}
-		
-		if !isGamePaused {
-			print("Fired 2 ball")
-			DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-				
-				let scheme2 = generateMovementScheme()
-				applyMovementScheme(scheme2, for: &motions[1])
-			}
-		}
-		
-		if !isGamePaused {
-			print("Fired 3 ball")
-			DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-				
-				let scheme3 = generateMovementScheme()
-				applyMovementScheme(scheme3, for: &motions[2])
-				
-			}
-		}
-		
-		if !isGamePaused {
-			print("Fired 4 ball")
-			DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-				
-				let scheme4 = generateMovementScheme()
-				applyMovementScheme(scheme4, for: &motions[3])
-			}
-		}
-		
-		if !isGamePaused {
-			print("Fired 5 ball")
-			DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-				
-				let scheme5 = generateMovementScheme()
-				applyMovementScheme(scheme5, for: &motions[4])
-			}
-		}
-		
-		if !isGamePaused {
-			print("Fired 6 ball")
-			DispatchQueue.main.asyncAfter(deadline: .now() + 2.5) {
-				
-				let scheme6 = generateMovementScheme()
-				applyMovementScheme(scheme6, for: &motions[5])
-			}
-		}
-		
-		if !isGamePaused {
-			print("Fired 7 ball")
-			DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
-				
-				let scheme7 = generateMovementScheme()
-				applyMovementScheme(scheme7, for: &motions[6])
-			}
-		}
-		
-		if !isGamePaused {
-			print("Fired 8 ball")
-			DispatchQueue.main.asyncAfter(deadline: .now() + 3.5) {
-				
-				let scheme8 = generateMovementScheme()
-				applyMovementScheme(scheme8, for: &motions[7])
-			}
-		}
-		
-		if !isGamePaused {
-			print("Fired 9 ball")
-			DispatchQueue.main.asyncAfter(deadline: .now() + 4.0) {
-				
-				let scheme9 = generateMovementScheme()
-				applyMovementScheme(scheme9, for: &motions[8])
-			}
-		}
-		
-		if !isGamePaused {
-			print("Fired 10 ball")
-			DispatchQueue.main.asyncAfter(deadline: .now() + 4.5) {
-				
-				let scheme10 = generateMovementScheme()
-				applyMovementScheme(scheme10, for: &motions[9])
-			}
-		}
-		
-		if !isGamePaused {
+		Task {
 			
-			DispatchQueue.main.asyncAfter(deadline: .now() + 8.0) {
-				self.stopGame()
+			var currentMotion = 0
+			
+			while !gameState.isGamePaused && currentMotion < 10 {
+				
+				let scheme = generateMovementScheme()
+				applyMovementScheme(scheme, for: &motions[currentMotion])
+				currentMotion += 1
+				try await pauseableSleep(seconds: 0.5)
+				await Task.yield()
 			}
 		}
+			
 	
 		
 	}
@@ -325,21 +233,24 @@ extension ShadowBallMiniGameView {
 	
 	func stopGame() {
 		
-		guard gameWasStarted else { return }
-		
-		didGameEnd?(true)
-		
-		gameWasStarted = false
-		ballsAreHidden = false
-		
-		for index in motions.indices {
+		Task {
+			try await Task.sleep(for: .seconds(2))
+			guard gameWasStarted else { return }
 			
-			motions[index].isMoving = false
-			motions[index].coordinateX = -400.0
-			motions[index].didCollide = false
+			didGameEnd?(true)
+			
+			gameWasStarted = false
+			ballsAreHidden = false
+			
+			for index in motions.indices {
+				
+				motions[index].isMoving = false
+				motions[index].coordinateX = -400.0
+				motions[index].didCollide = false
+			}
+			
+			platformMotion.coordinateX = 100
 		}
-		
-		platformMotion.coordinateX = 100
 		
 	}
 	
@@ -347,6 +258,11 @@ extension ShadowBallMiniGameView {
 	
 	/// Method use runMotionObject() for all motion objects in the field
 	func updateGame(delta: TimeInterval) {
+		
+		guard numberOfCollisionsDetected < 10 else {
+			stopGame()
+			return
+		}
 		
 		for index in motions.indices {
 			
@@ -395,18 +311,11 @@ extension ShadowBallMiniGameView {
 		// To get object sides/angles use object.leftTopAngleCoordinates
 		// Adjust such coordinates in both objects of collision or you simply end with trying to meet the points of two thin arrow in a field
 			
-		if motion.isMoving && !isGamePaused {
+		if motion.isMoving && !gameState.isGamePaused {
 			
 			// Case responsible for collision between the ball and rect
 			// 10 points addition just for smooth hit box
 			
-//			let currentPlatformYCoordinate = platform.coordinateY + dragPlatformTemporaryTranslationPositionOnScreen.height
-			
-//			if motion.coordinateX >= platformMotion.coordinateX - 10 &&
-//				motion.coordinateY + 50 >= currentPlatformYCoordinate &&
-//				motion.coordinateY <= (currentPlatformYCoordinate + platformMotion.height){
-		
-//			if testCollisionDetection(motion, platformMotion) {
 			if didCollisionDetected(motion, platformMotion) {
 				
 				resolveCollision(result: true, for: &motion)
@@ -421,7 +330,9 @@ extension ShadowBallMiniGameView {
 				
 			} else if motion.coordinateX < 190 {
 				motion.direction = .right
-				motion.coordinateX +=  motion.velocity * CGFloat(delta) * CGFloat(60)
+				// still don't understand why do i need a god damn delta
+//				motion.coordinateX +=  motion.velocity * CGFloat(delta) * CGFloat(60)
+				motion.coordinateX += motion.velocity
 				
 			}
 		}
@@ -453,6 +364,7 @@ extension ShadowBallMiniGameView {
 		}
 		isHapticOn = true
 		onImpact?(result)
+		numberOfCollisionsDetected += 1
 		testBoardCleaningMethod()
 		
 		DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
@@ -526,5 +438,37 @@ extension ShadowBallMiniGameView {
 		let ballRadius = ball.height / 2
 		
 		return distance <= ballRadius
+	}
+}
+
+extension ShadowBallMiniGameView {
+	
+	// MARK: - Test Pausable Action Delay
+	
+	/// Yes, this is a copy of the same method from ViewModel but i still don't know what extension to provide to avoid duplicate
+	func pauseableSleep(seconds: Double) async throws {
+		// this small chunk faster than a single frame so user will see an actual pause
+		let chunkSize = 0.05 // 50ms - small enough to feel instant on resume
+		// this property we use to track how much time we slept
+		var elapsed: Double = 0.0
+		
+		while elapsed < seconds {
+			// 1. Check if we are paused - if so, wait indefinitely until unpaused
+			while gameState.isGamePaused {
+				// Sleep for 100ms while paused to keep the thread responsive
+				try await Task.sleep(for: .milliseconds(100))
+				// Check if the task was externally cancelled (e.g., user quit the battle)
+				try Task.checkCancellation()
+			}
+			
+			// 2. Sleep for the next chunk
+			let remaining = seconds - elapsed
+			let sleepTime = min(chunkSize, remaining)
+			try await Task.sleep(for: .seconds(sleepTime))
+			elapsed += sleepTime
+			
+			// 3. Allow cancellation
+			try Task.checkCancellation()
+		}
 	}
 }
