@@ -7,7 +7,7 @@ struct MainView: View {
 	
 	// MARK: - Dependencies
 	
-	@StateObject var viewModel: MainViewModel
+	let viewModel: MainViewModel
 	
 	// MARK: - State Properties
 	
@@ -40,7 +40,8 @@ struct MainView: View {
 	// MARK: - Initialization
 	
 	init(viewModel: MainViewModel) {
-		_viewModel = StateObject(wrappedValue: viewModel)
+		self.viewModel = viewModel
+		// AI told me that this property won't be listen to but and that i should use viewModel.gameState.didFlaskGetLevelUP directly. But i won't believe it until i test
 		didFlaskGotLevelUP = viewModel.gameState.didFlaskGetLevelUP
 		itemToDisplay = nil
 		weaponToDisplay = nil
@@ -97,23 +98,31 @@ struct MainView: View {
 				
 				// Probably made for testing purposes
 				
-//				CombatMiniGameView { success in
-//					viewModel.gameState.isCombatMiniGameSuccessful = success
-//					DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-//						self.viewModel.goToBattle()
-//					}
-//				}
+				//				CombatMiniGameView { success in
+				//					viewModel.gameState.isCombatMiniGameSuccessful = success
+				//					DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+				//						self.viewModel.goToBattle()
+				//					}
+				//				}
 				VStack {
 					
 				}
 				
 			case .trapDefusionMiniGame:
 				
-				buildTrapDefusionMiniGameView(audioManager: viewModel.audioManager)
+				//				buildTrapDefusionMiniGameView(audioManager: viewModel.audioManager)
+				
+				VStack {
+					
+				}
 				
 			case .chestLockPickingMiniGame:
 				
-				buildChestLockPickingMiniGameView(audioManager: viewModel.audioManager)
+				//				buildChestLockPickingMiniGameView(audioManager: viewModel.audioManager)
+				
+				VStack {
+					
+				}
 				
 			case .specialisation:
 				
@@ -146,7 +155,8 @@ struct MainView: View {
 				
 			case .shadowBallMiniGame:
 				
-				buildShadowBallMiniGameView()
+				VStack { }
+				//				buildShadowBallMiniGameView()
 				
 			case .testTimelineView:
 				
@@ -164,7 +174,9 @@ struct MainView: View {
 				
 			case .coinFlipMiniGame:
 				
-				buildCoinFlipMiniGame()
+				//				buildCoinFlipMiniGame()
+				VStack { }
+				//				print("If you want a separate button to open coin flip view")
 				
 			case .levelPerk:
 				
@@ -177,12 +189,84 @@ struct MainView: View {
 			case .joystickView:
 				
 				JoystickView() { direction in
-				print(direction)
+					print(direction)
+				}
+				
+			case .damageBoostMiniGameView:
+				
+				DamageBoostMiniGameView(isEnglish: isEnglish(), isGamePaused: isGamePaused()) { result in
+					print(result)
 				}
 			}
 			
+			if !isGamePaused() {
+				VStack {
+					Button("PAUSE") {
+						viewModel.gameState.isGamePaused.toggle()
+					}
+					.foregroundStyle(.red)
+					.frame(width: 100, height: 30)
+					//				.border(.red, width: 1)
+					//				.font(.largeTitle)
+					if viewModel.gameState.currentGameScreen == .dungeon {
+						Rectangle()
+							.frame(height: 50)
+							.opacity(0.0)
+					}
+				}
+			}
+		
+		
+		
+	}
+		.disabled(isGamePaused())
+		.overlay(alignment: .center) {
 			
+			// MARK: PAUSE label
+			
+			if isGamePaused() {
+				
+				ZStack {
+					Color.black
+						.opacity(0.9) // Adjust this value for darkness level
+						.ignoresSafeArea() // Covers the entire screen
+					
+					VStack {
+						
+						Text(isEnglish() ? "PAUSED" : "ПАУЗА")
+							.foregroundStyle(.red)
+							.frame(width: 250, height: 100)
+							.border(.white, width: 5)
+							.background(.black)
+							.font(.largeTitle)
+						
+						Text(isEnglish() ? "CONTINUE" : "ПРОДОЛЖИТЬ")
+							.foregroundStyle(.blue)
+							.frame(width: 300, height: 100)
+							.border(.white, width: 5)
+							.background(.black)
+							.font(.largeTitle)
+							.onTapGesture {
+								viewModel.gameState.isGamePaused.toggle()
+							}
+					}
+				}
+				
+			}
 		}
+}
+}
+
+extension MainView {
+	
+	/// Small method to use in View to cut the name of call chain to this property
+	func isEnglish() -> Bool {
+		viewModel.gameState.isEnglishLocalisation
+	}
+	
+	/// We use this small method to decrease amount of code when we pass isGamePaused to mini games and other view elements
+	func isGamePaused() -> Bool {
+		viewModel.gameState.isGamePaused
 	}
 }
 
