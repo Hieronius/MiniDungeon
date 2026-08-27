@@ -37,4 +37,5 @@ enum GameScreen: Codable, CaseIterable {
 	case levelPerk
 	case testCollisionView
 	case joystickView
+	case damageBoostMiniGameView
 }
