@@ -26,20 +26,26 @@ struct FlaskTalant: Identifiable, Hashable, Codable {
 	
 //	var id: UUID
 	var id: String
-	var name: String
-	var flaskTalantDescription: String
+	var nameEN: String
+	var nameRU: String
+	var flaskTalantDescriptionEN: String
+	var flaskTalantDescriptionRU: String
 	var darkEnergyLevelToUpgrade: Int
 	var beenUpgraded = false
 	
 	init(id: String,
-		name: String,
-		 flaskTalantDescription: String,
+		 nameEN: String,
+		 nameRU: String,
+		 flaskTalantDescriptionEN: String,
+		 flaskTalantDescriptionRU: String,
 		 darkEnergyLevelToUpgrade: Int
 	) {
 //		self.id = UUID()
 		self.id = id
-		self.name = name
-		self.flaskTalantDescription = flaskTalantDescription
+		self.nameEN = nameEN
+		self.nameRU = nameRU
+		self.flaskTalantDescriptionEN = flaskTalantDescriptionEN
+		self.flaskTalantDescriptionRU = flaskTalantDescriptionRU
 		self.darkEnergyLevelToUpgrade = darkEnergyLevelToUpgrade
 	}
 }
@@ -51,36 +57,46 @@ struct FlaskTalantManager {
 		// Base talant to gain ability to collect combat impact from 0 to 100 and return some dark energy or EP
 		FlaskTalant(
 			id: "soulCollector",
-			name: "Soul Collector",
-			flaskTalantDescription: "Flask gains ability to collect damage done, damage received, healing done, block value after skill use. When it reach 50, gain some dark energy or 1 extra EP",
+			nameEN: "Soul Collector",
+			nameRU: "Собиратель Душ",
+			flaskTalantDescriptionEN: "Flask gains ability to collect damage done, damage received, healing done, block value after skill use. When it reach 50, gain some dark energy or 1 extra EP",
+			flaskTalantDescriptionRU: "Фляга получает способность собирать эффекты нанесения, получения урона, величины силы блока и лечения во время боя. После достижения показателя 50 единиц, позволяет высвободить эффект в виде небольшого количества темной энергии или 1 очка действия",
 			darkEnergyLevelToUpgrade: 0
 		),
 		
 		FlaskTalant(
 			id: "minorTalantOfRecovery",
-			name: "Minor Talant of Recovery",
-			flaskTalantDescription: "+5% of flask healing value",
+			nameEN: "Minor Talant of Recovery",
+			nameRU: "Небольшой Талант Восстановления",
+			flaskTalantDescriptionEN: "+5% of flask healing value",
+			flaskTalantDescriptionRU: "+5% к эффекту лечения",
 			darkEnergyLevelToUpgrade: 100
 		),
 		
 		FlaskTalant(
 			id: "minorTalantOfSharpness",
-			name: "Minor Talant of Sharness",
-			flaskTalantDescription: "+5% of flask damage value",
+			nameEN: "Minor Talant of Sharness",
+			nameRU: "Небольшой Талант Остроты",
+			flaskTalantDescriptionEN: "+5% of flask damage value",
+			flaskTalantDescriptionRU: "+5% к силе эффекта нанесения урона",
 			darkEnergyLevelToUpgrade: 200
 		),
 		
 		FlaskTalant(
 			id: "minorTalantOfSwiftness",
-			name: "Minor Talant of Swiftness",
-			flaskTalantDescription: "-1 turn to flask CD reset",
+			nameEN: "Minor Talant of Swiftness",
+			nameRU: "Небольшой Талант Стремительности",
+			flaskTalantDescriptionEN: "-1 turn to flask CoolDown reset",
+			flaskTalantDescriptionRU: "-1 ход до восстановления способностей фляги",
 			darkEnergyLevelToUpgrade: 300
 		),
 		
 		FlaskTalant(
 			id: "minorTalantOfSoulCollection",
-			name: "Minor Talant of Soul Collection",
-			flaskTalantDescription: "+1 flask charge capacity",
+			nameEN: "Minor Talant of Soul Collection",
+			nameRU: "Небольшой Талант Вместилища Душ",
+			flaskTalantDescriptionEN: "+1 flask charge capacity",
+			flaskTalantDescriptionRU: "+1 к максимальному количеству зарядов фляги",
 			darkEnergyLevelToUpgrade: 400
 		)
 	]
@@ -89,36 +105,46 @@ struct FlaskTalantManager {
 		
 		FlaskTalant(
 			id: "soulExtractor",
-			name: "Soul Extractor",
-			flaskTalantDescription: "Flask gains ability to collect damage done, damage received, healing done, block value after skill use. When it reach 100, gain some dark energy or 1 extra EP + 10% healing of max HP/10% damage of target max HP",
+			nameEN: "Soul Extractor",
+			nameRU: "Извлекатель Душ",
+			flaskTalantDescriptionEN: "Flask gains ability to collect damage done, damage received, healing done, block value after skill use. When it reach 100, gain some dark energy or 1 extra EP + 10% healing of max HP/10% damage of target max HP",
+			flaskTalantDescriptionRU: "Фляга получает способность собирать эффекты нанесения, получения урона, величины силы блока и лечения во время боя. После достижения показателя 100 единиц, позволяет высвободить эффект в виде небольшого количества темной энергии или 1 очка действия а также восстановить 10% от максимального здоровья героя или нанести 10% от максимального здоровья противника в качестве урона",
 			darkEnergyLevelToUpgrade: 500
 		),
 		
 		FlaskTalant(
 			id: "mediumTalantOfRecovery",
-			name: "Medium Talant of Recovery",
-			flaskTalantDescription: "+5% of flask healing value",
+			nameEN: "Medium Talant of Recovery",
+			nameRU: "Средний Талант Восстановления",
+			flaskTalantDescriptionEN: "+5% of flask healing value",
+			flaskTalantDescriptionRU: "+5% к силе эффекта лечения",
 			darkEnergyLevelToUpgrade: 600
 		),
 		
 		FlaskTalant(
 			id: "mediumTalantOfSharpness",
-			name: "Medium Talant of Sharness",
-			flaskTalantDescription: "+5% of flask damage value",
+			nameEN: "Medium Talant of Sharness",
+			nameRU: "Средний Талант Остроты",
+			flaskTalantDescriptionEN: "+5% of flask damage value",
+			flaskTalantDescriptionRU: "+5% к силе эффекта нанесения урона",
 			darkEnergyLevelToUpgrade: 700
 		),
 		
 		FlaskTalant(
 			id: "mediumTalantOfSwitness",
-			name: "Medium Talant of Swiftness",
-			flaskTalantDescription: "-1 turn to flask CD reset",
+			nameEN: "Medium Talant of Swiftness",
+			nameRU: "Средний Талант Стремительности",
+			flaskTalantDescriptionEN: "-1 turn to flask CD reset",
+			flaskTalantDescriptionRU: "-1 ход до восстановления способностей фляги",
 			darkEnergyLevelToUpgrade: 800
 		),
 		
 		FlaskTalant(
 			id: "mediumTalantOfSoulExtraction",
-			name: "Medium Talant of Soul Extraction",
-			flaskTalantDescription: "+1 flask charge capacity",
+			nameEN: "Medium Talant of Soul Extraction",
+			nameRU: "Средний Талант Извлечения Душ",
+			flaskTalantDescriptionEN: "+1 flask charge capacity",
+			flaskTalantDescriptionRU: "+1 к максимальному количеству зарядов фляги",
 			darkEnergyLevelToUpgrade: 900
 		)
 	]
@@ -127,36 +153,46 @@ struct FlaskTalantManager {
 		
 		FlaskTalant(
 			id: "soulEater",
-			name: "Soul Eater",
-			flaskTalantDescription: "Flask gains ability to collect damage done, damage received, healing done, block value after skill use. When it reach 150, gain some dark energy or 1 extra EP + 10% healing of max HP/10% damage of target max HP + to empower next ability",
+			nameEN: "Soul Eater",
+			nameRU: "Пожиратель Душ",
+			flaskTalantDescriptionEN: "Flask gains ability to collect damage done, damage received, healing done, block value after skill use. When it reach 150, gain some dark energy or 1 extra EP + 10% healing of max HP/10% damage of target max HP + to empower next ability",
+			flaskTalantDescriptionRU: "Фляга получает способность собирать эффекты нанесения, получения урона, величины силы блока и лечения во время боя. После достижения показателя 100 единиц, позволяет высвободить эффект в виде небольшого количества темной энергии или 1 очка действия а также восстановить 10% от максимального здоровья героя или нанести 10% от максимального здоровья противника в качестве урона. Также позволяет усилить следующую способность нанесения урона, лечения или блока.",
 			darkEnergyLevelToUpgrade: 1000
 		),
 		
 		FlaskTalant(
 			id: "hugeTalantOfRecovery",
-			name: "Huge Talant of Recovery",
-			flaskTalantDescription: "+5% of flask healing value",
+			nameEN: "Huge Talant of Recovery",
+			nameRU: "Большой Талант Восстановления",
+			flaskTalantDescriptionEN: "+5% of flask healing value",
+			flaskTalantDescriptionRU: "+5% к силе эффекта лечения",
 			darkEnergyLevelToUpgrade: 1100
 		),
 		
 		FlaskTalant(
 			id: "hugeTalantOfSharpness",
-			name: "Huge Talant of Sharness",
-			flaskTalantDescription: "+5% of flask damage value",
+			nameEN: "Huge Talant of Sharness",
+			nameRU: "Большой Талант Остроты",
+			flaskTalantDescriptionEN: "+5% of flask damage value",
+			flaskTalantDescriptionRU: "+5% к силе эффекта нанесения урона",
 			darkEnergyLevelToUpgrade: 1200
 		),
 		
 		FlaskTalant(
 			id: "hugeTalantOfSwiftness",
-			name: "Huge Talant of Swiftness",
-			flaskTalantDescription: "-1 turn to flask CD reset",
+			nameEN: "Huge Talant of Swiftness",
+			nameRU: "Большой Талант Стремительности",
+			flaskTalantDescriptionEN: "-1 turn to flask CD reset",
+			flaskTalantDescriptionRU: "-1 ход до восстановления способностей фляги",
 			darkEnergyLevelToUpgrade: 1300
 		),
 		
 		FlaskTalant(
 			id: "hugeTalantOfSoulDevouring",
-			name: "Huge Talant of Soul Devouring",
-			flaskTalantDescription: "+1 flask charge capacity",
+			nameEN: "Huge Talant of Soul Devouring",
+			nameRU: "Большой Талант Пожирателя Душ",
+			flaskTalantDescriptionEN: "+1 flask charge capacity",
+			flaskTalantDescriptionRU: "+1 к максимальному количеству зарядов фляги",
 			darkEnergyLevelToUpgrade: 1400
 		)
 	]
@@ -165,8 +201,10 @@ struct FlaskTalantManager {
 		
 		FlaskTalant(
 			id: "greatTalantOfEmpowering",
-			name: "Great Talant of Empowering",
-			flaskTalantDescription: "Flask gains ability to use some of existing shadow energy to empower one of hero abilities",
+			nameEN: "Great Talant of Empowering",
+			nameRU: "Великий Талант Мощи",
+			flaskTalantDescriptionEN: "Flask gains ability to use some of existing shadow energy to empower one of hero abilities",
+			flaskTalantDescriptionRU: "Фляга получает способность использовать часть имеющейся темной энергии для усиления способностей героя",
 			darkEnergyLevelToUpgrade: 2000
 		)
 	]
