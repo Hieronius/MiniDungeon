@@ -21,7 +21,7 @@ extension MainView {
 				Text(stat.0)
 					.foregroundColor(stat.1)
 			}
-			Button("Close") {
+			Button(isEnglish() ? "Close" : "Закрыть") {
 				viewModel.audioManager.playSound(fileName: "click", extensionName: "mp3")
 				viewModel.gameState.isArmorsStatsDifferenceOpen = false
 				viewModel.gameState.isWeaponsStatsDifferenceOpen = false
