@@ -19,24 +19,46 @@ extension MainView {
 			
 			List {
 				
-				Section(header: Text("Flask Level Bonus")) {
+				Section(header: Text(isEnglish() ? "Flask Level Bonus" : "Бонус Уровня Фляги")) {
 					
 					ForEach(viewModel.gameState.flaskLevelBonusesToChoose.compactMap { $0 }) { bonus in
-						Button(bonus.name) {
-							viewModel.gameState.flaskLevelBonusToDisplay = bonus
+						
+						if isEnglish() {
+							Button(bonus.nameEN) {
+								viewModel.gameState.flaskLevelBonusToDisplay = bonus
+							}
+							.foregroundStyle(bonus.rarity.color)
+							
+						} else {
+							Button(bonus.nameRU) {
+								viewModel.gameState.flaskLevelBonusToDisplay = bonus
+							}
+							.foregroundStyle(bonus.rarity.color)
 						}
-						.foregroundStyle(bonus.rarity.color)
 					}
 				}
 				
 				if viewModel.gameState.flaskLevelBonusToDisplay != nil {
-					Section(header: Text("Description")) {
-						Text("Name - \(viewModel.gameState.flaskLevelBonusToDisplay?.name ?? "")")
-							.foregroundStyle(viewModel.gameState.flaskLevelBonusToDisplay?.rarity.color ?? .white)
-							.bold()
-						Text("Description:  \(viewModel.gameState.flaskLevelBonusToDisplay?.bonusDescription ?? "")")
-						Button("Choose") {
-							viewModel.applyFlaskLevelBonus(viewModel.gameState.flaskLevelBonusToDisplay)
+					Section(header: Text(isEnglish() ? "Description" : "Описание")) {
+						
+						if isEnglish() {
+							Text("Name - \(viewModel.gameState.flaskLevelBonusToDisplay?.nameEN ?? "")")
+								.foregroundStyle(viewModel.gameState.flaskLevelBonusToDisplay?.rarity.color ?? .white)
+								.bold()
+							Text("Description: \(viewModel.gameState.flaskLevelBonusToDisplay?.bonusDescriptionEN ?? "")")
+							Button("Choose") {
+								viewModel.applyFlaskLevelBonus(viewModel.gameState.flaskLevelBonusToDisplay)
+							}
+							
+						} else {
+							
+							Text("Название - \(viewModel.gameState.flaskLevelBonusToDisplay?.nameRU ?? "")")
+								.foregroundStyle(viewModel.gameState.flaskLevelBonusToDisplay?.rarity.color ?? .white)
+								.bold()
+							Text("Описание: \(viewModel.gameState.flaskLevelBonusToDisplay?.bonusDescriptionRU ?? "")")
+							Button("Выбрать") {
+								viewModel.applyFlaskLevelBonus(viewModel.gameState.flaskLevelBonusToDisplay)
+							}
 						}
 					}
 					}
