@@ -11,6 +11,33 @@ final class SwiftDataManager {
 	
 	// MARK: CRUD for GameState
 	
+	func deleteGameState() {
+		
+		
+	}
+	
+	/// We want to use this method to reset game state to default one
+	func resetGameState(_ state: GameState) {
+		
+		do {
+			try context.delete(model: GameState.self)
+		} catch {
+			fatalError("failed to delete Game State")
+		}
+		
+		do {
+			try context.save()
+		} catch {
+			fatalError("failed to save an empty context")
+		}
+		
+		Task {
+			try await Task.sleep(for: .seconds(1))
+			saveGameState(state)
+			print("Saved a new game state")
+		}
+	}
+	
 	/// If there is no game state object in SwiftData -> add it and save it
 	func saveGameState(_ state: GameState) {
 		
