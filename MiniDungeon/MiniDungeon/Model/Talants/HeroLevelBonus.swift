@@ -6,17 +6,23 @@ import Foundation
 struct HeroLevelBonus: Identifiable, Hashable, Codable {
 	
 	var id: UUID
-	var name: String
-	var bonusDescription: String
+	var nameEN: String
+	var nameRU: String
+	var bonusDescriptionEN: String
+	var bonusDescriptionRU: String
 	var rarity: Rarity
 	
-	init(name: String,
-		 bonusDescription: String,
+	init(nameEN: String,
+		 nameRU: String,
+		 bonusDescriptionEN: String,
+		 bonusDescriptionRU: String,
 		 rarity: Rarity
 	) {
 		self.id = UUID()
-		self.name = name
-		self.bonusDescription = bonusDescription
+		self.nameEN = nameEN
+		self.nameRU = nameRU
+		self.bonusDescriptionEN = bonusDescriptionEN
+		self.bonusDescriptionRU = bonusDescriptionRU
 		self.rarity = rarity
 	}
 }
@@ -31,28 +37,38 @@ struct HeroLevelBonusManager {
 	static private let commonLevelBonuses: [HeroLevelBonus] = [
 		
 		HeroLevelBonus(
-			name: "Common HP Bonus",
-			bonusDescription: "+5 max HP",
+			nameEN: "Common HP Bonus",
+			nameRU: "Обычный Бонус Здоровья",
+			bonusDescriptionEN: "+5 max HP",
+			bonusDescriptionRU: "+5 к максимальному уровню здоровья",
 			rarity: .common
 		),
 		HeroLevelBonus(
-			name: "Common MP Bonus",
-			bonusDescription: "+5 max MP",
+			nameEN: "Common MP Bonus",
+			nameRU: "Обычный Бонус Маны",
+			bonusDescriptionEN: "+5 max MP",
+			bonusDescriptionRU: "+5 к максимальному уровню маны",
 			rarity: .common
 		),
 		HeroLevelBonus(
-			name: "Common Min Damage Bonus",
-			bonusDescription: "+1 min damage",
+			nameEN: "Common Min Damage Bonus",
+			nameRU: "Обычный Бонус Урона",
+			bonusDescriptionEN: "+1 min damage",
+			bonusDescriptionRU: "+1 к минимальному урону",
 			rarity: .common
 		),
 		HeroLevelBonus(
-			name: "Common Max Damage Bonus",
-			bonusDescription: "+1 max damage",
+			nameEN: "Common Max Damage Bonus",
+			nameRU: "Обычный Бонус Повреждений",
+			bonusDescriptionEN: "+1 max damage",
+			bonusDescriptionRU: "+1 к максимальному урону",
 			rarity: .common
 		),
 		HeroLevelBonus(
-			name: "Common Spell Power Bonus",
-			bonusDescription: "+1 spell power",
+			nameEN: "Common Spell Power Bonus",
+			nameRU: "Обычный Бонус Силы Заклинаний",
+			bonusDescriptionEN: "+1 spell power",
+			bonusDescriptionRU: "+1 к силе заклинаний",
 			rarity: .common
 		)
 	]
@@ -62,38 +78,52 @@ struct HeroLevelBonusManager {
 	static private let rareLevelBonuses: [HeroLevelBonus] = [
 		
 		HeroLevelBonus(
-			name: "Rare HP Bonus",
-			bonusDescription: "+10 max HP",
+			nameEN: "Rare HP Bonus",
+			nameRU: "Редкий Бонус Здоровья",
+			bonusDescriptionEN: "+10 max HP",
+			bonusDescriptionRU: "+10 к максимальному уровню здоровья",
 			rarity: .rare
 		),
 		HeroLevelBonus(
-			name: "Rare MP Bonus",
-			bonusDescription: "+10 max MP",
+			nameEN: "Rare MP Bonus",
+			nameRU: "Редкий Бонус Маны",
+			bonusDescriptionEN: "+10 max MP",
+			bonusDescriptionRU: "+10 к максимальному уроню маны",
 			rarity: .rare
 		),
 		HeroLevelBonus(
-			name: "Rare Damage Bonus",
-			bonusDescription: "+1 min and max Damage",
+			nameEN: "Rare Damage Bonus",
+			nameRU: "Редкий Бонус Урона",
+			bonusDescriptionEN: "+1 min and max Damage",
+			bonusDescriptionRU: "+1 к минимальному и максимальному урону",
 			rarity: .rare
 		),
 		HeroLevelBonus(
-			name: "Rare Defence Bonus",
-			bonusDescription: "+1 Defence",
+			nameEN: "Rare Defence Bonus",
+			nameRU: "Редкий Бонус Защиты",
+			bonusDescriptionEN: "+1 Defence",
+			bonusDescriptionRU: "+1 к защите",
 			rarity: .rare
 		),
 		HeroLevelBonus(
-			name: "Rare Spell Power Bonus",
-			bonusDescription: "+3 Spell Power",
+			nameEN: "Rare Spell Power Bonus",
+			nameRU: "Редкий Бонус Силы Заклинаний",
+			bonusDescriptionEN: "+3 Spell Power",
+			bonusDescriptionRU: "+3 к силе заклинаний",
 			rarity: .rare
 		),
 		HeroLevelBonus(
-			name: "Rare Crit Chance Bonus",
-			bonusDescription: "+1% Crit Chance",
+			nameEN: "Rare Crit Chance Bonus",
+			nameRU: "Редкий Бонус Критических Ударов",
+			bonusDescriptionEN: "+1% Crit Chance",
+			bonusDescriptionRU: "+1% к шансу критического удара",
 			rarity: .rare
 		),
 		HeroLevelBonus(
-			name: "Rare Hit Chance Bonus",
-			bonusDescription: "+1% Hit Chance",
+			nameEN: "Rare Hit Chance Bonus",
+			nameRU: "Редкий Бонус Меткости",
+			bonusDescriptionEN: "+1% Hit Chance",
+			bonusDescriptionRU: "+1% к шансу попадения по противнику",
 			rarity: .rare
 		)
 		
@@ -104,38 +134,52 @@ struct HeroLevelBonusManager {
 	static private let epicLevelBonuses: [HeroLevelBonus] = [
 		
 		HeroLevelBonus(
-			name: "Epic HP Bonus",
-			bonusDescription: "+15 max HP",
+			nameEN: "Epic HP Bonus",
+			nameRU: "Эпический Бонус Здоровья",
+			bonusDescriptionEN: "+15 max HP",
+			bonusDescriptionRU: "+15 к максимальному уровню здоровья",
 			rarity: .epic
 		),
 		HeroLevelBonus(
-			name: "Epic MP Bonus",
-			bonusDescription: "+15 max MP",
+			nameEN: "Epic MP Bonus",
+			nameRU: "Эпический Бонус Маны",
+			bonusDescriptionEN: "+15 max MP",
+			bonusDescriptionRU: "+15 к максимальному уровню маны",
 			rarity: .epic
 		),
 		HeroLevelBonus(
-			name: "Epic Damage Bonus",
-			bonusDescription: "+2 min and max Damage",
+			nameEN: "Epic Damage Bonus",
+			nameRU: "Эпический Бонус Урона",
+			bonusDescriptionEN: "+2 min and max Damage",
+			bonusDescriptionRU: "+2 к минимальному и максимальному урону",
 			rarity: .epic
 		),
 		HeroLevelBonus(
-			name: "Epic Defence Bonus",
-			bonusDescription: "+2 Defence",
+			nameEN: "Epic Defence Bonus",
+			nameRU: "Эпический Бонус Защиты",
+			bonusDescriptionEN: "+2 Defence",
+			bonusDescriptionRU: "+2 к защите",
 			rarity: .epic
 		),
 		HeroLevelBonus(
-			name: "Epic Spell Power Bonus",
-			bonusDescription: "+5 Spell Power",
+			nameEN: "Epic Spell Power Bonus",
+			nameRU: "Эпический Бонус Силы Заклинаний",
+			bonusDescriptionEN: "+5 Spell Power",
+			bonusDescriptionRU: "+5 к силе заклинаний",
 			rarity: .epic
 		),
 		HeroLevelBonus(
-			name: "Epic Crit Chance Bonus",
-			bonusDescription: "+2% Crit Chance",
+			nameEN: "Epic Crit Chance Bonus",
+			nameRU: "Эпический Бонус Критического Удара",
+			bonusDescriptionEN: "+2% Crit Chance",
+			bonusDescriptionRU: "+2% к шансу критического удара",
 			rarity: .epic
 		),
 		HeroLevelBonus(
-			name: "Epic Hit Chance Bonus",
-			bonusDescription: "+2% Hit Chance",
+			nameEN: "Epic Hit Chance Bonus",
+			nameRU: "Эпический Бонус Точности",
+			bonusDescriptionEN: "+2% Hit Chance",
+			bonusDescriptionRU: "+2% к шансу попадения по противнику",
 			rarity: .epic
 		)
 	]
@@ -145,43 +189,59 @@ struct HeroLevelBonusManager {
 	static private let legendaryLevelBonuses: [HeroLevelBonus] = [
 		
 		HeroLevelBonus(
-			name: "Legendary HP Bonus",
-			bonusDescription: "+20 max HP",
+			nameEN: "Legendary HP Bonus",
+			nameRU: "Легендарный Бонус Здоровья",
+			bonusDescriptionEN: "+20 max HP",
+			bonusDescriptionRU: "+20 к максимальному уровню здоровья",
 			rarity: .legendary
 		),
 		HeroLevelBonus(
-			name: "Legendary MP Bonus",
-			bonusDescription: "+20 max MP",
+			nameEN: "Legendary MP Bonus",
+			nameRU: "Легендарный Бонус Маны",
+			bonusDescriptionEN: "+20 max MP",
+			bonusDescriptionRU: "+20 к максимальному уровню маны",
 			rarity: .legendary
 		),
 		HeroLevelBonus(
-			name: "Legendary Damage Bonus",
-			bonusDescription: "+3 min and max Damage",
+			nameEN: "Legendary Damage Bonus",
+			nameRU: "Легендарный Бонус Урона",
+			bonusDescriptionEN: "+3 min and max Damage",
+			bonusDescriptionRU: "+3 к минимальному и максимальному урону",
 			rarity: .legendary
 		),
 		HeroLevelBonus(
-			name: "Legendary Defence Bonus",
-			bonusDescription: "+3 Defence",
+			nameEN: "Legendary Defence Bonus",
+			nameRU: "Легендарный Бонус Защиты",
+			bonusDescriptionEN: "+3 Defence",
+			bonusDescriptionRU: "+3 к защите",
 			rarity: .legendary
 		),
 		HeroLevelBonus(
-			name: "Legendary Spell Power Bonus",
-			bonusDescription: "+10 Spell Power",
+			nameEN: "Legendary Spell Power Bonus",
+			nameRU: "Легендарный Бонус Силы Заклинаний",
+			bonusDescriptionEN: "+10 Spell Power",
+			bonusDescriptionRU: "+10 к силе закланий",
 			rarity: .legendary
 		),
 		HeroLevelBonus(
-			name: "Legendary Crit Chance Bonus",
-			bonusDescription: "+3% Crit Chance",
+			nameEN: "Legendary Crit Chance Bonus",
+			nameRU: "Легендарный Бонус Критического Удара",
+			bonusDescriptionEN: "+3% Crit Chance",
+			bonusDescriptionRU: "+3% к шансу критического удара",
 			rarity: .legendary
 		),
 		HeroLevelBonus(
-			name: "Legendary Hit Chance Bonus",
-			bonusDescription: "+3% Hit Chance",
+			nameEN: "Legendary Hit Chance Bonus",
+			nameRU: "Легендарный Бонус Точности",
+			bonusDescriptionEN: "+3% Hit Chance",
+			bonusDescriptionRU: "+3% к шансу попадения по противнику",
 			rarity: .legendary
 		),
 		HeroLevelBonus(
-			name: "Legendary Energy Bonus",
-			bonusDescription: "+1 max Energy",
+			nameEN: "Legendary Energy Bonus",
+			nameRU: "Легендарный Бонус Выносливости",
+			bonusDescriptionEN: "+1 max Energy",
+			bonusDescriptionRU: "+1 к МАКСИМАЛЬНОМУ УРОВНЮ ОЧКОВ ДЕЙСТВИЯ",
 			rarity: .legendary
 		)
 	]
